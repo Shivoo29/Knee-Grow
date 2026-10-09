@@ -1,0 +1,16 @@
+{
+  "id": "shivoo29/rsna-knee-v6-fast-swa",
+  "title": "RSNA Knee V6 Fast (96-Slice SWA)",
+  "code_file": "submission.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "false",
+  "dataset_sources": [
+    "shivoo29/knee-our-models"
+  ],
+  "competition_sources": [
+    "rsna-knee-abnormality-detection"
+  ]
+}
