@@ -619,3 +619,34 @@ def main():
             if XLA: tot_t = loss.detach() if tot_t is None else tot_t + loss.detach()   # no per-step host sync on XLA
             else: tot += loss.item()
             if XLA and n_acc < a.accum: XLA.mark_step()
+            if n_acc == a.accum:
+                scaler.unscale_(opt)
+                torch.nn.utils.clip_grad_norm_(model.parameters(), 3.0)
+                scaler.step(opt); scaler.update()
+                if sched.last_epoch + 1 < steps: sched.step()
+                opt.zero_grad(); n_acc = 0
+                if XLA: XLA.mark_step()
+            if XLA and _step < 12:
+                XLA.wait_device_ops(); print(f"  [xla] step {_step} {time.time()-_ts:.2f}s", flush=True); _ts = time.time()
+            _step += 1
+        train_elapsed = time.time() - _te
+        sec_per_it = train_elapsed / max(_step, 1)
+        if torch.cuda.is_available():
+            peak_gb = torch.cuda.max_memory_allocated() / (1024 ** 3)
+            res_gb = torch.cuda.max_memory_reserved() / (1024 ** 3)
+            print(f"  [timing] {_step} steps in {train_elapsed:.1f}s ({sec_per_it:.3f} s/step) | peak {peak_gb:.2f} GB (reserved {res_gb:.2f} GB)", flush=True)
+        if _interrupted:
+            print(f"[signal] Interrupted during epoch {ep}. Saving resume state before exiting...", flush=True)
+            rp = os.path.join(HERE, f"raptor_resume_{a.tag}.pt")
+            rng_state = {"torch": torch.get_rng_state(),
+                         "cuda": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None,
+                         "numpy": np.random.get_state(), "python": random.getstate()}
+            torch.save({"model": model.state_dict(), "opt": opt.state_dict(), "sched": sched.state_dict(),
+                        "scaler": scaler.state_dict() if scaler.is_enabled() else None, "best": best,
+                        "best_state": best_state, "best_P": best_P, "hist": hist, "topk": topk, "epoch": max(0, ep - 1),
+                        "elapsed": time.time() - t0, "rng": rng_state, "patience_counter": patience_counter}, rp + ".tmp")
+            os.replace(rp + ".tmp", rp)
+            break
+        if XLA:
+            XLA.wait_device_ops(); print(f"  [xla] train loop {time.time()-_te:.0f}s for {_step} micro-steps", flush=True); _te = time.time()
+        if XLA and tot_t is not None: tot = float(tot_t.item())
