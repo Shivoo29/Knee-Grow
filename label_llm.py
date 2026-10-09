@@ -51,3 +51,30 @@ def ask(report, url):
     out = json.loads(r.json()["choices"][0]["message"]["content"])
     return [float(np.clip(out[l], 0, 1)) for l in LABELS]
 
+
+def gold_auc(pred, train):
+    """Macro AUC of a label table vs the 58 gold studies."""
+    g = train.dropna(subset=['ACL']).set_index('StudyInstanceUID')[LABELS]
+    p = pred.reindex(g.index)[LABELS]
+    ok = p.notna().all(axis=1)
+    aucs = {l: roc_auc_score(g.loc[ok, l], p.loc[ok, l]) for l in LABELS if g.loc[ok, l].nunique() > 1}
+    return ok.sum(), float(np.mean(list(aucs.values()))), aucs
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--train', default='data/train.csv')
+    ap.add_argument('--cache', default='data/llm_qwen.jsonl')
+    ap.add_argument('--out', default='data/llm_qwen.parquet')
+    ap.add_argument('--url', default='http://127.0.0.1:8080/v1/chat/completions')
+    ap.add_argument('--workers', type=int, default=4)  # = llama-server slots
+    ap.add_argument('--limit', type=int, default=0)
+    a = ap.parse_args()
+
+    train = pd.read_csv(a.train)
+    done = set()
+    if os.path.exists(a.cache):
+        done = {json.loads(l)['StudyInstanceUID'] for l in open(a.cache)}
+    # gold studies first, so a partial run can already be scored
+    todo = train.assign(g=train.ACL.isna()).sort_values('g')
+    todo = todo[~todo.StudyInstanceUID.isin(done)]
