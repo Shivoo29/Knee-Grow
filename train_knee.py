@@ -712,3 +712,34 @@ def main():
                 for k in sds[0]:
                     v0 = sds[0][k]
                     if v0.is_floating_point():
+                        avg[k] = sum(sd[k].double() for sd in sds).div(len(sds)).to(v0.dtype)
+                    else:
+                        avg[k] = v0.clone()
+                swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res,
+                             "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
+                             "swa_over": [int(t["epoch"]) for t in topk]}
+                torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
+                print(f"  [swa] running SWA updated over epochs {[int(t['epoch']) for t in topk]}", flush=True)
+
+        print(f"ep{ep} loss {tot/len(tl):.3f} | GOLD macro-AUC {au:.4f} (best {best:.4f}) | topk by {'OOF-subset' if sl is not None else 'gold'}: {[int(t['epoch']) for t in topk]} | {time.time()-t0:.0f}s",
+              flush=True)
+        # Write resume state after EVERY epoch (atomic replace) so job can be paused/resumed
+        rp = os.path.join(HERE, f"raptor_resume_{a.tag}.pt")
+        rng_state = {"torch": torch.get_rng_state(),
+                     "cuda": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None,
+                     "numpy": np.random.get_state(), "python": random.getstate()}
+        torch.save({"model": model.state_dict(), "opt": opt.state_dict(), "sched": sched.state_dict(),
+                    "scaler": scaler.state_dict() if scaler.is_enabled() else None, "best": best,
+                    "best_state": best_state, "best_P": best_P, "hist": hist, "topk": topk, "epoch": ep,
+                    "elapsed": time.time() - t0, "rng": rng_state, "patience_counter": patience_counter}, rp + ".tmp")
+        os.replace(rp + ".tmp", rp)
+
+        if a.patience > 0 and patience_counter >= a.patience:
+            print(f"\n[early-stop] Validation score did not improve for {patience_counter} consecutive epochs! "
+                  f"Stopping early at epoch {ep} (best {best:.4f} at epoch {best_state['epoch'] if best_state else 0}).", flush=True)
+            break
+
+        if _interrupted:
+            print(f"[signal] Interrupted after epoch {ep}. Exiting training loop...", flush=True)
+            break
+
