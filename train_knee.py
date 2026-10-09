@@ -401,3 +401,35 @@ def main():
                          "columns, values 0..1. Not provided with this notebook - see the header.")
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--seed", type=int, default=42)
+    # ---- CV fold hook ----
+    ap.add_argument("--folds", type=int, default=0)
+    ap.add_argument("--fold", type=int, default=-1)
+    ap.add_argument("--fold_file", default=None)
+    # ---- anatomical ROI joint-crop (A/B lever). Default OFF -> identical to baseline. ----
+    ap.add_argument("--roi", action="store_true")
+    ap.add_argument("--roi_mode", default="compartment", choices=["tight", "safe", "compartment"])
+    ap.add_argument("--roi_pad", type=float, default=0.06)
+    ap.add_argument("--roi_overlap", type=float, default=0.12)
+    ap.add_argument("--roi_boxes", default=os.path.join(HERE, "roi_boxes.npz"))
+    a = ap.parse_args()
+    random.seed(a.seed); np.random.seed(a.seed); torch.manual_seed(a.seed)
+    XLA = None
+    if a.xla:
+        import torch_xla, torch_xla.core.xla_model as xm
+        XLA = xm; dev = torch_xla.device()
+        print(f"[xla] device {dev} | torch_xla {torch_xla.__version__}", flush=True)
+    else:
+        dev = "cuda" if torch.cuda.is_available() else "cpu"
+    DEVT = "xla" if XLA else dev                      # autocast device_type string
+    WIF = _winit if XLA else None                     # loader worker_init_fn (XLA path only)
+    AMP_DTYPE = torch.float16 if (a.fp16 or (dev == "cuda" and not torch.cuda.is_bf16_supported())) else torch.bfloat16
+    AMP_ON = (dev == "cuda") or (XLA is not None)
+    scaler = torch.amp.GradScaler("cuda", enabled=(dev == "cuda" and AMP_DTYPE == torch.float16))
+    print(f"[amp] dtype {AMP_DTYPE} | autocast {AMP_ON} | grad scaler {scaler.is_enabled()}", flush=True)
+    if a.smoke:
+        a.epochs, a.bs, a.k, a.k_eval, a.limit, a.workers = 2, 4, 4, 6, 40, 0
+    print(f"device {dev} | res {a.res} | k {a.k}/{a.k_eval} | bs {a.bs} | tag {a.tag} | "
+          f"roi={a.roi}({a.roi_mode})", flush=True)
+
+    # ---- ids / labels ----
+    ids = _open_ids()
