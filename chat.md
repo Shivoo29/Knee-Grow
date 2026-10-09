@@ -324,3 +324,18 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
     - Ep 1: Loss 0.917 | Gold AUC **0.7653**
     - Ep 2: Loss 0.871 | Gold AUC **0.8102**
     - Ep 3: Loss 0.844 | Gold AUC **0.8539**
+    - Ep 4: Loss 0.827 | Gold AUC **0.8697**
+    - Ep 5: Loss 0.814 | Gold AUC **0.8810**
+    - Ep 6: Loss 0.797 | Gold AUC **0.8814**
+    - Ep 7: Loss 0.788 | Gold AUC **0.8914**
+    - Ep 8: Loss 0.774 | Gold AUC **0.9078**
+    - Ep 9: Loss 0.761 | Gold AUC **0.9071**
+    - Ep 10: Loss 0.750 | Gold AUC **0.9096**
+    - Ep 11: Loss 0.742 | Gold AUC **0.9119** (current best single epoch)
+    - Ep 12: Loss 0.733 | Gold AUC 0.9109
+    - Ep 13: Loss 0.726 | Gold AUC 0.9101 (lowest loss so far)
+    - Ep 14: Loss 0.724 | Gold AUC **0.9153** (New Best Checkpoint! SWA pool: [14, 11, 12])
+    - Ep 15 (Final Epoch 16/16): In progress (L4 100% util, 71W / 72W). Final completion & SWA evaluation ~23:10–23:15 IST.
+- **Local PC RTX 4070 SUPER Training COMPLETE (ConvNeXt-Small @ 384px)**:
+  - Finished early-stopping at Ep 11 at 22:45 IST (`convnext_small.fb_in22k_ft_in1k_384`):
+  - Best single epoch: **0.8837** | SWA: **0.8837** | Epoch-ensemble: **0.8838**
