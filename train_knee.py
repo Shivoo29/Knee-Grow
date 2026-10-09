@@ -495,3 +495,34 @@ def main():
     if os.environ.get("RAPTOR_PRELOAD") == "1":
         _open_corpus()                                # parent holds the RAM copy; forked workers inherit it
     tds = StudyWindows(HERE, train_ids, id2row, labels, a.res, a.k, train=True, norm=a.norm, **_roi_kw)
+    vds = StudyWindows(HERE, gold_ids, id2row, labels, a.res, a.k_eval, train=False, norm=a.norm, **_roi_kw)
+    tl = DataLoader(tds, batch_size=a.bs, shuffle=True, num_workers=a.workers, drop_last=True,
+                    collate_fn=collate, pin_memory=(dev == "cuda"), persistent_workers=a.workers > 0, worker_init_fn=WIF)
+    vl = DataLoader(vds, batch_size=max(2, a.bs // 2), shuffle=False, num_workers=a.workers,
+                    collate_fn=collate, persistent_workers=a.workers > 0, worker_init_fn=WIF)
+    sl = None; sub_mask = None
+    if a.oof_every > 0 and a.folds > 0 and oof_ids:
+        sub_ids = random.Random(0).sample(list(oof_ids), min(a.oof_every, len(oof_ids)))
+        sds = StudyWindows(HERE, sub_ids, id2row, labels, a.res, a.k_eval, train=False, norm=a.norm, **_roi_kw)
+        sl = DataLoader(sds, batch_size=max(2, a.bs // 2), shuffle=False, num_workers=a.workers, collate_fn=collate, persistent_workers=False, worker_init_fn=WIF)
+        if a.oof_mask:
+            _mk = pd.read_parquet(a.oof_mask).set_index("StudyInstanceUID")
+            _mc = [c for c in _mk.columns if c.startswith("m_")]
+            sub_mask = np.stack([_mk.loc[u, _mc].values.astype(np.float32) if u in _mk.index else np.ones(12, np.float32) for u in sub_ids])
+        else:
+            sub_mask = np.ones((len(sub_ids), 12), np.float32)
+        print(f"[oof-sub] {len(sub_ids)} held-out studies scored every epoch (mask: {'file' if a.oof_mask else 'none'})", flush=True)
+
+    use_timm = a.ckpt in ("timm", "pretrained")
+    bb = build_backbone(a.arch, pretrained=use_timm)
+    src = load_raptor(bb, a.ckpt)
+    if use_timm: print(f"[raptor] timm-pretrained backbone: {a.arch}", flush=True)
+    F_dim = bb.num_features
+    if a.grad_ckpt:
+        try:
+            bb.set_grad_checkpointing(True); print("[raptor] gradient checkpointing ON", flush=True)
+        except Exception as e:
+            print(f"[raptor] grad_ckpt unsupported for {a.arch}: {e}", flush=True)
+    model = RaptorClassifier(bb, F_dim=F_dim).to(dev)
+    model.win_chunk = a.win_chunk
+    if a.freeze_blocks > 0:
