@@ -184,3 +184,34 @@ Everything else in this notebook is ready to run once that file exists.
 
 
 # ------------------------------- data ----------------------------------------
+class StudyWindows(Dataset):
+    """Per-study bag of 2.5D windows sampled from all_vols.npy (memmap).
+    Each window = 3 physically-consecutive slices -> RGB, resized to `res`, in [0,1]
+    (matches the SSL input pipeline: ToTensor, no ImageNet norm)."""
+    def __init__(self, root, ids, id2row, labels, res, k, train, aug=True, norm="none",
+                 roi=False, roi_mode="tight", roi_pad=0.06, roi_overlap=0.12,
+                 roi_sbox=None, roi_cen=None):
+        self.root = root
+        self.ids = ids
+        self.id2row = id2row
+        self.labels = labels              # dict uid -> np.float32[12]
+        self.res, self.k, self.train, self.aug = res, k, train, aug
+        self.norm = norm                  # "none"=[0,1] (Raptor SSL); "imagenet"=DINOv2 stats
+        self._mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
+        self._std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
+        self.vols = None; self.masks = None
+        # --- ROI anatomical joint-crop config ---
+        self.roi = bool(roi)
+        self.roi_mode, self.roi_pad, self.roi_overlap = roi_mode, roi_pad, roi_overlap
+        self.roi_sbox = roi_sbox          # (N,D,4) int16 per-slice tissue bbox, or None
+        self.roi_cen = roi_cen            # (N,D,2) int16 per-slice joint centroid, or None
+        if self.roi and (_roi_square_box is None or roi_sbox is None):
+            raise RuntimeError("roi=True but roi_localize or roi_boxes not available")
+
+    def __len__(self): return len(self.ids)
+
+    def _ensure(self):
+        if self.vols is None:
+            self.vols, self.masks = _open_corpus()   # (N,D,H,W) view, (N,D) u8
+
+    def _centers(self, valid, count):
