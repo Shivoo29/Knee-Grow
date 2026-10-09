@@ -128,3 +128,36 @@ def pick_slice_indices(num_slices, k):
     if num_slices <= 0:
         return []
     if num_slices == 1:
+        return [0] * k
+    lo = int(num_slices * SPAN_LO)
+    hi = max(lo, int(num_slices * SPAN_HI) - 1)
+    return np.linspace(lo, hi, k).round().astype(int).tolist()
+
+
+def normalize_and_pack_slot(arrs, pss, target_res=IMG):
+    """Applies per-slot 2%/98% contrast percentile normalization and mm-crop.
+    
+    Args:
+        arrs: list of 2D float32 arrays (or None for failed decodes)
+        pss: list of float pixel spacings in mm
+        target_res: output resolution (default: 384)
+    Returns:
+        3D uint8 array of shape (len(arrs), target_res, target_res)
+    """
+    k = len(arrs)
+    out = np.zeros((k, target_res, target_res), dtype=np.uint8)
+    valid_arrs = [a for a in arrs if a is not None]
+    if valid_arrs:
+        allpx = np.concatenate([a.ravel() for a in valid_arrs])
+        loq, hiq = np.percentile(allpx, [NORM_LO_PCT, NORM_HI_PCT])
+    else:
+        loq, hiq = 0.0, 1.0
+
+    denom = max(hiq - loq, 1e-6)
+    for i, (a, ps) in enumerate(zip(arrs, pss)):
+        if a is None:
+            continue
+        aw = np.clip((a - loq) / denom, 0.0, 1.0)
+        aw = mm_crop_and_resize(aw, ps, target_res=target_res)
+        out[i] = (aw * 255.0).astype(np.uint8)
+    return out
