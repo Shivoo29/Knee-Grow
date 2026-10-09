@@ -98,3 +98,7 @@ Rank averaging and optimal probability thresholding per finding condition.
 
 Heuristic anatomical constraints applied to avoid contradictory findings.
 
+## Future Work
+
+Integration of 3D vision transformers and cross-series attention mechanisms.
+
