@@ -743,3 +743,34 @@ def main():
             print(f"[signal] Interrupted after epoch {ep}. Exiting training loop...", flush=True)
             break
 
+        if a.time_budget_h > 0 and (time.time() - t0) > a.time_budget_h * 3600 and ep < a.epochs - 1:
+            print(f"[resume] time budget reached after ep{ep}; state saved to {os.path.basename(rp)}; exiting", flush=True)
+            sys.exit(0)
+    _, aucs, _, Y = evaluate()
+    print(f"\nDONE {src} | BEST GOLD macro-AUC {best:.4f}", flush=True)
+    for k, v in (best_state["aucs"] if best_state else aucs).items():
+        print(f"   {k:18s} {v:.3f}", flush=True)
+
+    if best_state is not None:
+        torch.save(best_state, os.path.join(HERE, f"raptor_ft_{a.tag}.pt"))
+        np.savez(os.path.join(HERE, f"raptor_gold_{a.tag}.npz"),
+                 pred=best_P, truth=Y, ids=np.array(gold_ids))
+        json.dump({"tag": a.tag, "src": src, "best_gold_auc": best, "aucs": best_state["aucs"],
+                   "hist": hist, "res": a.res, "epochs": a.epochs, "bb_lr": a.bb_lr,
+                   "head_lr": a.head_lr, "n_train": len(train_ids), "n_gold": len(gold_ids),
+                   "roi": a.roi, "roi_mode": a.roi_mode, "partial": False, "epochs_done": a.epochs},
+                  open(os.path.join(HERE, f"raptor_ft_{a.tag}.json"), "w"), indent=1)
+        print(f"saved raptor_ft_{a.tag}.pt / raptor_gold_{a.tag}.npz / raptor_ft_{a.tag}.json", flush=True)
+
+    # ---- CV OOF: predict the held-out fold at the best (gold-selected) weights ----
+    if a.folds > 0 and oof_ids and best_state is not None:
+        model.load_state_dict(best_state["model"]); model.eval()
+        ods = StudyWindows(HERE, oof_ids, id2row, labels, a.res, a.k_eval, train=False, norm=a.norm, **_roi_kw)
+        ol = DataLoader(ods, batch_size=max(2, a.bs // 2), shuffle=False, num_workers=a.workers,
+                        collate_fn=collate, persistent_workers=False, worker_init_fn=WIF)
+        Po = []
+        with torch.no_grad():
+            for x, y in ol:
+                with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
+                    o = torch.sigmoid(model(x.to(dev)).float())
+                Po.append(o.cpu().numpy())
