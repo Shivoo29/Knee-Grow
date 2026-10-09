@@ -774,3 +774,34 @@ def main():
                 with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
                     o = torch.sigmoid(model(x.to(dev)).float())
                 Po.append(o.cpu().numpy())
+        Po = np.concatenate(Po)
+        Yo = np.stack([labels[u] for u in oof_ids]).astype(np.float32)
+        np.savez(os.path.join(HERE, f"raptor_oof_{a.tag}_fold{a.fold}.npz"),
+                 pred=Po, truth=Yo, ids=np.array(oof_ids), fold=a.fold, nfolds=a.folds)
+        print(f"[cv] wrote raptor_oof_{a.tag}_fold{a.fold}.npz ({len(oof_ids)} studies; "
+              f"truth = soft labels)", flush=True)
+
+        # --- top-K epoch OOF (new) ---
+        # The epoch-ensemble used to be judged on gold only; that gate is too small to
+        # resolve the move. Re-run the held-out fold at each retained epoch instead.
+        oof_by_ep = {best_state["epoch"]: Po}
+        for t in topk:
+            e = int(t["epoch"])
+            if e in oof_by_ep:
+                continue
+            model.load_state_dict(t["model"]); model.eval()
+            Pe = []
+            with torch.no_grad():
+                for x, y in ol:
+                    with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
+                        Pe.append(torch.sigmoid(model(x.to(dev)).float()).cpu().numpy())
+            Pe = np.concatenate(Pe); oof_by_ep[e] = Pe
+            np.savez(os.path.join(HERE, f"raptor_oof_{a.tag}_ep{e}_fold{a.fold}.npz"),
+                     pred=Pe, truth=Yo, ids=np.array(oof_ids), fold=a.fold, nfolds=a.folds)
+            print(f"[cv] wrote top-K epoch OOF ep{e}", flush=True)
+        if len(oof_by_ep) > 1:
+            Pens = np.mean(list(oof_by_ep.values()), axis=0)
+            np.savez(os.path.join(HERE, f"raptor_oof_{a.tag}_epens_fold{a.fold}.npz"),
+                     pred=Pens, truth=Yo, ids=np.array(oof_ids), fold=a.fold, nfolds=a.folds)
+            print(f"[cv] wrote epoch-ensemble OOF over epochs {sorted(oof_by_ep)}", flush=True)
+        model.load_state_dict(best_state["model"]); model.eval()
