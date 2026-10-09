@@ -367,3 +367,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
   - **Local PC `convnext_s2` (ConvNeXt-Small Seed 2 @ 384px)**:
     - Complete! 16 epochs finished with train loss down to `0.681`.
     - Best single epoch: **0.8709**, SWA: **0.8710**.
+    - **Lateral OA jumped to `0.795`** (single model record for this difficult class!).
+    - Checkpoint: `raptor_ft_convnext_s2.pt` (190M).
+  - **Empirical Multi-Architecture Gold-58 Benchmark**:
+    - Combined 4x CoAtNet + 2x ConvNeXt Blend:
+      - **MCL**: **0.9864**
+      - **Lateral Meniscus**: **0.8733** (up from 0.858)
+      - **Medial Meniscus**: **0.9688**
+      - **Contusion**: **0.9528**
+      - **Overall Macro-AUC**: **0.9236**
+
+- **Kaggle Dataset Synced**:
+  - `shivoo29/knee-our-models`: Updated version uploaded and status `ready`.
+  - Contains: `v5_swa`, `v5s1_swa`, `v5s2_swa`, `v6`, `v6_swa`, `convnext_s1`.
+
