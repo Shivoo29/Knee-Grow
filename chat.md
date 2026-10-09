@@ -125,3 +125,18 @@ ssh node1 'tmux new -d -s train "cd ~/projects/knee && export RAPTOR_INPUT=\$HOM
 # GPU Lock:
 ssh node1 'echo "shivoo v5 until 06:30" > /tmp/knee_gpu.lock'
 
+kaggle kernels status shivoo29/<slug>; kaggle kernels output shivoo29/<slug> -p <dir>
+kaggle competitions submissions rsna-knee-abnormality-detection -v
+```
+
+## 10. Raw DICOM download (started Oct 8 23:07 IST)
+- node1 tmux `raw`: `~/projects/knee/raw/guard.sh` downloads the full competition zip (**247 GB**, ~7 h, ETA ~06:00 Oct 9) to `~/projects/knee/raw/`. Auto-aborts if /home free < 250 GB. Resumable (`.kaggle-partial`): rerun guard.sh.
+- Progress: `ssh node1 'tail -c 200 ~/projects/knee/raw/dl.log | tr "\r" "\n" | tail -1'`
+- Plan: **do NOT unzip** (no space). Build the 96-slice corpus by streaming from the zip (python `zipfile`), output ~30 GB, then **delete the zip**.
+
+## 11. PC run v5s1 (Paused after Epoch 5 at Oct 9 02:34 IST)
+- Same recipe as v5 (labels_avg, CoAtNet-384) but **seed 1**, on RTX 4070S (`--bs 1 --accum 16 --win_chunk 8 --grad_ckpt`).
+- **Progress**: Completed Epochs 0–5.
+  - Ep0: 0.7217 | Ep1: 0.8038 | Ep2: 0.8211 | Ep3: 0.8608 | Ep4: 0.8688 | **Ep5: 0.8984 (Best so far!)**
+- **Cleanly Paused**: Automatically halted after saving `raptor_resume_v5s1.pt` and `raptor_ft_v5s1.pt` at 02:34 IST. GPU idle and silent (21W).
+- **Resume Script Ready**: `./resume_pc_v5s1.sh` configured with `--epochs 20 --patience 5` and scheduler step adaptation. Resumes directly from Epoch 6 tomorrow morning.
