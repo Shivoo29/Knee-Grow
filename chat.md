@@ -268,3 +268,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
   - Shape: `(4407, 96, 384, 384)` uint8 (58.10 GB `all_vols.npy`).
   - Anatomical coverage fill rates:
     - Axial: **100.0%** (4,407 / 4,407)
+    - Sagittal: **98.6%** (8,695 / 8,814)
+    - Coronal: **87.2%** (7,690 / 8,814)
+  - Formal validation passed: 0 empty-mask studies, dynamic memory-mapping verified.
+
+- **Node1 `v6` (96-slice, 384px) Training Live**:
+  - Verified 1-epoch smoke test (`--limit 64`, `k_eval=94`, 89s, Gold AUC evaluated, clean checkpoint).
+  - Placed GPU lock `/tmp/knee_gpu.lock`.
+  - Launched full 16-epoch training under tmux session `train_v6`:
+    - `python train_knee.py --arch coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k --res 384 --bs 2 --accum 8 --k 12 --k_eval 94 --epochs 16 --patience 5 --win_chunk 14 --labels labels_avg.parquet --tag v6`
+    - GPU utilization: **100% compute**, 71W / 72W, 12.1 GB VRAM on NVIDIA L4.
+
+- **Kaggle Dataset `shivoo29/knee-our-models`**:
+  - Successfully updated with all 5 model checkpoints:
+    - `raptor_ft_v4base.pt`
