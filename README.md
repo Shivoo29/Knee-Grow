@@ -102,3 +102,6 @@ Heuristic anatomical constraints applied to avoid contradictory findings.
 
 Integration of 3D vision transformers and cross-series attention mechanisms.
 
+## License & Acknowledgements
+
+Developed for the RSNA Knee Abnormality Detection Kaggle competition.
