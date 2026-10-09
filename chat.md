@@ -97,3 +97,17 @@ Read this first if you are a new model/session continuing this work. **Solo (tea
 | Oct 15–21 | More folds/seeds, blend on out-of-fold scores, efficiency variant | all | |
 | Oct 22 | Final 2 picks: best public score with flat weights + most robust by out-of-fold score | Kaggle | |
 
+## 8b. Next steps (ranked)
+0. **[DONE Oct 8] Audit `train_knee.py` and the inference pipeline**: IPP slice sort verified, 44 vs 96 slices identified, fp16/bf16 audited, settings comparison done.
+1. **[DONE Oct 8] Average 4–5 public label tables** (stevenleehans v4/v2/full, dread soft, nartaa blend, JEV hybrid) → `labels_avg.parquet` (gold AUC 0.8971).
+2. **[IN PROGRESS Oct 8] Tonight's retrain v5** on node1 (16 epochs, pause/resume enabled, stops by ~06:30 IST).
+3. **Merge outreach before Oct 15** with teams at ≥0.950 (advertised: miyamotodaiya, kmatsu01, kishormorol). This is the most likely route to the top 10.
+4. 5-fold teacher→student round (mix 30–60% of out-of-fold predictions into the labels).
+5. **[IN PROGRESS Oct 8] Second model family on PC 4070S (`coat224_v1`)**: Launched `coatnet_rmlp_1_rw_224` @ 224px under `systemd-inhibit` (bs 4 accum 4, lr 4e-5, wd 0.05, labels_avg.parquet). Peak VRAM 7.00 GB, 4.9 min/epoch. Expected completion ~22:30 IST. (Previous `r50_v1` finished at 0.8445).
+
+
+
+6. Build our own submission notebook: our models (uploaded as a Kaggle dataset) + optional public members; flat/rank blend; final picks = best public score with flat weights + most robust by out-of-fold score.
+
+## 9. Useful commands
+```bash
