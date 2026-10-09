@@ -83,3 +83,17 @@ Read this first if you are a new model/session continuing this work. **Solo (tea
 - **Best public notebook now: nartaa single CoAtNet 0.949** (discussion 746792, Oct 7): 140–154 mm crop, 0.4 mm/px, 80–96 slices, 94 windows at inference, top-3 epoch averaging, anatomical-mirror TTA, 16 epochs, all studies. Uses OAI external data (+0.003); **OAI legality is unclear → prize risk**.
 - Pitfalls: sort slices by **ImagePositionPatient**, not filename (+0.028 for one team); **bf16 on T4 is emulated and slow → use fp16** at inference; silently dropped attached sources; DataParallel RAM out-of-memory; a recursive glob that hung a run.
 - Gold-58 standard error ≈ 0.015–0.07 per finding → **don't select models or blend weights on gold-58**; use 5-fold out-of-fold scores.
+- Literature: localisation (auxiliary bbox/compartment-aware pooling) is the best-evidenced lever for lateral OA, PF OA and MCL.
+- The host allows commercial LLM APIs for labelling (per research, not verified by us). Still never paste report text into a chat.
+
+## 8. Day-by-day plan (solo, agreed Oct 8)
+| Day | Work | Machine | Checkpoint |
+|---|---|---|---|
+| Oct 8 (day) | Audit pipeline vs nartaa recipe · build averaged labels · first own submission notebook | PC / Kaggle | notebook runs on dummy test |
+| Oct 8 (night) | Retrain v2: fixed settings + averaged labels | node1 | gold AUC > 0.8925 |
+| Oct 9 | Submit own model alone + blended with public stack | Kaggle | **LB ≥ 0.946 (silver)?** |
+| Oct 9–12 | 5-fold run (out-of-fold teacher) → student retrain; 2nd model on 4070S | node1 + PC | LB ≥ 0.950 |
+| Oct 12–14 | Merge outreach with our numbers (≥0.950 teams) | browser | merge before **Oct 15** |
+| Oct 15–21 | More folds/seeds, blend on out-of-fold scores, efficiency variant | all | |
+| Oct 22 | Final 2 picks: best public score with flat weights + most robust by out-of-fold score | Kaggle | |
+
