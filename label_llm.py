@@ -24,3 +24,30 @@ Borderline, mild or equivocal findings count as mostly absent. Not mentioned = a
 ACL: ACL tear, partial or complete, including torn reconstruction graft. Intact graft = absent.
 MCL: MCL tear or high-grade sprain. Mild periligamentous edema / grade 1 sprain = mostly absent.
 Medial Meniscus: tear of the medial meniscus. Degeneration or intrasubstance signal alone = absent.
+Lateral Meniscus: tear of the lateral meniscus. Same rule.
+Medial OA: moderate-to-severe osteoarthritis / cartilage loss of the medial tibiofemoral compartment.
+Lateral OA: same, lateral tibiofemoral compartment.
+PF OA: same, patellofemoral compartment (patella or trochlea).
+Effusion: moderate or large joint effusion. Trace/small/physiologic = mostly absent.
+Synovitis: synovitis or synovial thickening/proliferation (incl. Hoffa synovitis).
+Baker's: popliteal (Baker's) cyst of any size.
+Contusion: bone contusion / bone bruise / traumatic bone marrow edema.
+Fracture: any fracture (avulsion, osteochondral, insufficiency, plateau, etc.).
+
+Answer only with the JSON object."""
+
+SCHEMA = {"type": "object", "additionalProperties": False, "required": LABELS,
+          "properties": {l: {"type": "number", "minimum": 0, "maximum": 1} for l in LABELS}}
+
+
+def ask(report, url):
+    r = requests.post(url, timeout=300, json={
+        "model": "qwen", "temperature": 0, "max_tokens": 300,
+        "messages": [{"role": "system", "content": SYSTEM}, {"role": "user", "content": report}],
+        "chat_template_kwargs": {"enable_thinking": False},  # answer directly, no hidden reasoning
+        "response_format": {"type": "json_schema", "json_schema": {"name": "labels", "schema": SCHEMA}},
+    })
+    r.raise_for_status()
+    out = json.loads(r.json()["choices"][0]["message"]["content"])
+    return [float(np.clip(out[l], 0, 1)) for l in LABELS]
+
