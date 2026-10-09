@@ -29,3 +29,34 @@ to turn 4,349 reports into twelve numbers each.
 The approach behind the published weights was to read each report with a language model and emit
 twelve probabilities rather than twelve yes or no answers: a report that hedges, saying a tear is
 suspected, becomes something near 0.8 rather than a 1. Soft targets are far more forgiving than
+forcing every hedged sentence into a hard label, and the loss here expects them. The 58 studies
+that come with real labels are held out and used only for validation, never trained on.
+
+Point --labels at your own parquet built that way. The format is one row per study: a
+StudyInstanceUID column plus the twelve finding columns, values between 0 and 1.
+
+WHAT THE MODEL DOES
+
+Three neighbouring slices are stacked into the three channels of one image, so the network sees a
+little of what lies above and below the middle slice: most of the benefit of a 3D model at the cost
+of a 2D one. Each of these three-slice windows goes through the backbone, and the windows are then
+pooled by an attention layer that has separate weights for each of the twelve findings. That last
+part matters more than anything else here. A cruciate tear may be visible on two slices while
+osteoarthritis spreads across many, and one shared pooling weight forces those to compete; giving
+each finding its own attention lets each draw on the slices that actually show it.
+
+Training samples k windows per study at random and evaluates on k_eval windows spread evenly, so
+each epoch sees a different view of the same study. Nothing else is augmented.
+
+At the end it keeps the best epoch by validation macro-AUC, and also writes a checkpoint that
+averages the weights of the best three epochs. Weight averaging costs nothing at inference, unlike
+averaging predictions from three models, and it usually gives a small gain.
+
+TYPICAL RUN
+
+  python train_knee.py --arch coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k --res 384 --epochs 16
+      --bs 8 --k 12 --k_eval 24 --grad_ckpt --tag mymodel --labels /kaggle/input/YOURS/labels.parquet
+
+About three hours on one 4090 for 16 epochs at 384. --grad_ckpt trades a little speed for a lot of
+memory and is what makes bs 8 fit on a 24 GB card. Use --smoke for a fast wiring check.
+
