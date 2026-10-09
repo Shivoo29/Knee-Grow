@@ -464,3 +464,34 @@ def main():
         print(f"[cv] fold {a.fold}/{a.folds}: train {len(train_ids)} | OOF held-out {len(oof_ids)} "
               f"| fold_file {os.path.basename(a.fold_file)}", flush=True)
     if a.limit: train_ids = train_ids[:a.limit]
+    labels = {u: soft.loc[u, LAB].values.astype(np.float32) for u in train_ids}
+    for u in oof_ids: labels[u] = soft.loc[u, LAB].values.astype(np.float32)
+    for u in gold_ids: labels[u] = gold_df.loc[u, LAB].values.astype(np.float32)
+    print(f"train {len(train_ids)} | gold-val {len(gold_ids)}"
+          + (f" | oof {len(oof_ids)}" if oof_ids else ""), flush=True)
+
+    prev = np.clip(np.stack([labels[u] for u in train_ids]).mean(0), 0.03, 0.7)
+    pw = torch.tensor(np.clip((1 - prev) / prev, 1, 10), dtype=torch.float32, device=dev)
+
+    # ---- ROI boxes (only when --roi) ----
+    roi_sbox = roi_cen = None
+    if a.roi:
+        rb = np.load(a.roi_boxes)
+        rb_ids = rb["ids"].astype(str)
+        if not np.array_equal(rb_ids, ids):
+            rmap = {u: i for i, u in enumerate(rb_ids)}
+            missing = [u for u in ids if u not in rmap]
+            if missing:
+                raise RuntimeError(f"roi_boxes missing {len(missing)} corpus ids (e.g. {missing[:2]})")
+            order = np.array([rmap[u] for u in ids])
+            roi_sbox = rb["sbox"][order]; roi_cen = rb["cen"][order]
+        else:
+            roi_sbox = rb["sbox"]; roi_cen = rb["cen"]
+        print(f"[roi] ENABLED mode={a.roi_mode} pad={a.roi_pad} overlap={a.roi_overlap} "
+              f"boxes={os.path.basename(a.roi_boxes)} sbox={roi_sbox.shape}", flush=True)
+    _roi_kw = dict(roi=a.roi, roi_mode=a.roi_mode, roi_pad=a.roi_pad, roi_overlap=a.roi_overlap,
+                   roi_sbox=roi_sbox, roi_cen=roi_cen)
+
+    if os.environ.get("RAPTOR_PRELOAD") == "1":
+        _open_corpus()                                # parent holds the RAM copy; forked workers inherit it
+    tds = StudyWindows(HERE, train_ids, id2row, labels, a.res, a.k, train=True, norm=a.norm, **_roi_kw)
