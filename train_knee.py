@@ -277,3 +277,34 @@ class StudyWindows(Dataset):
             # light medical-safe aug: NO flips (laterality is signal); mild intensity jitter
             g = 1.0 + (random.random() - 0.5) * 0.20
             x = (x * g).clamp(0, 1)
+        if self.norm == "imagenet":        # each backbone at its correct input distribution
+            x = (x - self._mean) / self._std
+        y = torch.from_numpy(self.labels[uid])
+        return x, y
+
+
+def _winit(_): torch.set_num_threads(1)
+
+
+def collate(batch):
+    xs = torch.stack([b[0] for b in batch])   # (B,K,3,res,res)
+    ys = torch.stack([b[1] for b in batch])   # (B,12)
+    return xs, ys
+
+
+# ------------------------------- model ---------------------------------------
+def build_backbone(arch="vit_small_patch16_224", pretrained=False):
+    hybrid = arch.startswith(("maxvit", "maxxvit", "coatnet", "coat_", "convnext"))
+    is_vit = (not hybrid) and any(k in arch for k in ("vit", "deit", "dinov2", "eva", "beit"))
+    kw = dict(pretrained=pretrained, num_classes=0, in_chans=3)
+    if is_vit:
+        kw.update(global_pool="token", dynamic_img_size=True)
+    else:
+        kw.update(global_pool="avg")
+    return timm.create_model(arch, **kw)
+
+
+def load_raptor(bb, ckpt_path):
+    if ckpt_path in ("timm", "pretrained"):
+        return "timm-pretrained"
+    if ckpt_path in ("", "none", "None"):
