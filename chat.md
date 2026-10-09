@@ -168,3 +168,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
 - **Node1 Raw DICOM Download**:
   - tmux `raw`: **103 GB / 247 GB (42%)** downloaded at ~9.8 MB/s. ETA ~06:30 IST.
 - **Corpus-96 Streaming Pipeline (`build_corpus96_stream.py`)**:
+  - Ready to execute once raw zip completes.
+  - Outputs `slots.csv` logging per-study series plane, fluid/fat-sat flags, and slice availability to audit axial/coronal slot filling.
+
+## 15. The 0.970 Macro-AUC Roadmap & Empirical Diagnosis
+- **Empirical Ground Truth (Gold-58 breakdown)**:
+  - **PF OA & Lateral OA are Image-Limited**:
+    - PF OA: Labels AUC = 0.9015 / 0.9061 vs Model AUC = 0.7979 / 0.8353.
+    - Lateral OA: Labels AUC = 0.8327 / 0.8552 vs Model AUC = 0.7660 / 0.7369.
+    - Diagnosis: Training labels have strong signal; model was bottlenecked by only 8 axial slices clipping patellofemoral joints and 336px downsampling.
+    - Solution: Pillar 1 (96 slices, 18 axial slices @ 384px) directly targets PF OA and Lateral OA.
+  - **Synovitis is Label-Limited**:
+    - Model AUC (0.827–0.845) BEATS Labels AUC (0.771–0.790). Reports hedge or omit synovitis.
+    - Solution: Pillar 2 (OOF Teacher-Student pseudo-labeling) directly rescues Synovitis.
+  - **Ensemble Multi-Architecture Requirement**:
