@@ -526,3 +526,34 @@ def main():
     model = RaptorClassifier(bb, F_dim=F_dim).to(dev)
     model.win_chunk = a.win_chunk
     if a.freeze_blocks > 0:
+        # Backbones name their layer groups differently: ViT-style models use blocks.N., while
+        # CoAtNet, MaxViT and ConvNeXt use stages.N. Matching only one of those froze nothing at
+        # all on the other family, and did it silently. Try both, and always say what happened.
+        pref = tuple([f"blocks.{b}." for b in range(a.freeze_blocks)]
+                     + [f"stages.{b}." for b in range(a.freeze_blocks)])
+        frozen = 0
+        for nm, p in model.backbone.named_parameters():
+            if nm.startswith(pref):
+                p.requires_grad = False
+                frozen += p.numel()
+        n_t = sum(1 for p in model.backbone.parameters() if not p.requires_grad)
+        if frozen:
+            print(f"[raptor] froze the first {a.freeze_blocks} layer group(s): "
+                  f"{n_t} tensors, {frozen/1e6:.2f}M parameters", flush=True)
+        else:
+            print(f"[raptor] WARNING: --freeze_blocks {a.freeze_blocks} matched no parameters on "
+                  f"{a.arch}; every parameter is still being trained", flush=True)
+
+    head_params = [p for n_, p in model.named_parameters() if not n_.startswith("backbone.") and p.requires_grad]
+    bb_params = [p for n_, p in model.named_parameters() if n_.startswith("backbone.") and p.requires_grad]
+    opt = torch.optim.AdamW([{"params": bb_params, "lr": a.bb_lr},
+                             {"params": head_params, "lr": a.head_lr}], weight_decay=a.wd)
+    steps = max((len(tl) // a.accum) * a.epochs, 1)
+    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=[a.bb_lr, a.head_lr],
+                                                total_steps=steps, pct_start=0.15)
+    lossf = nn.BCEWithLogitsLoss(pos_weight=pw)
+
+    @torch.no_grad()
+    def evaluate():
+        model.eval(); P = []; Y = []
+        for x, y in vl:
