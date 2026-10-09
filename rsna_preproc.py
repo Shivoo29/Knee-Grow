@@ -63,3 +63,35 @@ def parse_dicom_header(source):
             pos = float(getattr(h, 'InstanceNumber', 0) or 0)
         ps_val = getattr(h, 'PixelSpacing', None)
         ps = float(ps_val[0]) if ps_val is not None else 0.5
+        return pos, ps, True
+    except Exception:
+        return 0.0, 0.5, False
+
+
+def decode_dicom_pixel(source):
+    """Reads pixel data with modality LUT and Monochrome inversion.
+    
+    Args:
+        source: file path (str/Path) or bytes / io.BytesIO.
+    Returns:
+        2D float32 numpy array or None if decoding fails.
+    """
+    try:
+        if isinstance(source, (bytes, bytearray)):
+            source = io.BytesIO(source)
+        d = pydicom.dcmread(source, force=True)
+        a = apply_modality_lut(d.pixel_array, d).astype(np.float32)
+        if str(getattr(d, 'PhotometricInterpretation', '')) == 'MONOCHROME1':
+            a = a.max() - a
+        return a
+    except Exception:
+        return None
+
+
+def mm_crop_and_resize(a, ps, crop_mm=CROP_MM, target_res=IMG):
+    """Extracts a centered physical FOV box and resizes via INTER_AREA.
+    
+    Args:
+        a: 2D float32 image array
+        ps: pixel spacing in mm
+        crop_mm: physical box width/height in mm (default: 140.0)
