@@ -122,3 +122,34 @@ class _TwoPartVols:
         return self.a[row] if row < self.n_a else self.b[row - self.n_a]
 
 
+_CORPUS = None   # RAPTOR_PRELOAD=1: the whole corpus in RAM, loaded once in the parent so forked loader workers share it
+
+
+def _open_corpus():
+    """Return (vols, masks), from a local single-file corpus or the two public parts.
+    RAPTOR_PRELOAD=1 reads the arrays fully into RAM (22 GB) instead of memory-mapping them: on a Kaggle TPU VM
+    (377 GB RAM) the input mount serves random slice reads too slowly to keep one TPU core busy."""
+    global _CORPUS
+    if _CORPUS is not None:
+        return _CORPUS
+    mm = None if os.environ.get("RAPTOR_PRELOAD") == "1" else "r"
+    local_v = os.path.join(HERE, "all_vols.npy")
+    if os.path.exists(local_v):
+        out = (np.load(local_v, mmap_mode=mm), np.load(os.path.join(HERE, "all_masks.npy")))
+    else:
+        av, bv = _find("all_vols.npy"), _find("extra_vols.npy")
+        am, bm = _find("all_masks.npy"), _find("extra_masks.npy")
+        if not all((av, bv, am, bm)):
+            raise SystemExit("Could not find the corpus. Attach both parts: "
+                             "dreaddevelopment/knee-raptor-corpus and "
+                             "dreaddevelopment/knee-raptor-corpus-ext")
+        t0 = time.time()
+        vols = _TwoPartVols(np.load(av, mmap_mode=mm), np.load(bv, mmap_mode=mm))
+        masks = np.concatenate([np.load(am), np.load(bm)], axis=0)
+        if mm is None:
+            print(f"[corpus] preloaded into RAM in {time.time()-t0:.0f}s", flush=True)
+        out = (vols, masks)
+    if mm is None:
+        _CORPUS = out
+    return out
+
