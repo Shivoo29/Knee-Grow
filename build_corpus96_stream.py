@@ -71,3 +71,77 @@ def _read_dcm_header_from_zip(z, filename):
         data = z.read(filename)
         h = pydicom.dcmread(io.BytesIO(data), stop_before_pixels=True)
         iop = getattr(h, 'ImageOrientationPatient', None)
+        ipp = getattr(h, 'ImagePositionPatient', None)
+        if iop is not None and ipp is not None and len(iop) == 6:
+            r = np.array(iop[:3], dtype=np.float64)
+            c = np.array(iop[3:], dtype=np.float64)
+            n = np.cross(r, c)
+            pos = float(np.dot(np.array(ipp, dtype=np.float64), n))
+        else:
+            pos = float(getattr(h, 'InstanceNumber', 0) or 0)
+        ps = getattr(h, 'PixelSpacing', None)
+        ps = float(ps[0]) if ps is not None else 0.5
+        return (pos, filename, ps, True)
+    except Exception:
+        return (0.0, filename, 0.5, False)
+
+
+def _read_dcm_pixel_from_zip(z, filename):
+    """Read and decode DICOM pixel array with modality LUT."""
+    data = z.read(filename)
+    d = pydicom.dcmread(io.BytesIO(data))
+    a = apply_modality_lut(d.pixel_array, d).astype(np.float32)
+    if str(getattr(d, 'PhotometricInterpretation', '')) == 'MONOCHROME1':
+        a = a.max() - a
+    return a
+
+
+def _crop_and_resize(a, ps):
+    """140.0 mm centered physical crop and resize to IMG x IMG."""
+    h, w = a.shape
+    cpx = int(round(CROP_MM / max(ps, 1e-3)))
+    cpx = min(cpx, min(h, w))
+    y0 = (h - cpx) // 2
+    x0 = (w - cpx) // 2
+    cropped = a[y0:y0 + cpx, x0:x0 + cpx]
+    return cv2.resize(cropped, (IMG, IMG), interpolation=cv2.INTER_AREA)
+
+
+def _pick_series_for_slot(series_rows, plane, fluid, used_series):
+    """Select best series for a given plane & fluid-sensitivity requirement."""
+    cands = [r for r in series_rows if r['Anatomical_Plane'] == plane and r['SeriesInstanceUID'] not in used_series]
+    if fluid in (0, 1):
+        pref = [r for r in cands if int(r.get('Fluid_Sensitive', 0) or 0) == fluid]
+        if pref:
+            return pref[0]
+    return cands[0] if cands else None
+
+
+def _process_single_study(study_id):
+    """Process all slots for one StudyInstanceUID. Runs in worker process."""
+    global _ZIP_HANDLE, _FILE_MAP, _SERIES_MAP
+    z = _ZIP_HANDLE
+    series_rows = _SERIES_MAP.get(study_id, [])
+
+    vol = np.zeros((MAXS, IMG, IMG), dtype=np.uint8)
+    slot_records = []
+    used_series = set()
+    idx = 0
+
+    for slot_idx, (plane, fluid, k) in enumerate(SLOTS):
+        r = _pick_series_for_slot(series_rows, plane, fluid, used_series)
+        record = {
+            "StudyInstanceUID": study_id,
+            "slot_idx": slot_idx,
+            "slot_plane": plane,
+            "slot_fluid": fluid,
+            "slot_k": k,
+            "filled": False,
+            "SeriesInstanceUID": "",
+            "series_plane": "",
+            "series_fluid": -1,
+            "n_available": 0,
+            "n_picked": 0,
+            "is_padded": True,
+        }
+
