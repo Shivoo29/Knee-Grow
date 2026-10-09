@@ -78,3 +78,30 @@ def main():
     # gold studies first, so a partial run can already be scored
     todo = train.assign(g=train.ACL.isna()).sort_values('g')
     todo = todo[~todo.StudyInstanceUID.isin(done)]
+    if a.limit:
+        todo = todo.head(a.limit)
+    print(f'{len(done)} cached, {len(todo)} to label', flush=True)
+
+    with open(a.cache, 'a') as f, ThreadPoolExecutor(a.workers) as ex:
+        futs = {ex.submit(ask, str(r.Report), a.url): r.StudyInstanceUID for r in todo.itertuples()}
+        for i, fu in enumerate(as_completed(futs), 1):
+            uid = futs[fu]
+            try:
+                f.write(json.dumps({'StudyInstanceUID': uid, 'p': fu.result()}) + '\n'); f.flush()
+            except Exception as e:  # one bad report must not kill a 4-hour run; rerun picks it up
+                print(f'fail {uid[-8:]}: {type(e).__name__}', flush=True)
+            if i % 100 == 0:
+                print(f'{i}/{len(todo)}', flush=True)
+
+    rows = [json.loads(l) for l in open(a.cache)]
+    pred = pd.DataFrame([r['p'] for r in rows], columns=LABELS,
+                        index=pd.Index([r['StudyInstanceUID'] for r in rows], name='StudyInstanceUID'))
+    pred = pred[~pred.index.duplicated()]
+    pred.reset_index().to_parquet(a.out, index=False)
+    n, macro, aucs = gold_auc(pred, train)
+    print(f'saved {len(pred)} -> {a.out} | gold n={n} macro-AUC {macro:.4f} (v4_blend = 0.8927)')
+    print(' '.join(f'{l[:8]}={v:.2f}' for l, v in aucs.items()))
+
+
+if __name__ == '__main__':
+    main()
