@@ -197,3 +197,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
   - Kaggle submission limit: **120.0 min (Safe headroom: > 97 min buffer)**.
   - Conclusion: Not 96 minutes (cold-start artifact), nor 6.5 minutes (unrealistic for CoAtNet-384 on T4); true runtime is **~17.5 – 22 minutes**, fully compliant with competition constraints.
 
+## 17. Official Leaderboard Score 0.917 & Stage-by-Stage Parity Fix (Oct 9 ~03:30 IST)
+- **Official Leaderboard Verification**:
+  - `shivoo29/rsna-knee-v5-fast-efficiency` (Best single checkpoint) scored **0.917** on Kaggle Public Leaderboard!
+  - `shivoo29/rsna-knee-v5-fast-swa` (SWA ensemble checkpoint) also scored **0.917** on Kaggle Public Leaderboard!
+  - Both successfully recovered from the 0.500/0.492 DICOM layout bug.
+  - **The Preprocessing Mismatch Gap (~0.02 LB drag)**:
+    - On preprocessed `all_vols.npy`, `raptor_ft_v5.pt` scores **0.9156** on Gold-58.
+    - Through the notebook's live DICOM path, it scored **0.8905** on Gold-58.
+    - That ~0.025 Gold AUC drop accounts for why the model is scoring 0.917 instead of ~0.935-0.940 on LB.
+
+- **Root Causes Discovered & Fixed**:
+  1. **Slot Order Swap (Coronal vs Axial)**:
+     - The notebook had Slot 3 as `("Axial", 1, 6)` and Slot 4 as `("Coronal", 0, 8)`.
+     - Dread's canonical training corpus (`all_vols.npy`) has Slot 3 as `("Coronal", 0, 6)` and Slot 4 as `("Axial", -1, 8)`!
