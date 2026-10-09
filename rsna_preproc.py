@@ -95,3 +95,36 @@ def mm_crop_and_resize(a, ps, crop_mm=CROP_MM, target_res=IMG):
         a: 2D float32 image array
         ps: pixel spacing in mm
         crop_mm: physical box width/height in mm (default: 140.0)
+        target_res: output square dimension (default: 384)
+    Returns:
+        2D float32 image array of shape (target_res, target_res)
+    """
+    h, w = a.shape
+    cpx = int(round(crop_mm / max(ps, 1e-3)))
+    cpx = max(1, min(cpx, min(h, w)))
+    y0 = (h - cpx) // 2
+    x0 = (w - cpx) // 2
+    cropped = a[y0:y0 + cpx, x0:x0 + cpx]
+    return cv2.resize(cropped, (target_res, target_res), interpolation=cv2.INTER_AREA)
+
+
+def pick_series_for_slot(series_rows, plane, fluid, used_series):
+    """Selects the best available series matching plane and fluid-sensitivity criteria."""
+    plane_norm = str(plane).strip().capitalize()
+    cands = [
+        r for r in series_rows
+        if str(r.get('Anatomical_Plane', '')).strip().capitalize() == plane_norm
+        and str(r.get('SeriesInstanceUID', '')) not in used_series
+    ]
+    if fluid in (0, 1):
+        pref = [r for r in cands if int(float(r.get('Fluid_Sensitive', -1) or -1)) == fluid]
+        if pref:
+            return pref[0]
+    return cands[0] if cands else None
+
+
+def pick_slice_indices(num_slices, k):
+    """Computes evenly spaced slice picks within [SPAN_LO, SPAN_HI]."""
+    if num_slices <= 0:
+        return []
+    if num_slices == 1:
