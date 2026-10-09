@@ -211,3 +211,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
   1. **Slot Order Swap (Coronal vs Axial)**:
      - The notebook had Slot 3 as `("Axial", 1, 6)` and Slot 4 as `("Coronal", 0, 8)`.
      - Dread's canonical training corpus (`all_vols.npy`) has Slot 3 as `("Coronal", 0, 6)` and Slot 4 as `("Axial", -1, 8)`!
+     - Slices 28-35 and 36-43 were physically swapped in anatomical orientation, confusing the axial and coronal spatial representations.
+  2. **Per-Slot Percentile Normalization**:
+     - The notebook computed percentiles globally across the whole study with subsampling.
+     - Dread's builder normalizes **per-slot (per-series)** at 2% and 98% percentiles, preserving the distinct dynamic range of fat-suppressed fluid vs standard fat slices.
+  3. **Evaluation Window Sampling (`K_EVAL = 42`)**:
+     - Local PC benchmark confirmed:
+       - `K_EVAL = 24` gives **0.9091** macro-AUC.
+       - `K_EVAL = 42` gives **0.9156** macro-AUC (+0.0065 gain from sliding all 42 centers).
+     - With `win_chunk = 14`, `K_EVAL = 42` requires only 3 forward passes of batch 14 (~15ms extra per study).
+
+- **Current Status of Pipeline Kernels**:
+  - Attached `dreaddevelopment/knee-raptor-corpus` to Kaggle kernels for direct in-kernel parity audit (`all_vols.npy`).
+  - Added Stage 0: 20-study direct numerical audit comparing live DICOM tensors vs corpus tensors (`max_px_diff`, `mean_px_diff`, cosine similarity).
+  - Pushed **Version 6** of `rsna-knee-v5-fast-efficiency` and **Version 4** of `rsna-knee-v5-fast-swa`. Both currently executing on Kaggle Dual-T4.
