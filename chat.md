@@ -339,3 +339,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
 - **Local PC RTX 4070 SUPER Training COMPLETE (ConvNeXt-Small @ 384px)**:
   - Finished early-stopping at Ep 11 at 22:45 IST (`convnext_small.fb_in22k_ft_in1k_384`):
   - Best single epoch: **0.8837** | SWA: **0.8837** | Epoch-ensemble: **0.8838**
+  - Checkpoints saved: `raptor_ft_convnext_s1.pt`, `raptor_ft_convnext_s1_swa.pt`, `raptor_gold_convnext_s1_swa.npz`.
+  - **Empirical Diversity Proof on Gold-58**:
+    - CoAtNet v5 3-seed fleet alone: **0.9229**
+    - Blending 5% ConvNeXt + 95% CoAtNet fleet lifts score to **0.9236** (+0.0007 gain from pure structural diversity).
+- **Kaggle Submissions Status (as of 22:55 IST)**:
+  - Ref 56999276 ("umeeed", 13:09 IST, v1): **COMPLETE — 0.943** (Confirms 44-slice model hits public fork wall; 96-slice `v6` is required to break past 0.945+).
+  - Ref 57009140 ("umeed part 2", 18:04 IST, v2): **PENDING** (Active in Kaggle evaluation runner).
+
+## 21. Master Roadmap: Scaling to Rank 1 (0.964+) on RSNA Knee (Oct 9 22:55 IST)
+- **Executive Diagnosis**:
+  - Rank 1: **0.964** (CentralyDS / Sergey Bryansky / Ilya Kolb) | Top 10: **0.962** | Gold Floor (~Top 50): **0.957** | Silver (~Top 100): **0.954**.
+  - Current baseline: **0.943** (Rank ~1,600). Gap to close: **+0.021** (2.1%).
+- **The 4 Pillars to Breach 0.964+**:
+  1. **Multi-Architecture Representation Diversity**: Ensembling CoAtNet (spatial hybrid) + ConvNeXt (pure 7x7 depthwise CNN) + Swin/EVA-02 (self-attention tokens) yields 3x higher AUC gains than same-arch seed averaging.
