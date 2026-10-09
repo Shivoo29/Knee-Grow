@@ -90,3 +90,50 @@ results = []
 tables = {}
 
 for name, path in candidate_files:
+    if not os.path.exists(path):
+        continue
+    df = pd.read_parquet(path) if path.endswith(".parquet") else pd.read_csv(path)
+    res = evaluate_table(name, df)
+    results.append(res)
+    if res.get("df") is not None:
+        tables[name] = res["df"]
+
+print("\n=== Evaluation against Gold-58 ===")
+print(f"{'Table':26s} | {'Rows':5s} | {'Gold':4s} | {'Exact':5s} | {'Macro AUC':9s}")
+print("-" * 62)
+for r in results:
+    if r["status"] == "scorable":
+        print(f"{r['name']:26s} | {r['n_rows']:5d} | {r['n_gold']:4d} | {r['exact_rate']:5.3f} | {r['macro_auc']:9.4f}")
+    else:
+        print(f"{r['name']:26s} | {r['n_rows']:5d} | {r.get('n_gold', 0):4d} | {'-':5s} | {r['status']}")
+
+# Print detailed per-finding AUCs for scorable tables
+print("\n=== Per-Finding AUCs (Scorable Tables) ===")
+header = f"{'Finding':18s}" + "".join([f" | {r['name'][:10]:10s}" for r in results if r['status'] == 'scorable'])
+print(header)
+print("-" * len(header))
+for col in LAB:
+    row_str = f"{col:18s}"
+    for r in results:
+        if r["status"] == "scorable":
+            v = r["aucs"].get(col, float("nan"))
+            row_str += f" | {v:10.4f}"
+    print(row_str)
+
+# Build averaged labels across independent high-quality tables
+# Candidate high quality sources:
+# 1. stevenleehans_v4_blend (best single, 0.893)
+# 2. stevenleehans_v2 (0.887)
+# 3. dread_llm_soft (independent prompt from Dread)
+# 4. nartaa_v1_blend (independent blend from nartaa)
+# 5. jev_final2_scores (independent JEV verification)
+
+# Let's check overlap of study IDs across all 4,349 non-gold training studies
+all_study_ids = [u for u in tr["StudyInstanceUID"].unique() if u not in gold_ids]
+print(f"\nNon-gold training studies target: {len(all_study_ids)} (expected 4349)")
+
+# Check coverage for each table
+print("\nCoverage of 4,349 non-gold studies:")
+for name, tbl in tables.items():
+    cov = sum(u in tbl.index for u in all_study_ids)
+    print(f"  {name:26s}: {cov}/{len(all_study_ids)} ({cov/len(all_study_ids)*100:.1f}%)")
