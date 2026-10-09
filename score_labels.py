@@ -44,3 +44,49 @@ def evaluate_table(name, df):
     # Exact match check
     exact_matches = np.all(np.isclose(y_pred, y_true, atol=1e-4), axis=1)
     exact_rate = float(np.mean(exact_matches))
+    
+    aucs = {}
+    for j, col in enumerate(LAB):
+        val_true = y_true[:, j]
+        val_pred = y_pred[:, j]
+        valid = ~np.isnan(val_pred) & ~np.isnan(val_true)
+        if len(np.unique(val_true[valid])) > 1:
+            aucs[col] = float(roc_auc_score(val_true[valid], val_pred[valid]))
+        else:
+            aucs[col] = float("nan")
+    macro_auc = float(np.nanmean(list(aucs.values())))
+    
+    return {
+        "name": name,
+        "status": "scorable",
+        "n_rows": len(df),
+        "n_gold": n_gold,
+        "exact_rate": exact_rate,
+        "macro_auc": macro_auc,
+        "aucs": aucs,
+        "df": df[LAB]
+    }
+
+candidate_files = [
+    # stevenleehans
+    ("stevenleehans_v4_blend", "data/labels/llm_labels_v4_blend.csv"),
+    ("stevenleehans_v2", "data/labels/llm_labels_v2.csv"),
+    ("stevenleehans_full", "data/labels/llm_labels_full.csv"),
+    # dreaddevelopment
+    ("dread_llm_soft", "data/labels/labels_llm_soft.parquet"),
+    # nartaa
+    ("nartaa_v1_blend", "data/labels/labels_v1_blend.parquet"),
+    ("nartaa_v0raw", "data/labels/labels_v0raw.parquet"),
+    ("nartaa_v1_gemlow", "data/labels/labels_v1_gemlow.parquet"),
+    ("nartaa_v1_perlabel", "data/labels/labels_v1_perlabel.parquet"),
+    ("nartaa_train_labels_v0", "data/labels/train_labels_v0.parquet"),
+    ("nartaa_train_labels_v1", "data/labels/train_labels_v1.parquet"),
+    # riadmohamed42 (JEV)
+    ("jev_final2_scores", "data/labels/FINAL2_labels_scores.csv"),
+    ("jev_hybrid_scores", "data/labels/HYBRID_labels_scores.csv"),
+]
+
+results = []
+tables = {}
+
+for name, path in candidate_files:
