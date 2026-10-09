@@ -353,3 +353,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
   - Current baseline: **0.943** (Rank ~1,600). Gap to close: **+0.021** (2.1%).
 - **The 4 Pillars to Breach 0.964+**:
   1. **Multi-Architecture Representation Diversity**: Ensembling CoAtNet (spatial hybrid) + ConvNeXt (pure 7x7 depthwise CNN) + Swin/EVA-02 (self-attention tokens) yields 3x higher AUC gains than same-arch seed averaging.
+  2. **Anatomical Volume Completeness**: `corpus96` expands axial to 18 slices and evaluates $K_{\text{eval}}=94$, resolving patellofemoral and lateral OA clipping.
+  3. **Iterative Visual Pseudo-Labeling**: Blend OOF vision predictions with text labels ($Y = 0.7 Y_{\text{text}} + 0.3 Y_{\text{vision}}$) to suppress radiologist hedging and LLM noise.
+  4. **Asymmetric Loss (ASL)**: Focus gradient descent on hard positive slices for rare classes (Fracture ~4% positive vs Effusion ~40%).
+- **Completed Model Harvests (Oct 9 23:25 IST)**:
+  - **Node-1 `v6` (96-Slice CoAtNet-2 @ 384px)**:
+    - 16 Epochs Complete (Loss down to 0.721).
+    - Gold-58 Best Macro-AUC: **0.9153** (Epoch 14), SWA: **0.9137**.
+    - Model checkpoints downloaded: `raptor_ft_v6.pt` (280M), `raptor_ft_v6_swa.pt` (280M).
+  - **Local PC `convnext_s1` (ConvNeXt-Small 384px)**:
+    - Complete (Early-stopped at Ep 11 with loss 0.701, best Ep 6: **0.8837**).
+    - Model checkpoint: `raptor_ft_convnext_s1.pt` (190M).
+  - **Local PC `convnext_s2` (ConvNeXt-Small Seed 2 @ 384px)**:
+    - Complete! 16 epochs finished with train loss down to `0.681`.
+    - Best single epoch: **0.8709**, SWA: **0.8710**.
