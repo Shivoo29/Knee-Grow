@@ -1,0 +1,16 @@
+{
+  "id": "shivoo29/rsna-knee-v5-submission",
+  "title": "RSNA Knee V5 Submission",
+  "code_file": "submission.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "false",
+  "dataset_sources": [
+    "shivoo29/knee-our-models"
+  ],
+  "competition_sources": [
+    "rsna-knee-abnormality-detection"
+  ]
+}
