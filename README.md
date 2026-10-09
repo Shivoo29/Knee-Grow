@@ -36,3 +36,9 @@ data/
 3. ConvNeXt-Small (Modernized ConvNet)
 4. EfficientNetV2
 
+## Loss Functions & Optimization
+
+- Class-balanced Binary Cross-Entropy
+- AdamW with weight decay 1e-2
+- Cosine Annealing with linear warmup
+
