@@ -339,3 +339,34 @@ class RaptorClassifier(nn.Module):
         B, K = x.shape[:2]
         flat = x.flatten(0, 1)
         if self.win_chunk > 0 and self.training and torch.is_grad_enabled():
+            from torch.utils.checkpoint import checkpoint
+            f = torch.cat([checkpoint(self.backbone, c, use_reentrant=False) for c in flat.split(self.win_chunk, 0)], 0)
+        elif self.win_chunk > 0:
+            f = torch.cat([self.backbone(c) for c in flat.split(self.win_chunk, 0)], 0)
+        else:
+            f = self.backbone(flat)
+        return f.view(B, K, -1)
+
+    def head(self, feats):
+        h = self.norm(feats)
+        a = self.att(h)
+        a = torch.softmax(a, dim=1)
+        pooled = torch.einsum("bkn,bkf->bnf", a, h)
+        logits = (pooled * self.clsW).sum(-1) + self.clsb
+        return logits
+
+    def forward(self, x):
+        return self.head(self.encode(x))
+
+
+# ------------------------------- train ---------------------------------------
+def main():
+    ap = argparse.ArgumentParser()
+    # Defaults to ImageNet-pretrained weights, which is what every released arm was trained from.
+    # The previous default pointed at a self-supervised checkpoint that is not distributed here,
+    # so following the example run above failed on a missing file.
+    ap.add_argument("--ckpt", default="timm",
+                    help="'timm' for ImageNet-pretrained weights, or a path to your own "
+                         "self-supervised checkpoint")
+    ap.add_argument("--arch", default="vit_small_patch16_224")
+    ap.add_argument("--res", type=int, default=224)
