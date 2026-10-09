@@ -239,3 +239,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
 ## 19. Morning Update: LB 0.924 & Full Pipeline Status (Oct 9 10:55 IST)
 - **New Official Leaderboard Score: 0.924** (Submission ref `56976036`):
   - `shivoo29/rsna-knee-v5-fast-efficiency` Version 6 scored **0.924** on Kaggle Public Leaderboard!
+  - Up from **0.917** (+0.007 LB gain from slot ordering & per-slot normalization parity fix alone!).
+  - Note: `rsna-knee-v5-fast-swa` (Version 4, which scored higher on visible Gold-58: 0.9007 vs 0.8988) is yet to be submitted and expected to reach ~0.925–0.927.
+
+- **Node1 `v5s2` (Seed 2) Training Complete**:
+  - Completed 16 epochs, early stopping triggered cleanly at ep16 (patience 5) at 10:53 IST.
+  - **Single Best Checkpoint**: Epoch 11 reaching **0.9180 Gold macro-AUC** (`raptor_ft_v5s2.pt`).
+    - ACL 0.974, MCL 0.975, MedMen 0.976, LatMen 0.912, MedOA 0.991, Effusion 0.970, Baker's 0.982, Fracture 0.906.
+  - **SWA Running Ensemble**: Epochs [11, 12, 9] reaching **0.9215 Gold macro-AUC** (`raptor_ft_v5s2_swa.pt`).
+    - Beats previous v5 SWA (0.9156) by **+0.0059**.
+  - All artifacts saved in `/home/s05814802723/projects/knee/`.
+
+- **Node1 247 GB Raw DICOM Zip Complete (100%)**:
+  - `/home/s05814802723/projects/knee/raw/rsna-knee-abnormality-detection.zip` is **247 GB (100% finished)**.
+  - Disk has **766 GB available** on `/home`.
