@@ -17,3 +17,9 @@ data/
 └── labels/
 ```
 
+## Preprocessing
+
+- DICOM HU windowing and intensity normalization
+- Resampling to isotropic resolution
+- 96-slice volume interpolation
+
