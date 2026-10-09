@@ -310,3 +310,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
      - URL: `https://www.kaggle.com/code/shivoo29/rsna-knee-blend-plus-d4`
 
 - **3-Seed Raptor Fleet Ensemble (Gold-58 Empirical Verification)**:
+  - Local 4070S (`v5s1`) integrated with Node1 seeds (`v5`, `v5s2`):
+    - Seed 0 SWA (Node1 `v5_swa`): **0.9156**
+    - Seed 1 SWA (4070S `v5s1_swa`): **0.9120**
+    - Seed 2 SWA (Node1 `v5s2_swa`): **0.9215**
+    - 2-Seed Blend (Seed 0 + Seed 2): **0.9223**
+    - **Full 3-Seed Fleet (Seed 0 + Seed 1 + Seed 2)**: **0.9229** macro-AUC (+0.0006 gain, variance reduced).
+  - All model weights (`raptor_ft_v5*.pt`) synced to local PC and live on Kaggle dataset `shivoo29/knee-our-models`.
+
+- **Node1 `v6` (96-slice @ 384px) Training Live Progress**:
+  - `coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k`, `--k 12 --k_eval 94 --bs 2 --accum 8 --win_chunk 14`:
+    - Ep 0: Loss 0.939 | Gold AUC **0.6996**
+    - Ep 1: Loss 0.917 | Gold AUC **0.7653**
+    - Ep 2: Loss 0.871 | Gold AUC **0.8102**
+    - Ep 3: Loss 0.844 | Gold AUC **0.8539**
