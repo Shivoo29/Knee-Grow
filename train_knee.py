@@ -557,3 +557,34 @@ def main():
     def evaluate():
         model.eval(); P = []; Y = []
         for x, y in vl:
+            with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
+                o = torch.sigmoid(model(x.to(dev)).float())
+            P.append(o.cpu().numpy()); Y.append(y.numpy())
+        P = np.concatenate(P); Y = np.concatenate(Y)
+        aucs = {}
+        for j, name in enumerate(LAB):
+            if len(set(Y[:, j].astype(int))) > 1:
+                aucs[name] = float(roc_auc_score(Y[:, j], P[:, j]))
+        return float(np.mean(list(aucs.values()))), aucs, P, Y
+
+    best = 0.0; best_state = None; best_P = None; t0 = time.time(); hist = []
+    TOPK = max(1, a.topk); topk = []; ep_start = 0; patience_counter = 0
+
+    import signal
+    _interrupted = False
+    def _sig_handler(signum, frame):
+        nonlocal _interrupted
+        sig_name = "SIGTERM" if signum == signal.SIGTERM else "SIGINT"
+        print(f"\n[signal] Received {sig_name}! Gracefully saving checkpoint and stopping...", flush=True)
+        _interrupted = True
+
+    signal.signal(signal.SIGINT, _sig_handler)
+    signal.signal(signal.SIGTERM, _sig_handler)
+
+    if a.resume and os.path.exists(a.resume):
+        R_ = torch.load(a.resume, map_location="cpu", weights_only=False)
+        model.load_state_dict(R_["model"]); opt.load_state_dict(R_["opt"])
+        if R_.get("sched") is not None:
+            sched_sd = R_["sched"]
+            if steps != sched_sd.get("total_steps"):
+                print(f"[sched] adapting OneCycleLR total_steps from {sched_sd.get('total_steps')} to {steps} for {a.epochs} epochs", flush=True)
