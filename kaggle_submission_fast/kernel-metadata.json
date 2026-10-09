@@ -1,0 +1,17 @@
+{
+  "id": "shivoo29/rsna-knee-v5-fast-efficiency",
+  "title": "RSNA Knee V5 Fast (Efficiency)",
+  "code_file": "submission.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "false",
+  "dataset_sources": [
+    "shivoo29/knee-our-models",
+    "dreaddevelopment/knee-raptor-corpus"
+  ],
+  "competition_sources": [
+    "rsna-knee-abnormality-detection"
+  ]
+}
