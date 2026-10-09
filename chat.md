@@ -296,3 +296,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
      - URL: `https://www.kaggle.com/code/shivoo29/rsna-knee-v5s2-fast-swa`
   2. **Submission 2 (`rsna-knee-v5-blend-2-seeds`)**:
      - Status: **COMPLETE & GREEN** (Ready for User Submission)
+     - 2-seed ensemble (Seed 0 SWA + Seed 2 SWA) dual-T4 pipeline.
+     - Teacher Probe (358 visible studies): 0 fallbacks (0.00%), steady throughput **1.078 s/study**.
+     - Visible Gold-58 macro-AUC: **0.9169**. Clean `submission.csv` produced.
+     - URL: `https://www.kaggle.com/code/shivoo29/rsna-knee-v5-blend-2-seeds`
+  3. **Submission 3 (`rsna-knee-blend-plus-d4`)**:
+     - Status: **COMPLETE & GREEN** (Version 3 Verified Ready to Submit)
+     - Blends public 0.943 ensemble (DINOv2 + multi-CoAt) with our 2-seed Raptor fleet in 50/50 rank space. Target: **0.945+** on Leaderboard.
+     - Version 3 execution log confirmed:
+       - Raptor inference leg finished in 12.63 min producing `ours_fleet/submission.csv` (3, 13).
+       - Mean per-label rank correlation public vs ours: **0.7083** (strong orthogonality / diversity).
+       - Blended output verified: `[ours] final: ours blended in at w=0.50`, zero nulls, exact 13 columns.
+     - URL: `https://www.kaggle.com/code/shivoo29/rsna-knee-blend-plus-d4`
+
+- **3-Seed Raptor Fleet Ensemble (Gold-58 Empirical Verification)**:
