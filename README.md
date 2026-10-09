@@ -29,3 +29,10 @@ data/
 - Soft pseudo-labels calibration
 - Outlier and hedging phrase penalties
 
+## Model Architectures
+
+1. ResNet-50 (2.5D feature extractor)
+2. CoAtNet-224 (Hybrid attention)
+3. ConvNeXt-Small (Modernized ConvNet)
+4. EfficientNetV2
+
