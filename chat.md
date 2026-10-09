@@ -225,3 +225,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
   - Attached `dreaddevelopment/knee-raptor-corpus` to Kaggle kernels for direct in-kernel parity audit (`all_vols.npy`).
   - Added Stage 0: 20-study direct numerical audit comparing live DICOM tensors vs corpus tensors (`max_px_diff`, `mean_px_diff`, cosine similarity).
   - Pushed **Version 6** of `rsna-knee-v5-fast-efficiency` and **Version 4** of `rsna-knee-v5-fast-swa`. Both currently executing on Kaggle Dual-T4.
+
+## 18. Overnight Systems Health (Oct 9 03:45 IST)
+- **Node1 `knee-train.service` (v5s2)**:
+  - Running as systemd user service (PID 347812).
+  - Epoch 0: Gold AUC 0.7335 | Epoch 1: Gold AUC 0.7938 | **Epoch 2: Gold AUC 0.8523** (loss 0.879, climbing rapidly).
+  - Steady timing: 0.812 s/step, 1766s (~29.4 min/epoch). Peak VRAM 16.86 GB.
+- **Node1 Raw DICOM Download**:
+  - tmux `raw`: **152 GB / 247 GB (61.5%)** downloaded. Steady at ~9.7 MB/s. ETA ~06:35 IST.
+- **Local PC**:
+  - Idle, GPU resting at 21W. Paused at Epoch 5 (0.8984 Gold AUC). Ready for `./resume_pc_v5s1.sh` in the morning.
+
+## 19. Morning Update: LB 0.924 & Full Pipeline Status (Oct 9 10:55 IST)
+- **New Official Leaderboard Score: 0.924** (Submission ref `56976036`):
+  - `shivoo29/rsna-knee-v5-fast-efficiency` Version 6 scored **0.924** on Kaggle Public Leaderboard!
