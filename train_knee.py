@@ -433,3 +433,34 @@ def main():
 
     # ---- ids / labels ----
     ids = _open_ids()
+    id2row = {u: i for i, u in enumerate(ids)}
+    idset = set(ids)
+    _tcsv = os.path.join(RSNA, "train.csv")
+    if not os.path.exists(_tcsv):
+        _tcsv = _find("train.csv")
+    if not _tcsv:
+        raise SystemExit("Could not find train.csv - attach the competition data.")
+    tr = pd.read_csv(_tcsv); tr["StudyInstanceUID"] = tr["StudyInstanceUID"].astype(str)
+    gold_df = tr[tr[LAB].notna().all(axis=1)].copy().set_index("StudyInstanceUID")
+    gold_ids = [u for u in gold_df.index if u in idset]
+    _lab = a.labels or _find("labels_llm_soft.parquet")
+    if not _lab or not os.path.exists(_lab):
+        # Exit cleanly rather than as a failure: running this notebook as published, with no
+        # labels attached, is the expected path and should read as an explanation, not a crash.
+        print(_NO_LABELS.format(cols=", ".join(LAB)), flush=True)
+        raise SystemExit(0)
+    soft = pd.read_parquet(_lab)
+    soft["StudyInstanceUID"] = soft["StudyInstanceUID"].astype(str); soft = soft.set_index("StudyInstanceUID")
+    goldset = set(gold_ids)
+    train_ids = [u for u in ids if u in soft.index and u not in goldset]
+    # ---- CV fold hook: hold out fold `a.fold`, train on the rest ----
+    oof_ids = []
+    if a.folds > 0:
+        assert 0 <= a.fold < a.folds, f"--fold must be in [0,{a.folds}) when --folds>0"
+        fmap = json.load(open(a.fold_file))["folds"]
+        held = set(u for u in train_ids if fmap.get(u, -1) == a.fold)
+        oof_ids = [u for u in train_ids if u in held]
+        train_ids = [u for u in train_ids if u not in held]
+        print(f"[cv] fold {a.fold}/{a.folds}: train {len(train_ids)} | OOF held-out {len(oof_ids)} "
+              f"| fold_file {os.path.basename(a.fold_file)}", flush=True)
+    if a.limit: train_ids = train_ids[:a.limit]
