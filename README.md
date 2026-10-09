@@ -46,3 +46,8 @@ data/
 
 SWA applied from epoch 8 onwards to enhance generalization across clinical scanners.
 
+## Validation Strategy
+
+- Stratified 5-Fold Group Cross Validation
+- Mean Multi-Label ROC-AUC evaluation
+
