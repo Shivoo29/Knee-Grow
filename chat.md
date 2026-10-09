@@ -69,3 +69,17 @@ Read this first if you are a new model/session continuing this work. **Solo (tea
     - **Forensic Diagnosis:** In `submission.py`, `test_dir` was searching for `test` instead of `test_series`. In RSNA Knee on Kaggle, the test folder is `test_series/{StudyInstanceUID}/{SeriesInstanceUID}/*.dcm` (there is no `/test` directory). `glob.glob` returned `[]` (0 slices), leaving all volumes as all-zero arrays. The model received blank black tensors for all 1,300 test studies, emitting identical constant output probabilities. Constant predictions yield mathematical ROC-AUC = 0.50000!
     - **Systematic Fix & Visible Teacher Probe Validation:**
       1. Implemented teacher-probe trick in `submission.py`: dynamically generates a `fakecomp` on visible data (58 gold + 300 random train studies = 358 studies) pointing `test_series` directly to `train_series`.
+      2. Logs per-study timings, first 5 exception tracebacks in full (no silent swallow), and evaluates Gold-58 macro-AUC across all 12 findings.
+      3. Added hard guard: if fallbacks > 5% of studies or Gold-58 macro-AUC < 0.8500, the pipeline raises a `RuntimeError` immediately to fail loudly instead of submitting bad predictions.
+      4. Hardened `pick_series_for_slot` to handle NaN fluid flags safely (`_safe_fluid`) and `build_study_optimized` to resolve both nested and flat layouts with fast `os.listdir`.
+      5. Pushed both `shivoo29/rsna-knee-v5-fast-efficiency` (v5) and `shivoo29/rsna-knee-v5-fast-swa` (v3) to Kaggle to validate visible Gold-58 macro-AUC on Dual-T4 GPUs.
+    - **Verification Results (COMPLETE Oct 9):**
+      - **Best Model (`v5` / v5):** Decoded **14,852 slices** across 358 studies with **0 / 358 (0.00%) fallbacks**, 0 exceptions. Steady throughput: **0.848 s / study**. **Visible Gold-58 Macro-AUC: 0.8905** (ACL 0.9755, MedMen 0.9543, MedOA 0.9705, Effusion 0.9590, Baker's 0.9511, Contusion 0.9514). Projected ~1,300 hidden-set runtime: **~18.7 min** (safely under 120m limit).
+      - **SWA Model (`v5_swa` / v3):** Decoded **14,852 slices** across 358 studies with **0 / 358 (0.00%) fallbacks**, 0 exceptions. Steady throughput: **0.856 s / study**. **Visible Gold-58 Macro-AUC: 0.8893**.
+      - Output `submission.csv` for dummy test confirmed non-constant, differentiated medical predictions across all 12 abnormalities. Column order strictly matches `sample_submission.csv` and ID order matches `test.csv`. Both kernels are fully verified, green, and ready for official submission.
+
+## 7. Key research findings (see report for sources)
+- The gap to the top is **our own model quality**, not blending. Others report single models at 0.950–0.955 public; the efficiency-LB #1 scores 0.959 with ~5 min inference. The 25-model public stack stalls at ~0.943 and uses 6.5–8 h.
+- **Best public notebook now: nartaa single CoAtNet 0.949** (discussion 746792, Oct 7): 140–154 mm crop, 0.4 mm/px, 80–96 slices, 94 windows at inference, top-3 epoch averaging, anatomical-mirror TTA, 16 epochs, all studies. Uses OAI external data (+0.003); **OAI legality is unclear → prize risk**.
+- Pitfalls: sort slices by **ImagePositionPatient**, not filename (+0.028 for one team); **bf16 on T4 is emulated and slow → use fp16** at inference; silently dropped attached sources; DataParallel RAM out-of-memory; a recursive glob that hung a run.
+- Gold-58 standard error ≈ 0.015–0.07 per finding → **don't select models or blend weights on gold-58**; use 5-fold out-of-fold scores.
