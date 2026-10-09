@@ -60,3 +60,34 @@ TYPICAL RUN
 About three hours on one 4090 for 16 epochs at 384. --grad_ckpt trades a little speed for a lot of
 memory and is what makes bs 8 fit on a 24 GB card. Use --smoke for a fast wiring check.
 
+MEMORY, MEASURED
+
+The CoAtNet at 384 with --bs 8 and --grad_ckpt sits at about 23.7 GB, so it needs a 24 GB card.
+On 16 GB use --bs 2 or 4. Separately from the GPU, this script keeps the best checkpoint plus the
+top --topk epochs' weights in system RAM so it can average them at the end; that is about 87 MB a
+copy for the small ViT and 293 MB for the CoAtNet, and the list fills over the first few epochs.
+If you run out of host memory a few epochs in, set --topk 1 and lower --workers.
+
+The checkpoint it writes is a dict with keys model, arch, res and lab, which is exactly what the
+inference notebook expects.
+"""
+import os, sys, time, json, math, random, argparse
+import numpy as np, pandas as pd
+import torch, torch.nn as nn, torch.nn.functional as F
+from torch.utils.data import Dataset, DataLoader
+from sklearn.metrics import roc_auc_score
+import timm
+
+# --- ROI localizer (anatomical joint crop). Optional so the no-ROI path is untouched. ---
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from roi_localize import square_box as _roi_square_box, compartments as _roi_compartments
+except Exception:
+    _roi_square_box = _roi_compartments = None
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+RSNA = os.path.dirname(HERE)
+
+# ---------------------------------------------------------------------------
+# Input discovery. On Kaggle the corpus arrives as two read-only datasets and the
+# competition data as a third, so nothing lives beside this script. Everything in
