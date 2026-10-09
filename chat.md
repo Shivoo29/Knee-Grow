@@ -182,3 +182,18 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
     - Model AUC (0.827–0.845) BEATS Labels AUC (0.771–0.790). Reports hedge or omit synovitis.
     - Solution: Pillar 2 (OOF Teacher-Student pseudo-labeling) directly rescues Synovitis.
   - **Ensemble Multi-Architecture Requirement**:
+    - Reaching 0.965–0.970 requires diverse backbones (CoAtNet-384, ConvNeXt-Large, Eva02/Swin) to cancel individual architecture blindspots.
+
+## 16. Kaggle Dual-T4 Runtime Breakdown & Honest Hidden-Set Estimation
+- **Startup Overhead vs Steady-State Inference Separated**:
+  - Fixed one-time startup: **~19.3s - 20.7s** (Imports, 280MB weights load from Kaggle dataset disk, dual-device model creation, CUDA runtime init, cuDNN autotune warmup pass on both GPUs).
+  - Steady-state throughput: **0.803s - 0.810s per study** across Dual T4.
+- **Why dummy run showed 4.45s/study previously**:
+  - In a 3-study test without warmup, 2 out of 3 studies were cold-start cuDNN benchmark passes across 2 separate GPUs. Dividing the 13s startup across 3 studies gave a distorted 4.45s figure.
+- **Honest Runtime Projections on ~1,300 Hidden Test Studies**:
+  - Steady-state compute ($1,300 \times 0.805\text{s}$): $1,046\text{s} = \mathbf{17.4\text{ min}}$.
+  - Expected total run ($1,046\text{s} + 20\text{s}$ startup): $\mathbf{17.8\text{ min}}$.
+  - Conservative (+25% I/O margin): $\mathbf{22.1\text{ min}}$.
+  - Kaggle submission limit: **120.0 min (Safe headroom: > 97 min buffer)**.
+  - Conclusion: Not 96 minutes (cold-start artifact), nor 6.5 minutes (unrealistic for CoAtNet-384 on T4); true runtime is **~17.5 – 22 minutes**, fully compliant with competition constraints.
+
