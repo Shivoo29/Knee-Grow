@@ -308,3 +308,34 @@ def load_raptor(bb, ckpt_path):
     if ckpt_path in ("timm", "pretrained"):
         return "timm-pretrained"
     if ckpt_path in ("", "none", "None"):
+        print("[raptor] RANDOM-INIT control (no SSL weights)", flush=True)
+        return "random-init"
+    ck = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+    st = ck["student"] if "student" in ck else (ck["model"] if "model" in ck else ck)   # SSL student, or a released RaptorClassifier
+    bbst = {k[len("backbone."):]: v for k, v in st.items() if k.startswith("backbone.")}
+    missing, unexpected = bb.load_state_dict(bbst, strict=False)
+    ep = ck.get("epoch", "?")
+    print(f"[raptor] loaded backbone from {os.path.basename(ckpt_path)} (ssl epoch {ep}) | "
+          f"loaded {len(bbst)} tensors, missing {len(missing)}, unexpected {len(unexpected)}", flush=True)
+    return f"{os.path.basename(ckpt_path)}@ep{ep}"
+
+
+class RaptorClassifier(nn.Module):
+    """Raptor encoder + per-diagnosis attention-MIL head (12 findings)."""
+    def __init__(self, backbone, F_dim=384, n=12, drop=0.2):
+        super().__init__()
+        self.backbone = backbone
+        self.norm = nn.LayerNorm(F_dim)
+        self.att = nn.Sequential(nn.Linear(F_dim, 256), nn.Tanh(), nn.Dropout(drop),
+                                 nn.Linear(256, n))
+        self.clsW = nn.Parameter(torch.zeros(n, F_dim))
+        self.clsb = nn.Parameter(torch.zeros(n))
+        nn.init.trunc_normal_(self.clsW, std=0.02)
+        self.n = n
+
+    win_chunk = 0   # >0: run the backbone over chunks of this many windows under activation checkpointing (8 GB cards)
+
+    def encode(self, x):
+        B, K = x.shape[:2]
+        flat = x.flatten(0, 1)
+        if self.win_chunk > 0 and self.training and torch.is_grad_enabled():
