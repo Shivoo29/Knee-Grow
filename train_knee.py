@@ -246,3 +246,34 @@ class StudyWindows(Dataset):
         # compartment mode emits 2 crops/center -> sample ceil(k/2) centers to keep #windows==k
         compart = self.roi and self.roi_mode == "compartment"
         n_centers = (self.k + 1) // 2 if compart else self.k
+        cs = self._centers(valid, n_centers)
+        vol = self.vols[row]  # (D,H,W) u8  (single study read)
+        tiles = []            # list of (3,res,res) float32
+        for c in cs:
+            c = max(1, min(c, self._D - 2))
+            tri = np.stack([vol[c - 1], vol[c], vol[c + 1]], 0).astype(np.float32) / 255.0  # (3,H,W)
+            H, W = tri.shape[-2], tri.shape[-1]
+            if not self.roi:
+                tiles.append(self._resize(tri))
+                continue
+            # one joint box from the CENTER slice, applied to all 3 slices (keeps RGB registered)
+            sq_mode = "tight" if compart else self.roi_mode
+            sq = _roi_square_box(tuple(int(v) for v in self.roi_sbox[row, c]), W=W, H=H,
+                                 pad=self.roi_pad, mode=sq_mode,
+                                 centroid=tuple(float(v) for v in self.roi_cen[row, c]))
+            if compart:
+                left, right = _roi_compartments(sq, overlap=self.roi_overlap)
+                for box in (left, right):
+                    x0, y0, x1, y1 = box
+                    tiles.append(self._resize(tri[:, y0:y1, x0:x1]))
+            else:
+                x0, y0, x1, y1 = sq
+                tiles.append(self._resize(tri[:, y0:y1, x0:x1]))
+        if len(tiles) > self.k:
+            tiles = tiles[:self.k]
+        wins = np.stack(tiles, 0)          # (K,3,res,res)
+        x = torch.from_numpy(wins)
+        if self.train and self.aug:
+            # light medical-safe aug: NO flips (laterality is signal); mild intensity jitter
+            g = 1.0 + (random.random() - 0.5) * 0.20
+            x = (x * g).clamp(0, 1)
