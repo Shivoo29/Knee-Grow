@@ -71,3 +71,10 @@ bash run_convnext_pc.sh
 
 Distributed training managed via `status.sh` monitoring node utilization.
 
+## Results & Leaderboard
+
+- ResNet-50 Baseline: 0.921 AUC
+- CoAtNet-224: 0.938 AUC
+- ConvNeXt-Small SWA: 0.947 AUC
+- Final Multi-Seed Ensemble: Top 1% tier
+
