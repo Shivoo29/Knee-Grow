@@ -215,3 +215,34 @@ class StudyWindows(Dataset):
             self.vols, self.masks = _open_corpus()   # (N,D,H,W) view, (N,D) u8
 
     def _centers(self, valid, count):
+        # valid slice indices; window centers must have both neighbors valid & in-range
+        lo, hi = int(valid.min()), int(valid.max())
+        cs = [c for c in range(lo + 1, hi) if c - 1 >= lo and c + 1 <= hi]
+        if not cs: cs = [max(1, min((lo + hi) // 2, self._D - 2))]
+        if self.train:
+            reps = count // len(cs) + 1
+            pool = (cs * reps)
+            random.shuffle(pool)
+            return pool[:count]
+        # eval: evenly spaced deterministic
+        idx = np.linspace(0, len(cs) - 1, count).round().astype(int)
+        return [cs[i] for i in idx]
+
+    def _resize(self, tri):
+        """tri: (3,h,w) float32 [0,1] -> (3,res,res) float32."""
+        t = torch.from_numpy(np.ascontiguousarray(tri))
+        if t.shape[-1] != self.res or t.shape[-2] != self.res:
+            t = F.interpolate(t[None], size=(self.res, self.res), mode="bilinear",
+                              align_corners=False)[0]
+        return t.numpy()
+
+    def __getitem__(self, i):
+        self._ensure()
+        uid = self.ids[i]; row = self.id2row[uid]
+        self._D = self.vols.shape[1]
+        m = self.masks[row]
+        valid = np.where(m > 0)[0]
+        if len(valid) < 3: valid = np.arange(min(3, self._D))
+        # compartment mode emits 2 crops/center -> sample ceil(k/2) centers to keep #windows==k
+        compart = self.roi and self.roi_mode == "compartment"
+        n_centers = (self.k + 1) // 2 if compart else self.k
