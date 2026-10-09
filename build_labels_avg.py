@@ -54,3 +54,60 @@ def get_macro_auc(preds_df):
             aucs[col] = float("nan")
     return float(np.nanmean(list(aucs.values()))), aucs
 
+auc_v4, aucs_v4 = get_macro_auc(v4)
+print(f"Baseline stevenleehans v4_blend AUC: {auc_v4:.4f}")
+
+# Blend 1: simple mean of all 5 scorable tables
+blend_all_scorable = sum([t.loc[overlap_gold, LAB] for t in scorable_tables]) / len(scorable_tables)
+auc_blend_all, aucs_blend_all = get_macro_auc(blend_all_scorable)
+print(f"Blend of 5 scorable tables AUC:     {auc_blend_all:.4f}")
+
+# Blend 2: v4_blend + jev_hybrid (the two strongest)
+blend_top2 = (v4.loc[overlap_gold, LAB] + jev_hybrid.loc[overlap_gold, LAB]) / 2.0
+auc_top2, aucs_top2 = get_macro_auc(blend_top2)
+print(f"Blend of Top-2 (v4 + jev_hybrid):   {auc_top2:.4f}")
+
+# 2. Build consensus training labels for all 4,349 studies
+# Sources: stevenleehans (v4_blend, v2, full), dread_llm_soft, nartaa_v1_blend, jev_hybrid, jev_final2
+train_tables = {
+    "v4_blend": v4,
+    "v2": v2,
+    "dread_soft": dread,
+    "nartaa_blend": nartaa,
+    "jev_hybrid": jev_hybrid,
+}
+
+print(f"\nBuilding labels_avg across {len(train_tables)} diverse source tables:")
+for name, t in train_tables.items():
+    print(f"  - {name}: {sum(u in t.index for u in all_train_ids)}/4349 present")
+
+# Compute mean per finding across all sources for each study
+stacked = []
+for name, t in train_tables.items():
+    aligned = t.reindex(all_train_ids)
+    stacked.append(aligned.values)
+
+stacked = np.stack(stacked, axis=0) # shape (N_tables, 4349, 12)
+avg_values = np.nanmean(stacked, axis=0) # mean across tables
+# Clip to valid range [0, 1]
+avg_values = np.clip(avg_values, 0.0, 1.0)
+
+labels_avg = pd.DataFrame(avg_values, index=all_train_ids, columns=LAB)
+labels_avg.index.name = "StudyInstanceUID"
+labels_avg = labels_avg.reset_index()
+
+# Verify shape and nulls
+assert len(labels_avg) == 4349
+assert labels_avg[LAB].isna().sum().sum() == 0
+assert not any(u in gold_ids for u in labels_avg["StudyInstanceUID"])
+
+labels_avg.to_parquet("labels_avg.parquet", index=False)
+print(f"\n[output] Saved labels_avg.parquet: {labels_avg.shape} (4,349 rows x 13 cols)")
+
+# Also write comparison summary
+print("\n=== Per-Finding AUC Comparison vs Gold-58 ===")
+print(f"{'Finding':18s} | {'v4_blend':8s} | {'jev_hybrid':10s} | {'5-table avg':11s}")
+print("-" * 55)
+for col in LAB:
+    print(f"{col:18s} | {aucs_v4[col]:8.4f} | {aucs_top2[col]:10.4f} | {aucs_blend_all[col]:11.4f}")
+print(f"{'Macro AUC':18s} | {auc_v4:8.4f} | {auc_top2:10.4f} | {auc_blend_all:11.4f}")
