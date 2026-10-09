@@ -153,3 +153,34 @@ def _open_corpus():
         _CORPUS = out
     return out
 
+
+def _open_ids():
+    local = os.path.join(HERE, "all_ids.npy")
+    if os.path.exists(local):
+        return np.load(local, allow_pickle=True).astype(str)
+    a, b = _find("all_ids.npy"), _find("extra_ids.npy")
+    if not (a and b):
+        raise SystemExit("Could not find all_ids.npy / extra_ids.npy - attach both corpus parts.")
+    return np.concatenate([np.load(a, allow_pickle=True).astype(str),
+                           np.load(b, allow_pickle=True).astype(str)])
+LAB = ["ACL","MCL","Medial Meniscus","Lateral Meniscus","Medial OA","Lateral OA","PF OA",
+       "Effusion","Synovitis","Baker's","Contusion","Fracture"]
+
+
+_NO_LABELS = """
+No training labels found, so there is nothing to train against.
+
+The competition labels only 58 of the 4,407 studies. The other 4,349 carry a free-text
+radiology report instead, so before this can train you have to turn those reports into
+twelve probabilities per study and pass the result with --labels.
+
+Expected format: a parquet with a StudyInstanceUID column plus the columns
+  {cols}
+with values between 0 and 1. Soft values work better than hard 0/1 here: the loss is built
+for them, and hedged reports are common.
+
+Everything else in this notebook is ready to run once that file exists.
+"""
+
+
+# ------------------------------- data ----------------------------------------
