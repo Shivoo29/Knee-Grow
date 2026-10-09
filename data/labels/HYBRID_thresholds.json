@@ -1,0 +1,56 @@
+{
+  "macro_auc_gold74": 0.9211642973687014,
+  "macro_auc_holdout7": 0.9684343434343435,
+  "alpha": 0.95,
+  "blend": "0.95*labels-fusion(dataset) + 0.05*FINAL2(6-member JEV text ensemble)",
+  "thresholds": {
+    "ACL": {
+      "threshold": 0.8031,
+      "f1": 0.9642857142857143
+    },
+    "MCL": {
+      "threshold": 0.7791,
+      "f1": 0.9166666666666666
+    },
+    "Medial Meniscus": {
+      "threshold": 0.7801,
+      "f1": 0.9142857142857143
+    },
+    "Lateral Meniscus": {
+      "threshold": 0.665,
+      "f1": 0.8771929824561403
+    },
+    "Medial OA": {
+      "threshold": 0.8875,
+      "f1": 0.9090909090909091
+    },
+    "Lateral OA": {
+      "threshold": 0.8804,
+      "f1": 0.7096774193548387
+    },
+    "PF OA": {
+      "threshold": 0.8791,
+      "f1": 0.8928571428571429
+    },
+    "Effusion": {
+      "threshold": 0.8645,
+      "f1": 0.8867924528301887
+    },
+    "Synovitis": {
+      "threshold": 0.314,
+      "f1": 0.7586206896551724
+    },
+    "Baker's": {
+      "threshold": 0.8771,
+      "f1": 0.8947368421052632
+    },
+    "Contusion": {
+      "threshold": 0.4574,
+      "f1": 0.7741935483870968
+    },
+    "Fracture": {
+      "threshold": 0.6705,
+      "f1": 0.8292682926829268
+    }
+  }
+}
