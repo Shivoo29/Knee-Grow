@@ -23,3 +23,9 @@ data/
 - Resampling to isotropic resolution
 - 96-slice volume interpolation
 
+## Label Engineering
+
+- LLM report distillation with Qwen
+- Soft pseudo-labels calibration
+- Outlier and hedging phrase penalties
+
