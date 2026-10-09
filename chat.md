@@ -381,3 +381,18 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
   - `shivoo29/knee-our-models`: Updated version uploaded and status `ready`.
   - Contains: `v5_swa`, `v5s1_swa`, `v5s2_swa`, `v6`, `v6_swa`, `convnext_s1`.
 
+- **Overnight Multi-GPU Training Live (Oct 10 01:10 IST)**:
+  - **Node-1 (NVIDIA L4 24GB)**:
+    - Architecture: `convnext_base.fb_in22k_ft_in1k_384` (ImageNet-22k pretrained, 87.6M params).
+    - Dataset: `corpus96` (96 slices, full volume coverage, `k_eval=94`).
+    - Status: Running in tmux `train_cnext_base`. 18 min/epoch!
+    - Current: Epoch 5 / 16 (Loss: 0.816, Gold AUC: 0.8646).
+    - Expected completion: ~04:45 AM IST.
+  - **Local PC (RTX 4070 SUPER 12GB)**:
+    - Architecture: `tf_efficientnetv2_s.in21k_ft_in1k` (ImageNet-21k pretrained, 20.2M params).
+    - Status: Running in background `run_effnet_pc.sh` (task 4278).
+    - Purpose: Fused-MBConv CNN architecture family to pair with CoAtNet and ConvNeXt.
+    - Expected completion: ~03:30 AM IST.
+
+
+
