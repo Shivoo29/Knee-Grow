@@ -836,3 +836,35 @@ def main():
             Ps = []
             with torch.no_grad():
                 for x, y in ol2:
+                    with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
+                        Ps.append(torch.sigmoid(model(x.to(dev)).float()).cpu().numpy())
+            Ps = np.concatenate(Ps)
+            np.savez(os.path.join(HERE, f"raptor_oof_{a.tag}_swa_fold{a.fold}.npz"),
+                     pred=Ps, truth=np.stack([labels[u] for u in oof_ids]).astype(np.float32),
+                     ids=np.array(oof_ids), fold=a.fold, nfolds=a.folds)
+            print(f"[cv] wrote SWA OOF", flush=True)
+        model.load_state_dict(best_state["model"]); model.eval()
+
+    if len(topk) > 1:
+        eps = [t["epoch"] for t in topk]
+        for rank, t in enumerate(topk):
+            if rank == 0:
+                continue
+            P_t = t.pop("P")
+            np.savez(os.path.join(HERE, f"raptor_gold_{a.tag}_ep{t['epoch']}.npz"),
+                     pred=P_t, truth=Y, ids=np.array(gold_ids))
+            t["P"] = P_t
+        Pens = np.mean([t["P"] for t in topk], axis=0)
+        ens_aucs = {}
+        for j, name in enumerate(LAB):
+            if len(set(Y[:, j].astype(int))) > 1:
+                ens_aucs[name] = float(roc_auc_score(Y[:, j], Pens[:, j]))
+        ens = float(np.mean(list(ens_aucs.values())))
+        np.savez(os.path.join(HERE, f"raptor_gold_{a.tag}_epens.npz"),
+                 pred=Pens, truth=Y, ids=np.array(gold_ids))
+        print(f"TOPK epochs {eps} | best {best:.4f} | epoch-ensemble {ens:.4f} "
+              f"({'BETTER' if ens > best else 'no gain'})", flush=True)
+
+
+if __name__ == "__main__":
+    main()
