@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+_coat_env/
+venv/
+env/
+
+# Editor & AI tool configs
+.claude/
+.gemini/
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Process IDs and temporary runtime logs
+*.log
+*.pid
+
+# Heavy binary dataset volumes (>100MB, exceeds GitHub limits)
+ds/corpus1/all_vols.npy
+ds/corpus2/extra_vols.npy
+
+# PyTorch checkpoints and weights (>100MB, stored on Kaggle datasets)
+*.pt
+kaggle_dataset_upload/*.pt
