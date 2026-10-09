@@ -40,3 +40,17 @@ Read this first if you are a new model/session continuing this work. **Solo (tea
 - `ds/corpus1`, `ds/corpus2`: preprocessed image corpus (21 GB), `ds/comp/train.csv`
 - `train_knee.py`: the public training script (from `nartaa/rsna-knee-hpo-assets`), used as-is
 - `labels_v4.parquet`: training labels (v4_blend, gold rows removed)
+- `label_llm.py`: Qwen report labeller (result: 0.850 vs gold, **worse than v4**, abandoned)
+- `docs/superpowers/specs/2026-10-07-rsna-knee-top10-design.md`: original design spec (partly outdated by the research)
+- `reports/Knee MRI prior work and tricks.md`: **research report, read it**; notes in `research_notes/`
+
+**node1: `~/projects/knee/`**
+- `ds/corpus1`, `ds/corpus2`, `ds/comp/train.csv`, `ds/rsna-knee-*` (label tables, folds `folds_v0.json`)
+- `train_knee.py`, `labels_v4.parquet`, `eval_labels.py`
+- `raptor_ft_v4base.pt` (+ `_swa.pt`, `raptor_gold_v4base.npz`, `v4base.log`): **our first trained model**
+
+## 6. What has been done
+1. Accepted rules, verified identity. Forked `pjmathematician/rsna-knee-d4-blend` as `shivoo29/rsna-knee-d4-blend`; removed its last 3 "OUR LEG" cells (they need the author's private datasets). **Version 2 submitted → 0.943.**
+2. Label tables vs gold-58 (macro AUC): `llm_labels_v4_blend` **0.893** (best; weak: Synovitis .79, Fracture .79, Lat OA .83, Contusion .86), v2 0.887, full 0.878. Our Qwen-9B 0.850, and blending it in hurts. Tables in `nartaa/...` and `dreaddevelopment/...` exclude the gold rows (cannot be scored). `train_labels_v1.parquet` likely contains gold copies (`y_`/`m_` columns): never use it for validation.
+3. **First own model `v4base`** on node1: CoAtNet-rmlp-2 384, 10 epochs, bs 4, accum 2, grad_ckpt, ~40 min/epoch. **Gold-58 macro AUC 0.8925**. Per finding: ACL .933, MCL .859, MedMen .975, LatMen .837, MedOA .957, **LatOA .766, PFOA .798**, Effusion .952, **Synovitis .827**, Baker's .995, Contusion .954, Fracture .858.
+4. Teacher probe notebook `shivoo29/rsna-knee-teacher-probe` (public ensemble predicting 58 gold + 300 train studies via a fake `RSNA_COMP_ROOT`): **COMPLETE, output not analysed yet** (download failed). Concern: the public models trained on these studies → predictions may be memorised.
