@@ -55,3 +55,7 @@ SWA applied from epoch 8 onwards to enhance generalization across clinical scann
 
 Predictions saved as NPZ arrays for Nelder-Mead ensemble weight optimization.
 
+## Submission Pipeline
+
+Fast CPU/GPU inference kernels with test-time augmentation (TTA) and ONNX/PyTorch runtime.
+
