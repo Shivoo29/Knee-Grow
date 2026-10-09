@@ -22,3 +22,28 @@ def calc_auc(preds, targets):
         y_t = targets[:, j]
         y_p = preds[:, j]
         if len(np.unique(y_t)) > 1:
+            aucs.append(roc_auc_score(y_t, y_p))
+        else:
+            aucs.append(np.nan)
+    return float(np.nanmean(aucs)), aucs
+
+def main():
+    files = sys.argv[1:]
+    if not files:
+        files = glob.glob("raptor_gold_*swa*.npz")
+    print(f"Loading {len(files)} models:")
+    preds_list = []
+    targets = None
+    names = []
+    for f in sorted(files):
+        if not os.path.exists(f):
+            print(f"  Missing: {f}")
+            continue
+        p, t = load_npz(f)
+        score, _ = calc_auc(p, t)
+        print(f"  • {os.path.basename(f)}: Gold Macro-AUC = {score:.4f}")
+        preds_list.append(p)
+        names.append(os.path.basename(f))
+        if targets is None:
+            targets = t
+
