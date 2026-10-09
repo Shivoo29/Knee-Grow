@@ -282,3 +282,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
 - **Kaggle Dataset `shivoo29/knee-our-models`**:
   - Successfully updated with all 5 model checkpoints:
     - `raptor_ft_v4base.pt`
+    - `raptor_ft_v5.pt`
+    - `raptor_ft_v5_swa.pt`
+    - `raptor_ft_v5s2.pt` (0.9180)
+    - `raptor_ft_v5s2_swa.pt` (0.9215)
+  - Status: Live and ready on Kaggle.
+
+- **Today's 3 Submissions Status**:
+  1. **Submission 1 (`rsna-knee-v5s2-fast-swa`)**:
+     - Status: **COMPLETE & GREEN** (Ready for User Submission)
+     - Teacher Probe (358 visible studies): 0 fallbacks (0.00%), steady throughput **0.943 s/study**.
+     - Visible Gold-58 macro-AUC: **0.9245**! Clean `submission.csv` produced.
+     - URL: `https://www.kaggle.com/code/shivoo29/rsna-knee-v5s2-fast-swa`
+  2. **Submission 2 (`rsna-knee-v5-blend-2-seeds`)**:
+     - Status: **COMPLETE & GREEN** (Ready for User Submission)
