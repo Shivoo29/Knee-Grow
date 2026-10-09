@@ -681,3 +681,34 @@ def main():
                 print(f"  [patience] no improvement for {patience_counter}/{a.patience} epoch(s) (best {best:.4f} at ep{best_state['epoch'] if best_state else 0})", flush=True)
 
         if best_state is not None:
+            _tmp = os.path.join(HERE, f"raptor_ft_{a.tag}.pt.tmp")
+            torch.save(best_state, _tmp)
+            os.replace(_tmp, os.path.join(HERE, f"raptor_ft_{a.tag}.pt"))
+            np.savez(os.path.join(HERE, f"raptor_gold_{a.tag}.npz"),
+                     pred=best_P, truth=Y, ids=np.array(gold_ids))
+            json.dump({"tag": a.tag, "src": src, "best_gold_auc": best,
+                       "aucs": best_state["aucs"], "hist": hist, "res": a.res,
+                       "epochs": a.epochs, "bb_lr": a.bb_lr, "head_lr": a.head_lr,
+                       "n_train": len(train_ids), "n_gold": len(gold_ids),
+                       "roi": a.roi, "roi_mode": a.roi_mode,
+                       "partial": True, "epochs_done": ep + 1},
+                      open(os.path.join(HERE, f"raptor_ft_{a.tag}.json"), "w"), indent=1)
+            if patience_counter == 0:
+                print(f"  [ckpt] best-so-far saved at ep{ep} ({best:.4f})", flush=True)
+
+        sel = hist[-1].get("oof_sub_auc", float("nan"))                 # selection score: masked OOF subset if scored, else gold
+        sel = sel if sel == sel else au
+        if len(topk) < TOPK or sel > min(t.get("sel", t["gold_auc"]) for t in topk):
+            topk.append({"model": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()},
+                         "gold_auc": au, "aucs": aucs, "src": src, "res": a.res,
+                         "arch": a.arch, "lab": LAB, "epoch": ep, "P": P, "sel": sel})
+            topk.sort(key=lambda t: -t.get("sel", t["gold_auc"]))
+            del topk[TOPK:]
+
+            # Save running SWA checkpoint whenever topk updates!
+            if len(topk) > 1:
+                sds = [t["model"] for t in topk]
+                avg = {}
+                for k in sds[0]:
+                    v0 = sds[0][k]
+                    if v0.is_floating_point():
