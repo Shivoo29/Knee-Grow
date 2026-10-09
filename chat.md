@@ -111,3 +111,17 @@ Read this first if you are a new model/session continuing this work. **Solo (tea
 
 ## 9. Useful commands
 ```bash
+./status.sh                                                   # everything at a glance
+ssh node1 'grep -E "^ep|BEST" ~/projects/knee/<tag>.log | tail' # training progress
+ssh node1 tmux ls                                             # running jobs
+
+# Launch training (tonight initial run, budget = hours until 06:30 minus 0.6 h buffer):
+ssh node1 'tmux new -d -s train "cd ~/projects/knee && export RAPTOR_INPUT=\$HOME/projects/knee/ds RAPTOR_PRELOAD=1 && ~/miniconda3/envs/knee/bin/python train_knee.py --ckpt timm --arch coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k --res 384 --epochs 16 --bs 2 --accum 8 --k 12 --k_eval 42 --bb_lr 4e-5 --head_lr 2e-3 --wd 0.05 --time_budget_h 12.3 --tag v5 --labels labels_avg.parquet 2>&1 | tee v5.log; sleep 1d"'
+
+# Resume paused / interrupted run:
+# NOTE: on --resume, train_knee.py shifts t0 by elapsed time, so --time_budget_h is CUMULATIVE across nights (budget = night1_elapsed + tonight_window, e.g. 7.5 + 8.0 = 15.5):
+ssh node1 'tmux new -d -s train "cd ~/projects/knee && export RAPTOR_INPUT=\$HOME/projects/knee/ds RAPTOR_PRELOAD=1 && ~/miniconda3/envs/knee/bin/python train_knee.py --ckpt timm --arch coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k --res 384 --epochs 16 --bs 2 --accum 8 --k 12 --k_eval 42 --bb_lr 4e-5 --head_lr 2e-3 --wd 0.05 --time_budget_h 15.5 --tag v5 --labels labels_avg.parquet --resume raptor_resume_v5.pt 2>&1 | tee -a v5.log; sleep 1d"'
+
+# GPU Lock:
+ssh node1 'echo "shivoo v5 until 06:30" > /tmp/knee_gpu.lock'
+
