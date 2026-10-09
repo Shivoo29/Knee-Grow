@@ -588,3 +588,34 @@ def main():
             sched_sd = R_["sched"]
             if steps != sched_sd.get("total_steps"):
                 print(f"[sched] adapting OneCycleLR total_steps from {sched_sd.get('total_steps')} to {steps} for {a.epochs} epochs", flush=True)
+                sched_sd["total_steps"] = steps
+            sched.load_state_dict(sched_sd)
+        if R_.get("scaler") is not None and scaler.is_enabled(): scaler.load_state_dict(R_["scaler"])
+        best, best_state, best_P, hist, topk = R_["best"], R_["best_state"], R_["best_P"], R_["hist"], R_["topk"]
+        ep_start = int(R_["epoch"]) + 1; t0 -= float(R_.get("elapsed", 0.0))
+        patience_counter = int(R_.get("patience_counter", 0))
+        if "rng" in R_ and R_["rng"]:
+            rng = R_["rng"]
+            if "torch" in rng: torch.set_rng_state(rng["torch"])
+            if "cuda" in rng and rng["cuda"] and torch.cuda.is_available():
+                torch.cuda.set_rng_state_all(rng["cuda"])
+            if "numpy" in rng: np.random.set_state(rng["numpy"])
+            if "python" in rng: random.setstate(rng["python"])
+        print(f"[resume] from {os.path.basename(a.resume)}: continuing at epoch {ep_start}/{a.epochs} (best {best:.4f}, patience {patience_counter}/{a.patience})", flush=True)
+        del R_
+    for ep in range(ep_start, a.epochs):
+        model.train(); tot = 0.0; tot_t = None
+        opt.zero_grad(); n_acc = 0
+        _te = time.time(); _ts = time.time(); _step = 0
+        for x, y in tl:
+            if _interrupted:
+                print(f"[signal] Interrupt triggered at step {_step}/{len(tl)}", flush=True)
+                break
+            x, y = x.to(dev, non_blocking=True), y.to(dev, non_blocking=True)
+            with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
+                logits = model(x)
+                loss = lossf(logits.float(), y)
+            scaler.scale(loss / a.accum).backward(); n_acc += 1
+            if XLA: tot_t = loss.detach() if tot_t is None else tot_t + loss.detach()   # no per-step host sync on XLA
+            else: tot += loss.item()
+            if XLA and n_acc < a.accum: XLA.mark_step()
