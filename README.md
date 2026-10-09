@@ -82,3 +82,7 @@ Distributed training managed via `status.sh` monitoring node utilization.
 
 PyTorch, Torchvision, TIMM, Albumentations, Pydicom, Pandas, NumPy, PyArrow.
 
+## Hardware Requirements
+
+Recommended: NVIDIA GPU with at least 16GB VRAM (RTX 3090 / 4090 / A100 / V100).
+
