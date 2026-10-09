@@ -91,3 +91,34 @@ RSNA = os.path.dirname(HERE)
 # ---------------------------------------------------------------------------
 # Input discovery. On Kaggle the corpus arrives as two read-only datasets and the
 # competition data as a third, so nothing lives beside this script. Everything in
+# this block is discovery only - the training code further down is unchanged.
+# ---------------------------------------------------------------------------
+def _find(*names, root=os.environ.get("RAPTOR_INPUT", "/kaggle/input")):
+    """First path under root whose basename matches one of names."""
+    for d, _, fs in os.walk(root):
+        for n in names:
+            if n in fs:
+                return os.path.join(d, n)
+    return None
+
+
+class _TwoPartVols:
+    """Presents the two published corpus parts as one array of shape (4407, 44, 336, 336).
+
+    Both parts stay memory-mapped and are never concatenated on disk: copying 22 GB would be
+    pointless when every read is a single study. Row order is part 1 then part 2, matching the
+    order the id files concatenate in. That ordering is the contract between volumes, masks and
+    ids, so do not sort any of them independently.
+    """
+    def __init__(self, a, b):
+        self.a, self.b = a, b
+        self.n_a = a.shape[0]
+        self.shape = (a.shape[0] + b.shape[0],) + tuple(a.shape[1:])
+
+    def __len__(self):
+        return self.shape[0]
+
+    def __getitem__(self, row):
+        return self.a[row] if row < self.n_a else self.b[row - self.n_a]
+
+
