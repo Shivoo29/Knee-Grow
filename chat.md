@@ -26,3 +26,17 @@ Read this first if you are a new model/session continuing this work. **Solo (tea
 
 ## 4. Machines (see also memory `machines.md`)
 | Machine | Access | Use | Notes |
+|---|---|---|---|
+| **node1** | `ssh node1` (alias in `~/.ssh/config`, key `~/.ssh/id_ed25519`) | Main training. L4 24 GB, 64 cores, 251 GB RAM | **Shared box: someone kills jobs after ~7 AM IST → plan runs to finish before 7 AM** (or ask the user about daytime availability). /home is shared NFS: keep our footprint ≲60 GB. Conda env `knee` (torch 2.11 cu128; the driver only supports CUDA 12.8). **In tmux call `~/miniconda3/envs/knee/bin/python` directly** (`conda run` fails). Set env vars *inside* the tmux command. |
+| **PC (local)** | this machine | Control, analysis, second trainer | RTX 4070S 12 GB, 30 GB RAM (often 20+ GB used). Project venv `.venv` (torch cu128, timm, pandas, sklearn, pyarrow). **The user runs their own `finetune.py` on this GPU (~6.4 GB). Never kill it.** |
+| Local LLM | `qwen start / stop / status / logs / chat` | Qwen3.5-9B Q6_K via llama.cpp, `127.0.0.1:8080/v1` | systemd user service, disabled by default. Source: `~/.local/src/llama.cpp`, model `~/models/`. |
+| Kaggle | `kaggle` CLI (user `shivoo29`) | Submissions, inference | `kaggle kernels push` is allowed in `.claude/settings.local.json`. 30 GPU-h/week. |
+| **Azure "MinisAi"** | — | **NEVER USE** | Company production backend. |
+
+## 5. Files
+**PC: `~/Documents/still_learning/rsna-knee-abnormality-detection/`**
+- `status.sh`: one command showing submissions, notebook status, node1 epochs and download progress.
+- `data/train.csv` (+ test/sample csvs), `data/llm_labels_v4_blend.csv`, `data/llm_qwen.*` (Qwen labels for the 58 gold studies only)
+- `ds/corpus1`, `ds/corpus2`: preprocessed image corpus (21 GB), `ds/comp/train.csv`
+- `train_knee.py`: the public training script (from `nartaa/rsna-knee-hpo-assets`), used as-is
+- `labels_v4.parquet`: training labels (v4_blend, gold rows removed)
