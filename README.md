@@ -78,3 +78,7 @@ Distributed training managed via `status.sh` monitoring node utilization.
 - ConvNeXt-Small SWA: 0.947 AUC
 - Final Multi-Seed Ensemble: Top 1% tier
 
+## Dependencies
+
+PyTorch, Torchvision, TIMM, Albumentations, Pydicom, Pandas, NumPy, PyArrow.
+
