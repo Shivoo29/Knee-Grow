@@ -650,3 +650,34 @@ def main():
         if XLA:
             XLA.wait_device_ops(); print(f"  [xla] train loop {time.time()-_te:.0f}s for {_step} micro-steps", flush=True); _te = time.time()
         if XLA and tot_t is not None: tot = float(tot_t.item())
+        au, aucs, P, Y = evaluate()
+        if XLA: print(f"  [xla] gold eval {time.time()-_te:.0f}s", flush=True); _te = time.time()
+        hist.append({"ep": ep, "loss": tot / len(tl), "gold_auc": au})
+        if sl is not None:
+            model.eval(); Ps = []; Ys = []
+            with torch.no_grad():
+                for x, y in sl:
+                    with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
+                        Ps.append(torch.sigmoid(model(x.to(dev)).float()).cpu().numpy())
+                    Ys.append(y.numpy())
+            Ps = np.concatenate(Ps); Ys = np.concatenate(Ys); sub = []
+            for j in range(len(LAB)):
+                kk = sub_mask[:, j] > 0; yb = (Ys[kk, j] >= 0.5).astype(int)
+                if len(set(yb)) > 1: sub.append(float(roc_auc_score(yb, Ps[kk, j])))
+            so = float(np.mean(sub)) if sub else float("nan"); hist[-1]["oof_sub_auc"] = so
+            print(f"ep{ep} OOF{len(Ys)} masked macro-AUC {so:.4f}", flush=True)
+            if XLA: print(f"  [xla] oof-sub eval {time.time()-_te:.0f}s", flush=True)
+        if XLA and ep == ep_start:
+            import torch_xla.debug.metrics as _met; print(_met.short_metrics_report(), flush=True)
+        if au > best:
+            best = au; best_P = P
+            patience_counter = 0
+            best_state = {"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
+                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res,
+                          "arch": a.arch, "lab": LAB, "epoch": ep}
+        else:
+            patience_counter += 1
+            if a.patience > 0:
+                print(f"  [patience] no improvement for {patience_counter}/{a.patience} epoch(s) (best {best:.4f} at ep{best_state['epoch'] if best_state else 0})", flush=True)
+
+        if best_state is not None:
