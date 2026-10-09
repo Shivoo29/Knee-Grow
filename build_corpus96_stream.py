@@ -219,3 +219,77 @@ def _process_single_study(study_id):
         record["is_padded"] = (n < k or n_placed < k)
         slot_records.append(record)
 
+    mask = (vol.reshape(MAXS, -1).sum(axis=1) > 0).astype(np.uint8)
+    return study_id, vol, mask, slot_records
+
+
+def build_file_map_from_zip(zip_path):
+    """Scan ZIP directory structure once in RAM to map SeriesInstanceUID -> file paths."""
+    print(f"[zip] opening archive {zip_path} for TOC indexation...", flush=True)
+    t0 = time.time()
+    file_map = {}
+    with zipfile.ZipFile(zip_path, 'r') as z:
+        names = z.namelist()
+        print(f"[zip] indexed {len(names)} entries in {time.time()-t0:.1f}s", flush=True)
+        for name in names:
+            if not name.endswith(".dcm"):
+                continue
+            parts = name.split("/")
+            # expected format: train/<study_id>/<series_id>/<sop>.dcm
+            # or <study_id>/<series_id>/<sop>.dcm
+            if len(parts) >= 3:
+                series_id = parts[-2]
+                file_map.setdefault(series_id, []).append(name)
+    print(f"[zip] found {len(file_map)} unique DICOM series in {time.time()-t0:.1f}s", flush=True)
+    return file_map
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Build 96-slice 384px corpus by streaming from ZIP.")
+    parser.add_argument("--zip", type=str, required=True, help="Path to raw competition ZIP archive")
+    parser.add_argument("--train_csv", type=str, default="data/train.csv", help="Path to train.csv")
+    parser.add_argument("--series_csv", type=str, default="data/train_series.csv", help="Path to train_series.csv")
+    parser.add_argument("--out_dir", type=str, default="ds/corpus96", help="Output directory for .npy corpus")
+    parser.add_argument("--workers", type=int, default=16, help="Number of worker processes")
+    parser.add_argument("--limit", type=int, default=0, help="Optional limit on study count for testing")
+    args = parser.parse_args()
+
+    if not os.path.exists(args.zip):
+        raise FileNotFoundError(f"ZIP archive not found at: {args.zip}")
+    if not os.path.exists(args.train_csv):
+        raise FileNotFoundError(f"train.csv not found at: {args.train_csv}")
+    if not os.path.exists(args.series_csv):
+        raise FileNotFoundError(f"train_series.csv not found at: {args.series_csv}")
+
+    os.makedirs(args.out_dir, exist_ok=True)
+
+    # Load train and series metadata
+    print("[data] loading metadata...", flush=True)
+    train_df = pd.read_csv(args.train_csv)
+    study_ids = train_df["StudyInstanceUID"].astype(str).tolist()
+    if args.limit > 0:
+        study_ids = study_ids[:args.limit]
+    n_studies = len(study_ids)
+
+    series_df = pd.read_csv(args.series_csv)
+    series_df["StudyInstanceUID"] = series_df["StudyInstanceUID"].astype(str)
+    series_df["SeriesInstanceUID"] = series_df["SeriesInstanceUID"].astype(str)
+
+    # Group series by StudyInstanceUID into a dictionary of dict-records
+    series_map = {}
+    for sid, group in series_df.groupby("StudyInstanceUID"):
+        series_map[sid] = group.to_dict("records")
+
+    # Index ZIP contents in RAM
+    file_map = build_file_map_from_zip(args.zip)
+
+    # Allocate memory-mapped output arrays
+    vols_path = os.path.join(args.out_dir, "all_vols.npy")
+    masks_path = os.path.join(args.out_dir, "all_masks.npy")
+    ids_path = os.path.join(args.out_dir, "all_ids.npy")
+    slots_csv_path = os.path.join(args.out_dir, "slots.csv")
+
+    print(f"[corpus] allocating memmap storage for {n_studies} studies x {MAXS} slices x {IMG}x{IMG}...", flush=True)
+    total_gb = (n_studies * MAXS * IMG * IMG) / (1024**3)
+    print(f"[corpus] expected array size: {total_gb:.2f} GB at {vols_path}", flush=True)
+
