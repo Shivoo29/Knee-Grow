@@ -86,3 +86,7 @@ PyTorch, Torchvision, TIMM, Albumentations, Pydicom, Pandas, NumPy, PyArrow.
 
 Recommended: NVIDIA GPU with at least 16GB VRAM (RTX 3090 / 4090 / A100 / V100).
 
+## DICOM Series Alignment
+
+Automatic volume orientation mapping for Axial, Coronal, and Sagittal views.
+
