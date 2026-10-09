@@ -140,3 +140,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
   - Ep0: 0.7217 | Ep1: 0.8038 | Ep2: 0.8211 | Ep3: 0.8608 | Ep4: 0.8688 | **Ep5: 0.8984 (Best so far!)**
 - **Cleanly Paused**: Automatically halted after saving `raptor_resume_v5s1.pt` and `raptor_ft_v5s1.pt` at 02:34 IST. GPU idle and silent (21W).
 - **Resume Script Ready**: `./resume_pc_v5s1.sh` configured with `--epochs 20 --patience 5` and scheduler step adaptation. Resumes directly from Epoch 6 tomorrow morning.
+
+## 12. Adds from external "past competitions" study (Oct 8)
+- **5-fold teacher MUST use site-grouped folds** (random K-fold inflated AUC 0.05–0.14 via site leakage). No site column → build a proxy from DICOM headers (InstitutionName / Manufacturer / ManufacturerModelName / StationName) once the raw zip is on node1; GroupKFold on it.
+- Label cleaning à la Lumbar 2nd: OOF high-loss samples → drop/down-weight; mix labels:pseudo 50:50.
+- Cheap arch tweak to test later: bi-LSTM before attention-MIL pooling (Lumbar 1st).
+
+## 13. Kaggle Checkpoint Deployment & Dual FAST Submissions (Oct 9 01:55 IST)
+- Checkpoints exported from Node1 and uploaded to Kaggle dataset `shivoo29/knee-our-models`:
+  - `raptor_ft_v5.pt` (Epoch 12 Best, Gold AUC 0.9152)
+  - `raptor_ft_v5_swa.pt` (SWA over epochs [12, 13, 14], Gold AUC 0.9156)
+  - `raptor_ft_v4base.pt` (Baseline reference)
+- Dual FAST submission kernels launched & verified on Kaggle:
+  1. `shivoo29/rsna-knee-v5-fast-efficiency` (loads best single epoch: `raptor_ft_v5.pt`)
+  2. `shivoo29/rsna-knee-v5-fast-swa` (loads SWA ensemble: `raptor_ft_v5_swa.pt`)
