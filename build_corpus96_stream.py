@@ -293,3 +293,77 @@ def main():
     total_gb = (n_studies * MAXS * IMG * IMG) / (1024**3)
     print(f"[corpus] expected array size: {total_gb:.2f} GB at {vols_path}", flush=True)
 
+    # Open memmapped array for zero-RAM streaming write
+    vols_mmap = np.lib.format.open_memmap(vols_path, mode='w+', dtype=np.uint8, shape=(n_studies, MAXS, IMG, IMG))
+    masks_arr = np.zeros((n_studies, MAXS), dtype=np.uint8)
+    all_slots_records = []
+    saved_ids = []
+
+    print(f"[stream] launching {args.workers} workers...", flush=True)
+    t0 = time.time()
+    completed = 0
+
+    with ProcessPoolExecutor(max_workers=args.workers,
+                             initializer=_init_worker,
+                             initargs=(args.zip, file_map, series_map)) as executor:
+        futures = {executor.submit(_process_single_study, sid): (idx, sid) for idx, sid in enumerate(study_ids)}
+
+        for future in as_completed(futures):
+            orig_idx, sid = futures[future]
+            try:
+                out_sid, vol, mask, slot_recs = future.result()
+                vols_mmap[orig_idx] = vol
+                masks_arr[orig_idx] = mask
+                all_slots_records.extend(slot_recs)
+                saved_ids.append((orig_idx, out_sid))
+                completed += 1
+
+                if completed % 50 == 0 or completed == n_studies:
+                    elapsed = time.time() - t0
+                    speed = completed / max(elapsed, 1e-3)
+                    eta_s = (n_studies - completed) / max(speed, 1e-3)
+                    print(f"[{completed}/{n_studies}] {completed*100/n_studies:.1f}% | "
+                          f"{speed:.2f} studies/s | ETA: {eta_s/60:.1f}m", flush=True)
+            except Exception as e:
+                print(f"[ERROR] study {sid} failed: {e}", file=sys.stderr, flush=True)
+
+    # Flush memmapped vols to disk
+    vols_mmap.flush()
+    del vols_mmap
+
+    # Sort IDs and masks to ensure perfect index ordering
+    saved_ids.sort(key=lambda x: x[0])
+    ordered_ids = np.array([sid for _, sid in saved_ids], dtype=object)
+
+    np.save(masks_path, masks_arr)
+    np.save(ids_path, ordered_ids)
+
+    # Save slots audit CSV
+    slots_df = pd.DataFrame(all_slots_records)
+    slots_df.to_csv(slots_csv_path, index=False)
+    print(f"[audit] saved slot coverage record to {slots_csv_path} ({len(slots_df)} rows)", flush=True)
+
+    # Print validation & summary statistics
+    total_time = time.time() - t0
+    print("\n" + "=" * 60)
+    print(f"CORPUS 96-SLICE BUILD COMPLETE in {total_time/60:.1f}m ({total_time/n_studies:.2f} s/study)")
+    print("=" * 60)
+    print(f"Output files:")
+    print(f"  Volumes:  {vols_path} ({os.path.getsize(vols_path) / (1024**3):.2f} GB)")
+    print(f"  Masks:    {masks_path} ({os.path.getsize(masks_path) / (1024**2):.2f} MB)")
+    print(f"  IDs:      {ids_path} ({len(ordered_ids)} entries)")
+    print(f"  Audit:    {slots_csv_path}")
+
+    # Slot fill rate summary
+    fill_summary = slots_df.groupby("slot_plane")["filled"].agg(
+        total_slots="count",
+        filled_slots="sum",
+        fill_rate=lambda x: f"{x.mean()*100:.1f}%"
+    )
+    print("\nSlot Fill Rates by Anatomical Plane:")
+    print(fill_summary)
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    main()
