@@ -30,3 +30,36 @@ SAGITTAL_SLOTS = (0, 1)
 
 # Sampling window span within each series (0.02 to 0.98 to capture collateral ligaments & meniscal roots)
 SPAN_LO = 0.02
+SPAN_HI = 0.98
+
+# Percentile contrast windowing
+NORM_LO_PCT = 2.0
+NORM_HI_PCT = 98.0
+
+
+def parse_dicom_header(source):
+    """Parses spatial position and pixel spacing from a DICOM file or bytes buffer.
+    
+    Args:
+        source: file path (str/Path) or bytes / io.BytesIO.
+    Returns:
+        (pos, ps, is_valid):
+            pos: float projection of ImagePositionPatient onto slice normal (r x c)
+            ps: float pixel spacing in mm
+            is_valid: bool indicating successful read
+    """
+    try:
+        if isinstance(source, (bytes, bytearray)):
+            source = io.BytesIO(source)
+        h = pydicom.dcmread(source, stop_before_pixels=True)
+        iop = getattr(h, 'ImageOrientationPatient', None)
+        ipp = getattr(h, 'ImagePositionPatient', None)
+        if iop is not None and ipp is not None and len(iop) == 6:
+            r = np.array(iop[:3], dtype=np.float64)
+            c = np.array(iop[3:], dtype=np.float64)
+            n = np.cross(r, c)
+            pos = float(np.dot(np.array(ipp, dtype=np.float64), n))
+        else:
+            pos = float(getattr(h, 'InstanceNumber', 0) or 0)
+        ps_val = getattr(h, 'PixelSpacing', None)
+        ps = float(ps_val[0]) if ps_val is not None else 0.5
