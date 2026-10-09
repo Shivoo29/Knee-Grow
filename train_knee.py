@@ -805,3 +805,34 @@ def main():
                      pred=Pens, truth=Yo, ids=np.array(oof_ids), fold=a.fold, nfolds=a.folds)
             print(f"[cv] wrote epoch-ensemble OOF over epochs {sorted(oof_by_ep)}", flush=True)
         model.load_state_dict(best_state["model"]); model.eval()
+
+    # --- weight-averaged checkpoint (new) ---
+    if len(topk) > 1:
+        import copy
+        sds = [t["model"] for t in topk]
+        avg = {}
+        for k in sds[0]:
+            v0 = sds[0][k]
+            if v0.is_floating_point():
+                avg[k] = sum(sd[k].double() for sd in sds).div(len(sds)).to(v0.dtype)
+            else:
+                avg[k] = v0.clone()          # e.g. num_batches_tracked
+        swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res,
+                     "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
+                     "swa_over": [int(t["epoch"]) for t in topk]}
+        model.load_state_dict(avg); model.eval()
+        au_swa, aucs_swa, P_swa, Y_swa = evaluate()
+        swa_state["gold_auc"] = au_swa; swa_state["aucs"] = aucs_swa
+        torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
+        np.savez(os.path.join(HERE, f"raptor_gold_{a.tag}_swa.npz"),
+                 pred=P_swa, truth=Y_swa, ids=np.array(gold_ids))
+        print(f"SWA over epochs {[int(t['epoch']) for t in topk]} | gold {au_swa:.4f} "
+              f"(best-epoch {best:.4f}) {'BETTER' if au_swa > best else 'no gain'}", flush=True)
+        if a.folds > 0 and oof_ids:
+            ods2 = StudyWindows(HERE, oof_ids, id2row, labels, a.res, a.k_eval, train=False,
+                                norm=a.norm, **_roi_kw)
+            ol2 = DataLoader(ods2, batch_size=max(2, a.bs // 2), shuffle=False,
+                             num_workers=a.workers, collate_fn=collate, persistent_workers=False, worker_init_fn=WIF)
+            Ps = []
+            with torch.no_grad():
+                for x, y in ol2:
