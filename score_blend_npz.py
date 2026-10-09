@@ -47,3 +47,28 @@ def main():
         if targets is None:
             targets = t
 
+    if len(preds_list) < 2:
+        return
+
+    # Prob blend
+    prob_blend = np.mean(preds_list, axis=0)
+    prob_score, p_aucs = calc_auc(prob_blend, targets)
+    print(f"\n[EQUAL PROB BLEND] ({len(preds_list)} models): {prob_score:.4f}")
+
+    # Rank blend
+    rank_preds = []
+    for p in preds_list:
+        rp = np.zeros_like(p)
+        for j in range(12):
+            rp[:, j] = rankdata(p[:, j]) / len(p)
+        rank_preds.append(rp)
+    rank_blend = np.mean(rank_preds, axis=0)
+    rank_score, r_aucs = calc_auc(rank_blend, targets)
+    print(f"[EQUAL RANK BLEND] ({len(preds_list)} models): {rank_score:.4f}")
+
+    print("\nPer-Class Breakdown (Rank Blend):")
+    for name, auc in zip(LAB, r_aucs):
+        print(f"  {name:18s}: {auc:.4f}")
+
+if __name__ == "__main__":
+    main()
