@@ -67,3 +67,7 @@ bash run_coat224.sh
 bash run_convnext_pc.sh
 ```
 
+## Remote Cluster Ops
+
+Distributed training managed via `status.sh` monitoring node utilization.
+
