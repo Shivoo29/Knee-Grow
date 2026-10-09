@@ -42,3 +42,7 @@ data/
 - AdamW with weight decay 1e-2
 - Cosine Annealing with linear warmup
 
+## Stochastic Weight Averaging (SWA)
+
+SWA applied from epoch 8 onwards to enhance generalization across clinical scanners.
+
