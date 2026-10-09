@@ -94,3 +94,7 @@ Automatic volume orientation mapping for Axial, Coronal, and Sagittal views.
 
 Rank averaging and optimal probability thresholding per finding condition.
 
+## Post-Processing Rules
+
+Heuristic anatomical constraints applied to avoid contradictory findings.
+
