@@ -59,3 +59,11 @@ Predictions saved as NPZ arrays for Nelder-Mead ensemble weight optimization.
 
 Fast CPU/GPU inference kernels with test-time augmentation (TTA) and ONNX/PyTorch runtime.
 
+## Training Commands
+
+```bash
+bash run_resnet.sh
+bash run_coat224.sh
+bash run_convnext_pc.sh
+```
+
