@@ -154,3 +154,17 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
 - Dual FAST submission kernels launched & verified on Kaggle:
   1. `shivoo29/rsna-knee-v5-fast-efficiency` (loads best single epoch: `raptor_ft_v5.pt`)
   2. `shivoo29/rsna-knee-v5-fast-swa` (loads SWA ensemble: `raptor_ft_v5_swa.pt`)
+- STOP rule respected: Both kernels run on dummy test first; user manually clicks Submit on competition page once ready.
+
+## 14. Node1 Overnight Pipeline: systemd Service & Corpus96 Build (Oct 9 02:15 IST)
+- **Node1 `v5s2` running as native `systemd` user service (`knee-train.service`)**:
+  - Service unit: `~/.config/systemd/user/knee-train.service`, runner: `~/projects/knee/run_v5s2_systemd.sh`.
+  - Config: `--epochs 20 --patience 5 --bs 2 --accum 8 --seed 2 --tag v5s2 --labels labels_avg.parquet` (NO time budget cutoff!).
+  - User lingering active (`Linger=yes`), runs 24/7 independently of SSH sessions.
+  - Signal safety: Catches `SIGTERM` / `SIGINT` (180s graceful stop timeout), saves atomic resume state, best weights, and top-K SWA before exiting.
+  - Continuous checkpoints: `raptor_ft_v5s2.pt` (saved on every new best), `raptor_resume_v5s2.pt` (saved every epoch), `raptor_ft_v5s2_swa.pt` (saved every epoch top-K updates).
+  - Early stopping: Automatically terminates if validation score fails to improve for 5 consecutive epochs, preserving the best epoch.
+  - VRAM: 18.25 GB / 23.03 GB (100% util). Status check: `ssh node1 "systemctl --user status knee-train"`.
+- **Node1 Raw DICOM Download**:
+  - tmux `raw`: **103 GB / 247 GB (42%)** downloaded at ~9.8 MB/s. ETA ~06:30 IST.
+- **Corpus-96 Streaming Pipeline (`build_corpus96_stream.py`)**:
