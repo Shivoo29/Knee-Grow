@@ -90,3 +90,7 @@ Recommended: NVIDIA GPU with at least 16GB VRAM (RTX 3090 / 4090 / A100 / V100).
 
 Automatic volume orientation mapping for Axial, Coronal, and Sagittal views.
 
+## Ensembling & Blending
+
+Rank averaging and optimal probability thresholding per finding condition.
+
