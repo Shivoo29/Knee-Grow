@@ -253,3 +253,18 @@ kaggle competitions submissions rsna-knee-abnormality-detection -v
 - **Node1 247 GB Raw DICOM Zip Complete (100%)**:
   - `/home/s05814802723/projects/knee/raw/rsna-knee-abnormality-detection.zip` is **247 GB (100% finished)**.
   - Disk has **766 GB available** on `/home`.
+  - Shared preprocessing module `rsna_preproc.py` deployed and verified on node1.
+  - Streaming builder `build_corpus96_stream.py` ready to execute to generate 96-slice corpus (`corpus96`).
+
+- **Local PC (RTX 4070S)**:
+  - Resumed via `resume_pc_v5s1.sh` with schedule strictly preserved at 16 epochs (`RAPTOR_INPUT=ds`).
+  - Active under `systemd-inhibit` drawing 205W / 75°C at 100% compute.
+  - **Epoch 8 completed**: hit **0.9089 Gold macro-AUC** (saved `raptor_ft_v5s1.pt`), running SWA updated over epochs [8, 6, 5].
+  - Epoch 9/16 currently training.
+
+## 20. Midday Milestone: Corpus-96 Complete, V6 Training Live, All 3 Submission Kernels Built (Oct 9 12:45 IST)
+- **Node1 Corpus-96 Build Complete**:
+  - `build_corpus96_stream.py` finished in **56.7 minutes** across all 4,407 studies (0.77 s/study).
+  - Shape: `(4407, 96, 384, 384)` uint8 (58.10 GB `all_vols.npy`).
+  - Anatomical coverage fill rates:
+    - Axial: **100.0%** (4,407 / 4,407)
