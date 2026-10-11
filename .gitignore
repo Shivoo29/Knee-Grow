@@ -37,3 +37,4 @@ ds/axial_pfoa/
 specialist_pfoa/
 kaggle_dataset_upload/*.pt
 .zcodeignore
+kaggle_specialists_upload/
