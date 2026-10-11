@@ -28,7 +28,11 @@ Thumbs.db
 # Heavy binary dataset volumes (>100MB, exceeds GitHub limits)
 ds/corpus1/all_vols.npy
 ds/corpus2/extra_vols.npy
+ds/axial_pfoa/
+*.npy
+*.npz
 
 # PyTorch checkpoints and weights (>100MB, stored on Kaggle datasets)
 *.pt
+specialist_pfoa/
 kaggle_dataset_upload/*.pt
