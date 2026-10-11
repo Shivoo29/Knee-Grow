@@ -195,8 +195,7 @@ def build_96_volume(study_id, series_rows, study_dicom_map):
             if a is not None:
                 aw = np.clip((a - loq) / denom, 0.0, 1.0)
                 vol[idx] = (mm_crop_and_resize(aw, ps, target_res=IMG) * 255.0).astype(np.uint8)
-            idx += k
-            break  # fills one slot pick
+            idx += 1
     mask = (vol.reshape(TOTAL_SLICES, -1).sum(axis=1) > 0).astype(np.uint8)
     return vol, mask
 

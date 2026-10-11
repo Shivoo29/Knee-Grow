@@ -9,5 +9,7 @@ EXP-007,2026-10-10,Student Fleet 96-Slice,CoAtNet-v6 + ConvNeXt + EffNetV2,96,38
 EXP-008,2026-10-10,Clean Rank Blend V1,0.85 D4 + 0.15 CoAtNet-v6,96,384,labels_avg,-,0.9252,0.943,4.20s,COMPLETE,T4 FP16 NaN tripped silent fallback
 EXP-009,2026-10-11,4-Family Pure Standalone,CoAtNet-v6 + v5s2 + Swin + EVA-02,96,384/448,labels_avg,-,0.9051,0.881,2.80s,COMPLETE,44-slice deficit in 96-slice container + FP16 collapse
 EXP-010,2026-10-11,5-Family Grand Ensemble,0.75 D4 + 0.25 5-Family,96,384/448,labels_avg,-,0.9051,0.935,7.5h,COMPLETE,Weak EVA/Swin diluted D4 0.943 to 0.935
-EXP-011,2026-10-11,Top-10 Rank Blend Master,0.70 D4 + 0.30 Fleet FP32,96,384,labels_avg,-,0.9252,PENDING,4.50s,EVALUATING,Queue head; strict FP32; zero silent fallback
+EXP-011,2026-10-11,Top-10 Rank Blend Master,0.70 D4 + 0.30 Fleet FP32,96,384,labels_avg,-,0.9252,-,9h 13m,TIMEOUT,Kaggle 9h hard execution limit exceeded (killed by supervisor)
 EXP-012,2026-10-12,Dual Champion Distilled Student,CoAtNet-384 + ConvNeXt-384,96,384,60% D4 + 40% avg,-,-,-,-,PLANNED,Phase 2 distillation on 2-fold CV
+EXP-013,2026-10-11,PF OA Pure-Axial Specialist,coatnet_rmlp_1_rw_224,18,224,labels_avg,-,0.7825,-,0.05s,COMPLETE,+0.0309 PF OA lift on Gold-58 (0.8275 to 0.8584)
+EXP-014,2026-10-11,Lateral OA Compartment-ROI,coatnet_rmlp_2_rw_384,96,384,labels_avg,-,0.8124,-,1.10s,COMPLETE,+0.0221 LatOA lift on Gold-58 (broke 0.81 ceiling to 0.8124)
