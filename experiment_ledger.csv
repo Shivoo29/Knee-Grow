@@ -1,0 +1,13 @@
+Experiment_ID,Date,Description,Architecture,Slices,Resolution,Labels_Source,Val_AUC,Gold58_AUC,LB_Score,Runtime_Per_Study,Status,Verdict
+EXP-001,2026-10-07,Public D4 Blend Baseline,DINOv2 + multi-CoAtNet,Native,384,Public Probe,-,0.9430,0.943,-,COMPLETE,Public baseline ceiling
+EXP-002,2026-10-08,CoAtNet v5 Best Single,coatnet_rmlp_2_rw_384,44,384,labels_avg,-,0.9152,0.500,0.85s,FAILED,Folder path bug (0 slices decoded)
+EXP-003,2026-10-08,CoAtNet v5 SWA,coatnet_rmlp_2_rw_384,44,384,labels_avg,-,0.9156,0.917,0.85s,COMPLETE,Axial/Coronal slot inversion bug
+EXP-004,2026-10-09,CoAtNet v5 Fast (Fixed Slots),coatnet_rmlp_2_rw_384,44,384,labels_avg,-,0.9156,0.924,0.85s,COMPLETE,Fixed slot order; per-slot clipping
+EXP-005,2026-10-09,CoAtNet v5s2 Standalone,coatnet_rmlp_2_rw_384,44,384,labels_avg,-,0.9215,0.941,0.85s,COMPLETE,44-slice standalone ceiling
+EXP-006,2026-10-09,CoAtNet v6 SWA Standalone,coatnet_rmlp_2_rw_384,96,384,labels_avg,-,0.9252,0.936,2.45s,COMPLETE,Best honest single model
+EXP-007,2026-10-10,Student Fleet 96-Slice,CoAtNet-v6 + ConvNeXt + EffNetV2,96,384,labels_avg,-,0.9086,0.924,3.58s,COMPLETE,Diluted by weak EffNetV2 (0.844)
+EXP-008,2026-10-10,Clean Rank Blend V1,0.85 D4 + 0.15 CoAtNet-v6,96,384,labels_avg,-,0.9252,0.943,4.20s,COMPLETE,T4 FP16 NaN tripped silent fallback
+EXP-009,2026-10-11,4-Family Pure Standalone,CoAtNet-v6 + v5s2 + Swin + EVA-02,96,384/448,labels_avg,-,0.9051,0.881,2.80s,COMPLETE,44-slice deficit in 96-slice container + FP16 collapse
+EXP-010,2026-10-11,5-Family Grand Ensemble,0.75 D4 + 0.25 5-Family,96,384/448,labels_avg,-,0.9051,0.935,7.5h,COMPLETE,Weak EVA/Swin diluted D4 0.943 to 0.935
+EXP-011,2026-10-11,Top-10 Rank Blend Master,0.70 D4 + 0.30 Fleet FP32,96,384,labels_avg,-,0.9252,PENDING,4.50s,EVALUATING,Queue head; strict FP32; zero silent fallback
+EXP-012,2026-10-12,Dual Champion Distilled Student,CoAtNet-384 + ConvNeXt-384,96,384,60% D4 + 40% avg,-,-,-,-,PLANNED,Phase 2 distillation on 2-fold CV
