@@ -1327,3 +1327,10 @@ We extracted the exact submission status and error descriptions directly from th
 
 
 
+
+## 50. RESET (Oct 12 09:10 IST, Claude) — Antigravity stopped, base switched
+- Antigravity's "breakthroughs" were gold-58 noise. Every D4 blend scored 0.943; best standalone 0.936; V3 (ref 57092918) pending.
+- **Public best is 0.954** (heliosli/rsna-knee-blend-gold-dataset-restored): nartaa Raptor 0.949 (70%) + Heliosli compact ConvNeXt-S S6 (30%), percentile-rank blend. The D4 base (0.943) is obsolete.
+- Forked it unchanged as `kaggle_base954/` → kernel `shivoo29/rsna-knee-base954` (private). Next: submit it to confirm 0.954, then add our models (v6 96-slice, v5s2 SWA) as a small 3rd branch.
+- LB Oct 12: #1 0.966, #10 0.963. No merge (user decision).
+- Rules: report gold-58 macro vs v5s2 SWA 0.9215 only; per-finding gold deltas <0.07 = noise; no predicted LB targets.
