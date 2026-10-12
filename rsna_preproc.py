@@ -108,6 +108,15 @@ def mm_crop_and_resize(a, ps, crop_mm=CROP_MM, target_res=IMG):
     return cv2.resize(cropped, (target_res, target_res), interpolation=cv2.INTER_AREA)
 
 
+def _fluid_flag(v):
+    """0/1 Fluid_Sensitive flag; None for missing/NaN. (`x or -1` turned a real 0 into -1.)"""
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    return None if f != f else int(f)
+
+
 def pick_series_for_slot(series_rows, plane, fluid, used_series):
     """Selects the best available series matching plane and fluid-sensitivity criteria."""
     plane_norm = str(plane).strip().capitalize()
@@ -117,7 +126,7 @@ def pick_series_for_slot(series_rows, plane, fluid, used_series):
         and str(r.get('SeriesInstanceUID', '')) not in used_series
     ]
     if fluid in (0, 1):
-        pref = [r for r in cands if int(float(r.get('Fluid_Sensitive', -1) or -1)) == fluid]
+        pref = [r for r in cands if _fluid_flag(r.get('Fluid_Sensitive')) == fluid]
         if pref:
             return pref[0]
     return cands[0] if cands else None

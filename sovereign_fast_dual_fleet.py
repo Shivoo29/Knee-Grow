@@ -117,11 +117,20 @@ def mm_crop_and_resize(a, ps, crop_mm=CROP_MM, target_res=IMG):
     x0 = (w - cpx) // 2
     return cv2.resize(a[y0:y0 + cpx, x0:x0 + cpx], (target_res, target_res), interpolation=cv2.INTER_AREA)
 
+def _fluid_flag(v):
+    """0/1 Fluid_Sensitive flag; None for missing/NaN. (`x or -1` turned a real 0 into -1.)"""
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    return None if f != f else int(f)
+
+
 def pick_series(series_rows, plane, fluid, used_series):
     plane_norm = str(plane).strip().capitalize()
     cands = [r for r in series_rows if str(r.get('Anatomical_Plane', '')).strip().capitalize() == plane_norm and str(r.get('SeriesInstanceUID', '')) not in used_series]
     if fluid in (0, 1):
-        pref = [r for r in cands if int(float(r.get('Fluid_Sensitive', -1) or -1)) == fluid]
+        pref = [r for r in cands if _fluid_flag(r.get('Fluid_Sensitive')) == fluid]
         if pref:
             return pref[0]
     return cands[0] if cands else None
