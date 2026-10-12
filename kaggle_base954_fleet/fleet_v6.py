@@ -858,7 +858,7 @@ def main():
     if final_fallback_rate > 0.05 and n_real > 10:
         raise RuntimeError(f"FATAL GUARD TRIGGERED: Real test set fallback rate {final_fallback_rate:.2%} > 5% limit!")
 
-    final_sub.to_csv("submission.csv", index=False)
+    final_sub.to_csv(os.environ.get("RAPTOR_OUTPUT_CSV", "submission.csv"), index=False)
     print(f"\n[complete] submission.csv saved successfully with shape {final_sub.shape} and verified valid values!", flush=True)
 
 

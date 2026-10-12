@@ -1344,3 +1344,12 @@ We extracted the exact submission status and error descriptions directly from th
 - v6_s3_swa uploaded → private dataset `shivoo29/knee-v6-s3`.
 - node1: tmux `v6seeds` runs `run_v6_seeds.sh` (v6 recipe, seeds 4 then 5).
 - Next: base954 score → notebook base954 + our 5–7 seed fleet (rank 0.85/0.15).
+
+## 52. Oct 12 ~21:00 IST (Claude)
+- **base954 = 0.954 LB confirmed.** V3 = 0.943 (its fleet fed v5s2 a wrong 44-slice input built from 96 sagittal slots).
+- Fleet notebook `kaggle_base954_fleet/` (kernel shivoo29/rsna-knee-base954-fleet): base954 unchanged + our proven scripts (v5x3 LB-0.941 script; v6 script per seed v6/v6_s3/v6_s4), final = 0.85 pct(base) + 0.15 mean pct(fleet). v1 failed: fleet_v6.py hardcoded submission.csv → fixed (RAPTOR_OUTPUT_CSV). Per-script time guard 7.3 h.
+- Visible probe gold-58 (in-notebook): v5x3 0.9192, v6 0.9158.
+- node1: v6_s4 done, best gold **0.9273** (ep14). v6_s5 running. v6_s4_swa added to dataset shivoo29/knee-v6-s3.
+- Eval tricks tested on gold-58: mirror TTA no gain (0.9126 vs 0.9122); res 320/352 impossible (coatnet rmlp rel-pos fixed at 384).
+- Forum (kaggle CLI `competitions topics`): host allows LLM APIs for report labels; KneeCoT banned; OAI unruled → keep an OAI-free final pick. Opus-4.5 public labels = 0.892 gold (label ceiling ~0.90 confirmed).
+- Next: distillation (teacher = base954 on train studies, chunked) → student v6 recipe.

@@ -18,7 +18,7 @@ STAGE4 = r'''
 import glob, os, shutil, subprocess, sys, time
 import numpy as np, pandas as pd
 W_FLEET = 0.15
-SKIP_AFTER_H = 6.0   # our branch needs ~2 h on the hidden test; past this the base954 submission is kept as is
+STOP_AFTER_H = 7.3   # no new fleet script starts after this (each takes <= ~50 min on the hidden test)
 shutil.copyfile(WORK / 'submission.csv', WORK / 'base954_sub.csv')
 
 def find_one(name):
@@ -28,26 +28,30 @@ def find_one(name):
 
 SCRIPTS = {'v5x3': (FLEET_V5X3, None),
            'v6': (FLEET_V6, find_one('raptor_ft_v6_swa.pt')),
-           'v6_s3': (FLEET_V6, find_one('raptor_ft_v6_s3_swa.pt'))}
-elapsed_h = (time.time() - NB_T0) / 3600
-if elapsed_h > SKIP_AFTER_H:
-    print('FLEET_SKIPPED: %.2f h elapsed > %.1f h, keeping base954 submission' % (elapsed_h, SKIP_AFTER_H), flush=True)
-else:
-    outs = {}
-    for tag, (src, ckpt) in SCRIPTS.items():
-        path = Path('/tmp/fleet_%s.py' % tag)
-        path.write_text(src)
-        out = WORK / ('fleet_%s.csv' % tag)
-        env = dict(os.environ, RSNA_COMP_ROOT=str(DATA), RAPTOR_OUTPUT_CSV=str(out))
-        if ckpt:
-            env['RAPTOR_CKPT'] = ckpt
-        t = time.time()
-        rc = subprocess.run([sys.executable, '-u', str(path)], env=env, cwd='/tmp').returncode
-        if rc != 0:
-            raise RuntimeError('fleet %s failed with exit code %d' % (tag, rc))
-        print('FLEET_DONE %s %.0fs' % (tag, time.time() - t), flush=True)
-        outs[tag] = pd.read_csv(out, dtype={'StudyInstanceUID': str}).set_index('StudyInstanceUID').loc[test_ids, labels]
+           'v6_s3': (FLEET_V6, find_one('raptor_ft_v6_s3_swa.pt')),
+           'v6_s4': (FLEET_V6, find_one('raptor_ft_v6_s4_swa.pt'))}
+outs = {}
+for tag, (src, ckpt) in SCRIPTS.items():
+    elapsed_h = (time.time() - NB_T0) / 3600
+    if elapsed_h > STOP_AFTER_H:
+        print('FLEET_SKIPPED %s: %.2f h elapsed > %.1f h' % (tag, elapsed_h, STOP_AFTER_H), flush=True)
+        continue
+    path = Path('/tmp/fleet_%s.py' % tag)
+    path.write_text(src)
+    out = WORK / ('fleet_%s.csv' % tag)
+    env = dict(os.environ, RSNA_COMP_ROOT=str(DATA), RAPTOR_OUTPUT_CSV=str(out))
+    if ckpt:
+        env['RAPTOR_CKPT'] = ckpt
+    t = time.time()
+    rc = subprocess.run([sys.executable, '-u', str(path)], env=env, cwd='/tmp').returncode
+    if rc != 0:
+        raise RuntimeError('fleet %s failed with exit code %d' % (tag, rc))
+    print('FLEET_DONE %s %.0fs' % (tag, time.time() - t), flush=True)
+    outs[tag] = pd.read_csv(out, dtype={'StudyInstanceUID': str}).set_index('StudyInstanceUID').loc[test_ids, labels]
 
+if not outs:
+    print('FLEET_NONE: keeping base954 submission', flush=True)
+else:
     base = pd.read_csv(WORK / 'base954_sub.csv', dtype={'StudyInstanceUID': str}).set_index('StudyInstanceUID').loc[test_ids, labels]
     final = np.zeros((n, len(labels)))
     rho = {}
