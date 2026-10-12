@@ -1,23 +1,25 @@
 #!/usr/bin/env bash
-# One-shot status of everything running for the competition.
+# One-shot status: Kaggle submissions + kernels, node1 training, PC training.
 cd "$(dirname "$0")"
 C=rsna-knee-abnormality-detection
 
-echo "== Kaggle submissions (latest 3)"
+echo "== Kaggle submissions (latest 4)"
 kaggle competitions submissions $C -v 2>/dev/null | .venv/bin/python -c "
 import csv,sys
-for r in list(csv.DictReader(sys.stdin))[:3]:
-    print(r['date'][:16], r['status'].split('.')[-1], r['publicScore'] or '-', '|', r['description'][:50])"
+for r in list(csv.DictReader(sys.stdin))[:4]:
+    print(' ', r['date'][:16], r['status'].split('.')[-1], r['publicScore'] or '-', '|', r['description'][:55])"
 
 echo "== Kaggle notebooks"
-for k in shivoo29/rsna-knee-v5-fast-efficiency shivoo29/rsna-knee-v5-full-tta shivoo29/rsna-knee-v5-submission; do kaggle kernels status $k 2>/dev/null | sed 's/has status//'; done
+for k in rsna-knee-base954-fleet rsna-knee-teacher954-c0 rsna-knee-teacher954-c1 rsna-knee-teacher954-c2 rsna-knee-teacher954-c3; do
+  kaggle kernels status shivoo29/$k 2>/dev/null | sed 's/has status "KernelWorkerStatus./: /; s/"$//; s/^/  /'
+done
 
+echo "== node1 (newest training log)"
+ssh -o ConnectTimeout=5 node1 'cd ~/projects/knee; f=$(ls -t train_coat_*.log | head -1); echo "  $f"; grep -E "^ep" $f | tail -2 | cut -c1-90 | sed "s/^/  /";
+  nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader | sed "s/^/  GPU /"' 2>/dev/null || echo "  node1 unreachable"
 
-echo "== node1 training"
-ssh -o ConnectTimeout=5 node1 'grep -E "^ep|BEST" ~/projects/knee/v5.log 2>/dev/null | tail -3 | cut -c1-75 || grep -E "^ep|BEST" ~/projects/knee/v4base.log | tail -3 | cut -c1-75;
-  nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader' 2>/dev/null || echo "node1 unreachable"
-
-grep -E "^ep|BEST" coat224_v1.log 2>/dev/null | tail -3 | cut -c1-75 || grep -E "^ep|BEST" r50_v1.log 2>/dev/null | tail -3 | cut -c1-75 || echo "no local log yet"
-
-nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader 2>/dev/null
-
+echo "== PC"
+f=$(ls -t train_coat_*.log 2>/dev/null | head -1); echo "  $f"
+grep -E "^ep" "$f" 2>/dev/null | tail -2 | cut -c1-90 | sed 's/^/  /'
+pgrep -f "train_knee.py" >/dev/null && echo "  training process: running" || echo "  training process: NOT running"
+nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader | sed 's/^/  GPU /'

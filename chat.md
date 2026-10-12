@@ -1353,3 +1353,11 @@ We extracted the exact submission status and error descriptions directly from th
 - Eval tricks tested on gold-58: mirror TTA no gain (0.9126 vs 0.9122); res 320/352 impossible (coatnet rmlp rel-pos fixed at 384).
 - Forum (kaggle CLI `competitions topics`): host allows LLM APIs for report labels; KneeCoT banned; OAI unruled → keep an OAI-free final pick. Opus-4.5 public labels = 0.892 gold (label ceiling ~0.90 confirmed).
 - Next: distillation (teacher = base954 on train studies, chunked) → student v6 recipe.
+
+## 53. Oct 13 ~04:30 IST (Claude) — teacher chunk 0 done
+- Teacher = base954 run on train studies via fake RSNA_COMP_ROOT (kaggle_teacher954/, chunk k of 4 = ids[k::4], chunk 0 also has all gold-58). Chunk 0: 1,145 studies, 3.2 h (Raptor 25 min, compact 2.8 h), 0 failures. Outputs saved in teacher/c0_*.csv.
+- Gold-58 macro: Raptor 0.923, compact 0.927, base954 blend **0.931**, our CoAtNet v6 seed 3 0.925, best label table 0.904. Gold-58 cannot separate teacher from us (LB 0.954 vs ~0.94) → distil anyway, judge on LB.
+- Teacher is NOT a copy of the labels: Spearman vs labels_avg 0.52–0.84 per finding (lowest ACL/MCL/Fracture). Raptor vs compact 0.70–0.93.
+- Chunks 1, 2 pushed (kernels rsna-knee-teacher954-c1/-c2); chunk 3 after a slot frees. Kaggle GPU quota: 23 h left until Oct 17.
+- PC: CoAtNet v6 seed 6 training (run_pc_v6s6.sh, nohup). node1: v6 seed 5 ep6 gold 0.9007.
+- Research (ChatGPT/Fable, pasted by user): VLM labelling not viable (zero-shot ~50% on knee MOAKS); fastMRI+ best external set but needs NYU approval, coronal only; distillation expected +0.003–0.008, use per-finding teacher weights.
