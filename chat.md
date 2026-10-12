@@ -1288,12 +1288,14 @@ We extracted the exact submission status and error descriptions directly from th
     - Top-K Epoch OOFs: Epochs 8, 10, 11 and Epoch-Ensemble OOF.
 - **Fold 1 Active Training (Started 05:40:48 IST)**:
   - Dataset: 3,478 training studies, 871 held-out OOF studies.
+  - Step Timing: 869 steps @ 2.166 s/step = **1,882 seconds (~31.4 minutes) per epoch**. 12 epochs = ~6.28 hours per fold.
   - Trajectory So Far:
-    - Epoch 0: Loss `0.952` | Gold Macro-AUC `0.7038`
-    - Epoch 1: Loss `0.935` | Gold Macro-AUC `0.7440`
-    - Epoch 2: Loss `0.900` | Gold Macro-AUC `0.8116`
-    - Epoch 3: Loss `0.870` | Gold Macro-AUC `0.8270`
-    - Epoch 4: Actively computing forward/backward steps (869 steps/epoch, ~15.3 min/epoch).
+    - Epoch 0: Loss `0.952` | Gold Macro-AUC `0.7038` (1,918s)
+    - Epoch 1: Loss `0.935` | Gold Macro-AUC `0.7440` (3,861s)
+    - Epoch 2: Loss `0.900` | Gold Macro-AUC `0.8116` (5,800s)
+    - Epoch 3: Loss `0.870` | Gold Macro-AUC `0.8270` (7,743s) [Completed at 08:24 IST]
+    - Epoch 4: Actively computing forward/backward steps (ETA ~08:55 IST).
+    - Fold 1 Full Completion ETA: **~12:10 PM IST**.
 
 ### 2. Kaggle Champion Kernel V3 (`shivoo29/rsna-knee-top-10-rank-blend`) — DISPATCHED LIVE!
 - **Kernel Run Status**: **`KernelWorkerStatus.COMPLETE`** (Batch execution succeeded in 18.6 min!).
@@ -1309,14 +1311,16 @@ We extracted the exact submission status and error descriptions directly from th
 - Pure-Axial PF OA specialist finished all 16 epochs cleanly last night.
 - Checkpoint: `specialist_pfoa/specialist_pfoa_best.pt` (158 MB) with **`0.7825` PF OA AUC** and **`0.7944` Gold Macro-AUC**.
 - Checkpoint live on Kaggle: attached to [`shivoo29/rsna-knee-specialists`](https://www.kaggle.com/datasets/shivoo29/rsna-knee-specialists).
-- GPU currently idle (38°C, 2.3 GB desktop VRAM, 10 GB free) and available for distillation or student runs.
+- GPU currently idle (40°C, 1.1 GB desktop VRAM, 11 GB free) and available for distillation or student runs.
+- Transferring Node-1 Fold 0 checkpoints (`raptor_ft_coat_roi_5fold_f0.pt` and `_swa.pt`) to local `kaggle_dataset_upload/` to stage dataset update.
 
 ### 4. Fresh Daily Quota Status & Tactical Gameplan (Oct 12)
 - **Submissions Remaining Today**: **4 / 5** (Ref `57092918` consumed slot 1 of 5; 4 full slots still available).
 - **Tactical Plan for Remaining 4 Slots**:
   1. **Slot 1 (Live Now - Ref `57092918`)**: Top-10 Rank Blend V3 (70% D4 Public Consensus + 30% Dual Sovereign Fleet).
-  2. **Slot 2**: Fold 0 + Fold 1 Compartment-ROI Ensemble blend (once Fold 1 finishes ~08:50 AM IST).
+  2. **Slot 2**: Fold 0 Compartment-ROI Ensemble blend (`raptor_ft_coat_roi_5fold_f0_swa.pt`, Gold 0.8976) + D4 Consensus, OR wait for Fold 1 completion at ~12:10 PM IST for dual-fold blend.
   3. **Slot 3**: Sovereign Axial PF OA Specialist + Compartment LatOA Specialist blend.
   4. **Slot 4 & 5**: Reserved for 5-Fold Consolidated SWA distilled student.
+
 
 
