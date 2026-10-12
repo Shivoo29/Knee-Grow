@@ -1,0 +1,22 @@
+{
+  "id": "shivoo29/rsna-knee-base954-fleet",
+  "title": "rsna-knee-base954-fleet",
+  "code_file": "base954_fleet.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": [
+    "heliosli/rsna-knee-compact-v1",
+    "nartaa/rsna-knee-publication-swa-weights-20261007",
+    "heliosli/rsna-orthofoundation-fold0-epoch7-20261004",
+    "shivoo29/knee-our-models",
+    "shivoo29/knee-v6-s3"
+  ],
+  "kernel_sources": [],
+  "competition_sources": ["rsna-knee-abnormality-detection"],
+  "model_sources": [],
+  "machine_shape": "NvidiaTeslaT4"
+}
