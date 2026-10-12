@@ -1314,7 +1314,8 @@ We extracted the exact submission status and error descriptions directly from th
 - Checkpoint: `specialist_pfoa/specialist_pfoa_best.pt` (158 MB) with **`0.7825` PF OA AUC** and **`0.7944` Gold Macro-AUC**.
 - Checkpoint live on Kaggle: attached to [`shivoo29/rsna-knee-specialists`](https://www.kaggle.com/datasets/shivoo29/rsna-knee-specialists).
 - GPU currently idle (40°C, 1.1 GB desktop VRAM, 11 GB free) and available for distillation or student runs.
-- Transferring Node-1 Fold 0 checkpoints (`raptor_ft_coat_roi_5fold_f0.pt` and `_swa.pt`) to local `kaggle_dataset_upload/` to stage dataset update.
+- **Dataset Update Live (`shivoo29/rsna-knee-specialists`)**: Fold 0 checkpoints (`raptor_ft_coat_roi_5fold_f0.pt` and `_swa.pt`, Gold 0.8976) successfully uploaded to Kaggle and verified `ready`. The dataset now contains all 4 key models (Fold 0 Best, Fold 0 SWA, LatOA Specialist, PF OA Specialist) and is already attached to our master submission notebook!
+
 
 ### 4. Fresh Daily Quota Status & Tactical Gameplan (Oct 12)
 - **Submissions Remaining Today**: **4 / 5** (Ref `57092918` consumed slot 1 of 5; 4 full slots still available).
