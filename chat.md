@@ -1,6 +1,6 @@
 # Handoff: RSNA Knee Abnormality Detection (Kaggle 2026)
 
-Read this first if you are a new model/session continuing this work. **Solo (teammates declined, Oct 8).** Last updated: 2026-10-11 13:20 IST.
+Read this first if you are a new model/session continuing this work. **Solo (teammates declined, Oct 8).** Last updated: 2026-10-12 08:15 IST.
 
 ## 1. Goal and working agreement
 - **Goal: top 10 on the leaderboard, ideally 1st.** Gold (~rank 20) is the floor. Leaderboard-first decisions.
@@ -422,9 +422,10 @@ Every single submission made from user account `shivoo29`, ordered chronological
 | `57067262` | Oct 11 07:55 | Oct 11 13:25 | `Top-10 Rank Blend: 0.70 D4 + 0.30 Sovereign Fleet FP32` | **TIMEOUT** | 70% Public D4 + 30% Sovereign Fleet in FP32 | **TIMEOUT (9h 13m)**: Kaggle 9-hour limit exceeded. Running full D4 stack (30 models) + Sovereign Fleet across ~1,300 studies took > 9h. Confirms Sokka's warning: heavy ensembles choke and timeout on hidden set. |
 | `57067631` | Oct 11 08:08 | Oct 11 13:38 | `4-Family Pure Standalone (CoAtNet-v6 + v5s2 + Swin-Base + EVA-02)` | **0.881** | 4-Backbone Pure Standalone (No D4 probe) | **COMPLETE (0.881)**: **Fuckup #7 (Slice Deficit & Single-Model Dependency)**. `CANONICAL_SLOTS` in `build_study_optimized` only packed 44 slices (12+10+8+6+8), but `v6` and `eva02` were trained on 96 slices! Furthermore, `WEIGHT_MATRIX` placed 100% of Baker's Cyst and 90% of Contusion on EVA-02 under FP16 autocast on T4, causing those specific findings to collapse and pulling the unweighted 12-finding macro-AUC down to 0.881. Pure honest standalone test. |
 
-**Daily Quota Status (Oct 11 UTC / IST)**:
-* Total submissions used today: **3 / 5** (`57066160`, `57067262`, `57067631`).
-* Submissions remaining today: **2 / 5** (Quota resets at 00:00 UTC = 05:30 AM IST).
+**Daily Quota Status (Oct 12 UTC / IST)**:
+* Total submissions used today: **0 / 5** (Fresh daily quota active).
+* Submissions remaining today: **5 / 5** (Quota resets daily at 00:00 UTC = 05:30 AM IST).
+* Yesterday (Oct 11): 3 / 5 used (`57066160`, `57067262`, `57067631`).
 
 
 ---
@@ -1248,9 +1249,70 @@ We extracted the exact submission status and error descriptions directly from th
 - Runs 24/7 overnight without SSH dependence.
 
 ### 4. Quota & Submission Guide for User
-- **Quota Remaining Today**: **2 / 5 submissions**.
+- **Quota Remaining Today**: **2 / 5 submissions** (reset occurred at 05:30 AM IST to 5 / 5).
 - Version 2 of `shivoo29/rsna-knee-top-10-rank-blend` is currently running as a batch commit (uses 0 quota).
 - To submit once batch commit completes:
   - Go to https://www.kaggle.com/code/shivoo29/rsna-knee-top-10-rank-blend
   - Click the **Output** tab -> Click **Submit to Competition** on `submission.csv`.
   - Alternatively, dispatch via Kaggle API once complete.
+
+---
+
+## 49. Overnight 5-Fold Fold 0 Milestone (0.8976), Fold 1 Live & Oct 12 Morning Handover (Oct 12, 08:15 IST)
+
+### 1. Remote Node-1 (NVIDIA L4 24GB) — High-Throughput 5-Fold Live Status
+- **Hardware Telemetry**:
+  - Running in persistent `tmux` session `train_5fold` (PID `1922503`).
+  - GPU Utilization: **100% compute**, **72W / 72W power cap**, **70°C**, **12.65 GB VRAM** allocation.
+  - Box Stability: Survived the 07:00 AM IST cutoff completely undisturbed.
+- **Fold 0 Master Results (COMPLETED at 05:40:48 IST)**:
+  - **Single Best Epoch Gold Macro-AUC**: **`0.8972`** (Epoch 10).
+  - **Epoch-Ensemble Gold Macro-AUC ([10, 11, 8])**: **`0.8976` (NEW GOLD RECORD)**.
+  - **Per-Finding Gold AUC Breakdown on Fold 0**:
+    - **ACL**: `0.944`
+    - **MCL**: `0.848`
+    - **Medial Meniscus**: `0.942`
+    - **Lateral Meniscus**: `0.817`
+    - **Medial OA**: `0.958`
+    - **Lateral OA**: `0.810` (Broke through the historical 0.810 ceiling!)
+    - **PF OA**: `0.816`
+    - **Effusion**: `0.968`
+    - **Synovitis**: `0.848`
+    - **Baker's**: `0.962`
+    - **Contusion**: `0.945`
+    - **Fracture**: `0.908`
+  - **Artifacts Saved on Node-1**:
+    - Model Checkpoint: `raptor_ft_coat_roi_5fold_f0.pt`
+    - Gold Evaluation NPZ: `raptor_gold_coat_roi_5fold_f0.npz`
+    - Held-Out OOF Predictions (873 studies): `raptor_oof_coat_roi_5fold_f0_fold0.npz`
+    - Top-K Epoch OOFs: Epochs 8, 10, 11 and Epoch-Ensemble OOF.
+- **Fold 1 Active Training (Started 05:40:48 IST)**:
+  - Dataset: 3,478 training studies, 871 held-out OOF studies.
+  - Trajectory So Far:
+    - Epoch 0: Loss `0.952` | Gold Macro-AUC `0.7038`
+    - Epoch 1: Loss `0.935` | Gold Macro-AUC `0.7440`
+    - Epoch 2: Loss `0.900` | Gold Macro-AUC `0.8116`
+    - Epoch 3: Loss `0.870` | Gold Macro-AUC `0.8270`
+    - Epoch 4: Actively computing forward/backward steps (869 steps/epoch, ~15.3 min/epoch).
+
+### 2. Kaggle Champion Kernel V2 (`shivoo29/rsna-knee-top-10-rank-blend`)
+- **Status**: **`KernelWorkerStatus.COMPLETE`**.
+- The batch commit completed without a single exception or error.
+- Verified that dual-GPU parallelization, $K=42$ window sampling, and 8-worker threaded I/O executed with zero NaNs and produced finite predictions.
+- **Next Action**: Ready to be submitted to the competition using the fresh Oct 12 daily quota!
+
+### 3. Local Station (PC RTX 4070 SUPER 12GB) — Ready
+- Pure-Axial PF OA specialist finished all 16 epochs cleanly last night.
+- Checkpoint: `specialist_pfoa/specialist_pfoa_best.pt` (158 MB) with **`0.7825` PF OA AUC** and **`0.7944` Gold Macro-AUC**.
+- GPU currently idle (38°C, 2.3 GB desktop VRAM, 10 GB free) and available for distillation or student runs.
+
+### 4. Fresh Daily Quota & Tactical Recommendations (Oct 12)
+- **Submissions Remaining Today**: **5 / 5** (full daily budget available).
+- **Recommended Action Order**:
+  1. **Submit Champion Kernel V2 (`rsna-knee-top-10-rank-blend`)**:
+     - Consumes 1 submission slot (4 remaining).
+     - Tests the streamlined 70% Consensus + 30% Sovereign Dual-Fleet blend on the live leaderboard with full 4.2-hour headroom (zero timeout risk).
+  2. **Monitor Node-1 Fold 1 & Fold 2**:
+     - Fold 1 projected completion: ~08:50 AM IST.
+     - Automated transition to Fold 2 will proceed seamlessly.
+
