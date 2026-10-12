@@ -1294,8 +1294,10 @@ We extracted the exact submission status and error descriptions directly from th
     - Epoch 1: Loss `0.935` | Gold Macro-AUC `0.7440` (3,861s)
     - Epoch 2: Loss `0.900` | Gold Macro-AUC `0.8116` (5,800s)
     - Epoch 3: Loss `0.870` | Gold Macro-AUC `0.8270` (7,743s) [Completed at 08:24 IST]
-    - Epoch 4: Actively computing forward/backward steps (ETA ~08:55 IST).
+    - Epoch 4: Loss `0.862` | Gold Macro-AUC `0.8333` (9,685s) [Completed at 08:28 IST]
+    - Epoch 5: Actively computing forward/backward steps (ETA ~09:00 IST).
     - Fold 1 Full Completion ETA: **~12:10 PM IST**.
+
 
 ### 2. Kaggle Champion Kernel V3 (`shivoo29/rsna-knee-top-10-rank-blend`) — DISPATCHED LIVE!
 - **Kernel Run Status**: **`KernelWorkerStatus.COMPLETE`** (Batch execution succeeded in 18.6 min!).
