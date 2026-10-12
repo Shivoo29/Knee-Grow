@@ -1334,3 +1334,13 @@ We extracted the exact submission status and error descriptions directly from th
 - Forked it unchanged as `kaggle_base954/` → kernel `shivoo29/rsna-knee-base954` (private). Next: submit it to confirm 0.954, then add our models (v6 96-slice, v5s2 SWA) as a small 3rd branch.
 - LB Oct 12: #1 0.966, #10 0.963. No merge (user decision).
 - Rules: report gold-58 macro vs v5s2 SWA 0.9215 only; per-finding gold deltas <0.07 = noise; no predicted LB targets.
+
+## 51. Oct 12 ~10:30 IST (Claude)
+- **Quota Oct 12: 2/5 used** (V3 57092918 + base954), both pending.
+- All 19 submissions audited. Best own = **0.941 = v5 3-seed blend** (v5+v5s1+v5s2 SWA, kernel rsna-knee-v5-blend-3-seeds); ledger wrongly says v5s2 alone. Best single = 0.936 (v6).
+- Label research: all public tables scored on gold-58 (scratchpad score_all.py). Best jev_hybrid 0.9045; Qwen2.5-32B 0.869; GPT-5.6 0.849. yunusgmsoy v5 / yehezkiel / gperdrizet copy gold (=1.0, unusable). Report-label ceiling ~0.90 regardless of LLM → new LLM labeller dropped.
+- Teacher distillation caveat: nartaa Raptor trained on all train data (+2,399 OAI knees); compact fold split unknown → no clean OOF teacher.
+- Seeds on gold-58 (rank mean): v5 .9156, v5s1 .9120, v5s2 .9215, v6 .9137, **v6_s3 .9249** (was never uploaded). All 5 = .9249; combos .924–.929 (noise).
+- v6_s3_swa uploaded → private dataset `shivoo29/knee-v6-s3`.
+- node1: tmux `v6seeds` runs `run_v6_seeds.sh` (v6 recipe, seeds 4 then 5).
+- Next: base954 score → notebook base954 + our 5–7 seed fleet (rank 0.85/0.15).
