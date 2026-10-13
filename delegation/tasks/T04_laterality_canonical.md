@@ -70,7 +70,7 @@ Flags are applied at LOAD time (no corpus rebuild):
    - `apply_flags` with all-zero flags returns an identical array.
    - side vote: {L, L, R} -> `U` (any conflict -> `U`); {L, L} -> `L`; no tags -> `U`.
    - fleet_v6 copies identical to laterality.py.
-   Run with `.venv/bin/python -m pytest tests/test_laterality.py -q` and paste the exact output into results.
+   pytest is NOT installed (do not install it). Write plain `def test_*` functions plus a `__main__` block that runs them all, and run `.venv/bin/python tests/test_laterality.py`. Paste the exact output into results.
 
 ## Where you work (exceptions to PREAMBLE)
 - Create a git worktree: `git worktree add ../knee-lat -b laterality` from the project root, and edit ONLY inside
