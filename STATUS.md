@@ -92,3 +92,10 @@ Deadlines: merge Oct 15 (not merging), final **Oct 22**. 5 submissions/day, quot
 - Every result is compared against a baseline.
 - No co-author lines in commits. The user pushes to GitHub.
 - node1: full permission (since Oct 12). After the comp, push everything to GitHub and clear `~/projects/knee`.
+
+## Update Oct 13 evening
+- base954 + old fleet scored 0.953 (base954 alone 0.954): our label-trained models add nothing.
+- Teacher = base954 run on all train studies (4 Kaggle chunks), distilled labels = 0.6 teacher + 0.4 report labels (0.3/0.7 for Lateral OA, PF OA).
+- Distilled students (CoAtNet version 6, 96 slices): seed 7 best gold-58 0.9279, seed 8 best 0.9296 (previous best seed 0.9273). Gold-58 cannot separate these from noise; leaderboard decides.
+- Submitted: students only, and 0.85 base954 + 0.15 students (Kaggle descriptions are swapped, notebook names are correct). Scores pending.
+- Running: 24-epoch student (node1), student seed 10 (PC). Plan B if students do not help: rank-blend base954 with other strong public notebooks; final picks = best LB + an OAI-free safe one.
