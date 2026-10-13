@@ -1,0 +1,46 @@
+{
+ "tag": "coat_latoa_roi_f0",
+ "src": "timm-pretrained",
+ "best_gold_auc": 0.7625483221346957,
+ "aucs": {
+  "ACL": 0.741421568627451,
+  "MCL": 0.4897959183673469,
+  "Medial Meniscus": 0.7752403846153846,
+  "Lateral Meniscus": 0.7875776397515528,
+  "Medial OA": 0.8713178294573642,
+  "Lateral OA": 0.8104448742746615,
+  "PF OA": 0.7297297297297296,
+  "Effusion": 0.9689440993788819,
+  "Synovitis": 0.7945041816009557,
+  "Baker's": 0.7644927536231884,
+  "Contusion": 0.699055330634278,
+  "Fracture": 0.7180555555555554
+ },
+ "hist": [
+  {
+   "ep": 0,
+   "loss": 0.9336069163848122,
+   "gold_auc": 0.6774561633069759
+  },
+  {
+   "ep": 1,
+   "loss": 0.9233182426392004,
+   "gold_auc": 0.7255480318655548
+  },
+  {
+   "ep": 2,
+   "loss": 0.9034125083335113,
+   "gold_auc": 0.7625483221346957
+  }
+ ],
+ "res": 384,
+ "epochs": 16,
+ "bb_lr": 3.5e-05,
+ "head_lr": 0.0015,
+ "n_train": 3476,
+ "n_gold": 58,
+ "roi": true,
+ "roi_mode": "compartment",
+ "partial": true,
+ "epochs_done": 3
+}
