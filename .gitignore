@@ -38,3 +38,7 @@ specialist_pfoa/
 kaggle_dataset_upload/*.pt
 .zcodeignore
 kaggle_specialists_upload/
+
+# Model predictions / derived labels on competition train studies: keep off GitHub (rule 4.b data security)
+teacher/
+labels_distil_*.parquet
