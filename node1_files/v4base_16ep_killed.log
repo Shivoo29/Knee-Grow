@@ -1,0 +1,12 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/24 | bs 4 | tag v4base | roi=False(compartment)
+train 4349 | gold-val 58
+[corpus] preloaded into RAM in 184s
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+  [ckpt] best-so-far saved at ep0 (0.7203)
+ep0 loss 0.919 | GOLD macro-AUC 0.7203 (best 0.7203) | topk by gold: [0] | 2381s
+  [ckpt] best-so-far saved at ep1 (0.7673)
+ep1 loss 0.896 | GOLD macro-AUC 0.7673 (best 0.7673) | topk by gold: [1, 0] | 4761s
+  [ckpt] best-so-far saved at ep2 (0.8299)
+ep2 loss 0.847 | GOLD macro-AUC 0.8299 (best 0.8299) | topk by gold: [2, 1, 0] | 7143s

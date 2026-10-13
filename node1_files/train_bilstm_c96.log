@@ -1,0 +1,169 @@
+[info] Using device: cuda:0
+[1/4] Loading pre-extracted 96-slice corpus...
+      Total studies: 4407 | Feature shape: (4407, 96, 1024)
+      Training studies (soft targets): 4349
+      Validation studies (gold-58): 58
+      Reference CoAtNet v6 Gold Macro-AUC: 0.9153
+
+============================================================
+Training 96-Slice Bi-LSTM — Seed 0
+============================================================
+ep 00/35 | loss: 0.6019 | gold macro-AUC: 0.5758 (2.7s) ★ BEST
+ep 01/35 | loss: 0.5963 | gold macro-AUC: 0.5571 (2.1s)
+ep 02/35 | loss: 0.5940 | gold macro-AUC: 0.5585 (2.1s)
+ep 03/35 | loss: 0.5895 | gold macro-AUC: 0.5845 (2.1s) ★ BEST
+ep 04/35 | loss: 0.5850 | gold macro-AUC: 0.6093 (2.1s) ★ BEST
+ep 05/35 | loss: 0.5814 | gold macro-AUC: 0.6160 (2.1s) ★ BEST
+ep 06/35 | loss: 0.5786 | gold macro-AUC: 0.6054 (2.1s)
+ep 07/35 | loss: 0.5754 | gold macro-AUC: 0.6062 (2.1s)
+ep 08/35 | loss: 0.5725 | gold macro-AUC: 0.6497 (2.1s) ★ BEST
+ep 09/35 | loss: 0.5709 | gold macro-AUC: 0.6197 (2.1s)
+ep 10/35 | loss: 0.5670 | gold macro-AUC: 0.6341 (2.1s)
+ep 11/35 | loss: 0.5653 | gold macro-AUC: 0.6503 (2.1s) ★ BEST
+ep 12/35 | loss: 0.5610 | gold macro-AUC: 0.6343 (2.1s)
+ep 13/35 | loss: 0.5586 | gold macro-AUC: 0.6390 (2.1s)
+ep 14/35 | loss: 0.5550 | gold macro-AUC: 0.6397 (2.1s)
+ep 15/35 | loss: 0.5500 | gold macro-AUC: 0.6538 (2.1s) ★ BEST
+ep 16/35 | loss: 0.5459 | gold macro-AUC: 0.6441 (2.1s)
+ep 17/35 | loss: 0.5425 | gold macro-AUC: 0.6399 (2.1s)
+ep 18/35 | loss: 0.5375 | gold macro-AUC: 0.6418 (2.1s)
+ep 19/35 | loss: 0.5327 | gold macro-AUC: 0.6408 (2.1s)
+ep 20/35 | loss: 0.5288 | gold macro-AUC: 0.6508 (2.1s)
+ep 21/35 | loss: 0.5237 | gold macro-AUC: 0.6385 (2.1s)
+ep 22/35 | loss: 0.5198 | gold macro-AUC: 0.6435 (2.1s)
+ep 23/35 | loss: 0.5150 | gold macro-AUC: 0.6344 (2.1s)
+ep 24/35 | loss: 0.5112 | gold macro-AUC: 0.6432 (2.1s)
+ep 25/35 | loss: 0.5068 | gold macro-AUC: 0.6329 (2.1s)
+ep 26/35 | loss: 0.5028 | gold macro-AUC: 0.6276 (2.1s)
+ep 27/35 | loss: 0.5004 | gold macro-AUC: 0.6295 (2.1s)
+ep 28/35 | loss: 0.4972 | gold macro-AUC: 0.6246 (2.1s)
+ep 29/35 | loss: 0.4959 | gold macro-AUC: 0.6233 (2.1s)
+ep 30/35 | loss: 0.4937 | gold macro-AUC: 0.6288 (2.1s)
+ep 31/35 | loss: 0.4916 | gold macro-AUC: 0.6244 (2.1s)
+ep 32/35 | loss: 0.4906 | gold macro-AUC: 0.6227 (2.1s)
+ep 33/35 | loss: 0.4899 | gold macro-AUC: 0.6238 (2.1s)
+ep 34/35 | loss: 0.4900 | gold macro-AUC: 0.6244 (2.1s)
+Seed 0 finished. Best Gold AUC: 0.6538 (saved raptor_ft_bilstm_c96_s0.pt)
+
+============================================================
+Training 96-Slice Bi-LSTM — Seed 1
+============================================================
+ep 00/35 | loss: 0.6031 | gold macro-AUC: 0.5631 (2.1s) ★ BEST
+ep 01/35 | loss: 0.5943 | gold macro-AUC: 0.5651 (2.1s) ★ BEST
+ep 02/35 | loss: 0.5903 | gold macro-AUC: 0.5926 (2.1s) ★ BEST
+ep 03/35 | loss: 0.5882 | gold macro-AUC: 0.6110 (2.1s) ★ BEST
+ep 04/35 | loss: 0.5825 | gold macro-AUC: 0.6104 (2.1s)
+ep 05/35 | loss: 0.5792 | gold macro-AUC: 0.6208 (2.1s) ★ BEST
+ep 06/35 | loss: 0.5786 | gold macro-AUC: 0.6200 (2.1s)
+ep 07/35 | loss: 0.5753 | gold macro-AUC: 0.6243 (2.2s) ★ BEST
+ep 08/35 | loss: 0.5727 | gold macro-AUC: 0.6194 (2.1s)
+ep 09/35 | loss: 0.5699 | gold macro-AUC: 0.6268 (2.1s) ★ BEST
+ep 10/35 | loss: 0.5679 | gold macro-AUC: 0.6278 (2.1s) ★ BEST
+ep 11/35 | loss: 0.5632 | gold macro-AUC: 0.6234 (2.1s)
+ep 12/35 | loss: 0.5612 | gold macro-AUC: 0.6446 (2.1s) ★ BEST
+ep 13/35 | loss: 0.5572 | gold macro-AUC: 0.6583 (2.1s) ★ BEST
+ep 14/35 | loss: 0.5548 | gold macro-AUC: 0.6388 (2.1s)
+ep 15/35 | loss: 0.5504 | gold macro-AUC: 0.6405 (2.1s)
+ep 16/35 | loss: 0.5461 | gold macro-AUC: 0.6434 (2.1s)
+ep 17/35 | loss: 0.5423 | gold macro-AUC: 0.6531 (2.1s)
+ep 18/35 | loss: 0.5389 | gold macro-AUC: 0.6372 (2.1s)
+ep 19/35 | loss: 0.5341 | gold macro-AUC: 0.6358 (2.1s)
+ep 20/35 | loss: 0.5300 | gold macro-AUC: 0.6412 (2.2s)
+ep 21/35 | loss: 0.5250 | gold macro-AUC: 0.6324 (2.1s)
+ep 22/35 | loss: 0.5216 | gold macro-AUC: 0.6340 (2.1s)
+ep 23/35 | loss: 0.5167 | gold macro-AUC: 0.6335 (2.1s)
+ep 24/35 | loss: 0.5131 | gold macro-AUC: 0.6360 (2.1s)
+ep 25/35 | loss: 0.5097 | gold macro-AUC: 0.6304 (2.1s)
+ep 26/35 | loss: 0.5067 | gold macro-AUC: 0.6269 (2.2s)
+ep 27/35 | loss: 0.5027 | gold macro-AUC: 0.6172 (2.1s)
+ep 28/35 | loss: 0.5010 | gold macro-AUC: 0.6131 (2.1s)
+ep 29/35 | loss: 0.4980 | gold macro-AUC: 0.6158 (2.1s)
+ep 30/35 | loss: 0.4964 | gold macro-AUC: 0.6151 (2.1s)
+ep 31/35 | loss: 0.4951 | gold macro-AUC: 0.6176 (2.1s)
+ep 32/35 | loss: 0.4946 | gold macro-AUC: 0.6183 (2.1s)
+ep 33/35 | loss: 0.4940 | gold macro-AUC: 0.6168 (2.1s)
+ep 34/35 | loss: 0.4932 | gold macro-AUC: 0.6169 (2.1s)
+Seed 1 finished. Best Gold AUC: 0.6583 (saved raptor_ft_bilstm_c96_s1.pt)
+
+============================================================
+Training 96-Slice Bi-LSTM — Seed 2
+============================================================
+ep 00/35 | loss: 0.6023 | gold macro-AUC: 0.5414 (2.1s) ★ BEST
+ep 01/35 | loss: 0.5959 | gold macro-AUC: 0.5418 (2.1s) ★ BEST
+ep 02/35 | loss: 0.5925 | gold macro-AUC: 0.5742 (2.1s) ★ BEST
+ep 03/35 | loss: 0.5884 | gold macro-AUC: 0.6064 (2.1s) ★ BEST
+ep 04/35 | loss: 0.5848 | gold macro-AUC: 0.5943 (2.1s)
+ep 05/35 | loss: 0.5820 | gold macro-AUC: 0.6188 (2.1s) ★ BEST
+ep 06/35 | loss: 0.5787 | gold macro-AUC: 0.6329 (2.1s) ★ BEST
+ep 07/35 | loss: 0.5758 | gold macro-AUC: 0.6319 (2.1s)
+ep 08/35 | loss: 0.5723 | gold macro-AUC: 0.6509 (2.1s) ★ BEST
+ep 09/35 | loss: 0.5711 | gold macro-AUC: 0.6554 (2.1s) ★ BEST
+ep 10/35 | loss: 0.5684 | gold macro-AUC: 0.6713 (2.1s) ★ BEST
+ep 11/35 | loss: 0.5655 | gold macro-AUC: 0.6547 (2.1s)
+ep 12/35 | loss: 0.5611 | gold macro-AUC: 0.6485 (2.1s)
+ep 13/35 | loss: 0.5590 | gold macro-AUC: 0.6686 (2.1s)
+ep 14/35 | loss: 0.5558 | gold macro-AUC: 0.6394 (2.1s)
+ep 15/35 | loss: 0.5531 | gold macro-AUC: 0.6382 (2.1s)
+ep 16/35 | loss: 0.5483 | gold macro-AUC: 0.6442 (2.2s)
+ep 17/35 | loss: 0.5461 | gold macro-AUC: 0.6601 (2.1s)
+ep 18/35 | loss: 0.5405 | gold macro-AUC: 0.6394 (2.1s)
+ep 19/35 | loss: 0.5368 | gold macro-AUC: 0.6536 (2.1s)
+ep 20/35 | loss: 0.5331 | gold macro-AUC: 0.6407 (2.1s)
+ep 21/35 | loss: 0.5277 | gold macro-AUC: 0.6451 (2.1s)
+ep 22/35 | loss: 0.5239 | gold macro-AUC: 0.6510 (2.1s)
+ep 23/35 | loss: 0.5196 | gold macro-AUC: 0.6410 (2.1s)
+ep 24/35 | loss: 0.5162 | gold macro-AUC: 0.6354 (2.1s)
+ep 25/35 | loss: 0.5124 | gold macro-AUC: 0.6545 (2.1s)
+ep 26/35 | loss: 0.5087 | gold macro-AUC: 0.6472 (2.1s)
+ep 27/35 | loss: 0.5049 | gold macro-AUC: 0.6499 (2.1s)
+ep 28/35 | loss: 0.5022 | gold macro-AUC: 0.6483 (2.2s)
+ep 29/35 | loss: 0.5011 | gold macro-AUC: 0.6541 (2.1s)
+ep 30/35 | loss: 0.4988 | gold macro-AUC: 0.6444 (2.1s)
+ep 31/35 | loss: 0.4973 | gold macro-AUC: 0.6484 (2.1s)
+ep 32/35 | loss: 0.4964 | gold macro-AUC: 0.6489 (2.1s)
+ep 33/35 | loss: 0.4957 | gold macro-AUC: 0.6476 (2.1s)
+ep 34/35 | loss: 0.4949 | gold macro-AUC: 0.6470 (2.1s)
+Seed 2 finished. Best Gold AUC: 0.6713 (saved raptor_ft_bilstm_c96_s2.pt)
+
+============================================================
+96-SLICE BI-LSTM SUMMARY & EVALUATION
+============================================================
+  Seed 0 Gold Macro-AUC: 0.6538
+  Seed 1 Gold Macro-AUC: 0.6583
+  Seed 2 Gold Macro-AUC: 0.6713
+
+>>> 3-Seed 96-Slice Bi-LSTM Ensemble Gold Macro-AUC: 0.6698 <<<
+
+Per-class AUC breakdown:
+  ACL                 : 0.4779
+  MCL                 : 0.6735
+  Medial Meniscus     : 0.7296
+  Lateral Meniscus    : 0.6745
+  Medial OA           : 0.7643
+  Lateral OA          : 0.7369
+  PF OA               : 0.6770
+  Effusion            : 0.8062
+  Synovitis           : 0.7348
+  Baker's             : 0.6341
+  Contusion           : 0.6302
+  Fracture            : 0.4986
+
+------------------------------------------------------------
+CORRELATION & BLENDING WITH COATNET V6
+------------------------------------------------------------
+Mean Pearson correlation: 0.4078
+Mean Spearman rank correlation: 0.4030
+
+Rank-Average Blend Exploration (CoAtNet v6 + Bi-LSTM 96):
+  Weight 0.90 v6 + 0.10 Bi-LSTM96 -> AUC: 0.9133 (Δ -0.0020)
+  Weight 0.80 v6 + 0.20 Bi-LSTM96 -> AUC: 0.9083 (Δ -0.0070)
+  Weight 0.75 v6 + 0.25 Bi-LSTM96 -> AUC: 0.9020 (Δ -0.0133)
+  Weight 0.70 v6 + 0.30 Bi-LSTM96 -> AUC: 0.8956 (Δ -0.0197)
+  Weight 0.60 v6 + 0.40 Bi-LSTM96 -> AUC: 0.8749 (Δ -0.0404)
+
+------------------------------------------------------------
+3-WAY ENSEMBLE BLEND (CoAtNet v6 + Bi-LSTM 44 + Bi-LSTM 96)
+------------------------------------------------------------
+  0.60 v6 + 0.20 L44 + 0.20 L96 -> AUC: 0.8811 (Δ -0.0341)
+  0.50 v6 + 0.25 L44 + 0.25 L96 -> AUC: 0.8555 (Δ -0.0597)
+  0.70 v6 + 0.15 L44 + 0.15 L96 -> AUC: 0.8977 (Δ -0.0176)

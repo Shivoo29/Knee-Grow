@@ -1,0 +1,65 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/42 | bs 2 | tag v5 | roi=False(compartment)
+train 4349 | gold-val 58
+[corpus] preloaded into RAM in 5s
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+  [timing] 2174 steps in 1764.8s (0.812 s/step) | peak 16.86 GB (reserved 17.56 GB)
+  [ckpt] best-so-far saved at ep0 (0.7236)
+ep0 loss 0.934 | GOLD macro-AUC 0.7236 (best 0.7236) | topk by gold: [0] | 1794s
+  [timing] 2174 steps in 1764.1s (0.811 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep1 (0.7805)
+ep1 loss 0.913 | GOLD macro-AUC 0.7805 (best 0.7805) | topk by gold: [1, 0] | 3603s
+  [timing] 2174 steps in 1764.8s (0.812 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep2 (0.8429)
+ep2 loss 0.867 | GOLD macro-AUC 0.8429 (best 0.8429) | topk by gold: [2, 1, 0] | 5417s
+  [timing] 2174 steps in 1764.2s (0.811 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep3 (0.8548)
+ep3 loss 0.832 | GOLD macro-AUC 0.8548 (best 0.8548) | topk by gold: [3, 2, 1] | 7233s
+  [timing] 2174 steps in 1764.5s (0.812 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep4 (0.8759)
+ep4 loss 0.816 | GOLD macro-AUC 0.8759 (best 0.8759) | topk by gold: [4, 3, 2] | 9049s
+  [timing] 2174 steps in 1764.3s (0.812 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep5 (0.9000)
+ep5 loss 0.797 | GOLD macro-AUC 0.9000 (best 0.9000) | topk by gold: [5, 4, 3] | 10865s
+  [timing] 2174 steps in 1764.7s (0.812 s/step) | peak 16.86 GB (reserved 21.62 GB)
+ep6 loss 0.780 | GOLD macro-AUC 0.8953 (best 0.9000) | topk by gold: [5, 6, 4] | 12679s
+  [timing] 2174 steps in 1764.2s (0.812 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep7 (0.9006)
+ep7 loss 0.768 | GOLD macro-AUC 0.9006 (best 0.9006) | topk by gold: [7, 5, 6] | 14492s
+  [timing] 2174 steps in 1764.0s (0.811 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep8 (0.9068)
+ep8 loss 0.755 | GOLD macro-AUC 0.9068 (best 0.9068) | topk by gold: [8, 7, 5] | 16308s
+  [timing] 2174 steps in 1763.7s (0.811 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep9 (0.9130)
+ep9 loss 0.739 | GOLD macro-AUC 0.9130 (best 0.9130) | topk by gold: [9, 8, 7] | 18124s
+  [timing] 2174 steps in 1764.3s (0.812 s/step) | peak 16.86 GB (reserved 21.62 GB)
+ep10 loss 0.724 | GOLD macro-AUC 0.9114 (best 0.9130) | topk by gold: [9, 10, 8] | 19936s
+  [timing] 2174 steps in 1763.4s (0.811 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep11 (0.9140)
+ep11 loss 0.713 | GOLD macro-AUC 0.9140 (best 0.9140) | topk by gold: [11, 9, 10] | 21752s
+  [timing] 2174 steps in 1763.9s (0.811 s/step) | peak 16.86 GB (reserved 21.62 GB)
+  [ckpt] best-so-far saved at ep12 (0.9152)
+ep12 loss 0.701 | GOLD macro-AUC 0.9152 (best 0.9152) | topk by gold: [12, 11, 9] | 23570s
+  [timing] 2174 steps in 1764.1s (0.811 s/step) | peak 16.86 GB (reserved 21.62 GB)
+ep13 loss 0.691 | GOLD macro-AUC 0.9142 (best 0.9152) | topk by gold: [12, 13, 11] | 25385s
+  [timing] 2174 steps in 1764.4s (0.812 s/step) | peak 16.86 GB (reserved 21.62 GB)
+ep14 loss 0.686 | GOLD macro-AUC 0.9142 (best 0.9152) | topk by gold: [12, 13, 14] | 27198s
+  [timing] 2174 steps in 1764.0s (0.811 s/step) | peak 16.86 GB (reserved 21.62 GB)
+ep15 loss 0.683 | GOLD macro-AUC 0.9133 (best 0.9152) | topk by gold: [12, 13, 14] | 29010s
+
+DONE timm-pretrained | BEST GOLD macro-AUC 0.9152
+   ACL                0.978
+   MCL                0.986
+   Medial Meniscus    0.969
+   Lateral Meniscus   0.845
+   Medial OA          0.981
+   Lateral OA         0.766
+   PF OA              0.852
+   Effusion           0.968
+   Synovitis          0.800
+   Baker's            0.980
+   Contusion          0.955
+   Fracture           0.901
+saved raptor_ft_v5.pt / raptor_gold_v5.npz / raptor_ft_v5.json
+SWA over epochs [12, 13, 14] | gold 0.9156 (best-epoch 0.9152) BETTER
+TOPK epochs [12, 13, 14] | best 0.9152 | epoch-ensemble 0.9153 (BETTER)

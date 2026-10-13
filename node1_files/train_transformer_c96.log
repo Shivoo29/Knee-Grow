@@ -1,0 +1,130 @@
+[info] Using device: cuda:0
+[1/4] Loading pre-extracted 96-slice corpus...
+      Total studies: 4407 | Feature shape: (4407, 96, 1024)
+      Training studies: 4349 | Gold validation studies: 58
+
+============================================================
+Training 96-Slice Transformer Pooler — Seed 0
+============================================================
+ep 00/30 | loss: 0.6067 | gold macro-AUC: 0.5702 (2.8s) ★ BEST
+ep 01/30 | loss: 0.5984 | gold macro-AUC: 0.5524 (2.2s)
+ep 02/30 | loss: 0.5954 | gold macro-AUC: 0.5333 (2.3s)
+ep 03/30 | loss: 0.5944 | gold macro-AUC: 0.5489 (2.3s)
+ep 04/30 | loss: 0.5915 | gold macro-AUC: 0.5486 (2.3s)
+ep 05/30 | loss: 0.5913 | gold macro-AUC: 0.5745 (2.3s) ★ BEST
+ep 06/30 | loss: 0.5895 | gold macro-AUC: 0.5594 (2.2s)
+ep 07/30 | loss: 0.5881 | gold macro-AUC: 0.5862 (2.3s) ★ BEST
+ep 08/30 | loss: 0.5867 | gold macro-AUC: 0.5933 (2.3s) ★ BEST
+ep 09/30 | loss: 0.5877 | gold macro-AUC: 0.5905 (2.3s)
+ep 10/30 | loss: 0.5857 | gold macro-AUC: 0.5784 (2.2s)
+ep 11/30 | loss: 0.5854 | gold macro-AUC: 0.5995 (2.3s) ★ BEST
+ep 12/30 | loss: 0.5837 | gold macro-AUC: 0.5606 (2.3s)
+ep 13/30 | loss: 0.5836 | gold macro-AUC: 0.5825 (2.3s)
+ep 14/30 | loss: 0.5817 | gold macro-AUC: 0.5852 (2.3s)
+ep 15/30 | loss: 0.5815 | gold macro-AUC: 0.5940 (2.3s)
+ep 16/30 | loss: 0.5804 | gold macro-AUC: 0.5822 (2.3s)
+ep 17/30 | loss: 0.5801 | gold macro-AUC: 0.5855 (2.3s)
+ep 18/30 | loss: 0.5809 | gold macro-AUC: 0.5929 (2.3s)
+ep 19/30 | loss: 0.5781 | gold macro-AUC: 0.5946 (2.3s)
+ep 20/30 | loss: 0.5766 | gold macro-AUC: 0.6008 (2.3s) ★ BEST
+ep 21/30 | loss: 0.5779 | gold macro-AUC: 0.6042 (2.2s) ★ BEST
+ep 22/30 | loss: 0.5753 | gold macro-AUC: 0.6047 (2.3s) ★ BEST
+ep 23/30 | loss: 0.5744 | gold macro-AUC: 0.6065 (2.3s) ★ BEST
+ep 24/30 | loss: 0.5728 | gold macro-AUC: 0.6034 (2.3s)
+ep 25/30 | loss: 0.5718 | gold macro-AUC: 0.5984 (2.3s)
+ep 26/30 | loss: 0.5713 | gold macro-AUC: 0.5987 (2.3s)
+ep 27/30 | loss: 0.5700 | gold macro-AUC: 0.5988 (2.3s)
+ep 28/30 | loss: 0.5700 | gold macro-AUC: 0.5997 (2.2s)
+ep 29/30 | loss: 0.5697 | gold macro-AUC: 0.6006 (2.3s)
+Seed 0 finished. Best Gold AUC: 0.6065 (saved raptor_ft_xfmr_c96_s0.pt)
+
+============================================================
+Training 96-Slice Transformer Pooler — Seed 1
+============================================================
+ep 00/30 | loss: 0.6067 | gold macro-AUC: 0.5438 (2.3s) ★ BEST
+ep 01/30 | loss: 0.5988 | gold macro-AUC: 0.5605 (2.3s) ★ BEST
+ep 02/30 | loss: 0.5946 | gold macro-AUC: 0.5378 (2.3s)
+ep 03/30 | loss: 0.5927 | gold macro-AUC: 0.5372 (2.3s)
+ep 04/30 | loss: 0.5928 | gold macro-AUC: 0.5535 (2.3s)
+ep 05/30 | loss: 0.5900 | gold macro-AUC: 0.5556 (2.3s)
+ep 06/30 | loss: 0.5869 | gold macro-AUC: 0.5798 (2.3s) ★ BEST
+ep 07/30 | loss: 0.5875 | gold macro-AUC: 0.5731 (2.3s)
+ep 08/30 | loss: 0.5865 | gold macro-AUC: 0.5870 (2.3s) ★ BEST
+ep 09/30 | loss: 0.5851 | gold macro-AUC: 0.5921 (2.3s) ★ BEST
+ep 10/30 | loss: 0.5839 | gold macro-AUC: 0.5861 (2.3s)
+ep 11/30 | loss: 0.5838 | gold macro-AUC: 0.5956 (2.3s) ★ BEST
+ep 12/30 | loss: 0.5846 | gold macro-AUC: 0.5952 (2.3s)
+ep 13/30 | loss: 0.5829 | gold macro-AUC: 0.5727 (2.3s)
+ep 14/30 | loss: 0.5827 | gold macro-AUC: 0.5663 (2.3s)
+ep 15/30 | loss: 0.5806 | gold macro-AUC: 0.5672 (2.3s)
+ep 16/30 | loss: 0.5796 | gold macro-AUC: 0.5852 (2.3s)
+ep 17/30 | loss: 0.5783 | gold macro-AUC: 0.5691 (2.3s)
+ep 18/30 | loss: 0.5764 | gold macro-AUC: 0.5669 (2.3s)
+ep 19/30 | loss: 0.5760 | gold macro-AUC: 0.5729 (2.3s)
+ep 20/30 | loss: 0.5744 | gold macro-AUC: 0.5688 (2.3s)
+ep 21/30 | loss: 0.5737 | gold macro-AUC: 0.5765 (2.3s)
+ep 22/30 | loss: 0.5722 | gold macro-AUC: 0.5599 (2.3s)
+ep 23/30 | loss: 0.5705 | gold macro-AUC: 0.5664 (2.3s)
+ep 24/30 | loss: 0.5701 | gold macro-AUC: 0.5717 (2.3s)
+ep 25/30 | loss: 0.5687 | gold macro-AUC: 0.5747 (2.3s)
+ep 26/30 | loss: 0.5676 | gold macro-AUC: 0.5736 (2.3s)
+ep 27/30 | loss: 0.5670 | gold macro-AUC: 0.5750 (2.3s)
+ep 28/30 | loss: 0.5666 | gold macro-AUC: 0.5765 (2.3s)
+ep 29/30 | loss: 0.5667 | gold macro-AUC: 0.5750 (2.3s)
+Seed 1 finished. Best Gold AUC: 0.5956 (saved raptor_ft_xfmr_c96_s1.pt)
+
+============================================================
+Training 96-Slice Transformer Pooler — Seed 2
+============================================================
+ep 00/30 | loss: 0.6080 | gold macro-AUC: 0.5637 (2.2s) ★ BEST
+ep 01/30 | loss: 0.5991 | gold macro-AUC: 0.5662 (2.2s) ★ BEST
+ep 02/30 | loss: 0.5958 | gold macro-AUC: 0.5662 (2.2s)
+ep 03/30 | loss: 0.5941 | gold macro-AUC: 0.5602 (2.2s)
+ep 04/30 | loss: 0.5929 | gold macro-AUC: 0.5779 (2.2s) ★ BEST
+ep 05/30 | loss: 0.5905 | gold macro-AUC: 0.5651 (2.2s)
+ep 06/30 | loss: 0.5896 | gold macro-AUC: 0.5510 (2.2s)
+ep 07/30 | loss: 0.5892 | gold macro-AUC: 0.5904 (2.2s) ★ BEST
+ep 08/30 | loss: 0.5871 | gold macro-AUC: 0.6012 (2.2s) ★ BEST
+ep 09/30 | loss: 0.5866 | gold macro-AUC: 0.6143 (2.2s) ★ BEST
+ep 10/30 | loss: 0.5863 | gold macro-AUC: 0.5926 (2.2s)
+ep 11/30 | loss: 0.5844 | gold macro-AUC: 0.6029 (2.2s)
+ep 12/30 | loss: 0.5849 | gold macro-AUC: 0.5907 (2.2s)
+ep 13/30 | loss: 0.5838 | gold macro-AUC: 0.5810 (2.2s)
+ep 14/30 | loss: 0.5824 | gold macro-AUC: 0.6099 (2.2s)
+ep 15/30 | loss: 0.5822 | gold macro-AUC: 0.5843 (2.2s)
+ep 16/30 | loss: 0.5808 | gold macro-AUC: 0.6111 (2.2s)
+ep 17/30 | loss: 0.5791 | gold macro-AUC: 0.6170 (2.2s) ★ BEST
+ep 18/30 | loss: 0.5782 | gold macro-AUC: 0.5967 (2.2s)
+ep 19/30 | loss: 0.5772 | gold macro-AUC: 0.6052 (2.2s)
+ep 20/30 | loss: 0.5761 | gold macro-AUC: 0.6140 (2.2s)
+ep 21/30 | loss: 0.5746 | gold macro-AUC: 0.6135 (2.2s)
+ep 22/30 | loss: 0.5737 | gold macro-AUC: 0.6104 (2.2s)
+ep 23/30 | loss: 0.5724 | gold macro-AUC: 0.6323 (2.2s) ★ BEST
+ep 24/30 | loss: 0.5711 | gold macro-AUC: 0.6236 (2.2s)
+ep 25/30 | loss: 0.5700 | gold macro-AUC: 0.6189 (2.2s)
+ep 26/30 | loss: 0.5695 | gold macro-AUC: 0.6255 (2.2s)
+ep 27/30 | loss: 0.5689 | gold macro-AUC: 0.6276 (2.2s)
+ep 28/30 | loss: 0.5679 | gold macro-AUC: 0.6273 (2.2s)
+ep 29/30 | loss: 0.5674 | gold macro-AUC: 0.6277 (2.2s)
+Seed 2 finished. Best Gold AUC: 0.6323 (saved raptor_ft_xfmr_c96_s2.pt)
+
+============================================================
+TRANSFORMER ATTENTION POOLER SUMMARY
+============================================================
+  Seed 0 Gold Macro-AUC: 0.6065
+  Seed 1 Gold Macro-AUC: 0.5956
+  Seed 2 Gold Macro-AUC: 0.6323
+
+>>> 3-Seed Transformer Attention Ensemble Gold Macro-AUC: 0.6205 <<<
+  ACL                 : 0.4228
+  MCL                 : 0.5601
+  Medial Meniscus     : 0.6142
+  Lateral Meniscus    : 0.6199
+  Medial OA           : 0.7612
+  Lateral OA          : 0.7563
+  PF OA               : 0.7040
+  Effusion            : 0.8124
+  Synovitis           : 0.6906
+  Baker's             : 0.5942
+  Contusion           : 0.4399
+  Fracture            : 0.4708

@@ -1,0 +1,39 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/24 | bs 4 | tag v4base | roi=False(compartment)
+train 4349 | gold-val 58
+[corpus] preloaded into RAM in 7s
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+  [ckpt] best-so-far saved at ep0 (0.7170)
+ep0 loss 0.927 | GOLD macro-AUC 0.7170 (best 0.7170) | topk by gold: [0] | 2382s
+  [ckpt] best-so-far saved at ep1 (0.8223)
+ep1 loss 0.880 | GOLD macro-AUC 0.8223 (best 0.8223) | topk by gold: [1, 0] | 4763s
+  [ckpt] best-so-far saved at ep2 (0.8406)
+ep2 loss 0.829 | GOLD macro-AUC 0.8406 (best 0.8406) | topk by gold: [2, 1, 0] | 7144s
+  [ckpt] best-so-far saved at ep3 (0.8588)
+ep3 loss 0.798 | GOLD macro-AUC 0.8588 (best 0.8588) | topk by gold: [3, 2, 1] | 9546s
+  [ckpt] best-so-far saved at ep4 (0.8706)
+ep4 loss 0.772 | GOLD macro-AUC 0.8706 (best 0.8706) | topk by gold: [4, 3, 2] | 11926s
+  [ckpt] best-so-far saved at ep5 (0.8925)
+ep5 loss 0.745 | GOLD macro-AUC 0.8925 (best 0.8925) | topk by gold: [5, 4, 3] | 14306s
+ep6 loss 0.721 | GOLD macro-AUC 0.8775 (best 0.8925) | topk by gold: [5, 6, 4] | 16683s
+ep7 loss 0.701 | GOLD macro-AUC 0.8821 (best 0.8925) | topk by gold: [5, 7, 6] | 19060s
+ep8 loss 0.680 | GOLD macro-AUC 0.8809 (best 0.8925) | topk by gold: [5, 7, 8] | 21436s
+ep9 loss 0.673 | GOLD macro-AUC 0.8815 (best 0.8925) | topk by gold: [5, 7, 9] | 23813s
+
+DONE timm-pretrained | BEST GOLD macro-AUC 0.8925
+   ACL                0.933
+   MCL                0.859
+   Medial Meniscus    0.975
+   Lateral Meniscus   0.837
+   Medial OA          0.957
+   Lateral OA         0.766
+   PF OA              0.798
+   Effusion           0.952
+   Synovitis          0.827
+   Baker's            0.995
+   Contusion          0.954
+   Fracture           0.858
+saved raptor_ft_v4base.pt / raptor_gold_v4base.npz / raptor_ft_v4base.json
+SWA over epochs [5, 7, 9] | gold 0.8896 (best-epoch 0.8925) no gain
+TOPK epochs [5, 7, 9] | best 0.8925 | epoch-ensemble 0.8892 (no gain)

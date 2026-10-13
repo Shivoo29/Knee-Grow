@@ -1,0 +1,20 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/48 | bs 2 | tag coat_latoa_roi_f0 | roi=True(compartment)
+[cv] fold 0/5: train 3476 | OOF held-out 873 | fold_file folds_site.json
+train 3476 | gold-val 58 | oof 873
+[roi] ENABLED mode=compartment pad=0.06 overlap=0.12 boxes=roi_boxes.npz sbox=(4407, 96, 4)
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+  [timing] 1738 steps in 1987.3s (1.143 s/step) | peak 6.00 GB (reserved 6.86 GB)
+  [ckpt] best-so-far saved at ep0 (0.6775)
+ep0 loss 0.934 | GOLD macro-AUC 0.6775 (best 0.6775) | topk by gold: [0] | 2021s
+  [timing] 1738 steps in 1846.4s (1.062 s/step) | peak 9.15 GB (reserved 11.30 GB)
+  [ckpt] best-so-far saved at ep1 (0.7255)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 0.923 | GOLD macro-AUC 0.7255 (best 0.7255) | topk by gold: [1, 0] | 3920s
+  [timing] 1738 steps in 1845.5s (1.062 s/step) | peak 9.15 GB (reserved 11.30 GB)
+
+[signal] Received SIGTERM! Gracefully saving checkpoint and stopping...
+  [ckpt] best-so-far saved at ep2 (0.7625)
+  [swa] running SWA updated over epochs [2, 1, 0]
+ep2 loss 0.903 | GOLD macro-AUC 0.7625 (best 0.7625) | topk by gold: [2, 1, 0] | 5822s
