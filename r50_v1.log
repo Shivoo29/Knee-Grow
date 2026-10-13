@@ -1,0 +1,65 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 336 | k 12/42 | bs 4 | tag r50_v1 | roi=False(compartment)
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 336 | k 12/42 | bs 4 | tag r50_v1 | roi=False(compartment)
+train 4349 | gold-val 58
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[raptor] timm-pretrained backbone: resnet50d
+  [timing] 1087 steps in 212.3s (0.195 s/step) | peak 5.37 GB (reserved 6.23 GB)
+  [ckpt] best-so-far saved at ep0 (0.7123)
+ep0 loss 0.938 | GOLD macro-AUC 0.7123 (best 0.7123) | topk by gold: [0] | 218s
+  [timing] 1087 steps in 214.9s (0.198 s/step) | peak 5.37 GB (reserved 7.22 GB)
+  [ckpt] best-so-far saved at ep1 (0.7460)
+ep1 loss 0.904 | GOLD macro-AUC 0.7460 (best 0.7460) | topk by gold: [1, 0] | 438s
+  [timing] 1087 steps in 216.5s (0.199 s/step) | peak 5.37 GB (reserved 7.22 GB)
+  [ckpt] best-so-far saved at ep2 (0.7699)
+ep2 loss 0.876 | GOLD macro-AUC 0.7699 (best 0.7699) | topk by gold: [2, 1, 0] | 660s
+  [timing] 1087 steps in 210.0s (0.193 s/step) | peak 5.37 GB (reserved 7.22 GB)
+  [ckpt] best-so-far saved at ep3 (0.7966)
+ep3 loss 0.848 | GOLD macro-AUC 0.7966 (best 0.7966) | topk by gold: [3, 2, 1] | 875s
+  [timing] 1087 steps in 203.1s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+  [ckpt] best-so-far saved at ep4 (0.8202)
+ep4 loss 0.832 | GOLD macro-AUC 0.8202 (best 0.8202) | topk by gold: [4, 3, 2] | 1084s
+  [timing] 1087 steps in 203.1s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+  [ckpt] best-so-far saved at ep5 (0.8256)
+ep5 loss 0.812 | GOLD macro-AUC 0.8256 (best 0.8256) | topk by gold: [5, 4, 3] | 1293s
+  [timing] 1087 steps in 203.1s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+  [ckpt] best-so-far saved at ep6 (0.8343)
+ep6 loss 0.793 | GOLD macro-AUC 0.8343 (best 0.8343) | topk by gold: [6, 5, 4] | 1501s
+  [timing] 1087 steps in 203.1s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+ep7 loss 0.780 | GOLD macro-AUC 0.8257 (best 0.8343) | topk by gold: [6, 7, 5] | 1710s
+  [timing] 1087 steps in 203.0s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+ep8 loss 0.766 | GOLD macro-AUC 0.8296 (best 0.8343) | topk by gold: [6, 8, 7] | 1918s
+  [timing] 1087 steps in 203.1s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+ep9 loss 0.753 | GOLD macro-AUC 0.8340 (best 0.8343) | topk by gold: [6, 9, 8] | 2127s
+  [timing] 1087 steps in 203.1s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+  [ckpt] best-so-far saved at ep10 (0.8422)
+ep10 loss 0.740 | GOLD macro-AUC 0.8422 (best 0.8422) | topk by gold: [10, 6, 9] | 2336s
+  [timing] 1087 steps in 203.1s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+ep11 loss 0.731 | GOLD macro-AUC 0.8403 (best 0.8422) | topk by gold: [10, 11, 6] | 2544s
+  [timing] 1087 steps in 203.0s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+  [ckpt] best-so-far saved at ep12 (0.8445)
+ep12 loss 0.725 | GOLD macro-AUC 0.8445 (best 0.8445) | topk by gold: [12, 10, 11] | 2753s
+  [timing] 1087 steps in 203.1s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+ep13 loss 0.721 | GOLD macro-AUC 0.8424 (best 0.8445) | topk by gold: [12, 13, 10] | 2961s
+  [timing] 1087 steps in 203.0s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+ep14 loss 0.718 | GOLD macro-AUC 0.8420 (best 0.8445) | topk by gold: [12, 13, 10] | 3172s
+  [timing] 1087 steps in 203.2s (0.187 s/step) | peak 5.37 GB (reserved 7.22 GB)
+ep15 loss 0.718 | GOLD macro-AUC 0.8427 (best 0.8445) | topk by gold: [12, 15, 13] | 3381s
+
+DONE timm-pretrained | BEST GOLD macro-AUC 0.8445
+   ACL                0.880
+   MCL                0.780
+   Medial Meniscus    0.867
+   Lateral Meniscus   0.754
+   Medial OA          0.940
+   Lateral OA         0.764
+   PF OA              0.812
+   Effusion           0.948
+   Synovitis          0.857
+   Baker's            0.891
+   Contusion          0.838
+   Fracture           0.804
+saved raptor_ft_r50_v1.pt / raptor_gold_r50_v1.npz / raptor_ft_r50_v1.json
+SWA over epochs [12, 15, 13] | gold 0.8430 (best-epoch 0.8445) no gain
+TOPK epochs [12, 15, 13] | best 0.8445 | epoch-ensemble 0.8438 (no gain)

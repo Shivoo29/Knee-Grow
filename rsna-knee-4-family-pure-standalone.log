@@ -1,0 +1,61 @@
+[{"stream_name":"stderr","time":6.661417635,"data":"/usr/local/lib/python3.13/dist-packages/nbformat/validator.py:434: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.\n"}
+,{"stream_name":"stderr","time":6.66147085,"data":"  _validate(nbdict, ref, version, version_minor, relax_add_props)\n"}
+,{"stream_name":"stderr","time":7.673098447,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.673131967,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.673140623,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.673143159,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.312343541,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.312373542,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.312378179,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.312383342,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":28.497486976,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":28.497508676,"data":"RSNA Knee: 5-Family Finding-Specific Specialist Inference Engine\n"}
+,{"stream_name":"stdout","time":28.497592709,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":28.49759745,"data":"[devices] Active GPUs: ['cuda:0', 'cuda:1']\n"}
+,{"stream_name":"stdout","time":28.500481788,"data":"[fleet] Loading raptor_ft_v5s2_swa.pt from /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_v5s2_swa.pt (res=384, k=42)\n"}
+,{"stream_name":"stdout","time":31.189487937,"data":"[fleet] Loading raptor_ft_v6_swa.pt from /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_v6_swa.pt (res=384, k=94)\n"}
+,{"stream_name":"stdout","time":32.5692834,"data":"[fleet] WARNING: raptor_ft_swin_base_s2_swa.pt not found!\n"}
+,{"stream_name":"stdout","time":32.58154672,"data":"[fleet] WARNING: raptor_ft_eva02_base_96_swa.pt not found!\n"}
+,{"stream_name":"stdout","time":37.991246074,"data":"[data] Processing 3 test studies...\n"}
+,{"stream_name":"stderr","time":48.039802584,"data":"/tmp/ipykernel_23/3270661084.py:339: RuntimeWarning: invalid value encountered in divide\n"}
+,{"stream_name":"stderr","time":48.039831945,"data":"  W_slice = W_slice / W_slice.sum(axis=1, keepdims=True)\n"}
+,{"stream_name":"stderr","time":48.039837761,"data":"\n"}
+,{"stream_name":"stderr","time":48.039842125,"data":"/tmp/ipykernel_23/3270661084.py:339: RuntimeWarning: invalid value encountered in divide\n"}
+,{"stream_name":"stderr","time":48.039852871,"data":"  W_slice = W_slice / W_slice.sum(axis=1, keepdims=True)\n"}
+,{"stream_name":"stderr","time":53.910036006,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":53.910582945,"data":"  File \"\u003cstring\u003e\", line 1, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":53.910601421,"data":"    import sys;import papermill as pm;pm.execute_notebook(\"__notebook__.ipynb\",\"__notebook__.ipynb\",progress_bar=False,log_output=True,stdout_file=sys.stdout,stderr_file=sys.stderr,allow_errors=False,timeout=43200)\n"}
+,{"stream_name":"stderr","time":53.910617804,"data":"                                      ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":53.910620733,"data":"  File \"/usr/local/lib/python3.13/dist-packages/papermill/execute.py\", line 131, in execute_notebook\n"}
+,{"stream_name":"stderr","time":53.910623147,"data":"    raise_for_execution_errors(nb, output_path)\n"}
+,{"stream_name":"stderr","time":53.910625349,"data":"    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":53.910627542,"data":"  File \"/usr/local/lib/python3.13/dist-packages/papermill/execute.py\", line 251, in raise_for_execution_errors\n"}
+,{"stream_name":"stderr","time":53.910629872,"data":"    raise error\n"}
+,{"stream_name":"stderr","time":53.910632072,"data":"papermill.exceptions.PapermillExecutionError: \n"}
+,{"stream_name":"stderr","time":53.910634239,"data":"---------------------------------------------------------------------------\n"}
+,{"stream_name":"stderr","time":53.910636553,"data":"Exception encountered at \"In [1]\":\n"}
+,{"stream_name":"stderr","time":53.910638766,"data":"---------------------------------------------------------------------------\n"}
+,{"stream_name":"stderr","time":53.910640934,"data":"AssertionError                            Traceback (most recent call last)\n"}
+,{"stream_name":"stderr","time":53.910643223,"data":"/tmp/ipykernel_23/3270661084.py in \u003ccell line: 0\u003e()\n"}
+,{"stream_name":"stderr","time":53.910645537,"data":"    386 \n"}
+,{"stream_name":"stderr","time":53.910647629,"data":"    387 if __name__ == \"__main__\":\n"}
+,{"stream_name":"stderr","time":53.910649826,"data":"--\u003e 388     main()\n"}
+,{"stream_name":"stderr","time":53.910652013,"data":"\n"}
+,{"stream_name":"stderr","time":53.910654033,"data":"/tmp/ipykernel_23/3270661084.py in main()\n"}
+,{"stream_name":"stderr","time":53.910656157,"data":"    378     assert list(sub[\"StudyInstanceUID\"]) == test_ids, \"Row ID ordering drift!\"\n"}
+,{"stream_name":"stderr","time":53.910658499,"data":"    379     sub = sub[[\"StudyInstanceUID\"] + LAB]\n"}
+,{"stream_name":"stderr","time":53.910660715,"data":"--\u003e 380     assert not sub.isna().any().any(), \"FATAL: Output contains NaNs!\"\n"}
+,{"stream_name":"stderr","time":53.910663042,"data":"    381 \n"}
+,{"stream_name":"stderr","time":53.910665111,"data":"    382     output_csv = os.environ.get(\"RAPTOR_OUTPUT_CSV\", \"submission.csv\")\n"}
+,{"stream_name":"stderr","time":53.910667458,"data":"\n"}
+,{"stream_name":"stderr","time":53.910669524,"data":"AssertionError: FATAL: Output contains NaNs!\n"}
+,{"stream_name":"stderr","time":53.910671713,"data":"\n"}
+,{"stream_name":"stderr","time":56.074853184,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":56.07488111,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":56.246847098,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":56.246870258,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":57.346178778,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":57.419170777,"data":"[NbConvertApp] Writing 24489 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":59.889904685,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":60.468692162,"data":"[NbConvertApp] Writing 363962 bytes to __results__.html\n"}
+]

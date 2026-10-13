@@ -1,0 +1,26 @@
+[pfoa_trainer] Using device: cuda | Model: coatnet_rmlp_1_rw_224
+[pfoa_trainer] Train studies: 4349 | Gold-val studies: 58
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+ep00 | loss 0.5928 | PF OA AUC 0.6306 | Macro-AUC 0.6636 | 370s
+  [SAVED] New best PF OA model at ep0: 0.6306 (Macro: 0.6636)
+ep01 | loss 0.5723 | PF OA AUC 0.7111 | Macro-AUC 0.6595 | 371s
+  [SAVED] New best PF OA model at ep1: 0.7111 (Macro: 0.6595)
+ep02 | loss 0.5662 | PF OA AUC 0.7008 | Macro-AUC 0.6687 | 369s
+ep03 | loss 0.5574 | PF OA AUC 0.6731 | Macro-AUC 0.7145 | 370s
+ep04 | loss 0.5490 | PF OA AUC 0.6963 | Macro-AUC 0.6993 | 363s
+ep05 | loss 0.5396 | PF OA AUC 0.6943 | Macro-AUC 0.7313 | 366s
+ep06 | loss 0.5307 | PF OA AUC 0.6950 | Macro-AUC 0.7205 | 368s
+ep07 | loss 0.5213 | PF OA AUC 0.7130 | Macro-AUC 0.7524 | 370s
+  [SAVED] New best PF OA model at ep7: 0.7130 (Macro: 0.7524)
+ep08 | loss 0.5109 | PF OA AUC 0.7709 | Macro-AUC 0.7524 | 374s
+  [SAVED] New best PF OA model at ep8: 0.7709 (Macro: 0.7524)
+ep09 | loss 0.4986 | PF OA AUC 0.7825 | Macro-AUC 0.7694 | 366s
+  [SAVED] New best PF OA model at ep9: 0.7825 (Macro: 0.7694)
+ep10 | loss 0.4858 | PF OA AUC 0.7329 | Macro-AUC 0.7651 | 369s
+ep11 | loss 0.4719 | PF OA AUC 0.7310 | Macro-AUC 0.7765 | 369s
+ep12 | loss 0.4579 | PF OA AUC 0.7291 | Macro-AUC 0.7944 | 369s
+ep13 | loss 0.4464 | PF OA AUC 0.7471 | Macro-AUC 0.7891 | 369s
+ep14 | loss 0.4368 | PF OA AUC 0.7214 | Macro-AUC 0.7608 | 370s
+ep15 | loss 0.4312 | PF OA AUC 0.7439 | Macro-AUC 0.7710 | 371s
+
+[DONE] Finished training! Best PF OA AUC: 0.7825 | Macro-AUC: 0.7694

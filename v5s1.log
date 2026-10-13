@@ -1,0 +1,29 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/42 | bs 1 | tag v5s1 | roi=False(compartment)
+train 4349 | gold-val 58
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+  [timing] 4349 steps in 1713.7s (0.394 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep0 (0.7217)
+ep0 loss 0.933 | GOLD macro-AUC 0.7217 (best 0.7217) | topk by gold: [0] | 1729s
+  [timing] 4349 steps in 1690.5s (0.389 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep1 (0.8038)
+ep1 loss 0.915 | GOLD macro-AUC 0.8038 (best 0.8038) | topk by gold: [1, 0] | 3437s
+  [timing] 4349 steps in 1712.3s (0.394 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep2 (0.8211)
+ep2 loss 0.872 | GOLD macro-AUC 0.8211 (best 0.8211) | topk by gold: [2, 1, 0] | 5167s
+  [timing] 4349 steps in 1726.5s (0.397 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep3 (0.8608)
+ep3 loss 0.842 | GOLD macro-AUC 0.8608 (best 0.8608) | topk by gold: [3, 2, 1] | 6912s
+  [timing] 4349 steps in 1691.7s (0.389 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep4 (0.8688)
+ep4 loss 0.818 | GOLD macro-AUC 0.8688 (best 0.8688) | topk by gold: [4, 3, 2] | 8624s
+  [timing] 4349 steps in 1712.9s (0.394 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep5 (0.8984)
+ep5 loss 0.803 | GOLD macro-AUC 0.8984 (best 0.8984) | topk by gold: [5, 4, 3] | 10356s
+Resuming v5s1 on local RTX 4070S from raptor_resume_v5s1.pt...
+Resuming v5s1 on local RTX 4070S from raptor_resume_v5s1.pt...
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/42 | bs 1 | tag v5s1 | roi=False(compartment)
+Resuming v5s1 on local RTX 4070S from raptor_resume_v5s1.pt...
