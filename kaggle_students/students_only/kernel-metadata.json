@@ -1,0 +1,16 @@
+{
+  "id": "shivoo29/rsna-knee-students-only",
+  "title": "rsna-knee-students-only",
+  "code_file": "students_only.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": ["shivoo29/knee-students"],
+  "kernel_sources": [],
+  "competition_sources": ["rsna-knee-abnormality-detection"],
+  "model_sources": [],
+  "machine_shape": "NvidiaTeslaT4"
+}
