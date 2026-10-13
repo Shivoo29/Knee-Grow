@@ -1,0 +1,13 @@
+experiment_id,timestamp,description,single_change,grouped_oof_auc,gold58_auc,lb_score,runtime_min,status
+EXP-001,2026-10-07 14:33,Baseline: Public D4-blend 4-way CoAt consensus,Public fork baseline,0.94,0.922,0.943,25.0,BASELINE
+EXP-002,2026-10-08 21:49,Initial single model training,First custom model,0.91,0.912,0.917,8.0,SUPERSEDED
+EXP-003,2026-10-08 22:34,Fast efficiency track candidate,Fast reader configuration,0.918,0.915,0.924,5.0,SUPERSEDED
+EXP-004,2026-10-09 20:40,v5 single model SWA,44-slice sagittal CoAtNet-44,0.928,0.918,0.936,6.5,SUPERSEDED
+EXP-005,2026-10-09 21:43,v6 96-slice CoAtNet SWA single model,96-slice multi-planar CoAtNet-96,0.932,0.9168,0.936,7.5,BENCHMARK_SOLO
+EXP-006,2026-10-09 23:36,Grand Ensemble V1 (0.82 D4 + 0.18 v6 + ConvNeXt-Base),Ensemble 82% D4 + 18% custom,0.941,0.922,0.943,32.0,NO_GAIN
+EXP-007,2026-10-10 05:31,Student Fleet 96-Slice (CoAtNet-v6 + ConvNeXt-Base + EffNetV2),Multi-architecture 96-slice student blend,0.922,0.919,0.924,18.0,SUPERSEDED
+EXP-008,2026-10-10 05:32,Grand Ensemble V2 (0.82 D4 + 0.18 Tri-Architecture Fleet),Ensemble 82% D4 + 18% tri-fleet,0.941,0.923,0.943,38.0,NO_GAIN
+EXP-009,2026-10-10 09:44,Clean Rank Blend (0.85 D4 + 0.15 96-Slice CoAtNet-v6 SWA),Rank blend 85% D4 + 15% v6 SWA,0.941,0.924,0.943,28.0,NO_GAIN
+EXP-010,2026-10-11 08:08,4-Family Pure Standalone (v6 + v5s2 + Swin + EVA-02),Swin and EVA-02 unverified weights added,0.875,0.88,0.881,45.0,FAILED_MISSING_WEIGHTS
+EXP-011,2026-10-11 21:18,Compartment-ROI CoAtNet (Fold 0 Site-Grouped No-Flips),Compartment-ROI joint crops + no coronal flips (Lateral OA: 0.8494 | PF OA: 0.8841),PENDING_CV,0.9238,PENDING,34.0,TRAINING_EPOCH_2
+
