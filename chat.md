@@ -1361,3 +1361,10 @@ We extracted the exact submission status and error descriptions directly from th
 - Chunks 1, 2 pushed (kernels rsna-knee-teacher954-c1/-c2); chunk 3 after a slot frees. Kaggle GPU quota: 23 h left until Oct 17.
 - PC: CoAtNet v6 seed 6 training (run_pc_v6s6.sh, nohup). node1: v6 seed 5 ep6 gold 0.9007.
 - Research (ChatGPT/Fable, pasted by user): VLM labelling not viable (zero-shot ~50% on knee MOAKS); fastMRI+ best external set but needs NYU approval, coronal only; distillation expected +0.003–0.008, use per-finding teacher weights.
+
+## 54. Oct 13 ~08:45 IST (Claude)
+- **LB: base954 + fleet 0.15 = 0.953** (base954 alone 0.954) → our old label-trained models add nothing; fleet route closed.
+- All 4 teacher chunks done (teacher/c{0..3}_*.csv, 4,349 train studies covered). `build_targets.py` → `labels_distil_v1.parquet`: teacher = 0.7 Raptor + 0.3 compact probs; target = 0.6 teacher + 0.4 labels_avg (0.3/0.7 for Lateral OA, PF OA).
+- node1: tmux `distil` = run_distil.sh → CoAtNet v6 student seed 7 (tag v6d_s7) on labels_distil_v1. v6 seed 5 finished: best gold 0.9187.
+- PC: v6 seed 6 at ep14 gold 0.9210 (PC ~28 min/epoch); chained → run_pc_distil.sh (student seed 8, tag v6d_s8) starts automatically when seed 6 ends.
+- Judge students on LB (gold-58 can't separate teacher 0.931 from us 0.925): next submission = base954 + student(s).
