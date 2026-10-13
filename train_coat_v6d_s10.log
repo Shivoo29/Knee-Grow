@@ -1,0 +1,28 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/94 | bs 1 | tag v6d_s10 | roi=False(compartment)
+train 4349 | gold-val 58
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+  [timing] 4349 steps in 1666.9s (0.383 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep0 (0.7558)
+ep0 loss 0.868 | GOLD macro-AUC 0.7558 (best 0.7558) | topk by gold: [0] | 1701s
+  [timing] 4349 steps in 1688.2s (0.388 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep1 (0.7973)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 0.830 | GOLD macro-AUC 0.7973 (best 0.7973) | topk by gold: [1, 0] | 3424s
+  [timing] 4349 steps in 1691.0s (0.389 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep2 (0.8655)
+  [swa] running SWA updated over epochs [2, 1, 0]
+ep2 loss 0.791 | GOLD macro-AUC 0.8655 (best 0.8655) | topk by gold: [2, 1, 0] | 5151s
+  [timing] 4349 steps in 1683.2s (0.387 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep3 (0.8746)
+  [swa] running SWA updated over epochs [3, 2, 1]
+ep3 loss 0.763 | GOLD macro-AUC 0.8746 (best 0.8746) | topk by gold: [3, 2, 1] | 6870s
+  [timing] 4349 steps in 1672.6s (0.385 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep4 (0.9047)
+  [swa] running SWA updated over epochs [4, 3, 2]
+ep4 loss 0.748 | GOLD macro-AUC 0.9047 (best 0.9047) | topk by gold: [4, 3, 2] | 8580s
+  [timing] 4349 steps in 1664.6s (0.383 s/step) | peak 2.77 GB (reserved 3.16 GB)
+  [ckpt] best-so-far saved at ep5 (0.9060)
+  [swa] running SWA updated over epochs [5, 4, 3]
+ep5 loss 0.737 | GOLD macro-AUC 0.9060 (best 0.9060) | topk by gold: [5, 4, 3] | 10283s
