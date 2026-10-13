@@ -1,0 +1,41 @@
+{
+ "tag": "v6d24_s9",
+ "src": "timm-pretrained",
+ "best_gold_auc": 0.8203212445937869,
+ "aucs": {
+  "ACL": 0.7647058823529411,
+  "MCL": 0.7482993197278911,
+  "Medial Meniscus": 0.6766826923076923,
+  "Lateral Meniscus": 0.8062111801242235,
+  "Medial OA": 0.924031007751938,
+  "Lateral OA": 0.8375241779497099,
+  "PF OA": 0.7142857142857142,
+  "Effusion": 0.9813664596273292,
+  "Synovitis": 0.7837514934289127,
+  "Baker's": 0.8786231884057971,
+  "Contusion": 0.8367071524966262,
+  "Fracture": 0.8916666666666666
+ },
+ "hist": [
+  {
+   "ep": 0,
+   "loss": 0.87072898221323,
+   "gold_auc": 0.727519143561942
+  },
+  {
+   "ep": 1,
+   "loss": 0.8314688922674588,
+   "gold_auc": 0.8203212445937869
+  }
+ ],
+ "res": 384,
+ "epochs": 24,
+ "bb_lr": 3e-05,
+ "head_lr": 0.001,
+ "n_train": 4349,
+ "n_gold": 58,
+ "roi": false,
+ "roi_mode": "compartment",
+ "partial": true,
+ "epochs_done": 2
+}
