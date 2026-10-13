@@ -83,6 +83,14 @@ def record_exception(source, sid, exc):
 # ============================================================================
 # Architecture Definition
 # ============================================================================
+def apply_norm(x, norm):
+    if norm != "imagenet":
+        return x
+    mean = torch.tensor([0.485, 0.456, 0.406], device=x.device).view(3, 1, 1)
+    std = torch.tensor([0.229, 0.224, 0.225], device=x.device).view(3, 1, 1)
+    return (x - mean) / std
+
+
 def build_backbone(arch, pretrained=False):
     hybrid = arch.startswith(("maxvit", "maxxvit", "coatnet", "coat_", "convnext"))
     is_vit = (not hybrid) and any(k in arch for k in ("vit", "deit", "dinov2", "eva", "beit"))
@@ -349,6 +357,7 @@ def predict_study(model, vol, mask, res, dev, use_tta=False):
             tri_t = F.interpolate(tri_t, size=(res, res), mode='bilinear', align_corners=False)
         wins.append(tri_t[0])
     x = torch.stack(wins).to(dev, non_blocking=True)
+    x = apply_norm(x, getattr(model, 'input_norm', 'none'))  # checkpoints without 'norm' were trained on raw [0,1]
 
     with torch.autocast('cuda', dtype=torch.float16):
         p_plain = torch.sigmoid(model(x[None]).float())[0]
@@ -752,6 +761,7 @@ def main():
     ck = torch.load(ckpt_path, map_location="cpu", weights_only=False)
     arch = ck.get("arch", "coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k")
     res = int(ck.get("res", 384))
+    norm = ck.get("norm", "none")
     print(f"[model] Checkpoint: {ckpt_path} | Arch: {arch} | Res: {res}", flush=True)
 
     # Initialize model replica per device
@@ -764,6 +774,7 @@ def main():
         bb = build_backbone(arch, pretrained=False)
         m = RaptorClassifier(bb, F_dim=f_dim).to(dev)
         m.load_state_dict(ck["model"])
+        m.input_norm = norm
         m.eval()
         models.append(m)
 

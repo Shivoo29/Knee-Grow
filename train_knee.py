@@ -673,7 +673,7 @@ def main():
             best = au; best_P = P
             patience_counter = 0
             best_state = {"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
-                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res,
+                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
                           "arch": a.arch, "lab": LAB, "epoch": ep}
         else:
             patience_counter += 1
@@ -687,7 +687,7 @@ def main():
             np.savez(os.path.join(HERE, f"raptor_gold_{a.tag}.npz"),
                      pred=best_P, truth=Y, ids=np.array(gold_ids))
             json.dump({"tag": a.tag, "src": src, "best_gold_auc": best,
-                       "aucs": best_state["aucs"], "hist": hist, "res": a.res,
+                       "aucs": best_state["aucs"], "hist": hist, "res": a.res, "norm": a.norm,
                        "epochs": a.epochs, "bb_lr": a.bb_lr, "head_lr": a.head_lr,
                        "n_train": len(train_ids), "n_gold": len(gold_ids),
                        "roi": a.roi, "roi_mode": a.roi_mode,
@@ -700,7 +700,7 @@ def main():
         sel = sel if sel == sel else au
         if len(topk) < TOPK or sel > min(t.get("sel", t["gold_auc"]) for t in topk):
             topk.append({"model": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()},
-                         "gold_auc": au, "aucs": aucs, "src": src, "res": a.res,
+                         "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
                          "arch": a.arch, "lab": LAB, "epoch": ep, "P": P, "sel": sel})
             topk.sort(key=lambda t: -t.get("sel", t["gold_auc"]))
             del topk[TOPK:]
@@ -715,7 +715,7 @@ def main():
                         avg[k] = sum(sd[k].double() for sd in sds).div(len(sds)).to(v0.dtype)
                     else:
                         avg[k] = v0.clone()
-                swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res,
+                swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
                              "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                              "swa_over": [int(t["epoch"]) for t in topk]}
                 torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
@@ -756,7 +756,7 @@ def main():
         np.savez(os.path.join(HERE, f"raptor_gold_{a.tag}.npz"),
                  pred=best_P, truth=Y, ids=np.array(gold_ids))
         json.dump({"tag": a.tag, "src": src, "best_gold_auc": best, "aucs": best_state["aucs"],
-                   "hist": hist, "res": a.res, "epochs": a.epochs, "bb_lr": a.bb_lr,
+                   "hist": hist, "res": a.res, "norm": a.norm, "epochs": a.epochs, "bb_lr": a.bb_lr,
                    "head_lr": a.head_lr, "n_train": len(train_ids), "n_gold": len(gold_ids),
                    "roi": a.roi, "roi_mode": a.roi_mode, "partial": False, "epochs_done": a.epochs},
                   open(os.path.join(HERE, f"raptor_ft_{a.tag}.json"), "w"), indent=1)
@@ -817,7 +817,7 @@ def main():
                 avg[k] = sum(sd[k].double() for sd in sds).div(len(sds)).to(v0.dtype)
             else:
                 avg[k] = v0.clone()          # e.g. num_batches_tracked
-        swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res,
+        swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
                      "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                      "swa_over": [int(t["epoch"]) for t in topk]}
         model.load_state_dict(avg); model.eval()
