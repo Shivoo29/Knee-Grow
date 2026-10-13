@@ -103,9 +103,13 @@ def build_backbone(arch, pretrained=False):
 
 
 class RaptorClassifier(nn.Module):
-    def __init__(self, backbone, F_dim=1024, n=12, drop=0.2):
+    def __init__(self, backbone, F_dim=1024, n=12, drop=0.2, slot_emb=False):
         super().__init__()
         self.backbone = backbone
+        self.F_dim = F_dim
+        self.slot_emb = nn.Embedding(5, F_dim) if slot_emb else None
+        if self.slot_emb is not None:
+            nn.init.zeros_(self.slot_emb.weight)
         self.norm = nn.LayerNorm(F_dim)
         self.att = nn.Sequential(
             nn.Linear(F_dim, 256),
@@ -128,7 +132,9 @@ class RaptorClassifier(nn.Module):
             f = self.backbone(flat)
         return f.view(B, K, -1)
 
-    def head(self, feats):
+    def head(self, feats, slots=None):
+        if self.slot_emb is not None and slots is not None:
+            feats = feats + self.slot_emb(slots)
         h = self.norm(feats)
         a = self.att(h)
         a = torch.softmax(a, dim=1)
@@ -136,8 +142,8 @@ class RaptorClassifier(nn.Module):
         logits = (pooled * self.clsW).sum(-1) + self.clsb
         return logits
 
-    def forward(self, x):
-        return self.head(self.encode(x))
+    def forward(self, x, slots=None):
+        return self.head(self.encode(x), slots=slots)
 
 
 # ============================================================================
@@ -331,6 +337,64 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
 # ============================================================================
 # GPU Inference & Full Window Centers (K_EVAL = 42)
 # ============================================================================
+SLOT_BOUNDS = [(0, 26), (26, 48), (48, 66), (66, 78), (78, 96)]
+
+
+def slot_of(idx: int) -> int:
+    """Return slot index (0..4) for a slice index (0..95)."""
+    for s, (start, end) in enumerate(SLOT_BOUNDS):
+        if start <= idx < end:
+            return s
+    if idx < 0:
+        return 0
+    return len(SLOT_BOUNDS) - 1
+
+
+def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=96, cap=False):
+    """Pick 3-slice window centers.
+
+    If clean_windows is True, a center c is allowed only if c-1, c, c+1 are all real
+    (mask > 0) AND in the same slot (slot_of(c-1) == slot_of(c) == slot_of(c+1)).
+    Otherwise, picks from [lo+1, hi-1] matching legacy behavior.
+    """
+    lo, hi = int(valid.min()), int(valid.max())
+    if clean_windows and mask is not None:
+        cs = [
+            c for c in range(1, max_d - 1)
+            if mask[c - 1] > 0 and mask[c] > 0 and mask[c + 1] > 0
+            and slot_of(c - 1) == slot_of(c) == slot_of(c + 1)
+        ]
+    else:
+        cs = [c for c in range(lo + 1, hi) if c - 1 >= lo and c + 1 <= hi]
+    if not cs:
+        cs = [max(1, min((lo + hi) // 2, max_d - 2))]
+    if train:
+        reps = count // len(cs) + 1
+        pool = cs * reps
+        random.shuffle(pool)
+        return pool[:count]
+    # eval: evenly spaced deterministic
+    if cap:
+        count = min(count, len(cs))   # fleet inference: never repeat a center
+    idx = np.linspace(0, len(cs) - 1, count).round().astype(int)
+    return [cs[i] for i in idx]
+
+
+def check_fallback_guard(fallback_count: int, total_studies: int, max_rate: float = 0.03):
+    """Enforces strict fallback limit (< 3% of studies).
+
+    Raises RuntimeError if fallbacks exceed 3% of studies.
+    """
+    if total_studies <= 0:
+        return
+    rate = fallback_count / float(total_studies)
+    if rate > max_rate:
+        raise RuntimeError(
+            f"FATAL GUARD: fallback count {fallback_count}/{total_studies} "
+            f"({rate:.2%}) exceeded allowed limit of {max_rate:.1%}!"
+        )
+
+
 def mirror_tri(tri_t, cs):
     is_sag = torch.tensor([_s_map[c] in SAGITTAL_SLOTS for c in cs], device=tri_t.device).view(-1, 1, 1, 1)
     return torch.where(is_sag, tri_t.flip(1), tri_t.flip(-1))
@@ -342,28 +406,28 @@ def predict_study(model, vol, mask, res, dev, use_tta=False):
     valid = np.where(mask > 0)[0]
     if len(valid) < 3:
         valid = np.arange(min(3, MAXS))
-    lo, hi = int(valid.min()), int(valid.max())
-    cs = [c for c in range(lo + 1, hi) if c - 1 >= lo and c + 1 <= hi]
-    if not cs:
-        cs = [max(1, min((lo + hi) // 2, MAXS - 2))]
-    idx = np.linspace(0, len(cs) - 1, min(K_EVAL, len(cs))).round().astype(int)
-    centers = [cs[i] for i in idx]
+    clean_win = getattr(model, "clean_windows", False)
+    centers = pick_centers(valid, K_EVAL, train=False, clean_windows=clean_win, mask=mask, max_d=MAXS, cap=True)
 
     wins = []
+    slot_ids = []
     for c in centers:
         tri = vol[c - 1 : c + 2].astype(np.float32) / 255.0
         tri_t = torch.from_numpy(tri)[None]
         if res != IMG:
             tri_t = F.interpolate(tri_t, size=(res, res), mode='bilinear', align_corners=False)
         wins.append(tri_t[0])
+        slot_ids.append(slot_of(c))
     x = torch.stack(wins).to(dev, non_blocking=True)
     x = apply_norm(x, getattr(model, 'input_norm', 'none'))  # checkpoints without 'norm' were trained on raw [0,1]
+    slots_t = torch.tensor(slot_ids, dtype=torch.long, device=dev)[None] if getattr(model, 'has_slot_emb', False) else None
 
-    with torch.autocast('cuda', dtype=torch.float16):
-        p_plain = torch.sigmoid(model(x[None]).float())[0]
+    autocast_on = str(dev).startswith('cuda') and torch.cuda.is_available()
+    with torch.autocast('cuda', dtype=torch.float16, enabled=autocast_on):
+        p_plain = torch.sigmoid(model(x[None], slots=slots_t).float())[0]
         if use_tta:
             x_m = mirror_tri(x, centers)
-            p_mirr = torch.sigmoid(model(x_m[None]).float())[0]
+            p_mirr = torch.sigmoid(model(x_m[None], slots=slots_t).float())[0]
             p_final = 0.5 * (p_plain + p_mirr)
         else:
             p_final = p_plain
@@ -762,7 +826,9 @@ def main():
     arch = ck.get("arch", "coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k")
     res = int(ck.get("res", 384))
     norm = ck.get("norm", "none")
-    print(f"[model] Checkpoint: {ckpt_path} | Arch: {arch} | Res: {res}", flush=True)
+    clean_win = bool(ck.get("clean_windows", False))
+    has_slot = bool(ck.get("slot_emb", False))
+    print(f"[model] Checkpoint: {ckpt_path} | Arch: {arch} | Res: {res} | clean_win={clean_win} | slot_emb={has_slot}", flush=True)
 
     # Initialize model replica per device
     models = []
@@ -772,9 +838,11 @@ def main():
 
     for dev in devices:
         bb = build_backbone(arch, pretrained=False)
-        m = RaptorClassifier(bb, F_dim=f_dim).to(dev)
+        m = RaptorClassifier(bb, F_dim=f_dim, slot_emb=has_slot).to(dev)
         m.load_state_dict(ck["model"])
         m.input_norm = norm
+        m.clean_windows = clean_win
+        m.has_slot_emb = has_slot
         m.eval()
         models.append(m)
 
@@ -783,8 +851,9 @@ def main():
     for dev, m in zip(devices, models):
         dummy_chunk = torch.zeros((WIN_CHUNK, 3, res, res), dtype=torch.float32, device=dev)
         dummy_in = dummy_chunk[None]
-        with torch.no_grad(), torch.autocast('cuda', dtype=torch.float16):
-            _ = m(dummy_in)
+        dummy_slots = torch.zeros((1, WIN_CHUNK), dtype=torch.long, device=dev) if getattr(m, 'has_slot_emb', False) else None
+        with torch.no_grad(), torch.autocast('cuda', dtype=torch.float16, enabled=torch.cuda.is_available()):
+            _ = m(dummy_in, slots=dummy_slots)
         if torch.cuda.is_available():
             torch.cuda.synchronize(dev)
     t_startup = time.time() - t_main_start
@@ -865,9 +934,8 @@ def main():
         "FATAL: Final submission columns do NOT match sample_submission.csv!"
     assert not final_sub.isna().any().any(), "FATAL: Final submission contains NaNs!"
 
-    final_fallback_rate = final_fallbacks / max(1, n_real)
-    if final_fallback_rate > 0.05 and n_real > 10:
-        raise RuntimeError(f"FATAL GUARD TRIGGERED: Real test set fallback rate {final_fallback_rate:.2%} > 5% limit!")
+    if n_real > 10:   # the 3-study commit run must not trip it
+        check_fallback_guard(final_fallbacks, n_real, max_rate=0.03)
 
     final_sub.to_csv(os.environ.get("RAPTOR_OUTPUT_CSV", "submission.csv"), index=False)
     print(f"\n[complete] submission.csv saved successfully with shape {final_sub.shape} and verified valid values!", flush=True)

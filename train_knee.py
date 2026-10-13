@@ -184,19 +184,101 @@ Everything else in this notebook is ready to run once that file exists.
 
 
 # ------------------------------- data ----------------------------------------
+SLOT_BOUNDS = [(0, 26), (26, 48), (48, 66), (66, 78), (78, 96)]
+
+
+def slot_of(idx: int) -> int:
+    """Return slot index (0..4) for a slice index (0..95)."""
+    for s, (start, end) in enumerate(SLOT_BOUNDS):
+        if start <= idx < end:
+            return s
+    if idx < 0:
+        return 0
+    return len(SLOT_BOUNDS) - 1
+
+
+def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=96, cap=False):
+    """Pick 3-slice window centers.
+
+    If clean_windows is True, a center c is allowed only if c-1, c, c+1 are all real
+    (mask > 0) AND in the same slot (slot_of(c-1) == slot_of(c) == slot_of(c+1)).
+    Otherwise, picks from [lo+1, hi-1] matching legacy behavior.
+    """
+    lo, hi = int(valid.min()), int(valid.max())
+    if clean_windows and mask is not None:
+        cs = [
+            c for c in range(1, max_d - 1)
+            if mask[c - 1] > 0 and mask[c] > 0 and mask[c + 1] > 0
+            and slot_of(c - 1) == slot_of(c) == slot_of(c + 1)
+        ]
+    else:
+        cs = [c for c in range(lo + 1, hi) if c - 1 >= lo and c + 1 <= hi]
+    if not cs:
+        cs = [max(1, min((lo + hi) // 2, max_d - 2))]
+    if train:
+        reps = count // len(cs) + 1
+        pool = cs * reps
+        random.shuffle(pool)
+        return pool[:count]
+    # eval: evenly spaced deterministic
+    if cap:
+        count = min(count, len(cs))   # fleet inference: never repeat a center
+    idx = np.linspace(0, len(cs) - 1, count).round().astype(int)
+    return [cs[i] for i in idx]
+
+
+def mirror_volume(vol: np.ndarray, mask: np.ndarray) -> np.ndarray:
+    """Anatomical mirror of knee volume (96, H, W).
+
+    Sagittal slots (0, 1): reverse order of real slices (mask > 0); padded slices stay at end.
+    Coronal/Axial slots (2, 3, 4): horizontal flip along image width (axis=-1).
+    Mirroring twice is the identity operation.
+    """
+    out = vol.copy()
+    for s, (start, end) in enumerate(SLOT_BOUNDS):
+        if s in (0, 1):
+            slot_m = mask[start:end]
+            n_real = int(np.sum(slot_m > 0))
+            if n_real > 1:
+                out[start : start + n_real] = out[start : start + n_real][::-1]
+        else:
+            out[start:end] = np.flip(out[start:end], axis=-1)
+    return out
+
+
+def check_fallback_guard(fallback_count: int, total_studies: int, max_rate: float = 0.03):
+    """Enforces strict fallback limit (< 3% of studies).
+
+    Raises RuntimeError if fallbacks exceed 3% of studies.
+    """
+    if total_studies <= 0:
+        return
+    rate = fallback_count / float(total_studies)
+    if rate > max_rate:
+        raise RuntimeError(
+            f"FATAL GUARD: fallback count {fallback_count}/{total_studies} "
+            f"({rate:.2%}) exceeded allowed limit of {max_rate:.1%}!"
+        )
+
+
 class StudyWindows(Dataset):
     """Per-study bag of 2.5D windows sampled from all_vols.npy (memmap).
     Each window = 3 physically-consecutive slices -> RGB, resized to `res`, in [0,1]
     (matches the SSL input pipeline: ToTensor, no ImageNet norm)."""
     def __init__(self, root, ids, id2row, labels, res, k, train, aug=True, norm="none",
                  roi=False, roi_mode="tight", roi_pad=0.06, roi_overlap=0.12,
-                 roi_sbox=None, roi_cen=None):
+                 roi_sbox=None, roi_cen=None,
+                 clean_windows=False, mirror_p=0.0, contrast_aug=False, slot_emb=False):
         self.root = root
         self.ids = ids
         self.id2row = id2row
         self.labels = labels              # dict uid -> np.float32[12]
         self.res, self.k, self.train, self.aug = res, k, train, aug
         self.norm = norm                  # "none"=[0,1] (Raptor SSL); "imagenet"=DINOv2 stats
+        self.clean_windows = bool(clean_windows)
+        self.mirror_p = float(mirror_p)
+        self.contrast_aug = bool(contrast_aug)
+        self.slot_emb = bool(slot_emb)
         self._mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
         self._std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
         self.vols = None; self.masks = None
@@ -214,19 +296,10 @@ class StudyWindows(Dataset):
         if self.vols is None:
             self.vols, self.masks = _open_corpus()   # (N,D,H,W) view, (N,D) u8
 
-    def _centers(self, valid, count):
-        # valid slice indices; window centers must have both neighbors valid & in-range
-        lo, hi = int(valid.min()), int(valid.max())
-        cs = [c for c in range(lo + 1, hi) if c - 1 >= lo and c + 1 <= hi]
-        if not cs: cs = [max(1, min((lo + hi) // 2, self._D - 2))]
-        if self.train:
-            reps = count // len(cs) + 1
-            pool = (cs * reps)
-            random.shuffle(pool)
-            return pool[:count]
-        # eval: evenly spaced deterministic
-        idx = np.linspace(0, len(cs) - 1, count).round().astype(int)
-        return [cs[i] for i in idx]
+    def _centers(self, valid, count, mask=None):
+        return pick_centers(valid, count, train=self.train,
+                            clean_windows=self.clean_windows,
+                            mask=mask, max_d=self._D)
 
     def _resize(self, tri):
         """tri: (3,h,w) float32 [0,1] -> (3,res,res) float32."""
@@ -246,15 +319,19 @@ class StudyWindows(Dataset):
         # compartment mode emits 2 crops/center -> sample ceil(k/2) centers to keep #windows==k
         compart = self.roi and self.roi_mode == "compartment"
         n_centers = (self.k + 1) // 2 if compart else self.k
-        cs = self._centers(valid, n_centers)
+        cs = self._centers(valid, n_centers, mask=m)
         vol = self.vols[row]  # (D,H,W) u8  (single study read)
+        if self.train and self.mirror_p > 0.0 and random.random() < self.mirror_p:
+            vol = mirror_volume(vol, m)
         tiles = []            # list of (3,res,res) float32
+        slot_ids = []
         for c in cs:
             c = max(1, min(c, self._D - 2))
             tri = np.stack([vol[c - 1], vol[c], vol[c + 1]], 0).astype(np.float32) / 255.0  # (3,H,W)
             H, W = tri.shape[-2], tri.shape[-1]
             if not self.roi:
                 tiles.append(self._resize(tri))
+                slot_ids.append(slot_of(c))
                 continue
             # one joint box from the CENTER slice, applied to all 3 slices (keeps RGB registered)
             sq_mode = "tight" if compart else self.roi_mode
@@ -266,20 +343,29 @@ class StudyWindows(Dataset):
                 for box in (left, right):
                     x0, y0, x1, y1 = box
                     tiles.append(self._resize(tri[:, y0:y1, x0:x1]))
+                    slot_ids.append(slot_of(c))
             else:
                 x0, y0, x1, y1 = sq
                 tiles.append(self._resize(tri[:, y0:y1, x0:x1]))
+                slot_ids.append(slot_of(c))
         if len(tiles) > self.k:
             tiles = tiles[:self.k]
+            slot_ids = slot_ids[:self.k]
         wins = np.stack(tiles, 0)          # (K,3,res,res)
         x = torch.from_numpy(wins)
         if self.train and self.aug:
+            if self.contrast_aug:
+                gamma = random.uniform(0.8, 1.25)
+                x = x.clamp(0, 1).pow(gamma)
             # light medical-safe aug: NO flips (laterality is signal); mild intensity jitter
             g = 1.0 + (random.random() - 0.5) * 0.20
             x = (x * g).clamp(0, 1)
         if self.norm == "imagenet":        # each backbone at its correct input distribution
             x = (x - self._mean) / self._std
         y = torch.from_numpy(self.labels[uid])
+        if self.slot_emb:
+            s_tensor = torch.tensor(slot_ids, dtype=torch.long)
+            return x, y, s_tensor
         return x, y
 
 
@@ -289,6 +375,9 @@ def _winit(_): torch.set_num_threads(1)
 def collate(batch):
     xs = torch.stack([b[0] for b in batch])   # (B,K,3,res,res)
     ys = torch.stack([b[1] for b in batch])   # (B,12)
+    if len(batch[0]) > 2:
+        slots = torch.stack([b[2] for b in batch])  # (B,K)
+        return xs, ys, slots
     return xs, ys
 
 
@@ -322,9 +411,13 @@ def load_raptor(bb, ckpt_path):
 
 class RaptorClassifier(nn.Module):
     """Raptor encoder + per-diagnosis attention-MIL head (12 findings)."""
-    def __init__(self, backbone, F_dim=384, n=12, drop=0.2):
+    def __init__(self, backbone, F_dim=384, n=12, drop=0.2, slot_emb=False):
         super().__init__()
         self.backbone = backbone
+        self.F_dim = F_dim
+        self.slot_emb = nn.Embedding(5, F_dim) if slot_emb else None
+        if self.slot_emb is not None:
+            nn.init.zeros_(self.slot_emb.weight)
         self.norm = nn.LayerNorm(F_dim)
         self.att = nn.Sequential(nn.Linear(F_dim, 256), nn.Tanh(), nn.Dropout(drop),
                                  nn.Linear(256, n))
@@ -347,7 +440,9 @@ class RaptorClassifier(nn.Module):
             f = self.backbone(flat)
         return f.view(B, K, -1)
 
-    def head(self, feats):
+    def head(self, feats, slots=None):
+        if self.slot_emb is not None and slots is not None:
+            feats = feats + self.slot_emb(slots)
         h = self.norm(feats)
         a = self.att(h)
         a = torch.softmax(a, dim=1)
@@ -355,8 +450,8 @@ class RaptorClassifier(nn.Module):
         logits = (pooled * self.clsW).sum(-1) + self.clsb
         return logits
 
-    def forward(self, x):
-        return self.head(self.encode(x))
+    def forward(self, x, slots=None):
+        return self.head(self.encode(x), slots=slots)
 
 
 # ------------------------------- train ---------------------------------------
@@ -411,6 +506,11 @@ def main():
     ap.add_argument("--roi_pad", type=float, default=0.06)
     ap.add_argument("--roi_overlap", type=float, default=0.12)
     ap.add_argument("--roi_boxes", default=os.path.join(HERE, "roi_boxes.npz"))
+    # ---- data recipe (T05) ----
+    ap.add_argument("--clean_windows", action="store_true", help="only windows where c-1, c, c+1 are real & same slot")
+    ap.add_argument("--mirror_p", type=float, default=0.0, help="study-level anatomical mirror augmentation probability")
+    ap.add_argument("--contrast_aug", action="store_true", help="study-level random gamma contrast augmentation in [0.8, 1.25]")
+    ap.add_argument("--slot_emb", action="store_true", help="add learned slot embedding (init zeros) to window features")
     a = ap.parse_args()
     random.seed(a.seed); np.random.seed(a.seed); torch.manual_seed(a.seed)
     XLA = None
@@ -490,11 +590,13 @@ def main():
         print(f"[roi] ENABLED mode={a.roi_mode} pad={a.roi_pad} overlap={a.roi_overlap} "
               f"boxes={os.path.basename(a.roi_boxes)} sbox={roi_sbox.shape}", flush=True)
     _roi_kw = dict(roi=a.roi, roi_mode=a.roi_mode, roi_pad=a.roi_pad, roi_overlap=a.roi_overlap,
-                   roi_sbox=roi_sbox, roi_cen=roi_cen)
+                   roi_sbox=roi_sbox, roi_cen=roi_cen,
+                   clean_windows=bool(a.clean_windows), slot_emb=bool(a.slot_emb))
 
     if os.environ.get("RAPTOR_PRELOAD") == "1":
         _open_corpus()                                # parent holds the RAM copy; forked workers inherit it
-    tds = StudyWindows(HERE, train_ids, id2row, labels, a.res, a.k, train=True, norm=a.norm, **_roi_kw)
+    tds = StudyWindows(HERE, train_ids, id2row, labels, a.res, a.k, train=True, norm=a.norm,
+                       mirror_p=a.mirror_p, contrast_aug=a.contrast_aug, **_roi_kw)
     vds = StudyWindows(HERE, gold_ids, id2row, labels, a.res, a.k_eval, train=False, norm=a.norm, **_roi_kw)
     tl = DataLoader(tds, batch_size=a.bs, shuffle=True, num_workers=a.workers, drop_last=True,
                     collate_fn=collate, pin_memory=(dev == "cuda"), persistent_workers=a.workers > 0, worker_init_fn=WIF)
@@ -523,7 +625,7 @@ def main():
             bb.set_grad_checkpointing(True); print("[raptor] gradient checkpointing ON", flush=True)
         except Exception as e:
             print(f"[raptor] grad_ckpt unsupported for {a.arch}: {e}", flush=True)
-    model = RaptorClassifier(bb, F_dim=F_dim).to(dev)
+    model = RaptorClassifier(bb, F_dim=F_dim, slot_emb=bool(a.slot_emb)).to(dev)
     model.win_chunk = a.win_chunk
     if a.freeze_blocks > 0:
         # Backbones name their layer groups differently: ViT-style models use blocks.N., while
@@ -556,10 +658,12 @@ def main():
     @torch.no_grad()
     def evaluate():
         model.eval(); P = []; Y = []
-        for x, y in vl:
+        for batch in vl:
+            x = batch[0]
+            slots = batch[2].to(dev) if len(batch) > 2 else None
             with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
-                o = torch.sigmoid(model(x.to(dev)).float())
-            P.append(o.cpu().numpy()); Y.append(y.numpy())
+                o = torch.sigmoid(model(x.to(dev), slots=slots).float())
+            P.append(o.cpu().numpy()); Y.append(batch[1].numpy())
         P = np.concatenate(P); Y = np.concatenate(Y)
         aucs = {}
         for j, name in enumerate(LAB):
@@ -607,13 +711,15 @@ def main():
         model.train(); tot = 0.0; tot_t = None
         opt.zero_grad(); n_acc = 0
         _te = time.time(); _ts = time.time(); _step = 0
-        for x, y in tl:
+        for batch in tl:
             if _interrupted:
                 print(f"[signal] Interrupt triggered at step {_step}/{len(tl)}", flush=True)
                 break
-            x, y = x.to(dev, non_blocking=True), y.to(dev, non_blocking=True)
+            x = batch[0].to(dev, non_blocking=True)
+            y = batch[1].to(dev, non_blocking=True)
+            slots = batch[2].to(dev, non_blocking=True) if len(batch) > 2 else None
             with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
-                logits = model(x)
+                logits = model(x, slots=slots)
                 loss = lossf(logits.float(), y)
             scaler.scale(loss / a.accum).backward(); n_acc += 1
             if XLA: tot_t = loss.detach() if tot_t is None else tot_t + loss.detach()   # no per-step host sync on XLA
@@ -656,10 +762,12 @@ def main():
         if sl is not None:
             model.eval(); Ps = []; Ys = []
             with torch.no_grad():
-                for x, y in sl:
+                for batch in sl:
+                    x = batch[0]
+                    slots = batch[2].to(dev) if len(batch) > 2 else None
                     with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
-                        Ps.append(torch.sigmoid(model(x.to(dev)).float()).cpu().numpy())
-                    Ys.append(y.numpy())
+                        Ps.append(torch.sigmoid(model(x.to(dev), slots=slots).float()).cpu().numpy())
+                    Ys.append(batch[1].numpy())
             Ps = np.concatenate(Ps); Ys = np.concatenate(Ys); sub = []
             for j in range(len(LAB)):
                 kk = sub_mask[:, j] > 0; yb = (Ys[kk, j] >= 0.5).astype(int)
@@ -674,6 +782,7 @@ def main():
             patience_counter = 0
             best_state = {"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
                           "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
+                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
                           "arch": a.arch, "lab": LAB, "epoch": ep}
         else:
             patience_counter += 1
@@ -688,6 +797,7 @@ def main():
                      pred=best_P, truth=Y, ids=np.array(gold_ids))
             json.dump({"tag": a.tag, "src": src, "best_gold_auc": best,
                        "aucs": best_state["aucs"], "hist": hist, "res": a.res, "norm": a.norm,
+                       "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
                        "epochs": a.epochs, "bb_lr": a.bb_lr, "head_lr": a.head_lr,
                        "n_train": len(train_ids), "n_gold": len(gold_ids),
                        "roi": a.roi, "roi_mode": a.roi_mode,
@@ -701,6 +811,7 @@ def main():
         if len(topk) < TOPK or sel > min(t.get("sel", t["gold_auc"]) for t in topk):
             topk.append({"model": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()},
                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
+                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
                          "arch": a.arch, "lab": LAB, "epoch": ep, "P": P, "sel": sel})
             topk.sort(key=lambda t: -t.get("sel", t["gold_auc"]))
             del topk[TOPK:]
@@ -716,6 +827,7 @@ def main():
                     else:
                         avg[k] = v0.clone()
                 swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
+                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
                              "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                              "swa_over": [int(t["epoch"]) for t in topk]}
                 torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
@@ -756,7 +868,9 @@ def main():
         np.savez(os.path.join(HERE, f"raptor_gold_{a.tag}.npz"),
                  pred=best_P, truth=Y, ids=np.array(gold_ids))
         json.dump({"tag": a.tag, "src": src, "best_gold_auc": best, "aucs": best_state["aucs"],
-                   "hist": hist, "res": a.res, "norm": a.norm, "epochs": a.epochs, "bb_lr": a.bb_lr,
+                   "hist": hist, "res": a.res, "norm": a.norm,
+                   "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
+                   "epochs": a.epochs, "bb_lr": a.bb_lr,
                    "head_lr": a.head_lr, "n_train": len(train_ids), "n_gold": len(gold_ids),
                    "roi": a.roi, "roi_mode": a.roi_mode, "partial": False, "epochs_done": a.epochs},
                   open(os.path.join(HERE, f"raptor_ft_{a.tag}.json"), "w"), indent=1)
@@ -770,9 +884,11 @@ def main():
                         collate_fn=collate, persistent_workers=False, worker_init_fn=WIF)
         Po = []
         with torch.no_grad():
-            for x, y in ol:
+            for batch in ol:
+                x = batch[0]
+                slots = batch[2].to(dev) if len(batch) > 2 else None
                 with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
-                    o = torch.sigmoid(model(x.to(dev)).float())
+                    o = torch.sigmoid(model(x.to(dev), slots=slots).float())
                 Po.append(o.cpu().numpy())
         Po = np.concatenate(Po)
         Yo = np.stack([labels[u] for u in oof_ids]).astype(np.float32)
@@ -792,10 +908,12 @@ def main():
             model.load_state_dict(t["model"]); model.eval()
             Pe = []
             with torch.no_grad():
-                for x, y in ol:
+                for batch in ol:
+                    x = batch[0]
+                    slots = batch[2].to(dev) if len(batch) > 2 else None
                     with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
-                        Pe.append(torch.sigmoid(model(x.to(dev)).float()).cpu().numpy())
-            Pe = np.concatenate(Pe); oof_by_ep[e] = Pe
+                        Pe.append(torch.sigmoid(model(x.to(dev), slots=slots).float()).cpu().numpy())
+                Pe = np.concatenate(Pe); oof_by_ep[e] = Pe
             np.savez(os.path.join(HERE, f"raptor_oof_{a.tag}_ep{e}_fold{a.fold}.npz"),
                      pred=Pe, truth=Yo, ids=np.array(oof_ids), fold=a.fold, nfolds=a.folds)
             print(f"[cv] wrote top-K epoch OOF ep{e}", flush=True)
@@ -818,6 +936,7 @@ def main():
             else:
                 avg[k] = v0.clone()          # e.g. num_batches_tracked
         swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
+                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
                      "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                      "swa_over": [int(t["epoch"]) for t in topk]}
         model.load_state_dict(avg); model.eval()
@@ -835,9 +954,11 @@ def main():
                              num_workers=a.workers, collate_fn=collate, persistent_workers=False, worker_init_fn=WIF)
             Ps = []
             with torch.no_grad():
-                for x, y in ol2:
+                for batch in ol2:
+                    x = batch[0]
+                    slots = batch[2].to(dev) if len(batch) > 2 else None
                     with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
-                        Ps.append(torch.sigmoid(model(x.to(dev)).float()).cpu().numpy())
+                        Ps.append(torch.sigmoid(model(x.to(dev), slots=slots).float()).cpu().numpy())
             Ps = np.concatenate(Ps)
             np.savez(os.path.join(HERE, f"raptor_oof_{a.tag}_swa_fold{a.fold}.npz"),
                      pred=Ps, truth=np.stack([labels[u] for u in oof_ids]).astype(np.float32),
