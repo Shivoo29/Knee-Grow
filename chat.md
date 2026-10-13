@@ -1368,3 +1368,11 @@ We extracted the exact submission status and error descriptions directly from th
 - node1: tmux `distil` = run_distil.sh → CoAtNet v6 student seed 7 (tag v6d_s7) on labels_distil_v1. v6 seed 5 finished: best gold 0.9187.
 - PC: v6 seed 6 at ep14 gold 0.9210 (PC ~28 min/epoch); chained → run_pc_distil.sh (student seed 8, tag v6d_s8) starts automatically when seed 6 ends.
 - Judge students on LB (gold-58 can't separate teacher 0.931 from us 0.925): next submission = base954 + student(s).
+
+## 55. Oct 13 ~21:00 IST (Claude) — students submitted
+- Distilled students (CoAtNet v6, 96-slice, labels_distil_v1): node1 seed 7 best gold 0.9279, PC seed 8 best 0.9296 (SWA 0.9290). Dataset shivoo29/knee-students (SWA weights of both).
+- SUBMITTED (descriptions got swapped by user; the NOTEBOOK NAME is the truth):
+  - notebook `rsna-knee-students-only` (rank mean of students only) -> description reads "base954 + students 0.15"
+  - notebook `rsna-knee-base954-students` (0.85 base954 + 0.15 students) -> description reads "students only: CoAtNet v6 distilled s7+s8"
+- Running: node1 tmux `distil24` = 24-epoch student seed 9 (test of longer schedule); PC student seed 10 (16 ep).
+- Delegation protocol in delegation/ (PREAMBLE + tasks T01-T03 for zcode GLM-5.3 / Antigravity).
