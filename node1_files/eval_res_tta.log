@@ -1,0 +1,79 @@
+Traceback (most recent call last):
+  File "/home/s05814802723/projects/knee/eval_res_tta.py", line 45, in <module>
+    run(ck)
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/projects/knee/eval_res_tta.py", line 35, in run
+    P.append(torch.sigmoid(m(wins(vols[i], masks[i], res, mir)[None]).float())[0].cpu().numpy())
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/projects/knee/train_knee.py", line 359, in forward
+    return self.head(self.encode(x))
+                     ^^^^^^^^^^^^^^
+  File "/home/s05814802723/projects/knee/train_knee.py", line 347, in encode
+    f = self.backbone(flat)
+        ^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/timm/models/maxxvit.py", line 1577, in forward
+    x = self.forward_features(x)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/timm/models/maxxvit.py", line 1569, in forward_features
+    x = self.stages(x)
+        ^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/container.py", line 253, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/timm/models/maxxvit.py", line 1265, in forward
+    x = self.blocks(x)
+        ^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/container.py", line 253, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/timm/models/maxxvit.py", line 490, in forward
+    x = self.shortcut(x) + self.drop_path1(self.ls1(self.attn(self.norm1(x), shared_rel_pos=shared_rel_pos)))
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/timm/models/maxxvit.py", line 231, in forward
+    x = torch.nn.functional.scaled_dot_product_attention(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: The expanded size of the tensor (484) must match the existing size (576) at non-singleton dimension 3.  Target sizes: [94, 8, 484, 484].  Tensor sizes: [1, 8, 576, 576]
