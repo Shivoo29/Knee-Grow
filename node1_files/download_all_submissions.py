@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-TOKEN = 'KGAT_b654f770a0c9962e470965b90d1dcc90'
+TOKEN = os.environ['KAGGLE_API_TOKEN']   # never hard-code; a leaked token was revoked
 BASE_DIR = os.path.expanduser('~/projects/knee/kaggle_downloads')
 os.makedirs(BASE_DIR, exist_ok=True)
 
