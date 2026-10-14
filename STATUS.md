@@ -99,3 +99,14 @@ Deadlines: merge Oct 15 (not merging), final **Oct 22**. 5 submissions/day, quot
 - Distilled students (CoAtNet version 6, 96 slices): seed 7 best gold-58 0.9279, seed 8 best 0.9296 (previous best seed 0.9273). Gold-58 cannot separate these from noise; leaderboard decides.
 - Submitted: students only, and 0.85 base954 + 0.15 students (Kaggle descriptions are swapped, notebook names are correct). Scores pending.
 - Running: 24-epoch student (node1), student seed 10 (PC). Plan B if students do not help: rank-blend base954 with other strong public notebooks; final picks = best LB + an OAI-free safe one.
+
+## Update Oct 14 evening: pivot to OOF relabelling
+- LB: R7 + Raptor fork 0.956 (best), R7 + label-trained CoAtNets 0.952 (OAI-free), R7 alone 0.949.
+- Forum (hengck23, varshitha, datnt): gold labels are radiologists reading IMAGES, not reports (report labels cap ~0.90);
+  public LB = ~390 studies, noise ~0.003; single models reach 0.960-0.961 with good labels.
+- Gold-58 measurement: report labels 0.899, image teacher 0.932, **0.6 image + 0.4 report labels 0.941**;
+  our own label-trained CoAtNet 0.921 -> 0.939 when mixed the same way. Image + report information is complementary.
+- Problem: teacher predictions on TRAIN studies are in-sample, so distillation targets were mostly report labels again.
+- Plan: 4-fold OOF image predictions on all train studies (report labels only, T05 recipe) -> targets =
+  mix(OOF image, report labels) -> train final models on them -> blend with R7 + Raptor. PC runs folds 0,1 now;
+  node1 folds 2,3 (`pc_code/run_node1_oof.sh 2 3`).
