@@ -1,0 +1,14 @@
+/home/codemaster29/Documents/still_learning/rsna-knee-abnormality-detection/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:1061: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/94 | bs 1 | tag recipe_s22 | roi=False(compartment)
+train 4349 | gold-val 58
+[label_weights] label_weights_v1.parquet rows=4349 zero_frac=0.005
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+
+[signal] Received SIGTERM! Gracefully saving checkpoint and stopping...
+[signal] Interrupt triggered at step 1716/4349
+  [timing] 1716 steps in 668.8s (0.390 s/step) | peak 2.92 GB (reserved 3.38 GB)
+[signal] Interrupted during epoch 0. Saving resume state before exiting...
