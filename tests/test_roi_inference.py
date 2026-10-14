@@ -178,7 +178,7 @@ def t3_windows_equal_study(norm="none"):
 def _legacy_ns():
     """Exec main-branch window code (via git show) in an isolated namespace."""
     src = subprocess.run(["git", "-C", WT, "show",
-                          "main:kaggle_base954_fleet/fleet_v6.py"],
+                          "c0f8758:kaggle_base954_fleet/fleet_v6.py"],   # last commit before ROI inference,
                          capture_output=True, text=True, check=True).stdout
     tree = ast.parse(src)
     want_fn = {"slot_of", "pick_centers", "apply_norm", "mirror_tri", "predict_study"}
