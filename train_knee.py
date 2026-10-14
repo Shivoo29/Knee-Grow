@@ -270,7 +270,8 @@ class StudyWindows(Dataset):
     def __init__(self, root, ids, id2row, labels, res, k, train, aug=True, norm="none",
                  roi=False, roi_mode="tight", roi_pad=0.06, roi_overlap=0.12,
                  roi_sbox=None, roi_cen=None,
-                 clean_windows=False, mirror_p=0.0, contrast_aug=False, slot_emb=False, slots=None):
+                 clean_windows=False, mirror_p=0.0, contrast_aug=False, slot_emb=False, slots=None,
+                 seq_head=False, label_w=None):
         self.root = root
         self.ids = ids
         self.id2row = id2row
@@ -282,6 +283,8 @@ class StudyWindows(Dataset):
         self.contrast_aug = bool(contrast_aug)
         self.slot_emb = bool(slot_emb)
         self.slots = slots
+        self.seq_head = bool(seq_head)
+        self.label_w = label_w            # dict uid -> np.float32[12] per-element weights, or None
         self._mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
         self._std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
         self.vols = None; self.masks = None
@@ -290,6 +293,8 @@ class StudyWindows(Dataset):
         self.roi_mode, self.roi_pad, self.roi_overlap = roi_mode, roi_pad, roi_overlap
         self.roi_sbox = roi_sbox          # (N,D,4) int16 per-slice tissue bbox, or None
         self.roi_cen = roi_cen            # (N,D,2) int16 per-slice joint centroid, or None
+        if self.seq_head and self.roi and self.roi_mode == "compartment":
+            raise ValueError("seq_head is incompatible with roi_mode compartment: 2 crops per center break ordering")
         if self.roi and (_roi_square_box is None or roi_sbox is None):
             raise RuntimeError("roi=True but roi_localize or roi_boxes not available")
 
@@ -323,11 +328,14 @@ class StudyWindows(Dataset):
         compart = self.roi and self.roi_mode == "compartment"
         n_centers = (self.k + 1) // 2 if compart else self.k
         cs = self._centers(valid, n_centers, mask=m)
+        if self.seq_head:
+            cs = sorted(cs)               # GRU sees slices in anatomical order (train and eval)
         vol = self.vols[row]  # (D,H,W) u8  (single study read)
         if self.train and self.mirror_p > 0.0 and random.random() < self.mirror_p:
             vol = mirror_volume(vol, m)
         tiles = []            # list of (3,res,res) float32
         slot_ids = []
+        win_centers = []
         for c in cs:
             c = max(1, min(c, self._D - 2))
             tri = np.stack([vol[c - 1], vol[c], vol[c + 1]], 0).astype(np.float32) / 255.0  # (3,H,W)
@@ -335,6 +343,7 @@ class StudyWindows(Dataset):
             if not self.roi:
                 tiles.append(self._resize(tri))
                 slot_ids.append(slot_of(c))
+                win_centers.append(c)
                 continue
             # one joint box from the CENTER slice, applied to all 3 slices (keeps RGB registered)
             sq_mode = "tight" if compart else self.roi_mode
@@ -347,13 +356,16 @@ class StudyWindows(Dataset):
                     x0, y0, x1, y1 = box
                     tiles.append(self._resize(tri[:, y0:y1, x0:x1]))
                     slot_ids.append(slot_of(c))
+                    win_centers.append(c)
             else:
                 x0, y0, x1, y1 = sq
                 tiles.append(self._resize(tri[:, y0:y1, x0:x1]))
                 slot_ids.append(slot_of(c))
+                win_centers.append(c)
         if len(tiles) > self.k:
             tiles = tiles[:self.k]
             slot_ids = slot_ids[:self.k]
+            win_centers = win_centers[:self.k]
         wins = np.stack(tiles, 0)          # (K,3,res,res)
         x = torch.from_numpy(wins)
         if self.train and self.aug:
@@ -366,22 +378,35 @@ class StudyWindows(Dataset):
         if self.norm == "imagenet":        # each backbone at its correct input distribution
             x = (x - self._mean) / self._std
         y = torch.from_numpy(self.labels[uid])
+        out = [x, y]
         if self.slot_emb:
-            s_tensor = torch.tensor(slot_ids, dtype=torch.long)
-            return x, y, s_tensor
-        return x, y
+            out.append(torch.tensor(slot_ids, dtype=torch.long))
+        if self.seq_head:
+            out.append(torch.tensor(win_centers, dtype=torch.long))
+        if self.label_w is not None:
+            out.append(torch.from_numpy(np.ascontiguousarray(self.label_w[uid], dtype=np.float32)))
+        return tuple(out)
 
 
 def _winit(_): torch.set_num_threads(1)
 
 
 def collate(batch):
-    xs = torch.stack([b[0] for b in batch])   # (B,K,3,res,res)
-    ys = torch.stack([b[1] for b in batch])   # (B,12)
-    if len(batch[0]) > 2:
-        slots = torch.stack([b[2] for b in batch])  # (B,K)
-        return xs, ys, slots
-    return xs, ys
+    # Stacks every returned element: (xs, ys[, slots][, centers][, weights]).
+    # slots (index 2) exists only when the dataset was built with slot_emb;
+    # centers/weights are trailing and read by flag-aware indices in main().
+    return tuple(torch.stack([b[k] for b in batch]) for k in range(len(batch[0])))
+
+
+def weighted_bce(bce_none, logits, y, w):
+    """BCE*weights averaged over elements with weight > 0 (keeps pos_weight).
+
+    With all weights 1 this equals plain mean-BCE. Zero-weight elements are
+    ignored (label down-weighting for noisy-report supervision).
+    """
+    l = bce_none(logits, y) * w
+    n = int((w > 0).sum())
+    return l.sum() / max(n, 1)
 
 
 # ------------------------------- model ---------------------------------------
@@ -414,19 +439,30 @@ def load_raptor(bb, ckpt_path):
 
 class RaptorClassifier(nn.Module):
     """Raptor encoder + per-diagnosis attention-MIL head (12 findings)."""
-    def __init__(self, backbone, F_dim=384, n=12, drop=0.2, slot_emb=False):
+    def __init__(self, backbone, F_dim=384, n=12, drop=0.2, slot_emb=False, seq_head=False):
         super().__init__()
         self.backbone = backbone
         self.F_dim = F_dim
         self.slot_emb = nn.Embedding(5, F_dim) if slot_emb else None
         if self.slot_emb is not None:
             nn.init.zeros_(self.slot_emb.weight)
+        self.seq_head = bool(seq_head)
+        self.gru = nn.GRU(F_dim, F_dim // 2, num_layers=2,
+                          batch_first=True, bidirectional=True,
+                          dropout=0.1) if self.seq_head else None
         self.norm = nn.LayerNorm(F_dim)
         self.att = nn.Sequential(nn.Linear(F_dim, 256), nn.Tanh(), nn.Dropout(drop),
                                  nn.Linear(256, n))
         self.clsW = nn.Parameter(torch.zeros(n, F_dim))
         self.clsb = nn.Parameter(torch.zeros(n))
         nn.init.trunc_normal_(self.clsW, std=0.02)
+        self.aux_norm = nn.LayerNorm(F_dim) if self.seq_head else None
+        self.aux_att = nn.Sequential(nn.Linear(F_dim, 256), nn.Tanh(), nn.Dropout(drop),
+                                     nn.Linear(256, n)) if self.seq_head else None
+        self.aux_clsW = nn.Parameter(torch.zeros(n, F_dim)) if self.seq_head else None
+        self.aux_clsb = nn.Parameter(torch.zeros(n)) if self.seq_head else None
+        if self.aux_clsW is not None:
+            nn.init.trunc_normal_(self.aux_clsW, std=0.02)
         self.n = n
 
     win_chunk = 0   # >0: run the backbone over chunks of this many windows under activation checkpointing (8 GB cards)
@@ -446,6 +482,8 @@ class RaptorClassifier(nn.Module):
     def head(self, feats, slots=None):
         if self.slot_emb is not None and slots is not None:
             feats = feats + self.slot_emb(slots)
+        if self.seq_head:
+            feats = feats + self.gru(feats)[0]
         h = self.norm(feats)
         a = self.att(h)
         a = torch.softmax(a, dim=1)
@@ -453,8 +491,24 @@ class RaptorClassifier(nn.Module):
         logits = (pooled * self.clsW).sum(-1) + self.clsb
         return logits
 
+    def aux_head(self, feats, slots=None):
+        """Independent attention-MIL copy on the PRE-GRU features (training aux loss)."""
+        if self.slot_emb is not None and slots is not None:
+            feats = feats + self.slot_emb(slots)
+        h = self.aux_norm(feats)
+        a = self.aux_att(h)
+        a = torch.softmax(a, dim=1)
+        pooled = torch.einsum("bkn,bkf->bnf", a, h)
+        logits = (pooled * self.aux_clsW).sum(-1) + self.aux_clsb
+        return logits
+
     def forward(self, x, slots=None):
         return self.head(self.encode(x), slots=slots)
+
+    def forward_with_aux(self, x, slots=None):
+        """Returns (main_logits, aux_logits). Eval/inference use main only."""
+        feats = self.encode(x)
+        return self.head(feats, slots=slots), self.aux_head(feats, slots=slots)
 
 
 # ------------------------------- train ---------------------------------------
@@ -515,6 +569,9 @@ def main():
     ap.add_argument("--contrast_aug", action="store_true", help="study-level random gamma contrast augmentation in [0.8, 1.25]")
     ap.add_argument("--slots", default=None, help="specialist: comma list of slot ids whose windows are used, e.g. 2,3 = coronal")
     ap.add_argument("--slot_emb", action="store_true", help="add learned slot embedding (init zeros) to window features")
+    ap.add_argument("--seq_head", action="store_true", help="bi-GRU sequence head over sorted windows + auxiliary attention loss (refuses roi_mode compartment)")
+    ap.add_argument("--aux_w", type=float, default=0.3, help="weight of the auxiliary pre-GRU attention loss")
+    ap.add_argument("--label_weights", default=None, help="path to per-(study,finding) weight parquet (w_<finding> cols); down-weights noisy labels")
     a = ap.parse_args()
     random.seed(a.seed); np.random.seed(a.seed); torch.manual_seed(a.seed)
     XLA = None
@@ -596,12 +653,26 @@ def main():
     _roi_kw = dict(roi=a.roi, roi_mode=a.roi_mode, roi_pad=a.roi_pad, roi_overlap=a.roi_overlap,
                    roi_sbox=roi_sbox, roi_cen=roi_cen,
                    clean_windows=bool(a.clean_windows), slot_emb=bool(a.slot_emb),
-                   slots=tuple(int(v) for v in a.slots.split(',')) if a.slots else None)
+                   slots=tuple(int(v) for v in a.slots.split(',')) if a.slots else None,
+                   seq_head=bool(a.seq_head))
+
+    # ---- label down-weights (only when --label_weights) ----
+    lw_all = None
+    if a.label_weights:
+        lw_df = pd.read_parquet(a.label_weights).set_index("StudyInstanceUID")
+        lw_cols = [c for c in lw_df.columns if c.startswith("w_")]
+        assert len(lw_cols) == 12, f"{a.label_weights}: {len(lw_cols)} w_ cols"
+        lw_all = {u: lw_df.loc[u, lw_cols].values.astype(np.float32) for u in lw_df.index}
+        missing = [u for u in train_ids if u not in lw_all]
+        if missing:
+            raise RuntimeError(f"label_weights missing {len(missing)} train ids")
+        print(f"[label_weights] {os.path.basename(a.label_weights)} rows={len(lw_all)} "
+              f"zero_frac={float((lw_df[lw_cols].values == 0).mean()):.3f}", flush=True)
 
     if os.environ.get("RAPTOR_PRELOAD") == "1":
         _open_corpus()                                # parent holds the RAM copy; forked workers inherit it
     tds = StudyWindows(HERE, train_ids, id2row, labels, a.res, a.k, train=True, norm=a.norm,
-                       mirror_p=a.mirror_p, contrast_aug=a.contrast_aug, **_roi_kw)
+                       mirror_p=a.mirror_p, contrast_aug=a.contrast_aug, label_w=lw_all, **_roi_kw)
     vds = StudyWindows(HERE, gold_ids, id2row, labels, a.res, a.k_eval, train=False, norm=a.norm, **_roi_kw)
     tl = DataLoader(tds, batch_size=a.bs, shuffle=True, num_workers=a.workers, drop_last=True,
                     collate_fn=collate, pin_memory=(dev == "cuda"), persistent_workers=a.workers > 0, worker_init_fn=WIF)
@@ -630,7 +701,8 @@ def main():
             bb.set_grad_checkpointing(True); print("[raptor] gradient checkpointing ON", flush=True)
         except Exception as e:
             print(f"[raptor] grad_ckpt unsupported for {a.arch}: {e}", flush=True)
-    model = RaptorClassifier(bb, F_dim=F_dim, slot_emb=bool(a.slot_emb)).to(dev)
+    model = RaptorClassifier(bb, F_dim=F_dim, slot_emb=bool(a.slot_emb),
+                             seq_head=bool(a.seq_head)).to(dev)
     model.win_chunk = a.win_chunk
     if a.freeze_blocks > 0:
         # Backbones name their layer groups differently: ViT-style models use blocks.N., while
@@ -659,13 +731,14 @@ def main():
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=[a.bb_lr, a.head_lr],
                                                 total_steps=steps, pct_start=0.15)
     lossf = nn.BCEWithLogitsLoss(pos_weight=pw)
+    bce_none = nn.BCEWithLogitsLoss(pos_weight=pw, reduction="none")
 
     @torch.no_grad()
     def evaluate():
         model.eval(); P = []; Y = []
         for batch in vl:
             x = batch[0]
-            slots = batch[2].to(dev) if len(batch) > 2 else None
+            slots = batch[2].to(dev) if a.slot_emb else None
             with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
                 o = torch.sigmoid(model(x.to(dev), slots=slots).float())
             P.append(o.cpu().numpy()); Y.append(batch[1].numpy())
@@ -722,10 +795,21 @@ def main():
                 break
             x = batch[0].to(dev, non_blocking=True)
             y = batch[1].to(dev, non_blocking=True)
-            slots = batch[2].to(dev, non_blocking=True) if len(batch) > 2 else None
+            slots = batch[2].to(dev, non_blocking=True) if a.slot_emb else None
+            w = batch[-1].to(dev, non_blocking=True) if a.label_weights else None
             with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
-                logits = model(x, slots=slots)
-                loss = lossf(logits.float(), y)
+                if a.seq_head:
+                    logits, aux = model.forward_with_aux(x, slots=slots)
+                else:
+                    logits = model(x, slots=slots)
+                if w is None:
+                    loss = lossf(logits.float(), y)
+                    if a.seq_head:
+                        loss = loss + a.aux_w * lossf(aux.float(), y)
+                else:
+                    loss = weighted_bce(bce_none, logits.float(), y, w)
+                    if a.seq_head:
+                        loss = loss + a.aux_w * weighted_bce(bce_none, aux.float(), y, w)
             scaler.scale(loss / a.accum).backward(); n_acc += 1
             if XLA: tot_t = loss.detach() if tot_t is None else tot_t + loss.detach()   # no per-step host sync on XLA
             else: tot += loss.item()
@@ -769,7 +853,7 @@ def main():
             with torch.no_grad():
                 for batch in sl:
                     x = batch[0]
-                    slots = batch[2].to(dev) if len(batch) > 2 else None
+                    slots = batch[2].to(dev) if a.slot_emb else None
                     with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
                         Ps.append(torch.sigmoid(model(x.to(dev), slots=slots).float()).cpu().numpy())
                     Ys.append(batch[1].numpy())
@@ -787,7 +871,7 @@ def main():
             patience_counter = 0
             best_state = {"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
                           "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
+                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                           "arch": a.arch, "lab": LAB, "epoch": ep}
         else:
             patience_counter += 1
@@ -802,7 +886,7 @@ def main():
                      pred=best_P, truth=Y, ids=np.array(gold_ids))
             json.dump({"tag": a.tag, "src": src, "best_gold_auc": best,
                        "aucs": best_state["aucs"], "hist": hist, "res": a.res, "norm": a.norm,
-                       "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
+                       "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                        "epochs": a.epochs, "bb_lr": a.bb_lr, "head_lr": a.head_lr,
                        "n_train": len(train_ids), "n_gold": len(gold_ids),
                        "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
@@ -816,7 +900,7 @@ def main():
         if len(topk) < TOPK or sel > min(t.get("sel", t["gold_auc"]) for t in topk):
             topk.append({"model": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()},
                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
+                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                          "arch": a.arch, "lab": LAB, "epoch": ep, "P": P, "sel": sel})
             topk.sort(key=lambda t: -t.get("sel", t["gold_auc"]))
             del topk[TOPK:]
@@ -832,7 +916,7 @@ def main():
                     else:
                         avg[k] = v0.clone()
                 swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
+                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                              "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                              "swa_over": [int(t["epoch"]) for t in topk]}
                 torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
@@ -874,7 +958,7 @@ def main():
                  pred=best_P, truth=Y, ids=np.array(gold_ids))
         json.dump({"tag": a.tag, "src": src, "best_gold_auc": best, "aucs": best_state["aucs"],
                    "hist": hist, "res": a.res, "norm": a.norm,
-                   "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
+                   "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                    "epochs": a.epochs, "bb_lr": a.bb_lr,
                    "head_lr": a.head_lr, "n_train": len(train_ids), "n_gold": len(gold_ids),
                    "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "partial": False, "epochs_done": a.epochs},
@@ -891,7 +975,7 @@ def main():
         with torch.no_grad():
             for batch in ol:
                 x = batch[0]
-                slots = batch[2].to(dev) if len(batch) > 2 else None
+                slots = batch[2].to(dev) if a.slot_emb else None
                 with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
                     o = torch.sigmoid(model(x.to(dev), slots=slots).float())
                 Po.append(o.cpu().numpy())
@@ -915,7 +999,7 @@ def main():
             with torch.no_grad():
                 for batch in ol:
                     x = batch[0]
-                    slots = batch[2].to(dev) if len(batch) > 2 else None
+                    slots = batch[2].to(dev) if a.slot_emb else None
                     with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
                         Pe.append(torch.sigmoid(model(x.to(dev), slots=slots).float()).cpu().numpy())
                 Pe = np.concatenate(Pe); oof_by_ep[e] = Pe
@@ -941,7 +1025,7 @@ def main():
             else:
                 avg[k] = v0.clone()          # e.g. num_batches_tracked
         swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
+                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                      "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                      "swa_over": [int(t["epoch"]) for t in topk]}
         model.load_state_dict(avg); model.eval()
@@ -961,7 +1045,7 @@ def main():
             with torch.no_grad():
                 for batch in ol2:
                     x = batch[0]
-                    slots = batch[2].to(dev) if len(batch) > 2 else None
+                    slots = batch[2].to(dev) if a.slot_emb else None
                     with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
                         Ps.append(torch.sigmoid(model(x.to(dev), slots=slots).float()).cpu().numpy())
             Ps = np.concatenate(Ps)

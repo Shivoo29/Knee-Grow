@@ -103,30 +103,42 @@ def build_backbone(arch, pretrained=False):
 
 
 class RaptorClassifier(nn.Module):
-    def __init__(self, backbone, F_dim=1024, n=12, drop=0.2, slot_emb=False):
+    """Raptor encoder + per-diagnosis attention-MIL head (12 findings)."""
+    def __init__(self, backbone, F_dim=384, n=12, drop=0.2, slot_emb=False, seq_head=False):
         super().__init__()
         self.backbone = backbone
         self.F_dim = F_dim
         self.slot_emb = nn.Embedding(5, F_dim) if slot_emb else None
         if self.slot_emb is not None:
             nn.init.zeros_(self.slot_emb.weight)
+        self.seq_head = bool(seq_head)
+        self.gru = nn.GRU(F_dim, F_dim // 2, num_layers=2,
+                          batch_first=True, bidirectional=True,
+                          dropout=0.1) if self.seq_head else None
         self.norm = nn.LayerNorm(F_dim)
-        self.att = nn.Sequential(
-            nn.Linear(F_dim, 256),
-            nn.Tanh(),
-            nn.Dropout(drop),
-            nn.Linear(256, n)
-        )
+        self.att = nn.Sequential(nn.Linear(F_dim, 256), nn.Tanh(), nn.Dropout(drop),
+                                 nn.Linear(256, n))
         self.clsW = nn.Parameter(torch.zeros(n, F_dim))
         self.clsb = nn.Parameter(torch.zeros(n))
         nn.init.trunc_normal_(self.clsW, std=0.02)
+        self.aux_norm = nn.LayerNorm(F_dim) if self.seq_head else None
+        self.aux_att = nn.Sequential(nn.Linear(F_dim, 256), nn.Tanh(), nn.Dropout(drop),
+                                     nn.Linear(256, n)) if self.seq_head else None
+        self.aux_clsW = nn.Parameter(torch.zeros(n, F_dim)) if self.seq_head else None
+        self.aux_clsb = nn.Parameter(torch.zeros(n)) if self.seq_head else None
+        if self.aux_clsW is not None:
+            nn.init.trunc_normal_(self.aux_clsW, std=0.02)
         self.n = n
-        self.win_chunk = WIN_CHUNK
+
+    win_chunk = 0   # >0: run the backbone over chunks of this many windows under activation checkpointing (8 GB cards)
 
     def encode(self, x):
         B, K = x.shape[:2]
         flat = x.flatten(0, 1)
-        if self.win_chunk > 0:
+        if self.win_chunk > 0 and self.training and torch.is_grad_enabled():
+            from torch.utils.checkpoint import checkpoint
+            f = torch.cat([checkpoint(self.backbone, c, use_reentrant=False) for c in flat.split(self.win_chunk, 0)], 0)
+        elif self.win_chunk > 0:
             f = torch.cat([self.backbone(c) for c in flat.split(self.win_chunk, 0)], 0)
         else:
             f = self.backbone(flat)
@@ -135,6 +147,8 @@ class RaptorClassifier(nn.Module):
     def head(self, feats, slots=None):
         if self.slot_emb is not None and slots is not None:
             feats = feats + self.slot_emb(slots)
+        if self.seq_head:
+            feats = feats + self.gru(feats)[0]
         h = self.norm(feats)
         a = self.att(h)
         a = torch.softmax(a, dim=1)
@@ -142,8 +156,24 @@ class RaptorClassifier(nn.Module):
         logits = (pooled * self.clsW).sum(-1) + self.clsb
         return logits
 
+    def aux_head(self, feats, slots=None):
+        """Independent attention-MIL copy on the PRE-GRU features (training aux loss)."""
+        if self.slot_emb is not None and slots is not None:
+            feats = feats + self.slot_emb(slots)
+        h = self.aux_norm(feats)
+        a = self.aux_att(h)
+        a = torch.softmax(a, dim=1)
+        pooled = torch.einsum("bkn,bkf->bnf", a, h)
+        logits = (pooled * self.aux_clsW).sum(-1) + self.aux_clsb
+        return logits
+
     def forward(self, x, slots=None):
         return self.head(self.encode(x), slots=slots)
+
+    def forward_with_aux(self, x, slots=None):
+        """Returns (main_logits, aux_logits). Eval/inference use main only."""
+        feats = self.encode(x)
+        return self.head(feats, slots=slots), self.aux_head(feats, slots=slots)
 
 
 # ============================================================================
@@ -678,6 +708,9 @@ def predict_study(model, vol, mask, res, dev, use_tta=False):
         slots=getattr(model, "slots", None),
         k=K_EVAL, roi=roi_cfg,
         norm=getattr(model, "input_norm", "none"))
+    if getattr(model, "seq_head", False):
+        assert all(b >= a for a, b in zip(win_centers, win_centers[1:])), \
+            "seq_head requires ascending window centers"
     x = x.to(dev, non_blocking=True)
     slots_t = torch.tensor(slot_ids, dtype=torch.long, device=dev)[None] if getattr(model, 'has_slot_emb', False) else None
 
@@ -1098,8 +1131,10 @@ def main():
 
     for dev in devices:
         bb = build_backbone(arch, pretrained=False)
-        m = RaptorClassifier(bb, F_dim=f_dim, slot_emb=has_slot).to(dev)
+        m = RaptorClassifier(bb, F_dim=f_dim, slot_emb=has_slot,
+                             seq_head=bool(ck.get("seq_head", False))).to(dev)
         m.load_state_dict(ck["model"])
+        m.win_chunk = WIN_CHUNK  # chunked eval as before (class default 0 = whole study)
         m.input_norm = norm
         m.clean_windows = clean_win
         m.has_slot_emb = has_slot
