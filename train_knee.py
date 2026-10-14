@@ -197,7 +197,7 @@ def slot_of(idx: int) -> int:
     return len(SLOT_BOUNDS) - 1
 
 
-def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=96, cap=False):
+def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=96, cap=False, slots=None):
     """Pick 3-slice window centers.
 
     If clean_windows is True, a center c is allowed only if c-1, c, c+1 are all real
@@ -213,6 +213,8 @@ def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_
         ]
     else:
         cs = [c for c in range(lo + 1, hi) if c - 1 >= lo and c + 1 <= hi]
+    if slots is not None:   # specialist: only windows centred in these slots
+        cs = [c for c in cs if slot_of(c) in slots]
     if not cs:
         cs = [max(1, min((lo + hi) // 2, max_d - 2))]
     if train:
@@ -268,7 +270,7 @@ class StudyWindows(Dataset):
     def __init__(self, root, ids, id2row, labels, res, k, train, aug=True, norm="none",
                  roi=False, roi_mode="tight", roi_pad=0.06, roi_overlap=0.12,
                  roi_sbox=None, roi_cen=None,
-                 clean_windows=False, mirror_p=0.0, contrast_aug=False, slot_emb=False):
+                 clean_windows=False, mirror_p=0.0, contrast_aug=False, slot_emb=False, slots=None):
         self.root = root
         self.ids = ids
         self.id2row = id2row
@@ -279,6 +281,7 @@ class StudyWindows(Dataset):
         self.mirror_p = float(mirror_p)
         self.contrast_aug = bool(contrast_aug)
         self.slot_emb = bool(slot_emb)
+        self.slots = slots
         self._mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
         self._std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
         self.vols = None; self.masks = None
@@ -299,7 +302,7 @@ class StudyWindows(Dataset):
     def _centers(self, valid, count, mask=None):
         return pick_centers(valid, count, train=self.train,
                             clean_windows=self.clean_windows,
-                            mask=mask, max_d=self._D)
+                            mask=mask, max_d=self._D, slots=self.slots)
 
     def _resize(self, tri):
         """tri: (3,h,w) float32 [0,1] -> (3,res,res) float32."""
@@ -510,6 +513,7 @@ def main():
     ap.add_argument("--clean_windows", action="store_true", help="only windows where c-1, c, c+1 are real & same slot")
     ap.add_argument("--mirror_p", type=float, default=0.0, help="study-level anatomical mirror augmentation probability")
     ap.add_argument("--contrast_aug", action="store_true", help="study-level random gamma contrast augmentation in [0.8, 1.25]")
+    ap.add_argument("--slots", default=None, help="specialist: comma list of slot ids whose windows are used, e.g. 2,3 = coronal")
     ap.add_argument("--slot_emb", action="store_true", help="add learned slot embedding (init zeros) to window features")
     a = ap.parse_args()
     random.seed(a.seed); np.random.seed(a.seed); torch.manual_seed(a.seed)
@@ -576,7 +580,7 @@ def main():
     # ---- ROI boxes (only when --roi) ----
     roi_sbox = roi_cen = None
     if a.roi:
-        rb = np.load(a.roi_boxes)
+        rb = np.load(a.roi_boxes, allow_pickle=True)
         rb_ids = rb["ids"].astype(str)
         if not np.array_equal(rb_ids, ids):
             rmap = {u: i for i, u in enumerate(rb_ids)}
@@ -591,7 +595,8 @@ def main():
               f"boxes={os.path.basename(a.roi_boxes)} sbox={roi_sbox.shape}", flush=True)
     _roi_kw = dict(roi=a.roi, roi_mode=a.roi_mode, roi_pad=a.roi_pad, roi_overlap=a.roi_overlap,
                    roi_sbox=roi_sbox, roi_cen=roi_cen,
-                   clean_windows=bool(a.clean_windows), slot_emb=bool(a.slot_emb))
+                   clean_windows=bool(a.clean_windows), slot_emb=bool(a.slot_emb),
+                   slots=tuple(int(v) for v in a.slots.split(',')) if a.slots else None)
 
     if os.environ.get("RAPTOR_PRELOAD") == "1":
         _open_corpus()                                # parent holds the RAM copy; forked workers inherit it
@@ -782,7 +787,7 @@ def main():
             patience_counter = 0
             best_state = {"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
                           "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
+                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
                           "arch": a.arch, "lab": LAB, "epoch": ep}
         else:
             patience_counter += 1
@@ -797,7 +802,7 @@ def main():
                      pred=best_P, truth=Y, ids=np.array(gold_ids))
             json.dump({"tag": a.tag, "src": src, "best_gold_auc": best,
                        "aucs": best_state["aucs"], "hist": hist, "res": a.res, "norm": a.norm,
-                       "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
+                       "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
                        "epochs": a.epochs, "bb_lr": a.bb_lr, "head_lr": a.head_lr,
                        "n_train": len(train_ids), "n_gold": len(gold_ids),
                        "roi": a.roi, "roi_mode": a.roi_mode,
@@ -811,7 +816,7 @@ def main():
         if len(topk) < TOPK or sel > min(t.get("sel", t["gold_auc"]) for t in topk):
             topk.append({"model": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()},
                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
+                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
                          "arch": a.arch, "lab": LAB, "epoch": ep, "P": P, "sel": sel})
             topk.sort(key=lambda t: -t.get("sel", t["gold_auc"]))
             del topk[TOPK:]
@@ -827,7 +832,7 @@ def main():
                     else:
                         avg[k] = v0.clone()
                 swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
+                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
                              "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                              "swa_over": [int(t["epoch"]) for t in topk]}
                 torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
@@ -869,7 +874,7 @@ def main():
                  pred=best_P, truth=Y, ids=np.array(gold_ids))
         json.dump({"tag": a.tag, "src": src, "best_gold_auc": best, "aucs": best_state["aucs"],
                    "hist": hist, "res": a.res, "norm": a.norm,
-                   "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
+                   "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
                    "epochs": a.epochs, "bb_lr": a.bb_lr,
                    "head_lr": a.head_lr, "n_train": len(train_ids), "n_gold": len(gold_ids),
                    "roi": a.roi, "roi_mode": a.roi_mode, "partial": False, "epochs_done": a.epochs},
@@ -936,7 +941,7 @@ def main():
             else:
                 avg[k] = v0.clone()          # e.g. num_batches_tracked
         swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb),
+                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
                      "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                      "swa_over": [int(t["epoch"]) for t in topk]}
         model.load_state_dict(avg); model.eval()

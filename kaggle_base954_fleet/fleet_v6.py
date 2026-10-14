@@ -350,7 +350,7 @@ def slot_of(idx: int) -> int:
     return len(SLOT_BOUNDS) - 1
 
 
-def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=96, cap=False):
+def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=96, cap=False, slots=None):
     """Pick 3-slice window centers.
 
     If clean_windows is True, a center c is allowed only if c-1, c, c+1 are all real
@@ -366,6 +366,8 @@ def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_
         ]
     else:
         cs = [c for c in range(lo + 1, hi) if c - 1 >= lo and c + 1 <= hi]
+    if slots is not None:   # specialist: only windows centred in these slots
+        cs = [c for c in cs if slot_of(c) in slots]
     if not cs:
         cs = [max(1, min((lo + hi) // 2, max_d - 2))]
     if train:
@@ -407,7 +409,7 @@ def predict_study(model, vol, mask, res, dev, use_tta=False):
     if len(valid) < 3:
         valid = np.arange(min(3, MAXS))
     clean_win = getattr(model, "clean_windows", False)
-    centers = pick_centers(valid, K_EVAL, train=False, clean_windows=clean_win, mask=mask, max_d=MAXS, cap=True)
+    centers = pick_centers(valid, K_EVAL, train=False, clean_windows=clean_win, mask=mask, max_d=MAXS, cap=True, slots=getattr(model, 'slots', None))
 
     wins = []
     slot_ids = []
@@ -828,6 +830,7 @@ def main():
     norm = ck.get("norm", "none")
     clean_win = bool(ck.get("clean_windows", False))
     has_slot = bool(ck.get("slot_emb", False))
+    spec_slots = tuple(int(v) for v in ck["slots"].split(",")) if ck.get("slots") else None
     print(f"[model] Checkpoint: {ckpt_path} | Arch: {arch} | Res: {res} | clean_win={clean_win} | slot_emb={has_slot}", flush=True)
 
     # Initialize model replica per device
@@ -843,6 +846,7 @@ def main():
         m.input_norm = norm
         m.clean_windows = clean_win
         m.has_slot_emb = has_slot
+        m.slots = spec_slots
         m.eval()
         models.append(m)
 
