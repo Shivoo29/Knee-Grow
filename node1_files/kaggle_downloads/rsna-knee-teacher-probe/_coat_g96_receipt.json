@@ -1,0 +1,156 @@
+{
+  "status": "VALID_COATNET_GLOBAL96_TOP3_T4X2_SUBMISSION",
+  "runtime_contract": "rsna_coatnet_global96_top3_t4x2_v1",
+  "artifact_contract": "rsna_coatnet_global96_top3_probability_rank_package_v1",
+  "studies": 358,
+  "series": 1999,
+  "models": 3,
+  "checkpoint_selection": "top three official Gold58 macro-AUC epochs",
+  "checkpoints": [
+    {
+      "rank": 1,
+      "name": "coatnet_global96_gold_e16.pt",
+      "sha256": "f824d16bd506f442cc5a37b054663963e5461a59a0c42ad480f3fe515dd9408f",
+      "epoch": 16,
+      "gold_auc": 0.9274041461096929
+    },
+    {
+      "rank": 2,
+      "name": "coatnet_global96_gold_e23.pt",
+      "sha256": "c177a8a9240c7d55465fea83bb27b1ab400274722095b2895b689092a804bfdb",
+      "epoch": 23,
+      "gold_auc": 0.9267289932102192
+    },
+    {
+      "rank": 3,
+      "name": "coatnet_global96_gold_e18.pt",
+      "sha256": "629f0d10ebc1946a25577b8dc0fa1d83d65d8a607961d146b53b7a36dc2c5c2e",
+      "epoch": 18,
+      "gold_auc": 0.9249550137927351
+    }
+  ],
+  "ensemble": "equal checkpoint probability mean then per-finding average-percentile rank",
+  "raw_checkpoint_probability_weights": [
+    0.3333333333333333,
+    0.3333333333333333,
+    0.3333333333333333
+  ],
+  "rank_after_probability_average": true,
+  "gold58_probability_mean_auc": 0.9305011145436436,
+  "gold58_checkpoint_rank_mean_auc": 0.9289836804382087,
+  "serving_precision": "float16_autocast",
+  "opencv": "4.12.0",
+  "timm": "1.0.22",
+  "stack_layout": "inferred96",
+  "slot_widths": [
+    27,
+    21,
+    18,
+    12,
+    18
+  ],
+  "stack_slices": 96,
+  "maximum_eval_windows": 94,
+  "triplet_frame_mode": "native_cached_slice_channels",
+  "common_physical_triplet_warp": false,
+  "canonical_sagittal": true,
+  "ordered_triplet_slot_metadata": true,
+  "resolution": 384,
+  "triplet_fov_mm": 130.0,
+  "gpu_names": [
+    "Tesla T4",
+    "Tesla T4"
+  ],
+  "parallel_workers": 2,
+  "parallel_bounds": [
+    [
+      0,
+      183
+    ],
+    [
+      183,
+      358
+    ]
+  ],
+  "parallel_workload": [
+    27884,
+    27953
+  ],
+  "gpu_batch_studies": 2,
+  "backbone_micro_images": 8,
+  "cudnn_benchmark": false,
+  "dicom_preparations_per_study": 1,
+  "model_passes_per_study": 3,
+  "fallback_studies": 0,
+  "processes": [
+    {
+      "gpu": 0,
+      "start": 0,
+      "stop": 183,
+      "returncode": 0,
+      "path": "/kaggle/working/g96_input/coatnet_global96_top3_part0.npz"
+    },
+    {
+      "gpu": 1,
+      "start": 183,
+      "stop": 358,
+      "returncode": 0,
+      "path": "/kaggle/working/g96_input/coatnet_global96_top3_part1.npz"
+    }
+  ],
+  "shards": [
+    {
+      "start": 0,
+      "stop": 183,
+      "backbone_micro_images": 8,
+      "cudnn_benchmark": false,
+      "device": "cuda",
+      "dicom_preparations_per_study": 1,
+      "elapsed_seconds": 996.9150007609996,
+      "fallback_studies": 0,
+      "gpu": "Tesla T4",
+      "gpu_batch_studies": 2,
+      "model_load_seconds": 9.083973854999385,
+      "model_passes_per_study": 3,
+      "models_resident": 3,
+      "peak_reserved_bytes": 2319450112,
+      "prep_chunk": 16,
+      "prep_workers": 2,
+      "preparation_warnings": 0,
+      "prepared_studies": 183,
+      "total_cross_slot_windows": 1464,
+      "total_missing_position_windows": 957,
+      "total_windows": 17202
+    },
+    {
+      "start": 183,
+      "stop": 358,
+      "backbone_micro_images": 8,
+      "cudnn_benchmark": false,
+      "device": "cuda",
+      "dicom_preparations_per_study": 1,
+      "elapsed_seconds": 1052.0279450970002,
+      "fallback_studies": 0,
+      "gpu": "Tesla T4",
+      "gpu_batch_studies": 2,
+      "model_load_seconds": 9.243155572999967,
+      "model_passes_per_study": 3,
+      "models_resident": 3,
+      "peak_reserved_bytes": 2319450112,
+      "prep_chunk": 16,
+      "prep_workers": 2,
+      "preparation_warnings": 0,
+      "prepared_studies": 175,
+      "total_cross_slot_windows": 1400,
+      "total_missing_position_windows": 1183,
+      "total_windows": 16450
+    }
+  ],
+  "elapsed_seconds": 1089.6207428200005,
+  "output": "/kaggle/working/g96_input/_coat_g96.csv",
+  "output_sha256": "d078e65c29b76b59b94a404944e6c393b95fd1352be3f3aaf6fbd0ec64628e05",
+  "diagnostic_checkpoint_rank_output": "/kaggle/working/g96_input/submission_checkpoint_rank_mean.csv",
+  "diagnostic_checkpoint_rank_output_sha256": "61a745aec45a3d53cf4d4c5a6fe87f51863528771c5a4d63bb69f7e6c8d0b040",
+  "predictions": "/kaggle/working/g96_input/coatnet_global96_top3_predictions.npz",
+  "predictions_sha256": "8ba2e3809c8127556969ca251434574fc8bd1b4275271c08b536ffa4a5a6d39f"
+}

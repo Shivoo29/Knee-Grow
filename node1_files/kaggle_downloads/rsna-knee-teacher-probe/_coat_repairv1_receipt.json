@@ -1,0 +1,145 @@
+{
+  "status": "VALID_COATNET_REPAIRV1_TOP3_PROBABILITY_RANK_SUBMISSION",
+  "runtime_contract": "rsna_coatnet_repairv1_e18_top3_probability_rank_t4x2_v1",
+  "artifact_contract": "rsna_coatnet_repairv1_e18_top3_probability_rank_package_v1",
+  "studies": 358,
+  "series": 1999,
+  "models": 3,
+  "terminal_completed_epoch": 18,
+  "terminal_status": "early_stopped",
+  "checkpoint_selection": "terminal top three official Gold58 macro-AUC",
+  "checkpoints": [
+    {
+      "rank": 1,
+      "name": "coatnet_repairv1_gold_e12.pt",
+      "sha256": "45f34ec036a6b2dfb75239343f1dc33bc815bacd8c2d996235035d2602b5b2e7",
+      "epoch": 12,
+      "gold_auc": 0.9042195775738434
+    },
+    {
+      "rank": 2,
+      "name": "coatnet_repairv1_gold_e07.pt",
+      "sha256": "4f36e9aff09986fcf4f130203e3fbf391b95e0a466ed9c6f656dafd01c349cdf",
+      "epoch": 7,
+      "gold_auc": 0.9016175724807871
+    },
+    {
+      "rank": 3,
+      "name": "coatnet_repairv1_gold_e11.pt",
+      "sha256": "2ec451b03e4c1da5048aee91d4358fa2efa2900619d9dfd5b75dadce659e2f21",
+      "epoch": 11,
+      "gold_auc": 0.8982895646060981
+    }
+  ],
+  "ensemble": "equal probability mean then per-finding average-percentile rank",
+  "raw_checkpoint_probability_weights": [
+    0.3333333333333333,
+    0.3333333333333333,
+    0.3333333333333333
+  ],
+  "rank_after_probability_average": true,
+  "gold58_probability_mean_auc": 0.9103562853180026,
+  "gold58_checkpoint_rank_mean_auc": 0.9084529682919512,
+  "t4_full_gold58_portability": "VALID_REPAIRV1_FULL_GOLD58_T4_NUMERICAL_PORTABILITY_WITH_NONIDENTICAL_X86_RENDER",
+  "serving_precision": "float16",
+  "opencv": "4.12.0",
+  "eval_grid": "saved_training_gold_unique_center_slot_budgets",
+  "eval_slot_budgets": [
+    20,
+    12,
+    12,
+    8,
+    16,
+    8
+  ],
+  "canonical_sagittal": true,
+  "resolution": 384,
+  "triplet_fov_mm": 130.0,
+  "gpu_names": [
+    "Tesla T4",
+    "Tesla T4"
+  ],
+  "parallel_workers": 2,
+  "parallel_bounds": [
+    [
+      0,
+      183
+    ],
+    [
+      183,
+      358
+    ]
+  ],
+  "parallel_workload": [
+    27884,
+    27953
+  ],
+  "gpu_batch_studies": 2,
+  "backbone_micro_images": 8,
+  "cudnn_benchmark": false,
+  "dicom_preparations_per_study": 1,
+  "model_passes_per_study": 3,
+  "failures": [],
+  "fallback_studies": 0,
+  "processes": [
+    {
+      "gpu": 0,
+      "start": 0,
+      "stop": 183,
+      "returncode": 0,
+      "path": "/kaggle/working/coat_repairv1_top3_part0.npz"
+    },
+    {
+      "gpu": 1,
+      "start": 183,
+      "stop": 358,
+      "returncode": 0,
+      "path": "/kaggle/working/coat_repairv1_top3_part1.npz"
+    }
+  ],
+  "shards": [
+    {
+      "start": 0,
+      "stop": 183,
+      "backbone_micro_images": 8,
+      "cudnn_benchmark": false,
+      "device": "cuda",
+      "dicom_preparations_per_study": 1,
+      "elapsed_seconds": 926.6036735849993,
+      "gpu": "Tesla T4",
+      "gpu_batch_studies": 2,
+      "model_load_seconds": 10.197990656000911,
+      "model_passes_per_study": 3,
+      "models_resident": 3,
+      "peak_reserved_bytes": 2535456768,
+      "prep_chunk": 16,
+      "prep_workers": 2,
+      "prepared_studies": 183
+    },
+    {
+      "start": 183,
+      "stop": 358,
+      "backbone_micro_images": 8,
+      "cudnn_benchmark": false,
+      "device": "cuda",
+      "dicom_preparations_per_study": 1,
+      "elapsed_seconds": 990.886255110001,
+      "gpu": "Tesla T4",
+      "gpu_batch_studies": 2,
+      "model_load_seconds": 10.498591793999367,
+      "model_passes_per_study": 3,
+      "models_resident": 3,
+      "peak_reserved_bytes": 2495610880,
+      "prep_chunk": 16,
+      "prep_workers": 2,
+      "prepared_studies": 175
+    }
+  ],
+  "elapsed_seconds": 1030.7100099020008,
+  "output": "/kaggle/working/_coat_repairv1.csv",
+  "output_sha256": "eaddd79bfe5fd8858552af5b5f6ae54326e1c8fc68f30728aa7279f72255b62a",
+  "diagnostic_checkpoint_rank_output": "/kaggle/working/submission_checkpoint_rank_mean.csv",
+  "diagnostic_checkpoint_rank_output_sha256": "d66a96fe95a82e07b6dba27db9c0148c73fa8bc62775f1e0e67297329db58fb4",
+  "predictions": "/kaggle/working/coatnet_repairv1_top3_predictions.npz",
+  "predictions_sha256": "250d49378894614b1cc4f2021fd755d9ecdb03002cf603675dcc30f1b8ebc95b"
+}

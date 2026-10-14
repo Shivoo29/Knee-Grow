@@ -1,0 +1,142 @@
+{
+  "status": "VALID_COAT_RESGATED_EP10_TOP3_RANK_SUBMISSION",
+  "runtime_contract": "resgated_ep10_input_nativecenters_v1",
+  "input_max_windows": 94,
+  "artifact_contract": "rsna_coat_resgated_ep10_top3_gold_rank_package_v2",
+  "studies": 358,
+  "series": 1999,
+  "models": 3,
+  "snapshot_completed_epoch": 10,
+  "checkpoint_selection": "top three official Gold58 macro-AUC by epoch 10",
+  "checkpoints": [
+    {
+      "rank": 1,
+      "name": "coat_resgated_gold_e04.pt",
+      "sha256": "cefaf007415b5e45ce2a720d5e211a183a4e90f160710ba1f72b1ce7c46239a2",
+      "epoch": 4,
+      "gold_auc": 0.9004583452460247
+    },
+    {
+      "rank": 2,
+      "name": "coat_resgated_gold_e06.pt",
+      "sha256": "56eca1f61651362ecfae8aecdd9327125713b95653344b8ad62ef8cff17d08f4",
+      "epoch": 6,
+      "gold_auc": 0.8975532362766714
+    },
+    {
+      "rank": 3,
+      "name": "coat_resgated_gold_e08.pt",
+      "sha256": "8d3159102046c127dc0d084fb69c9304ffcbd4b98d1333f9811d4d613fea1b12",
+      "epoch": 8,
+      "gold_auc": 0.8968762056250612
+    }
+  ],
+  "ensemble": "equal mean of three per-finding average-percentile ranks",
+  "checkpoint_rank_weights": [
+    0.3333333333333333,
+    0.3333333333333333,
+    0.3333333333333333
+  ],
+  "rank_after_probability_average": false,
+  "historical_parent_gold58_rank_ensemble_auc": 0.9094696373252056,
+  "historical_parent_t4_gold58_rank_ensemble_auc": 0.9093268412428666,
+  "serving_precision": "float16",
+  "opencv": "4.12.0",
+  "eval_grid": "input_unique_native_centers_six_slot_v1",
+  "eval_slot_budgets": [
+    20,
+    12,
+    12,
+    8,
+    16,
+    8
+  ],
+  "canonical_sagittal": true,
+  "resolution": 384,
+  "triplet_fov_mm": 130.0,
+  "gpu_names": [
+    "Tesla T4",
+    "Tesla T4"
+  ],
+  "parallel_workers": 2,
+  "parallel_bounds": [
+    [
+      0,
+      183
+    ],
+    [
+      183,
+      358
+    ]
+  ],
+  "parallel_workload": [
+    27884,
+    27953
+  ],
+  "gpu_batch_studies": 2,
+  "backbone_micro_images": 8,
+  "cudnn_benchmark": false,
+  "dicom_preparations_per_study": 1,
+  "model_passes_per_study": 3,
+  "failures": [],
+  "fallback_studies": 0,
+  "processes": [
+    {
+      "gpu": 0,
+      "start": 0,
+      "stop": 183,
+      "returncode": 0,
+      "path": "/kaggle/working/coat_top3_part0.npz"
+    },
+    {
+      "gpu": 1,
+      "start": 183,
+      "stop": 358,
+      "returncode": 0,
+      "path": "/kaggle/working/coat_top3_part1.npz"
+    }
+  ],
+  "shards": [
+    {
+      "start": 0,
+      "stop": 183,
+      "backbone_micro_images": 8,
+      "cudnn_benchmark": false,
+      "device": "cuda",
+      "dicom_preparations_per_study": 1,
+      "elapsed_seconds": 996.4397221270001,
+      "gpu": "Tesla T4",
+      "gpu_batch_studies": 2,
+      "model_load_seconds": 11.132165679000536,
+      "model_passes_per_study": 3,
+      "models_resident": 3,
+      "peak_reserved_bytes": 2304770048,
+      "prep_chunk": 16,
+      "prep_workers": 2,
+      "prepared_studies": 183
+    },
+    {
+      "start": 183,
+      "stop": 358,
+      "backbone_micro_images": 8,
+      "cudnn_benchmark": false,
+      "device": "cuda",
+      "dicom_preparations_per_study": 1,
+      "elapsed_seconds": 1096.7644226029997,
+      "gpu": "Tesla T4",
+      "gpu_batch_studies": 2,
+      "model_load_seconds": 10.734787339999457,
+      "model_passes_per_study": 3,
+      "models_resident": 3,
+      "peak_reserved_bytes": 2304770048,
+      "prep_chunk": 16,
+      "prep_workers": 2,
+      "prepared_studies": 175
+    }
+  ],
+  "elapsed_seconds": 1142.9003535820002,
+  "output": "/kaggle/working/_coat_arm.csv",
+  "output_sha256": "ea54be4d056efd574b208e841a14228c7e85903ae4dca423c9fb957e2f3b9117",
+  "predictions": "/kaggle/working/coat_resgated_ep10_top3_predictions.npz",
+  "predictions_sha256": "1c9992704d9d2bde683edf0fcf3d122c19c2f9e4cffb624e91f5f8ec9506c6bc"
+}

@@ -1,0 +1,126 @@
+[{"stream_name":"stderr","time":8.029269121,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.029356789,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.029362549,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.029365446,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.69977044,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.699802797,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.699808605,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.699812714,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":15.764511885,"data":"teacher probe: 358 train studies -\u003e /kaggle/working/fakecomp\n"}
+,{"stream_name":"stdout","time":26.073508124,"data":"cuda:0 probe PASS (compute 7.5)\n"}
+,{"stream_name":"stdout","time":26.122039022,"data":"cuda:1 probe PASS (compute 7.5)\n"}
+,{"stream_name":"stdout","time":26.122074264,"data":"devices: ['cuda:0', 'cuda:1']\n"}
+,{"stream_name":"stdout","time":26.12207906,"data":"[startup] imports+GPU preflight: 10.08s\n"}
+,{"stream_name":"stdout","time":26.195718905,"data":"[    0.1s] input root: /kaggle/working/fakecomp\n"}
+,{"stream_name":"stdout","time":26.197482726,"data":"[startup] competition-root preflight: 0.08s\n"}
+,{"stream_name":"stdout","time":26.301010329,"data":"[    0.2s] memory: 29.4 GB available, 13.2 GB to the cache; sizing for 4407 train + 1322 test studies -\u003e 1 group(s) of 3 = 3 slices per slot\n"}
+,{"stream_name":"stdout","time":26.30220599,"data":"[    0.2s] cache layout: 1 groups x 3 slices = 3 per slot\n"}
+,{"stream_name":"stdout","time":28.637421293,"data":"[phase] {\"a5_without_matching_acquisition\": 0, \"elapsed_seconds\": 2.5139071941375732, \"gpus\": [{\"allocated_bytes\": 0, \"id\": 0, \"reserved_bytes\": 0}, {\"allocated_bytes\": 0, \"id\": 1, \"reserved_bytes\": 0}], \"max_rss_kib\": 1050292, \"memory.current\": \"1435475968\", \"memory.max\": \"32212254720\", \"missing_fluid_flags\": 0, \"stage\": \"input_metadata\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":29.0970316,"data":"[phase] {\"elapsed_seconds\": 2.9725210666656494, \"gpus\": [{\"allocated_bytes\": 0, \"id\": 0, \"reserved_bytes\": 0}, {\"allocated_bytes\": 0, \"id\": 1, \"reserved_bytes\": 0}], \"max_rss_kib\": 1050292, \"memory.current\": \"1440333824\", \"memory.max\": \"32212254720\", \"stage\": \"dinov2\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":29.143973075,"data":"[    3.0s] weights package: 20 member(s) from /kaggle/input/rsna-knee-weights; 2 device(s)\n"}
+,{"stream_name":"stdout","time":141.871977248,"data":"[  115.7s] test header pass: 24371 series\n"}
+,{"stream_name":"stdout","time":141.873120056,"data":"[  115.7s] decode group 1/1: 336px x 12 slices, crop 130.0 mm -\u003e 20 member(s)\n"}
+,{"stream_name":"stdout","time":158.480438296,"data":"[  132.3s] test laterality: 2203 from the tag, 2132 from geometry, 72 unresolved; tag and geometry disagree on 31 (1.4% of the tagged)\n"}
+,{"stream_name":"stdout","time":159.434891592,"data":"[  133.3s] test g1: 358 studies, 1651 slot-series, 2.71 GiB pixels\n"}
+,{"stream_name":"stdout","time":440.51573261,"data":"[  414.3s] test g1: COMPLETE 1651/1651; reused ordering for 0 series\n"}
+,{"stream_name":"stdout","time":471.156374296,"data":"[  444.8s] backbone: 12 blocks, last 6 trainable (10.7M params), feature dim 768\n"}
+,{"stream_name":"stdout","time":473.495443864,"data":"[  447.4s] e5427d6c21: fingerprint matches within 2.8e-06\n"}
+,{"stream_name":"stdout","time":476.490557376,"data":"[  450.4s] ea3fbf6edf: fingerprint matches within 3.8e-06\n"}
+,{"stream_name":"stdout","time":479.740618253,"data":"[  453.6s] 013dc75703: fingerprint matches within 3.3e-06\n"}
+,{"stream_name":"stdout","time":482.518366255,"data":"[  456.4s] 8baecb9d1b: fingerprint matches within 2.4e-06\n"}
+,{"stream_name":"stdout","time":484.963584473,"data":"[  458.8s] 44128e3ff3: fingerprint matches within 4.3e-06\n"}
+,{"stream_name":"stdout","time":487.379919685,"data":"[  461.3s] ed427aa10a: fingerprint matches within 4.6e-06\n"}
+,{"stream_name":"stdout","time":490.014427319,"data":"[  463.9s] 3d1f4c48fc: fingerprint matches within 1.3e-06\n"}
+,{"stream_name":"stdout","time":492.748271159,"data":"[  466.6s] 8476b29285: fingerprint matches within 4.4e-06\n"}
+,{"stream_name":"stdout","time":495.678012838,"data":"[  469.6s] 7f8321affc: fingerprint matches within 2.9e-06\n"}
+,{"stream_name":"stdout","time":498.554308429,"data":"[  472.4s] b7c37cc80e: fingerprint matches within 1.1e-06\n"}
+,{"stream_name":"stdout","time":501.456071667,"data":"[  475.3s] d47313baef: fingerprint matches within 2.1e-06\n"}
+,{"stream_name":"stdout","time":504.49164981,"data":"[  478.4s] 5f8ba4c5ea: fingerprint matches within 3.3e-06\n"}
+,{"stream_name":"stdout","time":507.461942838,"data":"[  481.3s] 2f7e785e82: fingerprint matches within 1.1e-06\n"}
+,{"stream_name":"stdout","time":510.419775261,"data":"[  484.3s] 44bc3c6f14: fingerprint matches within 3.8e-06\n"}
+,{"stream_name":"stdout","time":513.652244432,"data":"[  487.5s] 84079fe8cb: fingerprint matches within 1.2e-06\n"}
+,{"stream_name":"stdout","time":517.033838675,"data":"[  490.9s] 2dce50ebd9: fingerprint matches within 3.8e-06\n"}
+,{"stream_name":"stdout","time":520.527350069,"data":"[  494.4s] 91f171fe6f: fingerprint matches within 2.6e-06\n"}
+,{"stream_name":"stdout","time":523.261081677,"data":"[  497.1s] 72081758ce: fingerprint matches within 2.9e-06\n"}
+,{"stream_name":"stdout","time":525.598926484,"data":"[  499.5s] 1e553ba481: fingerprint matches within 1.7e-06\n"}
+,{"stream_name":"stdout","time":527.975800866,"data":"[  501.9s] f335c812fe: fingerprint matches within 2.9e-06\n"}
+,{"stream_name":"stdout","time":934.419640691,"data":"[  908.3s] shared first 6 DINOv2 blocks for 20 members; original views computed once per 2 device(s)\n"}
+,{"stream_name":"stdout","time":934.420684068,"data":"[  908.3s]   banked e5427d6c21 fold 2 (10 window(s); 1 member(s)\n"}
+,{"stream_name":"stdout","time":934.427230952,"data":"[  908.3s]   banked d47313baef fold 2 (10 window(s); 2 member(s)\n"}
+,{"stream_name":"stdout","time":934.434539225,"data":"[  908.3s]   banked ea3fbf6edf fold 2 (10 window(s); 3 member(s)\n"}
+,{"stream_name":"stdout","time":934.441583933,"data":"[  908.3s]   banked 5f8ba4c5ea fold 2 (10 window(s); 4 member(s)\n"}
+,{"stream_name":"stdout","time":934.44881175,"data":"[  908.3s]   banked 013dc75703 fold 4 (10 window(s); 5 member(s)\n"}
+,{"stream_name":"stdout","time":934.455366767,"data":"[  908.3s]   banked 2f7e785e82 fold 4 (10 window(s); 6 member(s)\n"}
+,{"stream_name":"stdout","time":934.462389063,"data":"[  908.3s]   banked 8baecb9d1b fold 4 (10 window(s); 7 member(s)\n"}
+,{"stream_name":"stdout","time":934.469084572,"data":"[  908.3s]   banked 44bc3c6f14 fold 0 (10 window(s); 8 member(s)\n"}
+,{"stream_name":"stdout","time":934.475911158,"data":"[  908.4s]   banked 44128e3ff3 fold 0 (10 window(s); 9 member(s)\n"}
+,{"stream_name":"stdout","time":934.483436592,"data":"[  908.4s]   banked 84079fe8cb fold 3 (10 window(s); 10 member(s)\n"}
+,{"stream_name":"stdout","time":934.490082874,"data":"[  908.4s]   banked ed427aa10a fold 0 (10 window(s); 11 member(s)\n"}
+,{"stream_name":"stdout","time":934.496623963,"data":"[  908.4s]   banked 2dce50ebd9 fold 0 (10 window(s); 12 member(s)\n"}
+,{"stream_name":"stdout","time":934.50409942,"data":"[  908.4s]   banked 3d1f4c48fc fold 4 (10 window(s); 13 member(s)\n"}
+,{"stream_name":"stdout","time":934.510682936,"data":"[  908.4s]   banked 91f171fe6f fold 1 (10 window(s); 14 member(s)\n"}
+,{"stream_name":"stdout","time":934.517545346,"data":"[  908.4s]   banked 8476b29285 fold 1 (10 window(s); 15 member(s)\n"}
+,{"stream_name":"stdout","time":934.52411878,"data":"[  908.4s]   banked 72081758ce fold 3 (10 window(s); 16 member(s)\n"}
+,{"stream_name":"stdout","time":934.531198016,"data":"[  908.4s]   banked 7f8321affc fold 3 (10 window(s); 17 member(s)\n"}
+,{"stream_name":"stdout","time":934.538379608,"data":"[  908.4s]   banked 1e553ba481 fold 1 (10 window(s); 18 member(s)\n"}
+,{"stream_name":"stdout","time":934.545361448,"data":"[  908.4s]   banked b7c37cc80e fold 3 (10 window(s); 19 member(s)\n"}
+,{"stream_name":"stdout","time":934.552462074,"data":"[  908.4s]   banked f335c812fe fold 1 (10 window(s); 20 member(s)\n"}
+,{"stream_name":"stdout","time":935.043465149,"data":"[  908.9s] DINOv2 fail-closed gate PASS: 20/20 fingerprints and members\n"}
+,{"stream_name":"stdout","time":935.10190952,"data":"[  909.0s] submission.csv = exact no-jitter public-frontier rank mean of 20 member(s); (358, 13)\n"}
+,{"stream_name":"stdout","time":935.112930805,"data":"[  909.0s] done\n"}
+,{"stream_name":"stdout","time":935.405822145,"data":"[phase] {\"elapsed_seconds\": 909.2826793193817, \"gpus\": [{\"allocated_bytes\": 9568256, \"id\": 0, \"reserved_bytes\": 23068672}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 195035136}], \"max_rss_kib\": 7559932, \"memory.current\": \"26722615296\", \"memory.max\": \"32212254720\", \"stage\": \"dinov2\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":935.478493013,"data":"[phase] {\"elapsed_seconds\": 909.3547115325928, \"gpus\": [{\"allocated_bytes\": 9568256, \"id\": 0, \"reserved_bytes\": 23068672}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 195035136}], \"max_rss_kib\": 7559932, \"memory.current\": \"26723397632\", \"memory.max\": \"32212254720\", \"stage\": \"a5\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":940.228145174,"data":"series root: /kaggle/working/fakecomp/test_series\n"}
+,{"stream_name":"stdout","time":940.228179026,"data":"358 test studies, 358 with series metadata\n"}
+,{"stream_name":"stdout","time":943.456826748,"data":"A5 strict-loaded m_f0.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":946.353706441,"data":"A5 strict-loaded m_f1.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":949.249110107,"data":"A5 strict-loaded m_f2.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":952.080703357,"data":"A5 strict-loaded m_f3.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":954.96033433,"data":"A5 strict-loaded m_f4.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":956.20130756,"data":"device cuda | amp bfloat16 (on=True) | workers 4 | chunk 48 | micro 8\n"}
+,{"stream_name":"stdout","time":1006.577967913,"data":"  48/358  0.8m  eta 5.4m\n"}
+,{"stream_name":"stdout","time":1056.572817023,"data":"  96/358  1.7m  eta 4.6m\n"}
+,{"stream_name":"stdout","time":1101.545689654,"data":"  144/358  2.4m  eta 3.6m\n"}
+,{"stream_name":"stdout","time":1155.468342737,"data":"  192/358  3.3m  eta 2.9m\n"}
+,{"stream_name":"stdout","time":1221.166737011,"data":"  240/358  4.4m  eta 2.2m\n"}
+,{"stream_name":"stdout","time":1283.222504538,"data":"  288/358  5.4m  eta 1.3m\n"}
+,{"stream_name":"stdout","time":1335.332412627,"data":"  336/358  6.3m  eta 0.4m\n"}
+,{"stream_name":"stdout","time":1353.106235106,"data":"  358/358  6.6m  eta 0.0m\n"}
+,{"stream_name":"stdout","time":1353.44752893,"data":"\n"}
+,{"stream_name":"stdout","time":1353.447564399,"data":"inference done in 6.6 min\n"}
+,{"stream_name":"stdout","time":1353.645190227,"data":"[phase] {\"absent\": 0, \"applicable\": 358, \"elapsed_seconds\": 1327.5158531665802, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 7559932, \"memory.current\": \"29721243648\", \"memory.max\": \"32212254720\", \"stage\": \"a5\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":1353.853270995,"data":"[phase] {\"elapsed_seconds\": 1327.7296667099, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 7559932, \"memory.current\": \"29724413952\", \"memory.max\": \"32212254720\", \"stage\": \"radimagenet\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":1368.233822132,"data":"[ 1342.1s] rad commonlaterality: 2203 from the tag, 2116 from geometry, 88 unresolved; tag and geometry disagree on 176 (8.0% of the tagged)\n"}
+,{"stream_name":"stdout","time":1381.006970729,"data":"[ 1354.9s] rad_e10: 358 studies, 1034 slot-series, 0.40 GiB pixels\n"}
+,{"stream_name":"stdout","time":1556.590142892,"data":"[ 1530.4s] rad_e10: COMPLETE 1034/1034; reused ordering for 0 series\n"}
+,{"stream_name":"stdout","time":1568.261114997,"data":"[ 1542.1s] rad_e13: 358 studies, 1376 slot-series, 0.54 GiB pixels\n"}
+,{"stream_name":"stdout","time":1661.767599658,"data":"[ 1635.6s] rad_e13: COMPLETE 1376/1376; reused ordering for 1034 series\n"}
+,{"stream_name":"stdout","time":1673.223492469,"data":"[ 1647.1s] rad_legacy_second: 358 studies, 1044 slot-series, 0.54 GiB pixels\n"}
+,{"stream_name":"stdout","time":1761.909449346,"data":"[ 1735.8s] rad_legacy_second: COMPLETE 1044/1044; reused ordering for 680 series\n"}
+,{"stream_name":"stdout","time":1768.454603148,"data":"[Rad-dual5] BTKD reference Rad/calibrator complete; unused alternate-head branch removed\n"}
+,{"stream_name":"stdout","time":1768.464161699,"data":"[phase] {\"elapsed_seconds\": 1742.3407890796661, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 7559932, \"memory.current\": \"30443413504\", \"memory.max\": \"32212254720\", \"stage\": \"radimagenet\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":1779.14133175,"data":"[phase] {\"elapsed_seconds\": 1753.0177128314972, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 7559932, \"memory.current\": \"30455083008\", \"memory.max\": \"32212254720\", \"stage\": \"public_raptor\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":1779.335783286,"data":"[raptor-fast] 358 studies; balanced arm groups cuda:0=[0,2], cuda:1=[1,3]\n"}
+,{"stream_name":"stdout","time":4528.970095517,"data":"[raptor-fast] wrote /kaggle/working/_raptor.csv; elapsed 2749.8s\n"}
+,{"stream_name":"stdout","time":4528.985145638,"data":"[phase] {\"elapsed_seconds\": 4502.818099021912, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 8087428, \"memory.current\": \"30756483072\", \"memory.max\": \"32212254720\", \"stage\": \"public_raptor\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":4535.594608116,"data":"[phase] {\"elapsed_seconds\": 4509.470781326294, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 8087428, \"memory.current\": \"30775767040\", \"memory.max\": \"32212254720\", \"stage\": \"residual_coat\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":5696.025072025,"data":"[phase] {\"elapsed_seconds\": 5669.86591386795, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 8087428, \"memory.current\": \"27973169152\", \"memory.max\": \"32212254720\", \"ok\": true, \"stage\": \"residual_coat\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":5696.032810695,"data":"[phase] {\"elapsed_seconds\": 5669.883116006851, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 8087428, \"memory.current\": \"27974082560\", \"memory.max\": \"32212254720\", \"stage\": \"global96_coat\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":6806.009343414,"data":"[phase] {\"elapsed_seconds\": 6779.85604596138, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 8087428, \"memory.current\": \"27559411712\", \"memory.max\": \"32212254720\", \"ok\": true, \"stage\": \"global96_coat\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":6806.015472897,"data":"[phase] {\"elapsed_seconds\": 6779.868438243866, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 8087428, \"memory.current\": \"27559546880\", \"memory.max\": \"32212254720\", \"stage\": \"d4\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":7707.91068991,"data":"[phase] {\"elapsed_seconds\": 7681.750056743622, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 8087428, \"memory.current\": \"27959689216\", \"memory.max\": \"32212254720\", \"ok\": true, \"stage\": \"d4\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":7707.91509086,"data":"[phase] {\"elapsed_seconds\": 7681.764011621475, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 8087428, \"memory.current\": \"27960643584\", \"memory.max\": \"32212254720\", \"stage\": \"repairv1_coat\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":8756.453309367,"data":"[phase] {\"elapsed_seconds\": 8730.295745134354, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 54525952}, {\"allocated_bytes\": 19136512, \"id\": 1, \"reserved_bytes\": 46137344}], \"max_rss_kib\": 8087428, \"memory.current\": \"28406112256\", \"memory.max\": \"32212254720\", \"ok\": true, \"stage\": \"repairv1_coat\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":8756.554410758,"data":"[coat-arm] family reduction: rank_of_member_probability_mean\n"}
+,{"stream_name":"stdout","time":8756.557996482,"data":"[coat-arm] CoAt family members: resgated_top3, global96_top3, d4_swa3, repairv1_top3\n"}
+,{"stream_name":"stdout","time":8756.585963364,"data":"[coat-arm] equal-rank CoAt family; BTKD32 no-inner-rerank; 358 studies\n"}
+,{"stream_name":"stdout","time":8756.744435304,"data":"COMPLETE: /kaggle/working/submission.csv, 358 studies, SHA256=ec17a154751956b3c54145d7b2960745d7f8ff9cb98ebc41a62692a00e2e0643\n"}
+,{"stream_name":"stderr","time":8764.490163988,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":8764.490218599,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":8764.886473969,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":8764.886507311,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":8766.140281512,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":8766.557856532,"data":"[NbConvertApp] Writing 324069 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":8769.574333142,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":8772.324395898,"data":"[NbConvertApp] Writing 1532076 bytes to __results__.html\n"}
+]

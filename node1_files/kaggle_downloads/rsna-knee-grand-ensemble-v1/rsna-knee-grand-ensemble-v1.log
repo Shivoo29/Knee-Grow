@@ -1,0 +1,316 @@
+[{"stream_name":"stderr","time":5.932027289,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":5.932070496,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":5.932074645,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":5.932076987,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":6.503421794,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":6.50344978,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":6.503454907,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":6.503459231,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":14.711353638,"data":"cuda:0 probe PASS (compute 7.5)\n"}
+,{"stream_name":"stdout","time":14.742292544,"data":"cuda:1 probe PASS (compute 7.5)\n"}
+,{"stream_name":"stdout","time":14.742323162,"data":"devices: ['cuda:0', 'cuda:1']\n"}
+,{"stream_name":"stdout","time":14.742327447,"data":"[startup] imports+GPU preflight: 7.02s\n"}
+,{"stream_name":"stdout","time":14.799990135,"data":"[    0.1s] input root: /kaggle/input/competitions/rsna-knee-abnormality-detection\n"}
+,{"stream_name":"stdout","time":14.801462679,"data":"[startup] competition-root preflight: 0.06s\n"}
+,{"stream_name":"stdout","time":14.936439784000001,"data":"[    0.2s] memory: 29.5 GB available, 13.3 GB to the cache; sizing for 4407 train + 1322 test studies -\u003e 1 group(s) of 3 = 3 slices per slot\n"}
+,{"stream_name":"stdout","time":14.937284259,"data":"[    0.2s] cache layout: 1 groups x 3 slices = 3 per slot\n"}
+,{"stream_name":"stdout","time":15.525796891,"data":"[phase] {\"a5_without_matching_acquisition\": 0, \"elapsed_seconds\": 0.783087968826294, \"gpus\": [{\"allocated_bytes\": 0, \"id\": 0, \"reserved_bytes\": 0}, {\"allocated_bytes\": 0, \"id\": 1, \"reserved_bytes\": 0}], \"max_rss_kib\": 1038016, \"memory.current\": \"1410048000\", \"memory.max\": \"32212254720\", \"missing_fluid_flags\": 0, \"stage\": \"input_metadata\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":15.901295431,"data":"[phase] {\"elapsed_seconds\": 1.1585772037506104, \"gpus\": [{\"allocated_bytes\": 0, \"id\": 0, \"reserved_bytes\": 0}, {\"allocated_bytes\": 0, \"id\": 1, \"reserved_bytes\": 0}], \"max_rss_kib\": 1038016, \"memory.current\": \"1418629120\", \"memory.max\": \"32212254720\", \"stage\": \"dinov2\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":15.924570591,"data":"[    1.2s] weights package: 20 member(s) from /kaggle/input/datasets/pilkwang/rsna-knee-weights; 2 device(s)\n"}
+,{"stream_name":"stdout","time":15.995923585,"data":"[    1.3s] test header pass: 15 series\n"}
+,{"stream_name":"stdout","time":15.996890063,"data":"[    1.3s] decode group 1/1: 336px x 12 slices, crop 130.0 mm -\u003e 20 member(s)\n"}
+,{"stream_name":"stdout","time":16.026024756,"data":"[    1.3s] test laterality: 1 from the tag, 2 from geometry, 0 unresolved; tag and geometry disagree on 0 (0.0% of the tagged)\n"}
+,{"stream_name":"stdout","time":16.026831217,"data":"[    1.3s] test g1: 3 studies, 12 slot-series, 0.02 GiB pixels\n"}
+,{"stream_name":"stdout","time":18.534311055,"data":"[    3.8s] test g1: COMPLETE 12/12; reused ordering for 0 series\n"}
+,{"stream_name":"stdout","time":37.76092067,"data":"[   23.0s] backbone: 12 blocks, last 6 trainable (10.7M params), feature dim 768\n"}
+,{"stream_name":"stdout","time":38.814464005,"data":"[   24.1s] e5427d6c21: fingerprint matches within 2.8e-06\n"}
+,{"stream_name":"stdout","time":40.451567966,"data":"[   25.7s] d47313baef: fingerprint matches within 2.1e-06\n"}
+,{"stream_name":"stdout","time":41.636259003,"data":"[   26.9s] ea3fbf6edf: fingerprint matches within 3.8e-06\n"}
+,{"stream_name":"stdout","time":42.794260345,"data":"[   28.1s] 5f8ba4c5ea: fingerprint matches within 3.3e-06\n"}
+,{"stream_name":"stdout","time":43.930172361,"data":"[   29.2s] 013dc75703: fingerprint matches within 3.3e-06\n"}
+,{"stream_name":"stdout","time":45.00486923,"data":"[   30.3s] 2f7e785e82: fingerprint matches within 1.1e-06\n"}
+,{"stream_name":"stdout","time":46.040224523,"data":"[   31.3s] 8baecb9d1b: fingerprint matches within 2.4e-06\n"}
+,{"stream_name":"stdout","time":47.090794893,"data":"[   32.3s] 44bc3c6f14: fingerprint matches within 3.8e-06\n"}
+,{"stream_name":"stdout","time":48.122232886,"data":"[   33.4s] 44128e3ff3: fingerprint matches within 4.3e-06\n"}
+,{"stream_name":"stdout","time":49.1773713,"data":"[   34.4s] 84079fe8cb: fingerprint matches within 1.2e-06\n"}
+,{"stream_name":"stdout","time":50.207066528,"data":"[   35.5s] ed427aa10a: fingerprint matches within 4.6e-06\n"}
+,{"stream_name":"stdout","time":51.27971683,"data":"[   36.5s] 2dce50ebd9: fingerprint matches within 3.8e-06\n"}
+,{"stream_name":"stdout","time":52.326601053,"data":"[   37.6s] 3d1f4c48fc: fingerprint matches within 1.3e-06\n"}
+,{"stream_name":"stdout","time":53.379642104,"data":"[   38.6s] 91f171fe6f: fingerprint matches within 2.6e-06\n"}
+,{"stream_name":"stdout","time":54.452677694,"data":"[   39.7s] 8476b29285: fingerprint matches within 4.4e-06\n"}
+,{"stream_name":"stdout","time":55.555980498,"data":"[   40.8s] 72081758ce: fingerprint matches within 2.9e-06\n"}
+,{"stream_name":"stdout","time":56.655809042,"data":"[   41.9s] 7f8321affc: fingerprint matches within 2.9e-06\n"}
+,{"stream_name":"stdout","time":57.708331007,"data":"[   43.0s] 1e553ba481: fingerprint matches within 1.7e-06\n"}
+,{"stream_name":"stdout","time":58.753264405,"data":"[   44.0s] b7c37cc80e: fingerprint matches within 1.1e-06\n"}
+,{"stream_name":"stdout","time":59.838348434,"data":"[   45.1s] f335c812fe: fingerprint matches within 2.9e-06\n"}
+,{"stream_name":"stdout","time":63.612528923,"data":"[   48.9s] shared first 6 DINOv2 blocks for 20 members; original views computed once per 2 device(s)\n"}
+,{"stream_name":"stdout","time":63.61526794,"data":"[   48.9s]   banked e5427d6c21 fold 2 (10 window(s); 1 member(s)\n"}
+,{"stream_name":"stdout","time":63.61704276,"data":"[   48.9s]   banked d47313baef fold 2 (10 window(s); 2 member(s)\n"}
+,{"stream_name":"stdout","time":63.618705577,"data":"[   48.9s]   banked ea3fbf6edf fold 2 (10 window(s); 3 member(s)\n"}
+,{"stream_name":"stdout","time":63.620742421,"data":"[   48.9s]   banked 5f8ba4c5ea fold 2 (10 window(s); 4 member(s)\n"}
+,{"stream_name":"stdout","time":63.622801537,"data":"[   48.9s]   banked 013dc75703 fold 4 (10 window(s); 5 member(s)\n"}
+,{"stream_name":"stdout","time":63.624619465,"data":"[   48.9s]   banked 2f7e785e82 fold 4 (10 window(s); 6 member(s)\n"}
+,{"stream_name":"stdout","time":63.626450512,"data":"[   48.9s]   banked 8baecb9d1b fold 4 (10 window(s); 7 member(s)\n"}
+,{"stream_name":"stdout","time":63.628501201,"data":"[   48.9s]   banked 44bc3c6f14 fold 0 (10 window(s); 8 member(s)\n"}
+,{"stream_name":"stdout","time":63.630378551,"data":"[   48.9s]   banked 44128e3ff3 fold 0 (10 window(s); 9 member(s)\n"}
+,{"stream_name":"stdout","time":63.632393786,"data":"[   48.9s]   banked 84079fe8cb fold 3 (10 window(s); 10 member(s)\n"}
+,{"stream_name":"stdout","time":63.634190114,"data":"[   48.9s]   banked ed427aa10a fold 0 (10 window(s); 11 member(s)\n"}
+,{"stream_name":"stdout","time":63.63597389,"data":"[   48.9s]   banked 2dce50ebd9 fold 0 (10 window(s); 12 member(s)\n"}
+,{"stream_name":"stdout","time":63.637654379,"data":"[   48.9s]   banked 3d1f4c48fc fold 4 (10 window(s); 13 member(s)\n"}
+,{"stream_name":"stdout","time":63.639444275,"data":"[   48.9s]   banked 91f171fe6f fold 1 (10 window(s); 14 member(s)\n"}
+,{"stream_name":"stdout","time":63.641265509,"data":"[   48.9s]   banked 8476b29285 fold 1 (10 window(s); 15 member(s)\n"}
+,{"stream_name":"stdout","time":63.643056403,"data":"[   48.9s]   banked 72081758ce fold 3 (10 window(s); 16 member(s)\n"}
+,{"stream_name":"stdout","time":63.644728514,"data":"[   48.9s]   banked 7f8321affc fold 3 (10 window(s); 17 member(s)\n"}
+,{"stream_name":"stdout","time":63.646481711,"data":"[   48.9s]   banked 1e553ba481 fold 1 (10 window(s); 18 member(s)\n"}
+,{"stream_name":"stdout","time":63.648210582,"data":"[   48.9s]   banked b7c37cc80e fold 3 (10 window(s); 19 member(s)\n"}
+,{"stream_name":"stdout","time":63.649680975,"data":"[   48.9s]   banked f335c812fe fold 1 (10 window(s); 20 member(s)\n"}
+,{"stream_name":"stdout","time":63.883288743,"data":"[   49.1s] DINOv2 fail-closed gate PASS: 20/20 fingerprints and members\n"}
+,{"stream_name":"stdout","time":63.900703088,"data":"[   49.2s] submission.csv = exact no-jitter public-frontier rank mean of 20 member(s); (3, 13)\n"}
+,{"stream_name":"stdout","time":63.905717646,"data":"[   49.2s] done\n"}
+,{"stream_name":"stdout","time":64.141562302,"data":"[phase] {\"elapsed_seconds\": 49.398951053619385, \"gpus\": [{\"allocated_bytes\": 9568256, \"id\": 0, \"reserved_bytes\": 23068672}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 195035136}], \"max_rss_kib\": 2716572, \"memory.current\": \"5771071488\", \"memory.max\": \"32212254720\", \"stage\": \"dinov2\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":64.192428852,"data":"[phase] {\"elapsed_seconds\": 49.44986391067505, \"gpus\": [{\"allocated_bytes\": 9568256, \"id\": 0, \"reserved_bytes\": 23068672}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 195035136}], \"max_rss_kib\": 2716572, \"memory.current\": \"5773004800\", \"memory.max\": \"32212254720\", \"stage\": \"a5\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":66.873187275,"data":"series root: /kaggle/input/competitions/rsna-knee-abnormality-detection/test_series\n"}
+,{"stream_name":"stdout","time":66.873212879,"data":"3 test studies, 3 with series metadata\n"}
+,{"stream_name":"stdout","time":68.455171794,"data":"A5 strict-loaded m_f0.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":69.589659564,"data":"A5 strict-loaded m_f1.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":70.686002412,"data":"A5 strict-loaded m_f2.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":71.723741454,"data":"A5 strict-loaded m_f3.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":72.570864759,"data":"A5 strict-loaded m_f4.pt; all encoder and head tensors present\n"}
+,{"stream_name":"stdout","time":73.516839821,"data":"device cuda | amp bfloat16 (on=True) | workers 4 | chunk 48 | micro 8\n"}
+,{"stream_name":"stdout","time":76.675203982,"data":"  3/3  0.1m  eta 0.0m\n"}
+,{"stream_name":"stdout","time":76.965220907,"data":"\n"}
+,{"stream_name":"stdout","time":76.965256236,"data":"inference done in 0.1 min\n"}
+,{"stream_name":"stdout","time":77.023555548,"data":"[phase] {\"absent\": 0, \"applicable\": 3, \"elapsed_seconds\": 62.281121492385864, \"gpus\": [{\"allocated_bytes\": 9568256, \"id\": 0, \"reserved_bytes\": 23068672}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 3450352, \"memory.current\": \"6898597888\", \"memory.max\": \"32212254720\", \"stage\": \"a5\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":77.156744823,"data":"[phase] {\"elapsed_seconds\": 62.414883852005005, \"gpus\": [{\"allocated_bytes\": 9568256, \"id\": 0, \"reserved_bytes\": 23068672}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 3450352, \"memory.current\": \"6898450432\", \"memory.max\": \"32212254720\", \"stage\": \"radimagenet\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":79.287674777,"data":"[   64.5s] rad commonlaterality: 1 from the tag, 2 from geometry, 0 unresolved; tag and geometry disagree on 0 (0.0% of the tagged)\n"}
+,{"stream_name":"stdout","time":80.673717159,"data":"[   65.9s] rad_e10: 3 studies, 8 slot-series, 0.00 GiB pixels\n"}
+,{"stream_name":"stdout","time":81.808412357,"data":"[   67.1s] rad_e10: COMPLETE 8/8; reused ordering for 0 series\n"}
+,{"stream_name":"stdout","time":81.826134103,"data":"[   67.1s] rad_e13: 3 studies, 11 slot-series, 0.00 GiB pixels\n"}
+,{"stream_name":"stdout","time":82.509897506,"data":"[   67.8s] rad_e13: COMPLETE 11/11; reused ordering for 8 series\n"}
+,{"stream_name":"stdout","time":82.524558557,"data":"[   67.8s] rad_legacy_second: 3 studies, 7 slot-series, 0.00 GiB pixels\n"}
+,{"stream_name":"stdout","time":82.989726489,"data":"[   68.2s] rad_legacy_second: COMPLETE 7/7; reused ordering for 5 series\n"}
+,{"stream_name":"stdout","time":83.453973926,"data":"[Rad-dual5] BTKD reference Rad/calibrator complete; unused alternate-head branch removed\n"}
+,{"stream_name":"stdout","time":83.45586209,"data":"[phase] {\"elapsed_seconds\": 68.71316742897034, \"gpus\": [{\"allocated_bytes\": 9568256, \"id\": 0, \"reserved_bytes\": 23068672}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 3540968, \"memory.current\": \"7630761984\", \"memory.max\": \"32212254720\", \"stage\": \"radimagenet\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":83.619519974,"data":"[phase] {\"elapsed_seconds\": 68.87731623649597, \"gpus\": [{\"allocated_bytes\": 9568256, \"id\": 0, \"reserved_bytes\": 23068672}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 3540968, \"memory.current\": \"7630737408\", \"memory.max\": \"32212254720\", \"stage\": \"public_raptor\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":83.637573913,"data":"[raptor-fast] 3 studies; balanced arm groups cuda:0=[0,2], cuda:1=[1,3]\n"}
+,{"stream_name":"stdout","time":111.211284184,"data":"[raptor-fast] wrote /kaggle/working/_raptor.csv; elapsed 27.6s\n"}
+,{"stream_name":"stdout","time":111.212866039,"data":"[phase] {\"elapsed_seconds\": 96.47007632255554, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 62914560}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 6346104, \"memory.current\": \"9814560768\", \"memory.max\": \"32212254720\", \"stage\": \"public_raptor\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":113.686436445,"data":"[phase] {\"elapsed_seconds\": 98.93122506141663, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 62914560}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 6346104, \"memory.current\": \"9915539456\", \"memory.max\": \"32212254720\", \"stage\": \"d4\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":113.687637948,"data":"[phase] {\"elapsed_seconds\": 98.93129110336304, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 62914560}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 6346104, \"memory.current\": \"9915539456\", \"memory.max\": \"32212254720\", \"stage\": \"residual_coat\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":160.207831106,"data":"[phase] {\"elapsed_seconds\": 145.44990587234497, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 62914560}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 6346104, \"memory.current\": \"14889779200\", \"memory.max\": \"32212254720\", \"ok\": true, \"stage\": \"d4\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":164.617321053,"data":"[phase] {\"elapsed_seconds\": 149.87462162971497, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 62914560}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 6346104, \"memory.current\": \"11568459776\", \"memory.max\": \"32212254720\", \"ok\": true, \"stage\": \"residual_coat\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":164.628606458,"data":"[phase] {\"elapsed_seconds\": 149.88400387763977, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 62914560}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 6346104, \"memory.current\": \"11568070656\", \"memory.max\": \"32212254720\", \"stage\": \"global96_coat\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":164.628629411,"data":"[phase] {\"elapsed_seconds\": 149.88407731056213, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 62914560}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 6346104, \"memory.current\": \"11568070656\", \"memory.max\": \"32212254720\", \"stage\": \"repairv1_coat\", \"status\": \"START\"}\n"}
+,{"stream_name":"stdout","time":216.003767228,"data":"[phase] {\"elapsed_seconds\": 201.24631714820862, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 62914560}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 6346104, \"memory.current\": \"16664412160\", \"memory.max\": \"32212254720\", \"ok\": true, \"stage\": \"repairv1_coat\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":221.970662972,"data":"[phase] {\"elapsed_seconds\": 207.2273452281952, \"gpus\": [{\"allocated_bytes\": 19136512, \"id\": 0, \"reserved_bytes\": 62914560}, {\"allocated_bytes\": 9568256, \"id\": 1, \"reserved_bytes\": 23068672}], \"max_rss_kib\": 6346104, \"memory.current\": \"13385232384\", \"memory.max\": \"32212254720\", \"ok\": true, \"stage\": \"global96_coat\", \"status\": \"COMPLETE\"}\n"}
+,{"stream_name":"stdout","time":222.012531979,"data":"[coat-arm] family reduction: rank_of_member_probability_mean\n"}
+,{"stream_name":"stdout","time":222.013368754,"data":"[coat-arm] CoAt family members: resgated_top3, global96_top3, d4_swa3, repairv1_top3\n"}
+,{"stream_name":"stdout","time":222.021061718,"data":"[coat-arm] equal-rank CoAt family; BTKD32 no-inner-rerank; 3 studies\n"}
+,{"stream_name":"stdout","time":222.097592853,"data":"COMPLETE: /kaggle/working/submission.csv, 3 studies, SHA256=8f0c5e7b2b561538dae55439a4d2e9173141096da3defd9bc0a4bac351eef37a\n"}
+,{"stream_name":"stdout","time":222.235785981,"data":"[ours 1/3] stashed the public probe22 output: (3, 13) -\u003e /kaggle/working/_public_probe22.csv\n"}
+,{"stream_name":"stdout","time":222.287461609,"data":"[ours 2/3] Launching 96-Slice Grand Fleet inference (CoAtNet-v6 + ConvNeXt-Base)...\n"}
+,{"stream_name":"stdout","time":226.477730671,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":226.477765434,"data":"RSNA Knee Inference Pipeline | Mode: FULL (TTA) | K_EVAL=94\n"}
+,{"stream_name":"stdout","time":226.477772009,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":226.477796717,"data":"[devices] Dual-T4 Multi-GPU enabled: ['cuda:0', 'cuda:1']\n"}
+,{"stream_name":"stdout","time":226.478988415,"data":"[ckpt] Found direct checkpoint: /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_v6_swa.pt\n"}
+,{"stream_name":"stdout","time":226.480025946,"data":"[ckpt] Found direct checkpoint: /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_cnext_base_96_swa.pt\n"}
+,{"stream_name":"stdout","time":226.480040832,"data":"[fleet] CoAtNet-2 Checkpoint: /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_v6_swa.pt\n"}
+,{"stream_name":"stdout","time":226.480044952,"data":"[fleet] ConvNeXt-Base Checkpoint: /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_cnext_base_96_swa.pt\n"}
+,{"stream_name":"stdout","time":226.679785723,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":226.679817965,"data":"RSNA Knee Inference Pipeline | Mode: FULL (TTA) | K_EVAL=94\n"}
+,{"stream_name":"stdout","time":226.679821368,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":226.679824026,"data":"[devices] Dual-T4 Multi-GPU enabled: ['cuda:0', 'cuda:1']\n"}
+,{"stream_name":"stdout","time":226.679826589,"data":"[ckpt] Found direct checkpoint: /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_v6_swa.pt\n"}
+,{"stream_name":"stdout","time":226.679829026,"data":"[ckpt] Found direct checkpoint: /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_cnext_base_96_swa.pt\n"}
+,{"stream_name":"stdout","time":226.679831417,"data":"[fleet] CoAtNet-2 Checkpoint: /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_v6_swa.pt\n"}
+,{"stream_name":"stdout","time":226.679833807,"data":"[fleet] ConvNeXt-Base Checkpoint: /kaggle/input/datasets/shivoo29/knee-our-models/raptor_ft_cnext_base_96_swa.pt\n"}
+,{"stream_name":"stdout","time":234.335023623,"data":"[warmup] Pre-warming CUDA runtime \u0026 cuDNN autotuner across devices...\n"}
+,{"stream_name":"stdout","time":234.537214945,"data":"[warmup] Pre-warming CUDA runtime \u0026 cuDNN autotuner across devices...\n"}
+,{"stream_name":"stdout","time":260.820261635,"data":"[startup] Fixed setup \u0026 GPU warmup completed in 34.37s\n"}
+,{"stream_name":"stdout","time":260.821172483,"data":"[data] Found test image directory: /kaggle/input/competitions/rsna-knee-abnormality-detection/test_series\n"}
+,{"stream_name":"stdout","time":260.824724749,"data":"[data] Detected real test set: 3 studies from /kaggle/input/competitions/rsna-knee-abnormality-detection/test_series\n"}
+,{"stream_name":"stdout","time":261.032199255,"data":"[startup] Fixed setup \u0026 GPU warmup completed in 34.37s\n"}
+,{"stream_name":"stdout","time":261.032221172,"data":"[data] Found test image directory: /kaggle/input/competitions/rsna-knee-abnormality-detection/test_series\n"}
+,{"stream_name":"stdout","time":261.03222662,"data":"[data] Detected real test set: 3 studies from /kaggle/input/competitions/rsna-knee-abnormality-detection/test_series\n"}
+,{"stream_name":"stdout","time":459.174612647,"data":"\n"}
+,{"stream_name":"stdout","time":459.174648131,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":459.174654303,"data":"STAGE 1: RUNNING TEACHER PROBE VALIDATION ON VISIBLE DATA\n"}
+,{"stream_name":"stdout","time":459.174659194,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":459.174663685,"data":"[probe] Built fakecomp at /kaggle/working/fakecomp: 58 gold + 300 train studies = 358 total\n"}
+,{"stream_name":"stdout","time":459.331364373,"data":"\n"}
+,{"stream_name":"stdout","time":459.331392931,"data":"[PROBE] Initializing pipeline run...\n"}
+,{"stream_name":"stdout","time":459.33139621,"data":"[PROBE] Image dir: /kaggle/working/fakecomp/test_series | Series CSV: /kaggle/working/fakecomp/test_series.csv\n"}
+,{"stream_name":"stdout","time":459.331403712,"data":"[PROBE] Scoring 358 studies with K_EVAL=94...\n"}
+,{"stream_name":"stdout","time":459.396146382,"data":"\n"}
+,{"stream_name":"stdout","time":459.396169921,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":459.396174618,"data":"STAGE 1: RUNNING TEACHER PROBE VALIDATION ON VISIBLE DATA\n"}
+,{"stream_name":"stdout","time":459.396197345,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":459.396201197,"data":"[probe] Built fakecomp at /kaggle/working/fakecomp: 58 gold + 300 train studies = 358 total\n"}
+,{"stream_name":"stdout","time":459.396205671,"data":"\n"}
+,{"stream_name":"stdout","time":459.39620913,"data":"[PROBE] Initializing pipeline run...\n"}
+,{"stream_name":"stdout","time":459.396213003,"data":"[PROBE] Image dir: /kaggle/working/fakecomp/test_series | Series CSV: /kaggle/working/fakecomp/test_series.csv\n"}
+,{"stream_name":"stdout","time":459.396217101,"data":"[PROBE] Scoring 358 studies with K_EVAL=94...\n"}
+,{"stream_name":"stdout","time":568.79570628,"data":"[PROBE] [25/358] 4.379s/study (steady) | 109.5s elapsed\n"}
+,{"stream_name":"stdout","time":569.017853577,"data":"[PROBE] [25/358] 4.379s/study (steady) | 109.5s elapsed\n"}
+,{"stream_name":"stdout","time":650.239657113,"data":"[PROBE] [50/358] 3.818s/study (steady) | 190.9s elapsed\n"}
+,{"stream_name":"stdout","time":650.474836867,"data":"[PROBE] [50/358] 3.818s/study (steady) | 190.9s elapsed\n"}
+,{"stream_name":"stdout","time":729.017831049,"data":"[PROBE] [75/358] 3.596s/study (steady) | 269.7s elapsed\n"}
+,{"stream_name":"stdout","time":729.23668214,"data":"[PROBE] [75/358] 3.596s/study (steady) | 269.7s elapsed\n"}
+,{"stream_name":"stdout","time":809.155556757,"data":"[PROBE] [100/358] 3.498s/study (steady) | 349.8s elapsed\n"}
+,{"stream_name":"stdout","time":809.401834534,"data":"[PROBE] [100/358] 3.498s/study (steady) | 349.8s elapsed\n"}
+,{"stream_name":"stdout","time":884.34025792,"data":"[PROBE] [125/358] 3.400s/study (steady) | 425.0s elapsed\n"}
+,{"stream_name":"stdout","time":884.563585048,"data":"[PROBE] [125/358] 3.400s/study (steady) | 425.0s elapsed\n"}
+,{"stream_name":"stdout","time":964.724545452,"data":"[PROBE] [150/358] 3.369s/study (steady) | 505.4s elapsed\n"}
+,{"stream_name":"stdout","time":964.95999855,"data":"[PROBE] [150/358] 3.369s/study (steady) | 505.4s elapsed\n"}
+,{"stream_name":"stdout","time":1040.533965142,"data":"[PROBE] [175/358] 3.321s/study (steady) | 581.2s elapsed\n"}
+,{"stream_name":"stdout","time":1040.766112224,"data":"[PROBE] [175/358] 3.321s/study (steady) | 581.2s elapsed\n"}
+,{"stream_name":"stdout","time":1121.215452163,"data":"[PROBE] [200/358] 3.309s/study (steady) | 661.9s elapsed\n"}
+,{"stream_name":"stdout","time":1121.447029663,"data":"[PROBE] [200/358] 3.309s/study (steady) | 661.9s elapsed\n"}
+,{"stream_name":"stdout","time":1196.910907034,"data":"[PROBE] [225/358] 3.278s/study (steady) | 737.6s elapsed\n"}
+,{"stream_name":"stdout","time":1197.134863233,"data":"[PROBE] [225/358] 3.278s/study (steady) | 737.6s elapsed\n"}
+,{"stream_name":"stdout","time":1277.204316029,"data":"[PROBE] [250/358] 3.271s/study (steady) | 817.9s elapsed\n"}
+,{"stream_name":"stdout","time":1277.445979555,"data":"[PROBE] [250/358] 3.271s/study (steady) | 817.9s elapsed\n"}
+,{"stream_name":"stdout","time":1355.446408667,"data":"[PROBE] [275/358] 3.259s/study (steady) | 896.1s elapsed\n"}
+,{"stream_name":"stdout","time":1355.673123116,"data":"[PROBE] [275/358] 3.259s/study (steady) | 896.1s elapsed\n"}
+,{"stream_name":"stdout","time":1436.151470924,"data":"[PROBE] [300/358] 3.256s/study (steady) | 976.8s elapsed\n"}
+,{"stream_name":"stdout","time":1436.377247156,"data":"[PROBE] [300/358] 3.256s/study (steady) | 976.8s elapsed\n"}
+,{"stream_name":"stdout","time":1511.749377837,"data":"[PROBE] [325/358] 3.238s/study (steady) | 1052.4s elapsed\n"}
+,{"stream_name":"stdout","time":1511.988627514,"data":"[PROBE] [325/358] 3.238s/study (steady) | 1052.4s elapsed\n"}
+,{"stream_name":"stdout","time":1590.743739247,"data":"[PROBE] [350/358] 3.233s/study (steady) | 1131.4s elapsed\n"}
+,{"stream_name":"stdout","time":1590.962229988,"data":"[PROBE] [350/358] 3.233s/study (steady) | 1131.4s elapsed\n"}
+,{"stream_name":"stdout","time":1613.072352185,"data":"[PROBE] [358/358] 3.223s/study (steady) | 1153.7s elapsed\n"}
+,{"stream_name":"stdout","time":1613.091668924,"data":"\n"}
+,{"stream_name":"stdout","time":1613.091690334,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1613.091708603,"data":"[PROBE] PERFORMANCE PROFILE (358 Studies)\n"}
+,{"stream_name":"stdout","time":1613.091714407,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1613.091719365,"data":"  • Steady Throughput:       3.223 s / study\n"}
+,{"stream_name":"stdout","time":1613.091725187,"data":"  • Total Decoded Slices:    32920 slices\n"}
+,{"stream_name":"stdout","time":1613.091729814,"data":"  • Header \u0026 IPP Sorting:     533.6 ms\n"}
+,{"stream_name":"stdout","time":1613.091734645,"data":"  • Pixel Decompression:      277.5 ms\n"}
+,{"stream_name":"stdout","time":1613.09173946,"data":"  • Normalization \u0026 Crop:     701.6 ms\n"}
+,{"stream_name":"stdout","time":1613.091744151,"data":"  • Model Forward:           6399.2 ms\n"}
+,{"stream_name":"stdout","time":1613.091753013,"data":"  • Fallbacks Encountered:   0 / 358\n"}
+,{"stream_name":"stdout","time":1613.091756795,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1613.091759959,"data":"\n"}
+,{"stream_name":"stdout","time":1613.091762868,"data":"[guard] Probe Fallback Rate: 0/358 (0.00%)\n"}
+,{"stream_name":"stdout","time":1613.274704024,"data":"[PROBE] [358/358] 3.223s/study (steady) | 1153.7s elapsed\n"}
+,{"stream_name":"stdout","time":1613.274728313,"data":"\n"}
+,{"stream_name":"stdout","time":1613.274733804,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1613.274738815,"data":"[PROBE] PERFORMANCE PROFILE (358 Studies)\n"}
+,{"stream_name":"stdout","time":1613.274743076,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1613.274747497,"data":"  • Steady Throughput:       3.223 s / study\n"}
+,{"stream_name":"stdout","time":1613.274757689,"data":"  • Total Decoded Slices:    32920 slices\n"}
+,{"stream_name":"stdout","time":1613.274760794,"data":"  • Header \u0026 IPP Sorting:     533.6 ms\n"}
+,{"stream_name":"stdout","time":1613.274763834,"data":"  • Pixel Decompression:      277.5 ms\n"}
+,{"stream_name":"stdout","time":1613.274766537,"data":"  • Normalization \u0026 Crop:     701.6 ms\n"}
+,{"stream_name":"stdout","time":1613.274769327,"data":"  • Model Forward:           6399.2 ms\n"}
+,{"stream_name":"stdout","time":1613.27478113,"data":"  • Fallbacks Encountered:   0 / 358\n"}
+,{"stream_name":"stdout","time":1613.274784265,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1613.274786519,"data":"\n"}
+,{"stream_name":"stdout","time":1613.274788641,"data":"[guard] Probe Fallback Rate: 0/358 (0.00%)\n"}
+,{"stream_name":"stdout","time":1614.214572696,"data":"\n"}
+,{"stream_name":"stdout","time":1614.214597823,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.214601307,"data":"VISIBLE GOLD-58 VALIDATION RESULTS (K_EVAL=94)\n"}
+,{"stream_name":"stdout","time":1614.214604047,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.214607101,"data":"  ACL                 : 0.9314\n"}
+,{"stream_name":"stdout","time":1614.21460964,"data":"  MCL                 : 0.9478\n"}
+,{"stream_name":"stdout","time":1614.214612031,"data":"  Medial Meniscus     : 0.9712\n"}
+,{"stream_name":"stdout","time":1614.214614305,"data":"  Lateral Meniscus    : 0.8559\n"}
+,{"stream_name":"stdout","time":1614.214633343,"data":"  Medial OA           : 0.9690\n"}
+,{"stream_name":"stdout","time":1614.214637938,"data":"  Lateral OA          : 0.7776\n"}
+,{"stream_name":"stdout","time":1614.214642022,"data":"  PF OA               : 0.8198\n"}
+,{"stream_name":"stdout","time":1614.214646067,"data":"  Effusion            : 0.9925\n"}
+,{"stream_name":"stdout","time":1614.214649857,"data":"  Synovitis           : 0.8327\n"}
+,{"stream_name":"stdout","time":1614.214654025,"data":"  Baker's             : 0.9891\n"}
+,{"stream_name":"stdout","time":1614.214658089,"data":"  Contusion           : 0.9582\n"}
+,{"stream_name":"stdout","time":1614.21466166,"data":"  Fracture            : 0.9153\n"}
+,{"stream_name":"stdout","time":1614.214665639,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1614.214669385,"data":"  MACRO-AUC (Gold 58): 0.9134\n"}
+,{"stream_name":"stdout","time":1614.214672952,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.214676718,"data":"\n"}
+,{"stream_name":"stdout","time":1614.214680158,"data":"[audit] SUCCESS! Visible Gold-58 Macro-AUC: 0.9134 (passed \u003e= 0.8500 check)\n"}
+,{"stream_name":"stdout","time":1614.224693304,"data":"\n"}
+,{"stream_name":"stdout","time":1614.224708992,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.224712166,"data":"STAGE 2: SCORING REAL TEST SET (3 Studies)\n"}
+,{"stream_name":"stdout","time":1614.224714501,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.224717122,"data":"\n"}
+,{"stream_name":"stdout","time":1614.224720135,"data":"[PRODUCTION] Initializing pipeline run...\n"}
+,{"stream_name":"stdout","time":1614.224734461,"data":"[PRODUCTION] Image dir: /kaggle/input/competitions/rsna-knee-abnormality-detection/test_series | Series CSV: /kaggle/input/competitions/rsna-knee-abnormality-detection/test_series.csv\n"}
+,{"stream_name":"stdout","time":1614.224738826,"data":"[PRODUCTION] Scoring 3 studies with K_EVAL=94...\n"}
+,{"stream_name":"stdout","time":1614.417192989,"data":"\n"}
+,{"stream_name":"stdout","time":1614.417221206,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.41722653,"data":"VISIBLE GOLD-58 VALIDATION RESULTS (K_EVAL=94)\n"}
+,{"stream_name":"stdout","time":1614.417242802,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.417247124,"data":"  ACL                 : 0.9314\n"}
+,{"stream_name":"stdout","time":1614.417250801,"data":"  MCL                 : 0.9478\n"}
+,{"stream_name":"stdout","time":1614.417254975,"data":"  Medial Meniscus     : 0.9712\n"}
+,{"stream_name":"stdout","time":1614.417258608,"data":"  Lateral Meniscus    : 0.8559\n"}
+,{"stream_name":"stdout","time":1614.417262252,"data":"  Medial OA           : 0.9690\n"}
+,{"stream_name":"stdout","time":1614.417265516,"data":"  Lateral OA          : 0.7776\n"}
+,{"stream_name":"stdout","time":1614.417268696,"data":"  PF OA               : 0.8198\n"}
+,{"stream_name":"stdout","time":1614.417271919,"data":"  Effusion            : 0.9925\n"}
+,{"stream_name":"stdout","time":1614.417275136,"data":"  Synovitis           : 0.8327\n"}
+,{"stream_name":"stdout","time":1614.417278826,"data":"  Baker's             : 0.9891\n"}
+,{"stream_name":"stdout","time":1614.417282668,"data":"  Contusion           : 0.9582\n"}
+,{"stream_name":"stdout","time":1614.417286312,"data":"  Fracture            : 0.9153\n"}
+,{"stream_name":"stdout","time":1614.417290007,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1614.417294336,"data":"  MACRO-AUC (Gold 58): 0.9134\n"}
+,{"stream_name":"stdout","time":1614.417298127,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.417302082,"data":"\n"}
+,{"stream_name":"stdout","time":1614.417305774,"data":"[audit] SUCCESS! Visible Gold-58 Macro-AUC: 0.9134 (passed \u003e= 0.8500 check)\n"}
+,{"stream_name":"stdout","time":1614.417309966,"data":"\n"}
+,{"stream_name":"stdout","time":1614.417313778,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.417317811,"data":"STAGE 2: SCORING REAL TEST SET (3 Studies)\n"}
+,{"stream_name":"stdout","time":1614.417321972,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":1614.417325894,"data":"\n"}
+,{"stream_name":"stdout","time":1614.417329416,"data":"[PRODUCTION] Initializing pipeline run...\n"}
+,{"stream_name":"stdout","time":1614.41733794,"data":"[PRODUCTION] Image dir: /kaggle/input/competitions/rsna-knee-abnormality-detection/test_series | Series CSV: /kaggle/input/competitions/rsna-knee-abnormality-detection/test_series.csv\n"}
+,{"stream_name":"stdout","time":1614.417342451,"data":"[PRODUCTION] Scoring 3 studies with K_EVAL=94...\n"}
+,{"stream_name":"stdout","time":1652.550318713,"data":"[PRODUCTION] [3/3] 12.775s/study (steady) | 38.3s elapsed\n"}
+,{"stream_name":"stdout","time":1652.555191168,"data":"\n"}
+,{"stream_name":"stdout","time":1652.555214576,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1652.555218436,"data":"[PRODUCTION] PERFORMANCE PROFILE (3 Studies)\n"}
+,{"stream_name":"stdout","time":1652.555221402,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1652.555224341,"data":"  • Steady Throughput:       12.776 s / study\n"}
+,{"stream_name":"stdout","time":1652.555227413,"data":"  • Total Decoded Slices:    264 slices\n"}
+,{"stream_name":"stdout","time":1652.555230053,"data":"  • Header \u0026 IPP Sorting:     393.4 ms\n"}
+,{"stream_name":"stdout","time":1652.555232935,"data":"  • Pixel Decompression:      333.6 ms\n"}
+,{"stream_name":"stdout","time":1652.555242869,"data":"  • Normalization \u0026 Crop:     760.6 ms\n"}
+,{"stream_name":"stdout","time":1652.555245506,"data":"  • Model Forward:           22833.3 ms\n"}
+,{"stream_name":"stdout","time":1652.555248703,"data":"  • Fallbacks Encountered:   0 / 3\n"}
+,{"stream_name":"stdout","time":1652.555264762,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1652.555268697,"data":"\n"}
+,{"stream_name":"stdout","time":1652.555272314,"data":"\n"}
+,{"stream_name":"stdout","time":1652.555275676,"data":"[complete] submission.csv saved successfully with shape (3, 13) and verified valid values!\n"}
+,{"stream_name":"stdout","time":1652.762291142,"data":"[PRODUCTION] [3/3] 12.775s/study (steady) | 38.3s elapsed\n"}
+,{"stream_name":"stdout","time":1652.762315068,"data":"\n"}
+,{"stream_name":"stdout","time":1652.762319149,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1652.762323186,"data":"[PRODUCTION] PERFORMANCE PROFILE (3 Studies)\n"}
+,{"stream_name":"stdout","time":1652.762327191,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1652.762330968,"data":"  • Steady Throughput:       12.776 s / study\n"}
+,{"stream_name":"stdout","time":1652.762334999,"data":"  • Total Decoded Slices:    264 slices\n"}
+,{"stream_name":"stdout","time":1652.762338638,"data":"  • Header \u0026 IPP Sorting:     393.4 ms\n"}
+,{"stream_name":"stdout","time":1652.762342337,"data":"  • Pixel Decompression:      333.6 ms\n"}
+,{"stream_name":"stdout","time":1652.762345681,"data":"  • Normalization \u0026 Crop:     760.6 ms\n"}
+,{"stream_name":"stdout","time":1652.762349163,"data":"  • Model Forward:           22833.3 ms\n"}
+,{"stream_name":"stdout","time":1652.762352458,"data":"  • Fallbacks Encountered:   0 / 3\n"}
+,{"stream_name":"stdout","time":1652.762355846,"data":"--------------------------------------------------------------------------------\n"}
+,{"stream_name":"stdout","time":1652.76235919,"data":"\n"}
+,{"stream_name":"stdout","time":1652.762362319,"data":"\n"}
+,{"stream_name":"stdout","time":1652.762365431,"data":"[complete] submission.csv saved successfully with shape (3, 13) and verified valid values!\n"}
+,{"stream_name":"stdout","time":1654.11259606,"data":"[ours 2/3] Inference finished with returncode=0 in 23.86 min\n"}
+,{"stream_name":"stdout","time":1654.113489802,"data":"[ours 2/3] WARNING: ours_fleet/submission.csv was not produced -\u003e public only will stand\n"}
+,{"stream_name":"stdout","time":1654.157720884,"data":"[ours 3/3] SOFT: blend fell back (RuntimeError: our leg wrote no csv); public-only submission stands\n"}
+,{"stream_name":"stdout","time":1654.162783981,"data":"[ours 3/3] NOT blended (RuntimeError: our leg wrote no csv); submission.csv restored to the public probe22 output\n"}
+,{"stream_name":"stdout","time":1654.163563821,"data":"[ours] final: PUBLIC ONLY\n"}
+,{"stream_name":"stdout","time":1654.169455233,"data":"[ours] submission.csv verified: (3, 13), no nulls, column order ok\n"}
+,{"stream_name":"stderr","time":1659.221648885,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":1659.221689172,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":1659.449952942,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":1659.449976612,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":1660.353610363,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":1660.464463234,"data":"[NbConvertApp] Writing 392216 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":1662.936598038,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":1664.757570485,"data":"[NbConvertApp] Writing 1607246 bytes to __results__.html\n"}
+]
