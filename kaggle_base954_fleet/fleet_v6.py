@@ -382,6 +382,268 @@ def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_
     return [cs[i] for i in idx]
 
 
+# ============================================================================
+# ROI inference (anatomical joint crop + compartment tiling for specialist ckpts)
+# ----------------------------------------------------------------------------
+# _roi_square_box / _roi_compartments: verbatim copies of
+# roi_localize.square_box / roi_localize.compartments (train_knee.py imports
+# these same objects). _roi_slice_box: verbatim per-slice body of
+# build_roi_boxes._process_chunk's `for c in range(D)` loop. The Tuple/Optional
+# stand-ins below exist only so the verbatim copies need no new import (this
+# file stays Kaggle self-contained); they are not used at runtime.
+# ============================================================================
+Tuple = tuple
+
+
+class _OptionalAlias:
+    def __class_getitem__(cls, item):
+        return item
+
+
+Optional = _OptionalAlias
+
+
+def _roi_square_box(
+    sbox: Tuple[int, int, int, int],
+    W: int,
+    H: int,
+    pad: float = 0.06,
+    mode: str = "tight",
+    centroid: Optional[Tuple[float, float]] = None
+) -> Tuple[int, int, int, int]:
+    """Expands a tissue bounding box into a square crop centered on the joint.
+
+    Args:
+        sbox: (x0, y0, x1, y1) bounding box of tissue
+        W: Width of image
+        H: Height of image
+        pad: Fraction of box size to add as padding
+        mode: "tight" (minimal tissue frame), "safe" (conservative 1.2x scale), or "compartment"
+        centroid: (cx, cy) optional center-of-mass to center the square box
+
+    Returns:
+        (x0, y0, x1, y1) integer coordinates clamped to [0, W] and [0, H]
+    """
+    x0, y0, x1, y1 = sbox
+
+    # Handle degenerated or empty boxes
+    if x1 <= x0 or y1 <= y0:
+        return (0, 0, W, H)
+
+    bw = x1 - x0
+    bh = y1 - y0
+
+    # Apply padding
+    pad_px = int(max(bw, bh) * pad)
+    if mode == "safe":
+        pad_px += int(max(bw, bh) * 0.10)
+
+    # Square dimension
+    side = max(bw, bh) + 2 * pad_px
+    side = min(side, min(W, H))
+
+    # Center determination
+    if centroid is not None and centroid[0] > 0 and centroid[1] > 0:
+        cx, cy = centroid
+    else:
+        cx = (x0 + x1) / 2.0
+        cy = (y0 + y1) / 2.0
+
+    # Half side
+    half = side / 2.0
+    new_x0 = int(round(cx - half))
+    new_y0 = int(round(cy - half))
+
+    # Shift if out of bounds
+    if new_x0 < 0:
+        new_x0 = 0
+    elif new_x0 + side > W:
+        new_x0 = W - side
+
+    if new_y0 < 0:
+        new_y0 = 0
+    elif new_y0 + side > H:
+        new_y0 = H - side
+
+    new_x1 = new_x0 + side
+    new_y1 = new_y0 + side
+
+    # Final boundary clamp
+    new_x0 = max(0, min(new_x0, W - 1))
+    new_y0 = max(0, min(new_y0, H - 1))
+    new_x1 = max(new_x0 + 1, min(new_x1, W))
+    new_y1 = max(new_y0 + 1, min(new_y1, H))
+
+    return (new_x0, new_y0, new_x1, new_y1)
+
+
+def _roi_compartments(
+    sq: Tuple[int, int, int, int],
+    overlap: float = 0.12
+) -> Tuple[Tuple[int, int, int, int], Tuple[int, int, int, int]]:
+    """Splits a square joint box into Medial and Lateral compartment tiles with overlap.
+
+    Args:
+        sq: (x0, y0, x1, y1) square bounding box
+        overlap: Fraction of width to overlap between compartments (default 0.12 = 12%)
+
+    Returns:
+        (left_compartment, right_compartment)
+    """
+    x0, y0, x1, y1 = sq
+    w = x1 - x0
+
+    if w <= 2:
+        return (sq, sq)
+
+    half_w = w / 2.0
+    ov_px = int(round(w * overlap))
+
+    # Left compartment: x0 to middle + overlap
+    left_x1 = int(round(x0 + half_w + ov_px))
+    left_x1 = min(x1, max(x0 + 1, left_x1))
+    left_box = (x0, y0, left_x1, y1)
+
+    # Right compartment: middle - overlap to x1
+    right_x0 = int(round(x0 + half_w - ov_px))
+    right_x0 = max(x0, min(x1 - 1, right_x0))
+    right_box = (right_x0, y0, x1, y1)
+
+    return (left_box, right_box)
+
+
+def _roi_slice_box(vol, mask, c, sboxes, cens, i_local, W, H, x_grid, y_grid):
+    """Per-slice tissue box + centroid for one slice (writes sboxes/cens rows).
+
+    Verbatim body of build_roi_boxes._process_chunk's `for c in range(D)` loop.
+    """
+    if mask[c] == 0:
+        sboxes[i_local, c] = [0, 0, W, H]
+        cens[i_local, c] = [W // 2, H // 2]
+        return
+
+    img = vol[c]
+    max_val = img.max()
+    if max_val < 15:
+        sboxes[i_local, c] = [0, 0, W, H]
+        cens[i_local, c] = [W // 2, H // 2]
+        return
+
+    # Threshold tissue foreground
+    thresh = max(15, int(max_val * 0.12))
+    fg = img >= thresh
+
+    if fg.sum() < 40:
+        thresh = 10
+        fg = img >= thresh
+
+    if fg.sum() < 40:
+        sboxes[i_local, c] = [0, 0, W, H]
+        cens[i_local, c] = [W // 2, H // 2]
+        return
+
+    ys = np.where(fg.any(axis=1))[0]
+    xs = np.where(fg.any(axis=0))[0]
+
+    y0, y1 = int(ys[0]), int(ys[-1]) + 1
+    x0, x1 = int(xs[0]), int(xs[-1]) + 1
+
+    # Weighted centroid
+    w = img[fg].astype(np.float32)
+    w_sum = w.sum()
+    if w_sum > 0:
+        cx = float((x_grid[fg] * w).sum() / w_sum)
+        cy = float((y_grid[fg] * w).sum() / w_sum)
+    else:
+        cx = (x0 + x1) / 2.0
+        cy = (y0 + y1) / 2.0
+
+    sboxes[i_local, c] = [x0, y0, x1, y1]
+    cens[i_local, c] = [int(round(cx)), int(round(cy))]
+
+
+def _roi_resize(tri, res):
+    """tri: (3,h,w) float32 [0,1] -> (3,res,res) float32. Mirrors train_knee StudyWindows._resize."""
+    t = torch.from_numpy(np.ascontiguousarray(tri))
+    if t.shape[-1] != res or t.shape[-2] != res:
+        t = F.interpolate(t[None], size=(res, res), mode="bilinear",
+                          align_corners=False)[0]
+    return t.numpy()
+
+
+def _build_windows(vol, mask, res, clean_win=False, slots=None, k=None, roi=None, norm="none"):
+    """Build the (K,3,res,res) float32 window batch for one study on CPU.
+
+    Returns (x, slot_ids, win_centers): x is norm-applied, slot_ids has one slot
+    per window, win_centers has one center per window (for TTA mirroring).
+
+    roi=None reproduces the legacy predict_study window loop exactly.
+    roi dict (mode/pad/overlap) reproduces train_knee StudyWindows.__getitem__
+    in eval mode: centers from pick_centers(..., slots=...), box from the CENTER
+    slice, compartment mode = 2 crops (left, right) per center, total capped at k.
+    """
+    valid = np.where(mask > 0)[0]
+    if len(valid) < 3:
+        valid = np.arange(min(3, MAXS))
+    kk = K_EVAL if k is None else int(k)
+    if roi is None:
+        centers = pick_centers(valid, kk, train=False, clean_windows=clean_win, mask=mask, max_d=MAXS, cap=True, slots=slots)
+        wins = []
+        slot_ids = []
+        for c in centers:
+            tri = vol[c - 1 : c + 2].astype(np.float32) / 255.0
+            tri_t = torch.from_numpy(tri)[None]
+            if res != IMG:
+                tri_t = F.interpolate(tri_t, size=(res, res), mode='bilinear', align_corners=False)
+            wins.append(tri_t[0])
+            slot_ids.append(slot_of(c))
+        x = torch.stack(wins)
+        win_centers = list(centers)
+    else:
+        mode = roi.get("mode", "compartment")
+        pad = float(roi.get("pad", 0.06))
+        overlap = float(roi.get("overlap", 0.12))
+        D = vol.shape[0]
+        H, W = vol.shape[-2], vol.shape[-1]
+        y_grid, x_grid = np.indices((H, W), dtype=np.float32)
+        sboxes = np.zeros((1, D, 4), dtype=np.int16)
+        cens = np.zeros((1, D, 2), dtype=np.int16)
+        for c in range(D):
+            _roi_slice_box(vol, mask, c, sboxes, cens, 0, W, H, x_grid, y_grid)
+        compart = (mode == "compartment")
+        n_centers = (kk + 1) // 2 if compart else kk
+        centers = pick_centers(valid, n_centers, train=False, clean_windows=clean_win, mask=mask, max_d=D, slots=slots)
+        wins = []
+        slot_ids = []
+        win_centers = []
+        for c in centers:
+            c = max(1, min(c, D - 2))
+            tri = np.stack([vol[c - 1], vol[c], vol[c + 1]], 0).astype(np.float32) / 255.0
+            sq_mode = "tight" if compart else mode
+            sq = _roi_square_box(tuple(int(v) for v in sboxes[0, c]), W=W, H=H,
+                                 pad=pad, mode=sq_mode,
+                                 centroid=tuple(float(v) for v in cens[0, c]))
+            if compart:
+                left, right = _roi_compartments(sq, overlap=overlap)
+                for box in (left, right):
+                    x0, y0, x1, y1 = box
+                    wins.append(torch.from_numpy(_roi_resize(tri[:, y0:y1, x0:x1], res)))
+                    slot_ids.append(slot_of(c))
+                    win_centers.append(c)
+            else:
+                x0, y0, x1, y1 = sq
+                wins.append(torch.from_numpy(_roi_resize(tri[:, y0:y1, x0:x1], res)))
+                slot_ids.append(slot_of(c))
+                win_centers.append(c)
+        if len(wins) > kk:
+            wins = wins[:kk]
+            slot_ids = slot_ids[:kk]
+            win_centers = win_centers[:kk]
+        x = torch.stack(wins)
+    x = apply_norm(x, norm)
+    return x, slot_ids, win_centers
+
+
 def check_fallback_guard(fallback_count: int, total_studies: int, max_rate: float = 0.03):
     """Enforces strict fallback limit (< 3% of studies).
 
@@ -405,30 +667,25 @@ def mirror_tri(tri_t, cs):
 @torch.no_grad()
 def predict_study(model, vol, mask, res, dev, use_tta=False):
     t_m0 = time.time()
-    valid = np.where(mask > 0)[0]
-    if len(valid) < 3:
-        valid = np.arange(min(3, MAXS))
-    clean_win = getattr(model, "clean_windows", False)
-    centers = pick_centers(valid, K_EVAL, train=False, clean_windows=clean_win, mask=mask, max_d=MAXS, cap=True, slots=getattr(model, 'slots', None))
-
-    wins = []
-    slot_ids = []
-    for c in centers:
-        tri = vol[c - 1 : c + 2].astype(np.float32) / 255.0
-        tri_t = torch.from_numpy(tri)[None]
-        if res != IMG:
-            tri_t = F.interpolate(tri_t, size=(res, res), mode='bilinear', align_corners=False)
-        wins.append(tri_t[0])
-        slot_ids.append(slot_of(c))
-    x = torch.stack(wins).to(dev, non_blocking=True)
-    x = apply_norm(x, getattr(model, 'input_norm', 'none'))  # checkpoints without 'norm' were trained on raw [0,1]
+    roi_cfg = None
+    if getattr(model, "roi", False):
+        roi_cfg = {"mode": getattr(model, "roi_mode", "compartment"),
+                   "pad": float(getattr(model, "roi_pad", 0.06)),
+                   "overlap": float(getattr(model, "roi_overlap", 0.12))}
+    x, slot_ids, win_centers = _build_windows(
+        vol, mask, res,
+        clean_win=getattr(model, "clean_windows", False),
+        slots=getattr(model, "slots", None),
+        k=K_EVAL, roi=roi_cfg,
+        norm=getattr(model, "input_norm", "none"))
+    x = x.to(dev, non_blocking=True)
     slots_t = torch.tensor(slot_ids, dtype=torch.long, device=dev)[None] if getattr(model, 'has_slot_emb', False) else None
 
     autocast_on = str(dev).startswith('cuda') and torch.cuda.is_available()
     with torch.autocast('cuda', dtype=torch.float16, enabled=autocast_on):
         p_plain = torch.sigmoid(model(x[None], slots=slots_t).float())[0]
         if use_tta:
-            x_m = mirror_tri(x, centers)
+            x_m = mirror_tri(x, win_centers)
             p_mirr = torch.sigmoid(model(x_m[None], slots=slots_t).float())[0]
             p_final = 0.5 * (p_plain + p_mirr)
         else:
@@ -847,6 +1104,10 @@ def main():
         m.clean_windows = clean_win
         m.has_slot_emb = has_slot
         m.slots = spec_slots
+        m.roi = bool(ck.get("roi", False))
+        m.roi_mode = ck.get("roi_mode", "compartment")
+        m.roi_pad = float(ck.get("roi_pad", 0.06))
+        m.roi_overlap = float(ck.get("roi_overlap", 0.12))
         m.eval()
         models.append(m)
 

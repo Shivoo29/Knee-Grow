@@ -787,7 +787,7 @@ def main():
             patience_counter = 0
             best_state = {"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
                           "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
+                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
                           "arch": a.arch, "lab": LAB, "epoch": ep}
         else:
             patience_counter += 1
@@ -805,7 +805,7 @@ def main():
                        "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
                        "epochs": a.epochs, "bb_lr": a.bb_lr, "head_lr": a.head_lr,
                        "n_train": len(train_ids), "n_gold": len(gold_ids),
-                       "roi": a.roi, "roi_mode": a.roi_mode,
+                       "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
                        "partial": True, "epochs_done": ep + 1},
                       open(os.path.join(HERE, f"raptor_ft_{a.tag}.json"), "w"), indent=1)
             if patience_counter == 0:
@@ -816,7 +816,7 @@ def main():
         if len(topk) < TOPK or sel > min(t.get("sel", t["gold_auc"]) for t in topk):
             topk.append({"model": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()},
                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
+                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
                          "arch": a.arch, "lab": LAB, "epoch": ep, "P": P, "sel": sel})
             topk.sort(key=lambda t: -t.get("sel", t["gold_auc"]))
             del topk[TOPK:]
@@ -832,7 +832,7 @@ def main():
                     else:
                         avg[k] = v0.clone()
                 swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
+                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
                              "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                              "swa_over": [int(t["epoch"]) for t in topk]}
                 torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
@@ -877,7 +877,7 @@ def main():
                    "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
                    "epochs": a.epochs, "bb_lr": a.bb_lr,
                    "head_lr": a.head_lr, "n_train": len(train_ids), "n_gold": len(gold_ids),
-                   "roi": a.roi, "roi_mode": a.roi_mode, "partial": False, "epochs_done": a.epochs},
+                   "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "partial": False, "epochs_done": a.epochs},
                   open(os.path.join(HERE, f"raptor_ft_{a.tag}.json"), "w"), indent=1)
         print(f"saved raptor_ft_{a.tag}.pt / raptor_gold_{a.tag}.npz / raptor_ft_{a.tag}.json", flush=True)
 
@@ -941,7 +941,7 @@ def main():
             else:
                 avg[k] = v0.clone()          # e.g. num_batches_tracked
         swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots,
+                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
                      "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                      "swa_over": [int(t["epoch"]) for t in topk]}
         model.load_state_dict(avg); model.eval()
