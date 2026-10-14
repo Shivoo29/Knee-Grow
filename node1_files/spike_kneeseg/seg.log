@@ -1,0 +1,11 @@
+Configuration validation successful.
+Target Bones: ['femur', 'tibia'], dtype: float32
+Running on 58 files...
+Loading Models from /home/s05814802723/projects/knee/spike_kneeseg/model_ski10...
+Running Inference...
+  0%|          | 0/58 [00:00<?, ?it/s]OK 82701935.mhd 580
+OK 02017580.mhd 644
+OK 39028269.mhd 700
+OK 02209238.mhd 710
+OK 94649149.mhd 808
+  2%|▏         | 1/58 [13:27<12:47:08, 807.52s/it]
