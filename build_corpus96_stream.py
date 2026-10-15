@@ -252,6 +252,7 @@ def main():
     parser.add_argument("--out_dir", type=str, default="ds/corpus96", help="Output directory for .npy corpus")
     parser.add_argument("--workers", type=int, default=16, help="Number of worker processes")
     parser.add_argument("--limit", type=int, default=0, help="Optional limit on study count for testing")
+    parser.add_argument("--slot_sizes", type=str, default="", help="comma list overriding the 5 slot sizes, e.g. 40,40,36,36,40 (keeps more native slices)")
     args = parser.parse_args()
 
     if not os.path.exists(args.zip):
@@ -262,6 +263,13 @@ def main():
         raise FileNotFoundError(f"train_series.csv not found at: {args.series_csv}")
 
     os.makedirs(args.out_dir, exist_ok=True)
+    if args.slot_sizes:   # workers are forked after this, so they inherit the new layout
+        global SLOTS, MAXS
+        sizes = [int(v) for v in args.slot_sizes.split(",")]
+        assert len(sizes) == len(SLOTS), sizes
+        SLOTS = [(pl, fl, k) for (pl, fl, _), k in zip(SLOTS, sizes)]
+        MAXS = sum(sizes)
+        print(f"[slots] layout {sizes} -> {MAXS} slices per study", flush=True)
 
     # Load train and series metadata
     print("[data] loading metadata...", flush=True)
