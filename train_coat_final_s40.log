@@ -1,0 +1,31 @@
+/home/codemaster29/Documents/still_learning/rsna-knee-abnormality-detection/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:1061: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/94 | bs 1 | tag final_s40 | roi=False(compartment)
+train 4349 | gold-val 58
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+  [timing] 4349 steps in 1716.5s (0.395 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep0 (0.7787)
+ep0 loss 0.810 | GOLD macro-AUC 0.7787 (best 0.7787) | topk by gold: [0] | 1750s
+  [timing] 4349 steps in 1700.9s (0.391 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep1 (0.8400)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 0.773 | GOLD macro-AUC 0.8400 (best 0.8400) | topk by gold: [1, 0] | 3486s
+  [timing] 4349 steps in 1709.4s (0.393 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep2 (0.8702)
+  [swa] running SWA updated over epochs [2, 1, 0]
+ep2 loss 0.736 | GOLD macro-AUC 0.8702 (best 0.8702) | topk by gold: [2, 1, 0] | 5230s
+  [timing] 4349 steps in 1661.5s (0.382 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep3 (0.8898)
+  [swa] running SWA updated over epochs [3, 2, 1]
+ep3 loss 0.720 | GOLD macro-AUC 0.8898 (best 0.8898) | topk by gold: [3, 2, 1] | 6928s
+  [timing] 4349 steps in 1695.5s (0.390 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep4 (0.8938)
+  [swa] running SWA updated over epochs [4, 3, 2]
+ep4 loss 0.712 | GOLD macro-AUC 0.8938 (best 0.8938) | topk by gold: [4, 3, 2] | 8666s
+  [timing] 4349 steps in 1740.4s (0.400 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep5 (0.9013)
+  [swa] running SWA updated over epochs [5, 4, 3]
+ep5 loss 0.706 | GOLD macro-AUC 0.9013 (best 0.9013) | topk by gold: [5, 4, 3] | 10448s
