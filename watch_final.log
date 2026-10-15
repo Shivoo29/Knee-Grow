@@ -1,0 +1,9 @@
+Thu Oct 15 05:11:53 PM IST 2026 waiting for fold 3
+Thu Oct 15 08:44:18 PM IST 2026 fold 3 done; copying
+labels_oofmix_v1.parquet rows 4349 | alpha {'ACL': 0.6, 'MCL': 0.6, 'Medial': 0.6, 'Latera': 0.6, 'PF OA': 0.6, 'Effusi': 0.6, 'Synovi': 0.6, "Baker'": 0.6, 'Contus': 0.6, 'Fractu': 0.6}
+mean target vs report label: ACL 0.34/0.23 MCL 0.32/0.16 Media 0.47/0.46 Later 0.34/0.23 Media 0.42/0.37 Later 0.38/0.29 PF OA 0.47/0.44 Effus 0.50/0.50 Synov 0.45/0.39 Baker 0.40/0.31 Contu 0.38/0.27 Fract 0.35/0.18
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Thu Oct 15 08:44:25 PM IST 2026 node1 final_s41 started
+Thu Oct 15 08:44:25 PM IST 2026 PC final_s40 starting
