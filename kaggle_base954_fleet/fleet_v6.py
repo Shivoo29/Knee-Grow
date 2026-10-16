@@ -747,9 +747,8 @@ def mirror_tri(tri_t, cs):
     return torch.where(is_sag, tri_t.flip(1), tri_t.flip(-1))
 
 
-@torch.no_grad()
-def predict_study(model, vol, mask, res, dev, use_tta=False):
-    t_m0 = time.time()
+def _study_inputs(model, vol, mask, res, dev):
+    """Windows of one study for `model`'s layout, on `dev`: (x, slots_t, win_centers)."""
     roi_cfg = None
     if getattr(model, "roi", False):
         roi_cfg = {"mode": getattr(model, "roi_mode", "compartment"),
@@ -767,7 +766,10 @@ def predict_study(model, vol, mask, res, dev, use_tta=False):
             "seq_head requires ascending window centers"
     x = x.to(dev, non_blocking=True)
     slots_t = torch.tensor(slot_ids, dtype=torch.long, device=dev)[None] if getattr(model, 'has_slot_emb', False) else None
+    return x, slots_t, win_centers
 
+
+def _probs(model, x, slots_t, win_centers, dev, use_tta):
     autocast_on = str(dev).startswith('cuda') and torch.cuda.is_available()
     with torch.autocast('cuda', dtype=torch.float16, enabled=autocast_on):
         p_plain = torch.sigmoid(model(x[None], slots=slots_t).float())[0]
@@ -777,10 +779,24 @@ def predict_study(model, vol, mask, res, dev, use_tta=False):
             p_final = 0.5 * (p_plain + p_mirr)
         else:
             p_final = p_plain
+    return p_final.detach().cpu().numpy()
 
-    p_np = p_final.detach().cpu().numpy()
-    t_model = time.time() - t_m0
-    return p_np, t_model
+
+@torch.no_grad()
+def predict_study(model, vol, mask, res, dev, use_tta=False):
+    t_m0 = time.time()
+    x, slots_t, win_centers = _study_inputs(model, vol, mask, res, dev)
+    p_np = _probs(model, x, slots_t, win_centers, dev, use_tta)
+    return p_np, time.time() - t_m0
+
+
+@torch.no_grad()
+def predict_study_multi(models, vol, mask, res, dev, use_tta=False):
+    """Mean probability of same-layout models (check_same_layout); the windows are built once."""
+    t_m0 = time.time()
+    x, slots_t, win_centers = _study_inputs(models[0], vol, mask, res, dev)
+    p_np = np.mean([_probs(m, x, slots_t, win_centers, dev, use_tta) for m in models], axis=0)
+    return p_np, time.time() - t_m0
 
 
 # ============================================================================
@@ -838,6 +854,27 @@ def find_test_data():
                 print(f"[data] Found test image directory: {p}", flush=True)
                 return p, test_series_csv, sample_sub_csv
     raise FileNotFoundError(f"Could not find competition test data. Checked: {comp_roots}")
+
+
+LAYOUT_KEYS = ("arch", "res", "norm", "clean_windows", "slot_emb", "slots", "slot_sizes", "seq_head",
+               "roi", "roi_mode", "roi_pad", "roi_overlap", "zoom_mm")
+
+
+def check_same_layout(cks):
+    """Checkpoints scored on one decode pass must share the window layout; a mixed set would
+    silently feed one model another model's inputs."""
+    ref = {k: cks[0].get(k) for k in LAYOUT_KEYS}
+    for i, ck in enumerate(cks[1:], 1):
+        for k in LAYOUT_KEYS:
+            if ck.get(k) != ref[k]:
+                raise ValueError(f"checkpoint {i} differs in {k!r}: {ck.get(k)!r} != {ref[k]!r}")
+    return ref
+
+
+def find_checkpoints():
+    """RAPTOR_CKPTS (comma list) scores several same-layout models on one decode pass."""
+    multi = os.environ.get("RAPTOR_CKPTS")
+    return [p for p in multi.split(",") if p] if multi else [find_checkpoint(prefer_swa=True)]
 
 
 def find_checkpoint(prefer_swa=True):
@@ -1058,7 +1095,7 @@ def run_pipeline(test_dir, test_series_csv, sample_sub_csv, devices, models, res
                 record_exception(f"gpu_worker_{worker_idx}_zero_slices", sid, RuntimeError("Zero valid slices decoded for study!"))
 
             try:
-                preds, t_model = predict_study(model, vol, mask, res, dev, use_tta=USE_TTA)
+                preds, t_model = predict_study_multi(model, vol, mask, res, dev, use_tta=USE_TTA)
                 timings["model"] = t_model
                 timings["worker"] = worker_idx
             except Exception as e:
@@ -1168,8 +1205,10 @@ def main():
         devices = ["cpu"]
         print(f"[devices] CPU only (warning: slow)", flush=True)
 
-    ckpt_path = find_checkpoint(prefer_swa=True)
-    ck = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+    ckpt_paths = find_checkpoints()
+    cks = [torch.load(p, map_location="cpu", weights_only=False) for p in ckpt_paths]
+    check_same_layout(cks)
+    ck, ckpt_path = cks[0], ",".join(ckpt_paths)
     arch = ck.get("arch", "coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k")
     res = int(ck.get("res", 384))
     norm = ck.get("norm", "none")
@@ -1197,31 +1236,36 @@ def main():
     del sample_bb
 
     for dev in devices:
-        bb = build_backbone(arch, pretrained=False)
-        m = RaptorClassifier(bb, F_dim=f_dim, slot_emb=has_slot,
-                             seq_head=bool(ck.get("seq_head", False))).to(dev)
-        m.load_state_dict(ck["model"])
-        m.win_chunk = WIN_CHUNK  # chunked eval as before (class default 0 = whole study)
-        m.input_norm = norm
-        m.clean_windows = clean_win
-        m.has_slot_emb = has_slot
-        m.slots = spec_slots
-        m.roi = bool(ck.get("roi", False))
-        m.roi_mode = ck.get("roi_mode", "compartment")
-        m.roi_pad = float(ck.get("roi_pad", 0.06))
-        m.roi_overlap = float(ck.get("roi_overlap", 0.12))
-        m.zoom_px = zoom_px(float(ck.get("zoom_mm", 0.0)))
-        m.eval()
-        models.append(m)
+        group = []
+        for c in cks:
+            bb = build_backbone(arch, pretrained=False)
+            m = RaptorClassifier(bb, F_dim=f_dim, slot_emb=has_slot,
+                                 seq_head=bool(ck.get("seq_head", False))).to(dev)
+            m.load_state_dict(c["model"])
+            m.win_chunk = WIN_CHUNK  # chunked eval as before (class default 0 = whole study)
+            m.input_norm = norm
+            m.clean_windows = clean_win
+            m.has_slot_emb = has_slot
+            m.slots = spec_slots
+            m.roi = bool(ck.get("roi", False))
+            m.roi_mode = ck.get("roi_mode", "compartment")
+            m.roi_pad = float(ck.get("roi_pad", 0.06))
+            m.roi_overlap = float(ck.get("roi_overlap", 0.12))
+            m.zoom_px = zoom_px(float(ck.get("zoom_mm", 0.0)))
+            m.eval()
+            group.append(m)
+        models.append(group)
+    print(f"[model] {len(cks)} checkpoint(s) per device on one decode pass", flush=True)
 
     # Pre-warm GPU CUDA runtime context and cuDNN autotuner
     print("[warmup] Pre-warming CUDA runtime & cuDNN autotuner across devices...", flush=True)
-    for dev, m in zip(devices, models):
-        dummy_chunk = torch.zeros((WIN_CHUNK, 3, res, res), dtype=torch.float32, device=dev)
-        dummy_in = dummy_chunk[None]
-        dummy_slots = torch.zeros((1, WIN_CHUNK), dtype=torch.long, device=dev) if getattr(m, 'has_slot_emb', False) else None
-        with torch.no_grad(), torch.autocast('cuda', dtype=torch.float16, enabled=torch.cuda.is_available()):
-            _ = m(dummy_in, slots=dummy_slots)
+    for dev, group in zip(devices, models):
+        for m in group:
+            dummy_chunk = torch.zeros((WIN_CHUNK, 3, res, res), dtype=torch.float32, device=dev)
+            dummy_in = dummy_chunk[None]
+            dummy_slots = torch.zeros((1, WIN_CHUNK), dtype=torch.long, device=dev) if getattr(m, 'has_slot_emb', False) else None
+            with torch.no_grad(), torch.autocast('cuda', dtype=torch.float16, enabled=torch.cuda.is_available()):
+                _ = m(dummy_in, slots=dummy_slots)
         if torch.cuda.is_available():
             torch.cuda.synchronize(dev)
     t_startup = time.time() - t_main_start
@@ -1240,7 +1284,7 @@ def main():
     # STAGE 0: CORPUS PARITY AUDIT (if corpus dataset is attached and visible data available)
     if comp_src is not None and corpus_src is not None and n_real <= 10:
         try:
-            audit_corpus_parity(corpus_src, comp_src, models[0], res, devices[0], n_check=20)
+            audit_corpus_parity(corpus_src, comp_src, models[0][0], res, devices[0], n_check=20)
         except Exception as e:
             print(f"[audit] Corpus parity audit exception (non-fatal): {e}", flush=True)
             traceback.print_exc()
