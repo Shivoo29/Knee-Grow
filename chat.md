@@ -1415,3 +1415,17 @@ Mirror vs MCL (another agent's table claimed mirror crashes MCL): CONFOUNDED. It
 - labels_avg runs WITHOUT mirror are also weak on MCL: convnext 0.79-0.80, resnet 0.78, effnetv2 0.85, coat224 0.83.
 - Gold-58 by label source (CoAtNet-384, mean): MCL llm_soft 0.964 | avg 0.872 | distil 0.954; macro 0.915 | 0.909 | 0.928. labels_avg marks 14.7% MCL+ vs 4.9% in llm_soft (host: acute high-grade only) -> sprains counted.
 -> NEW plan Task 1c: labels_hybrid_v1 = labels_avg with MCL from data/labels/labels_llm_soft.parquet (MCL mask weight reset to 1). New family trains on it.
+
+## 58. Oct 17 ~02:20 IST (Claude) — implementation started
+Done + committed (no co-author), all tests pass (9 test files):
+- f3d0520 Task 1 --stkim_k/--stkim_p (ACMIL top-K window masking, training only; fleet class identical)
+- dc2c04b Task 1b --zoom_mm (full 140 mm + centred close-up per window; train/fleet parity test)
+- 0495380 Task 1c labels_hybrid_v1 (+ weights): MCL from labels_llm_soft (MCL+ share 0.147 -> 0.049)
+- bdb2ff6 Task 2 tools/decorr.py + run_cnxt_folds.sh (CoAtNet OOF self-check rho=1, OOF macro 0.877 vs report labels)
+- 9adc51a Task 3 fleet_v6 RAPTOR_CKPTS (one decode pass, many same-layout ckpts; layout check)
+- 0815544 Task 4 kaggle_blend_own/build_nb.py (blendmine + own branch W; failed group keeps base)
+Runs:
+- node1: d192_s50 DONE (SWA gold 0.9303). d192k24 killed (plan). ConvNeXt folds 0,1 started 02:08 (tmux cnxt, preload).
+- node1 NFS is the bottleneck: smoke test hung in NFS I/O; header scan (24 workers on the 265 GB zip) killed to free it; restart later with fewer workers. T04 laterality code (../knee-lat, branch laterality) already exists: side from ImageLaterality/Laterality/SeriesDescription + IOP/IPP flags; never run. Scanner patched to read 64 KB headers (scratchpad copy on node1 ~/projects/knee/lat).
+- PC: consensus run ep11 gold 0.9295; corpus192 copy 75.4/124.8 GB (slowed by node1 NFS); PC needs REBOOT (NVIDIA driver mismatch) before new GPU jobs.
+- Kaggle submit of blendmine was BLOCKED by Claude Code auto-mode permission -> user submits.
