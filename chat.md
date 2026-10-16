@@ -1396,3 +1396,13 @@ Key findings:
 Gap: "novel architectures" researcher died (weekly usage limit, resets Oct 19 03:30 IST); prompt saved in `delegation/RESEARCH_ARCHITECTURES_PROMPT.md`.
 State: node1 d192_s50 ep12 gold 0.9278 (ETA ~3 AM), d192k24_s51 queued behind it; PC v6dmask_s42 (consensus mask) running.
 Architectures research (redo, other account; notes in delegation/results/research_notes_knee_mri_architectures/): top 3 = (1) ACMIL-lite: train-only stochastic top-K window masking (K=2-5, p=0.6-0.8) + 2-5 diversity-regularised attention branches (ECCV 2024 / MIL-Dropout ICML 2025, +2-4pp AUC on pathology); (2) Query2Label-style 12-query decoder + C-Tran label-mask training, at most 3 sparse edges (effusion->synovitis); (3) learned cross-plane + global/ROI cross-scale attention (never plain averaging). Skip CORAL/CORN without pseudo-grades, Mamba, backbone swaps. All gains from other datasets; keep only if +0.005 OOF macro vs own control.
+
+## 57. Oct 17 ~01:00 IST (Claude) — plan of action (docs/superpowers/plans/2026-10-17-knee-0969-push.md)
+Core idea: public blend = 0.958 ceiling; we add ONE decorrelated own family (ConvNeXt-T 2.5D MIL, 192 slices, report labels + consensus mask, ACMIL top-K masking, epoch selection on held-out fold not gold) as a rank branch at W 0.3.
+Facts checked tonight:
+- blendmine fork is CORRECT (-w1 R6 dataset, bundle fe055406fad6a12f, FLIP_TTA True, per-finding W_RAPTOR_C) and its commit run is COMPLETE but NOT SUBMITTED; our 0.956 was the R7+Raptor fork. -> user submits blendmine (expect 0.958).
+- PC: NVIDIA driver mismatch (kernel 615.71 vs userspace 615.78): running consensus job OK, new GPU jobs fail until REBOOT (after the run ends ~05:00).
+- PC corpus192 copy resumed from 30.59 GB (background loop, resumable), ~4.6 MB/s, done ~06:00; verify with chunk md5 at 5 offsets incl. junction.
+- node1 d192_s50 ep17 best gold 0.9302 (same as 96-slice runs); d192k24 queue to be killed (same family).
+Tasks: 0 ops (submit blendmine, copy+verify, reboot, free node1) | 1 STKIM flag | 2 tools/decorr.py | 3 fleet_v6 RAPTOR_CKPTS (one decode, many ckpts) | 4 kaggle_blend_own/build_nb.py | 5 ConvNeXt 4 folds (node1 f0,f1; PC f2,f3) + gate (auc >= CoAtNet-0.01, within-class rho <= 0.85) | 6 Kaggle dataset + notebook + timing gate + submit | 7 final picks rule | 8 second seed / EffNetV2-S | 9 GATED severity labels (local LLM, needs user OK) | 10 optional rented A100.
+Pending user decisions: (1) local LLM on Report column for severity grades, (2) rent A100/H100.
