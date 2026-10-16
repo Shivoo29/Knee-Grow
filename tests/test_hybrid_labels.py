@@ -46,7 +46,19 @@ def test_missing_studies_refused():
     raise AssertionError("missing studies accepted")
 
 
-TESTS = [("override_and_weights", test_override_and_weights), ("missing_studies_refused", test_missing_studies_refused)]
+def test_soften_synovitis():
+    lab, w = _t(0, prefix=""), _t(2)
+    lab["Synovitis"] = [0.1, 0.1, 0.9, 0.1] * 5
+    lab["Effusion"] = [0.9, 0.1, 0.9, 0.9] * 5
+    w["w_Synovitis"] = [1.0, 1.0, 1.0, 0.0] * 5
+    out, n = bhl.soften_synovitis(lab, w, 0.3)
+    assert n == 10 and list(out["w_Synovitis"][:4]) == [0.3, 1.0, 1.0, 0.0]
+    assert np.allclose(out["w_ACL"].values, w["w_ACL"].values)
+    return "silent synovitis negatives -> 0.3; positives, no-effusion and masked cells unchanged"
+
+
+TESTS = [("override_and_weights", test_override_and_weights), ("missing_studies_refused", test_missing_studies_refused),
+         ("soften_synovitis", test_soften_synovitis)]
 
 
 def main():

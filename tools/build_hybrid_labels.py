@@ -32,6 +32,16 @@ def build(base, override, findings, weights=None):
     return b.reset_index(), w
 
 
+def soften_synovitis(labels, weights, w_neg=0.3):
+    """Reports rarely address synovitis (forum: 83.7 % 'not addressed'), so a synovitis negative next to a
+    positive effusion is often a silent positive. Down-weight those negatives to w_neg (never raise a weight)."""
+    lab = labels.set_index("StudyInstanceUID")
+    w = weights.set_index("StudyInstanceUID").copy()
+    silent = (lab.loc[w.index, "Synovitis"] < 0.5) & (lab.loc[w.index, "Effusion"] >= 0.5)
+    w.loc[silent, "w_Synovitis"] = w.loc[silent, "w_Synovitis"].clip(upper=w_neg)
+    return w.reset_index(), int(silent.sum())
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", required=True)
@@ -40,10 +50,14 @@ def main():
     ap.add_argument("--weights", default=None)
     ap.add_argument("--out_weights", default=None)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--syn_neg_w", type=float, default=None, help="down-weight synovitis negatives with positive effusion to this weight")
     a = ap.parse_args()
     fs = [f for f in a.findings.split(",") if f]
     base = pd.read_parquet(a.base)
     out, w = build(base, pd.read_parquet(a.override), fs, pd.read_parquet(a.weights) if a.weights else None)
+    if a.syn_neg_w is not None and w is not None:
+        w, n = soften_synovitis(out, w, a.syn_neg_w)
+        print(f"synovitis: {n} negatives with positive effusion down-weighted to {a.syn_neg_w}")
     out.to_parquet(a.out, index=False)
     for c in fs:
         print(f"{c}: positive share {float((base[c] >= 0.5).mean()):.3f} -> {float((out[c] >= 0.5).mean()):.3f}")
