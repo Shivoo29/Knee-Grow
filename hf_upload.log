@@ -1,0 +1,14 @@
+Fri Oct 16 01:40:10 PM IST 2026 uploading weights
+It seems you are trying to upload a large folder at once. This might take some time and then fail if the folder is too large. Installing `hf_xet` (`pip install hf_xet`) enables a more robust, resumable upload that handles large folders in multiple commits.
+Computing sha256 for 48 files.
+https://huggingface.co/Shivoo29/rsna-knee-weights/commit/03dedc1705a523c43328c92782fcea5d9dec9e38
+Fri Oct 16 02:04:33 PM IST 2026 done weights
+Fri Oct 16 02:04:33 PM IST 2026 uploading corpora
+Computing sha256 for 3 files.
+https://huggingface.co/Shivoo29/rsna-knee-weights/commit/a9e061113cdbd3751c6bbb535e47328f106c371f
+Fri Oct 16 02:13:56 PM IST 2026 done corpora
+Fri Oct 16 02:13:56 PM IST 2026 uploading resume
+Computing sha256 for 21 files.
+https://huggingface.co/Shivoo29/rsna-knee-weights/commit/2409a5ad66789c6366110bb53d7472bc7e03b6e4
+Fri Oct 16 03:08:17 PM IST 2026 done resume
+UPLOAD_DONE
