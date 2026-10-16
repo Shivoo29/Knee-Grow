@@ -1376,3 +1376,22 @@ We extracted the exact submission status and error descriptions directly from th
   - notebook `rsna-knee-base954-students` (0.85 base954 + 0.15 students) -> description reads "students only: CoAtNet v6 distilled s7+s8"
 - Running: node1 tmux `distil24` = 24-epoch student seed 9 (test of longer schedule); PC student seed 10 (16 ep).
 - Delegation protocol in delegation/ (PREAMBLE + tasks T01-T03 for zcode GLM-5.3 / Antigravity).
+
+## 56. Oct 16 ~23:30 IST (Claude) — deep research for 0.969
+Goal raised to 0.969 public LB (= 1st). LB 16 Oct: #1 CentralyDS 0.968, 4 teams >= 0.967, 18 >= 0.964, gold ~0.963, silver 0.958; 411 teams tied at 0.958.
+Report: `reports/Knee MRI top leaderboard tactics.md`; notes: `research_notes/Knee MRI top leaderboard tactics/` (8 researcher notes; pulled public kernels and listings kept local, not committed).
+Key findings:
+- Public frontier is a monoculture: every notebook >= 0.950 rank-blends the same 5-6 checkpoints; best 0.958 (heliosli "Blend mine in", goodpjw2008 v25-27). Family ceiling ~0.960.
+- Our fork shows 0.956 vs 0.958 for the same recipe: check R6 dataset `-w1` (non-w1 now holds R7), bundle fe055406fad6a12f, FLIP_TTA=True, version with per-finding weights (16 Oct), time guard skipping the 224 stage.
+- Cheap adds: mirror view on Raptor 224; nartaa S6 all-data (OAI-free).
+- Top teams train own 5-fold 2.5D CNNs (azamat1ch #3: ConvNeXt-T 0.959 alone, no external data, "labels... AI, not by hand, don't rely on reports alone"). Tucker: 224-288 px sweet spot.
+- Our CoAtNet ~= Raptor minus OAI -> rank corr 0.958, adds nothing. Binding constraint is decorrelation: a 0.950 own model needs within-class rho <= 0.79 vs blend for 0.963, <= 0.64 for 0.969.
+- Theory (Menon 2015): class-conditional label noise cannot change AUC ranking; only instance errors (omissions: ACL, lat meniscus, fracture, effusion, synovitis; severity over-calls: 3 OA, Baker's) matter.
+- Novel ranked: severity-graded soft targets + ordinal head (+0.003-0.010, needs local LLM over report text -> USER DECISION, our rule blocks it); large-loss correction of "not mentioned"; SOP per-study noise; Pi-DUAL (never feed labels as PI); plane-disjoint co-training + <=16-param gold gate; in-domain DINO SSL (idle GPUs only); local VLM labels weak.
+- Do not: DivideMix/co-teaching, blanket PU, Dawid-Skene over 31 tables, more in-sample distillation, BN-TTA, tuning weights on gold-58 (paired macro SE ~0.006-0.017).
+- Localisation: TotalSegmentator total_mr (Apache-2.0, femur only) -> distil landmarks to small model; or reuse SKM-TEA anchor V-Net from heliosli bundle.
+- Inference: fp16 not bf16 on T4; keep 15-20% of 9 h spare; decode once.
+- Final picks: robust blend with shrunk per-finding weights + OAI/fastMRI-free blend.
+- Realistic: 0.959-0.963 public; ~0.962 true = credible private top-10.
+Gap: "novel architectures" researcher died (weekly usage limit, resets Oct 19 03:30 IST); prompt saved in `delegation/RESEARCH_ARCHITECTURES_PROMPT.md`.
+State: node1 d192_s50 ep12 gold 0.9278 (ETA ~3 AM), d192k24_s51 queued behind it; PC v6dmask_s42 (consensus mask) running.
