@@ -131,6 +131,18 @@ class RaptorClassifier(nn.Module):
         self.n = n
 
     win_chunk = 0   # >0: run the backbone over chunks of this many windows under activation checkpointing (8 GB cards)
+    stkim_k = 0     # >0 (training only): ACMIL stochastic top-K masking of each finding's top-k windows
+    stkim_p = 0.7   # probability that each of those top-k windows is hidden
+
+    def _attend(self, h):
+        """Per-finding attention weights (B,K,n). In training with stkim_k > 0 each finding's top-k
+        windows are hidden with probability stkim_p (ACMIL, ECCV 2024); eval is unchanged."""
+        a = self.att(h)
+        if self.training and self.stkim_k > 0 and a.shape[1] > self.stkim_k:
+            top = a.topk(self.stkim_k, dim=1).indices
+            hit = torch.zeros_like(a, dtype=torch.bool).scatter_(1, top, True)
+            a = a.masked_fill(hit & (torch.rand_like(a) < self.stkim_p), float("-inf"))
+        return torch.softmax(a, dim=1)
 
     def encode(self, x):
         B, K = x.shape[:2]
@@ -150,8 +162,7 @@ class RaptorClassifier(nn.Module):
         if self.seq_head:
             feats = feats + self.gru(feats)[0]
         h = self.norm(feats)
-        a = self.att(h)
-        a = torch.softmax(a, dim=1)
+        a = self._attend(h)
         pooled = torch.einsum("bkn,bkf->bnf", a, h)
         logits = (pooled * self.clsW).sum(-1) + self.clsb
         return logits
