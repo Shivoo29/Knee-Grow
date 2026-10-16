@@ -184,11 +184,25 @@ Everything else in this notebook is ready to run once that file exists.
 
 
 # ------------------------------- data ----------------------------------------
-SLOT_BOUNDS = [(0, 26), (26, 48), (48, 66), (66, 78), (78, 96)]
+def bounds_from_sizes(sizes):
+    """Cumulative 5-slot bounds from per-slot slice counts.
+
+    E.g. [26, 22, 18, 12, 18] -> [(0, 26), (26, 48), (48, 66), (66, 78), (78, 96)].
+    Re-derived at startup from --slot_sizes; any 5-slot layout works.
+    """
+    bounds, start = [], 0
+    for k in sizes:
+        k = int(k)
+        bounds.append((start, start + k))
+        start += k
+    return bounds
+
+
+SLOT_BOUNDS = bounds_from_sizes([26, 22, 18, 12, 18])
 
 
 def slot_of(idx: int) -> int:
-    """Return slot index (0..4) for a slice index (0..95)."""
+    """Return slot index (0..4) for a slice index."""
     for s, (start, end) in enumerate(SLOT_BOUNDS):
         if start <= idx < end:
             return s
@@ -197,13 +211,16 @@ def slot_of(idx: int) -> int:
     return len(SLOT_BOUNDS) - 1
 
 
-def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=96, cap=False, slots=None):
+def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=None, cap=False, slots=None):
     """Pick 3-slice window centers.
 
     If clean_windows is True, a center c is allowed only if c-1, c, c+1 are all real
     (mask > 0) AND in the same slot (slot_of(c-1) == slot_of(c) == slot_of(c+1)).
     Otherwise, picks from [lo+1, hi-1] matching legacy behavior.
+    max_d defaults to the full layout depth (sum of slot sizes).
     """
+    if max_d is None:
+        max_d = sum(end - start for start, end in SLOT_BOUNDS)
     lo, hi = int(valid.min()), int(valid.max())
     if clean_windows and mask is not None:
         cs = [
@@ -230,7 +247,7 @@ def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_
 
 
 def mirror_volume(vol: np.ndarray, mask: np.ndarray) -> np.ndarray:
-    """Anatomical mirror of knee volume (96, H, W).
+    """Anatomical mirror of knee volume (D, H, W) over the current SLOT_BOUNDS.
 
     Sagittal slots (0, 1): reverse order of real slices (mask > 0); padded slices stay at end.
     Coronal/Axial slots (2, 3, 4): horizontal flip along image width (axis=-1).
@@ -523,7 +540,12 @@ def main():
     ap.add_argument("--arch", default="vit_small_patch16_224")
     ap.add_argument("--res", type=int, default=224)
     ap.add_argument("--k", type=int, default=12)
-    ap.add_argument("--k_eval", type=int, default=24)
+    ap.add_argument("--k_eval", type=int, default=24,
+                    help="eval windows per study; 94 = 96 - 2 is full coverage on the 96 layout "
+                         "(190 = 192 - 2 on the 192 layout)")
+    ap.add_argument("--slot_sizes", default="26,22,18,12,18",
+                    help="comma list of the 5 slot slice counts, e.g. 40,40,36,36,40 for the 192 layout; "
+                         "must match the corpus volume depth")
     ap.add_argument("--epochs", type=int, default=12)
     ap.add_argument("--bs", type=int, default=8)
     ap.add_argument("--accum", type=int, default=1, help="gradient accumulation steps (effective batch = bs * accum)")
@@ -655,6 +677,16 @@ def main():
                    clean_windows=bool(a.clean_windows), slot_emb=bool(a.slot_emb),
                    slots=tuple(int(v) for v in a.slots.split(',')) if a.slots else None,
                    seq_head=bool(a.seq_head))
+
+    # ---- slot layout (any 5-slot corpus depth, e.g. 96 or 192) ----
+    _sizes = [int(v) for v in a.slot_sizes.split(",")]
+    assert len(_sizes) == 5 and all(v > 0 for v in _sizes), f"--slot_sizes must be 5 positive ints: {a.slot_sizes}"
+    global SLOT_BOUNDS
+    SLOT_BOUNDS = bounds_from_sizes(_sizes)
+    _corpus_vols, _ = _open_corpus()
+    assert _corpus_vols.shape[1] == sum(_sizes), \
+        f"corpus depth {_corpus_vols.shape[1]} != sum(slot_sizes) {sum(_sizes)}"
+    print(f"[slots] layout={_sizes} depth={sum(_sizes)} bounds={SLOT_BOUNDS}", flush=True)
 
     # ---- label down-weights (only when --label_weights) ----
     lw_all = None
@@ -871,7 +903,7 @@ def main():
             patience_counter = 0
             best_state = {"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
                           "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                           "arch": a.arch, "lab": LAB, "epoch": ep}
         else:
             patience_counter += 1
@@ -886,7 +918,7 @@ def main():
                      pred=best_P, truth=Y, ids=np.array(gold_ids))
             json.dump({"tag": a.tag, "src": src, "best_gold_auc": best,
                        "aucs": best_state["aucs"], "hist": hist, "res": a.res, "norm": a.norm,
-                       "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                       "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                        "epochs": a.epochs, "bb_lr": a.bb_lr, "head_lr": a.head_lr,
                        "n_train": len(train_ids), "n_gold": len(gold_ids),
                        "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap,
@@ -900,7 +932,7 @@ def main():
         if len(topk) < TOPK or sel > min(t.get("sel", t["gold_auc"]) for t in topk):
             topk.append({"model": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()},
                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                          "arch": a.arch, "lab": LAB, "epoch": ep, "P": P, "sel": sel})
             topk.sort(key=lambda t: -t.get("sel", t["gold_auc"]))
             del topk[TOPK:]
@@ -916,7 +948,7 @@ def main():
                     else:
                         avg[k] = v0.clone()
                 swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                              "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                              "swa_over": [int(t["epoch"]) for t in topk]}
                 torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
@@ -958,7 +990,7 @@ def main():
                  pred=best_P, truth=Y, ids=np.array(gold_ids))
         json.dump({"tag": a.tag, "src": src, "best_gold_auc": best, "aucs": best_state["aucs"],
                    "hist": hist, "res": a.res, "norm": a.norm,
-                   "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                   "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                    "epochs": a.epochs, "bb_lr": a.bb_lr,
                    "head_lr": a.head_lr, "n_train": len(train_ids), "n_gold": len(gold_ids),
                    "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "partial": False, "epochs_done": a.epochs},
@@ -1025,7 +1057,7 @@ def main():
             else:
                 avg[k] = v0.clone()          # e.g. num_batches_tracked
         swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                      "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                      "swa_over": [int(t["epoch"]) for t in topk]}
         model.load_state_dict(avg); model.eval()

@@ -51,7 +51,7 @@ SAGITTAL_SLOTS = (0, 1)
 _b_slots = np.cumsum([0] + SLOT_SIZES)
 _s_map = np.searchsorted(_b_slots, np.arange(MAXS), side='right') - 1
 
-K_EVAL = 94     # Evaluates all 94 possible 3-slice window centers across 96 slices
+K_EVAL = 94     # default 96 layout: 94 = MAXS - 2 window centers; re-derived from ckpt slot_sizes in main()
 WIN_CHUNK = 14  # Optimal benchmarked chunk size
 
 # Mode Toggle: Set True for standard LB submissions (Anatomical Mirror TTA gives +0.002 AUC)
@@ -244,6 +244,20 @@ def pick_series_for_slot(rows, plane, fluid, used):
     return cands[0] if cands else None
 
 
+PICK_SPAN = (0.06, 0.94)   # legacy test-time span (proven LB notebooks); new-layout checkpoints use the corpus span
+
+
+def _pick_slot_slice_indices(n, k):
+    """Per-slot slice picks: linspace over PICK_SPAN (corpus builder span (0.02, 0.98) for new-layout checkpoints).
+
+    Same rule as build_corpus96_stream.py: duplicates when the series is shorter
+    than the slot (linspace with repeats), [0]*k for a single-slice series.
+    """
+    lo, hi = int(n * PICK_SPAN[0]), int(n * PICK_SPAN[1]) - 1
+    hi = max(hi, lo)
+    return np.linspace(lo, hi, k).round().astype(int) if n > 1 else [0] * k
+
+
 def build_study_optimized(sid, ser_records, test_dir, io_pool):
     """Loads and preprocesses a study matching Dread's corpus contract bit-for-bit."""
     t0 = time.time()
@@ -300,9 +314,7 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
             slot_slice_requests.append(this_slot_requests)
             continue
         n = len(ordered)
-        lo, hi = int(n * 0.06), int(n * 0.94) - 1
-        hi = max(hi, lo)
-        picks = np.linspace(lo, hi, k).round().astype(int) if n > 1 else [0] * k
+        picks = _pick_slot_slice_indices(n, k)
 
         for p in picks:
             if cur_idx >= MAXS: break
@@ -367,11 +379,25 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
 # ============================================================================
 # GPU Inference & Full Window Centers (K_EVAL = 42)
 # ============================================================================
-SLOT_BOUNDS = [(0, 26), (26, 48), (48, 66), (66, 78), (78, 96)]
+def bounds_from_sizes(sizes):
+    """Cumulative 5-slot bounds from per-slot slice counts.
+
+    E.g. [26, 22, 18, 12, 18] -> [(0, 26), (26, 48), (48, 66), (66, 78), (78, 96)].
+    Re-derived at startup from --slot_sizes; any 5-slot layout works.
+    """
+    bounds, start = [], 0
+    for k in sizes:
+        k = int(k)
+        bounds.append((start, start + k))
+        start += k
+    return bounds
+
+
+SLOT_BOUNDS = bounds_from_sizes([26, 22, 18, 12, 18])
 
 
 def slot_of(idx: int) -> int:
-    """Return slot index (0..4) for a slice index (0..95)."""
+    """Return slot index (0..4) for a slice index."""
     for s, (start, end) in enumerate(SLOT_BOUNDS):
         if start <= idx < end:
             return s
@@ -380,13 +406,16 @@ def slot_of(idx: int) -> int:
     return len(SLOT_BOUNDS) - 1
 
 
-def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=96, cap=False, slots=None):
+def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=None, cap=False, slots=None):
     """Pick 3-slice window centers.
 
     If clean_windows is True, a center c is allowed only if c-1, c, c+1 are all real
     (mask > 0) AND in the same slot (slot_of(c-1) == slot_of(c) == slot_of(c+1)).
     Otherwise, picks from [lo+1, hi-1] matching legacy behavior.
+    max_d defaults to the full layout depth (sum of slot sizes).
     """
+    if max_d is None:
+        max_d = sum(end - start for start, end in SLOT_BOUNDS)
     lo, hi = int(valid.min()), int(valid.max())
     if clean_windows and mask is not None:
         cs = [
@@ -1096,6 +1125,7 @@ def run_pipeline(test_dir, test_series_csv, sample_sub_csv, devices, models, res
 # Main Entry Point
 # ============================================================================
 def main():
+    global SLOTS, MAXS, K_EVAL, SLOT_SIZES, SLOT_BOUNDS, _b_slots, _s_map, PICK_SPAN
     t_main_start = time.time()
     print("=" * 80)
     print(f"RSNA Knee Inference Pipeline | Mode: {'FULL (TTA)' if USE_TTA else 'FAST (No-TTA)'} | K_EVAL={K_EVAL}")
@@ -1121,7 +1151,19 @@ def main():
     clean_win = bool(ck.get("clean_windows", False))
     has_slot = bool(ck.get("slot_emb", False))
     spec_slots = tuple(int(v) for v in ck["slots"].split(",")) if ck.get("slots") else None
-    print(f"[model] Checkpoint: {ckpt_path} | Arch: {arch} | Res: {res} | clean_win={clean_win} | slot_emb={has_slot}", flush=True)
+    # Slot layout follows the checkpoint (any 5-slot corpus, e.g. 192 slices);
+    # old checkpoints without the key keep the 96 defaults bit-for-bit.
+    ck_sizes = [int(v) for v in str(ck.get("slot_sizes", "26,22,18,12,18")).split(",")]
+    PICK_SPAN = (0.02, 0.98) if ck.get("slot_sizes") else (0.06, 0.94)   # old checkpoints: unchanged inference
+    assert len(ck_sizes) == 5 and all(v > 0 for v in ck_sizes), f"bad slot_sizes: {ck.get('slot_sizes')}"
+    SLOT_SIZES = list(ck_sizes)
+    SLOTS = [(pl, fl, k) for (pl, fl, _), k in zip(SLOTS, SLOT_SIZES)]
+    MAXS = sum(SLOT_SIZES)
+    K_EVAL = MAXS - 2
+    SLOT_BOUNDS = bounds_from_sizes(SLOT_SIZES)
+    _b_slots = np.cumsum([0] + SLOT_SIZES)
+    _s_map = np.searchsorted(_b_slots, np.arange(MAXS), side='right') - 1
+    print(f"[model] Checkpoint: {ckpt_path} | Arch: {arch} | Res: {res} | clean_win={clean_win} | slot_emb={has_slot} | slots={SLOT_SIZES} | MAXS={MAXS} K_EVAL={K_EVAL}", flush=True)
 
     # Initialize model replica per device
     models = []
