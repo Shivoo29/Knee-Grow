@@ -31,3 +31,26 @@ ep4 loss 0.723 | GOLD macro-AUC 0.8999 (best 0.8999) | topk by gold: [4, 3, 2] |
   [swa] running SWA updated over epochs [5, 4, 3]
 ep5 loss 0.710 | GOLD macro-AUC 0.9063 (best 0.9063) | topk by gold: [5, 4, 3] | 10950s
   [timing] 4349 steps in 1810.5s (0.416 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep6 (0.9224)
+  [swa] running SWA updated over epochs [6, 5, 4]
+ep6 loss 0.699 | GOLD macro-AUC 0.9224 (best 0.9224) | topk by gold: [6, 5, 4] | 12840s
+  [timing] 4349 steps in 1820.6s (0.419 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [patience] no improvement for 1/5 epoch(s) (best 0.9224 at ep6)
+  [swa] running SWA updated over epochs [6, 7, 5]
+ep7 loss 0.692 | GOLD macro-AUC 0.9158 (best 0.9224) | topk by gold: [6, 7, 5] | 14737s
+  [timing] 4349 steps in 1847.2s (0.425 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep8 (0.9237)
+  [swa] running SWA updated over epochs [8, 6, 7]
+ep8 loss 0.688 | GOLD macro-AUC 0.9237 (best 0.9237) | topk by gold: [8, 6, 7] | 16656s
+  [timing] 4349 steps in 1825.8s (0.420 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep9 (0.9251)
+  [swa] running SWA updated over epochs [9, 8, 6]
+ep9 loss 0.680 | GOLD macro-AUC 0.9251 (best 0.9251) | topk by gold: [9, 8, 6] | 18551s
+  [timing] 4349 steps in 1813.3s (0.417 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep10 (0.9257)
+  [swa] running SWA updated over epochs [10, 9, 8]
+ep10 loss 0.675 | GOLD macro-AUC 0.9257 (best 0.9257) | topk by gold: [10, 9, 8] | 20440s
+  [timing] 4349 steps in 1809.0s (0.416 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep11 (0.9295)
+  [swa] running SWA updated over epochs [11, 10, 9]
+ep11 loss 0.670 | GOLD macro-AUC 0.9295 (best 0.9295) | topk by gold: [11, 10, 9] | 22330s
