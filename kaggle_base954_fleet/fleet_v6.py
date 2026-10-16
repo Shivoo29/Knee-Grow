@@ -417,6 +417,14 @@ def slot_of(idx: int) -> int:
     return len(SLOT_BOUNDS) - 1
 
 
+FIELD_MM = 140.0   # every corpus slice is a 140 mm square field at 384 px (build_corpus96_stream mm_crop_and_resize)
+
+
+def zoom_px(zoom_mm, img=384):
+    """Side in corpus pixels of a centred close-up of zoom_mm millimetres (0 = off)."""
+    return int(round(img * float(zoom_mm) / FIELD_MM)) if zoom_mm else 0
+
+
 def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=None, cap=False, slots=None):
     """Pick 3-slice window centers.
 
@@ -641,7 +649,7 @@ def _roi_resize(tri, res):
     return t.numpy()
 
 
-def _build_windows(vol, mask, res, clean_win=False, slots=None, k=None, roi=None, norm="none"):
+def _build_windows(vol, mask, res, clean_win=False, slots=None, k=None, roi=None, norm="none", zoom_px=0):
     """Build the (K,3,res,res) float32 window batch for one study on CPU.
 
     Returns (x, slot_ids, win_centers): x is norm-applied, slot_ids has one slot
@@ -667,8 +675,13 @@ def _build_windows(vol, mask, res, clean_win=False, slots=None, k=None, roi=None
                 tri_t = F.interpolate(tri_t, size=(res, res), mode='bilinear', align_corners=False)
             wins.append(tri_t[0])
             slot_ids.append(slot_of(c))
+            if zoom_px:   # second scale: centred close-up of the same window (train_knee StudyWindows parity)
+                oy, ox = (tri.shape[1] - zoom_px) // 2, (tri.shape[2] - zoom_px) // 2
+                z = torch.from_numpy(np.ascontiguousarray(tri[:, oy:oy + zoom_px, ox:ox + zoom_px]))[None]
+                wins.append(F.interpolate(z, size=(res, res), mode='bilinear', align_corners=False)[0])
+                slot_ids.append(slot_of(c))
         x = torch.stack(wins)
-        win_centers = list(centers)
+        win_centers = [c for c in centers for _ in range(2 if zoom_px else 1)]
     else:
         mode = roi.get("mode", "compartment")
         pad = float(roi.get("pad", 0.06))
@@ -747,7 +760,8 @@ def predict_study(model, vol, mask, res, dev, use_tta=False):
         clean_win=getattr(model, "clean_windows", False),
         slots=getattr(model, "slots", None),
         k=K_EVAL, roi=roi_cfg,
-        norm=getattr(model, "input_norm", "none"))
+        norm=getattr(model, "input_norm", "none"),
+        zoom_px=getattr(model, "zoom_px", 0))
     if getattr(model, "seq_head", False):
         assert all(b >= a for a, b in zip(win_centers, win_centers[1:])), \
             "seq_head requires ascending window centers"
@@ -1196,6 +1210,7 @@ def main():
         m.roi_mode = ck.get("roi_mode", "compartment")
         m.roi_pad = float(ck.get("roi_pad", 0.06))
         m.roi_overlap = float(ck.get("roi_overlap", 0.12))
+        m.zoom_px = zoom_px(float(ck.get("zoom_mm", 0.0)))
         m.eval()
         models.append(m)
 

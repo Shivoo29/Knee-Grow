@@ -211,6 +211,14 @@ def slot_of(idx: int) -> int:
     return len(SLOT_BOUNDS) - 1
 
 
+FIELD_MM = 140.0   # every corpus slice is a 140 mm square field at 384 px (build_corpus96_stream mm_crop_and_resize)
+
+
+def zoom_px(zoom_mm, img=384):
+    """Side in corpus pixels of a centred close-up of zoom_mm millimetres (0 = off)."""
+    return int(round(img * float(zoom_mm) / FIELD_MM)) if zoom_mm else 0
+
+
 def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=None, cap=False, slots=None):
     """Pick 3-slice window centers.
 
@@ -288,7 +296,10 @@ class StudyWindows(Dataset):
                  roi=False, roi_mode="tight", roi_pad=0.06, roi_overlap=0.12,
                  roi_sbox=None, roi_cen=None,
                  clean_windows=False, mirror_p=0.0, contrast_aug=False, slot_emb=False, slots=None,
-                 seq_head=False, label_w=None):
+                 seq_head=False, label_w=None, zoom_px=0):
+        self.zoom_px = int(zoom_px)       # >0: each window also yields a centred close-up of this many corpus px
+        if self.zoom_px and roi:
+            raise ValueError("zoom_mm and roi are separate crop modes; use one")
         self.root = root
         self.ids = ids
         self.id2row = id2row
@@ -343,7 +354,7 @@ class StudyWindows(Dataset):
         if len(valid) < 3: valid = np.arange(min(3, self._D))
         # compartment mode emits 2 crops/center -> sample ceil(k/2) centers to keep #windows==k
         compart = self.roi and self.roi_mode == "compartment"
-        n_centers = (self.k + 1) // 2 if compart else self.k
+        n_centers = (self.k + 1) // 2 if (compart or self.zoom_px) else self.k
         cs = self._centers(valid, n_centers, mask=m)
         if self.seq_head:
             cs = sorted(cs)               # GRU sees slices in anatomical order (train and eval)
@@ -361,6 +372,11 @@ class StudyWindows(Dataset):
                 tiles.append(self._resize(tri))
                 slot_ids.append(slot_of(c))
                 win_centers.append(c)
+                if self.zoom_px:           # second scale: centred close-up of the same window
+                    oy, ox = (H - self.zoom_px) // 2, (W - self.zoom_px) // 2
+                    tiles.append(self._resize(tri[:, oy:oy + self.zoom_px, ox:ox + self.zoom_px]))
+                    slot_ids.append(slot_of(c))
+                    win_centers.append(c)
                 continue
             # one joint box from the CENTER slice, applied to all 3 slices (keeps RGB registered)
             sq_mode = "tight" if compart else self.roi_mode
@@ -607,6 +623,7 @@ def main():
     ap.add_argument("--label_weights", default=None, help="path to per-(study,finding) weight parquet (w_<finding> cols); down-weights noisy labels")
     ap.add_argument("--stkim_k", type=int, default=0, help="ACMIL stochastic top-K window masking (training only): hide each finding's top-k windows")
     ap.add_argument("--stkim_p", type=float, default=0.7, help="probability each top-k window is hidden when --stkim_k > 0")
+    ap.add_argument("--zoom_mm", type=float, default=0.0, help="two-scale tiles: each window also yields a centred close-up of this many mm (corpus field is 140 mm); 0 = off")
     a = ap.parse_args()
     random.seed(a.seed); np.random.seed(a.seed); torch.manual_seed(a.seed)
     XLA = None
@@ -689,7 +706,9 @@ def main():
                    roi_sbox=roi_sbox, roi_cen=roi_cen,
                    clean_windows=bool(a.clean_windows), slot_emb=bool(a.slot_emb),
                    slots=tuple(int(v) for v in a.slots.split(',')) if a.slots else None,
-                   seq_head=bool(a.seq_head))
+                   seq_head=bool(a.seq_head), zoom_px=zoom_px(a.zoom_mm))
+    if a.zoom_mm:
+        print(f"[zoom] two-scale tiles: 140 mm field + centred {a.zoom_mm:g} mm close-up ({zoom_px(a.zoom_mm)} px); --k/--k_eval count tiles", flush=True)
 
     # ---- slot layout (any 5-slot corpus depth, e.g. 96 or 192) ----
     _sizes = [int(v) for v in a.slot_sizes.split(",")]
@@ -919,7 +938,7 @@ def main():
             patience_counter = 0
             best_state = {"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
                           "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                          "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "zoom_mm": float(a.zoom_mm), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                           "arch": a.arch, "lab": LAB, "epoch": ep}
         else:
             patience_counter += 1
@@ -948,7 +967,7 @@ def main():
         if len(topk) < TOPK or sel > min(t.get("sel", t["gold_auc"]) for t in topk):
             topk.append({"model": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()},
                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
-                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                         "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "zoom_mm": float(a.zoom_mm), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                          "arch": a.arch, "lab": LAB, "epoch": ep, "P": P, "sel": sel})
             topk.sort(key=lambda t: -t.get("sel", t["gold_auc"]))
             del topk[TOPK:]
@@ -964,7 +983,7 @@ def main():
                     else:
                         avg[k] = v0.clone()
                 swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                             "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "zoom_mm": float(a.zoom_mm), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                              "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                              "swa_over": [int(t["epoch"]) for t in topk]}
                 torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
@@ -1073,7 +1092,7 @@ def main():
             else:
                 avg[k] = v0.clone()          # e.g. num_batches_tracked
         swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
-                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
+                     "clean_windows": bool(a.clean_windows), "slot_emb": bool(a.slot_emb), "slots": a.slots, "slot_sizes": a.slot_sizes, "roi": a.roi, "roi_mode": a.roi_mode, "roi_pad": a.roi_pad, "roi_overlap": a.roi_overlap, "seq_head": bool(a.seq_head), "zoom_mm": float(a.zoom_mm), "aux_w": float(a.aux_w), "label_weights": os.path.basename(a.label_weights) if a.label_weights else None,
                      "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                      "swa_over": [int(t["epoch"]) for t in topk]}
         model.load_state_dict(avg); model.eval()
