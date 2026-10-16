@@ -38,3 +38,4 @@ kaggle_dataset_upload/*.pt
 .zcodeignore
 kaggle_specialists_upload/
 
+hf_stage/
