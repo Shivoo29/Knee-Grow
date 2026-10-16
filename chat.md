@@ -1410,3 +1410,8 @@ Plan revised after user pushback (both points were right):
 - Crop audit (400 studies, corpus96 middle slices): knee centroid offset median 6-10 mm (p90 ~15); tissue width ~125-137 of the 140 mm field; tissue runs off one side in 45% sagittal / 29% coronal / 24% axial. Our --roi mode boxes the tissue = whole field, so it never zoomed (why it never helped). At 256 px the 140 mm field = 0.55 mm/px (worse than CoAtNet-384's 0.36).
   -> NEW Task 1b: --zoom_mm 100 = each window gives 2 tiles (full 140 mm + centred 100 mm close-up, 0.39 mm/px at 256), train/fleet parity test. Directed close-ups (patella/posterior/medial/lateral) need IOP per slot = DICOM rebuild, next in line.
 - 24 windows: CoAtNet k24 run dropped (Raptor family, no OOF so it cannot prove k24>k12 on noisy gold), but the IDEA is adopted: ConvNeXt family trains 24 centres/step = 48 tiles (--k 48 --k_eval 380), cuts the 12-train/190-test window mismatch.
+Mirror vs MCL (another agent's table claimed mirror crashes MCL): CONFOUNDED. Its "with mirror" runs were all trained on labels_avg/oofmix; "without" on llm_soft/distilled labels.
+- Controlled pair (same distilled labels, only flags differ): v6dflags_s42 (mirror) MCL 0.9546 vs v6d_s8 0.9501 / v6d_s10 0.9569 -> no mirror effect.
+- labels_avg runs WITHOUT mirror are also weak on MCL: convnext 0.79-0.80, resnet 0.78, effnetv2 0.85, coat224 0.83.
+- Gold-58 by label source (CoAtNet-384, mean): MCL llm_soft 0.964 | avg 0.872 | distil 0.954; macro 0.915 | 0.909 | 0.928. labels_avg marks 14.7% MCL+ vs 4.9% in llm_soft (host: acute high-grade only) -> sprains counted.
+-> NEW plan Task 1c: labels_hybrid_v1 = labels_avg with MCL from data/labels/labels_llm_soft.parquet (MCL mask weight reset to 1). New family trains on it.
