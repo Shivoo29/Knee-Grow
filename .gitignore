@@ -41,3 +41,6 @@ kaggle_specialists_upload/
 hf_stage/
 pc192/all_*.npy
 ds/corpus192/
+research_notes/Knee MRI top leaderboard tactics/kernels/
+research_notes/Knee MRI top leaderboard tactics/listings/
+pc192/labels_distil_v1.parquet
