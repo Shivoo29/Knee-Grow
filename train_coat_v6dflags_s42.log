@@ -64,3 +64,24 @@ ep13 loss 0.689 | GOLD macro-AUC 0.9287 (best 0.9287) | topk by gold: [13, 12, 9
   [ckpt] best-so-far saved at ep14 (0.9299)
   [swa] running SWA updated over epochs [14, 13, 12]
 ep14 loss 0.688 | GOLD macro-AUC 0.9299 (best 0.9299) | topk by gold: [14, 13, 12] | 25875s
+  [timing] 4349 steps in 1708.9s (0.393 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [patience] no improvement for 1/5 epoch(s) (best 0.9299 at ep14)
+  [swa] running SWA updated over epochs [14, 13, 15]
+ep15 loss 0.687 | GOLD macro-AUC 0.9279 (best 0.9299) | topk by gold: [14, 13, 15] | 27653s
+
+DONE timm-pretrained | BEST GOLD macro-AUC 0.9299
+   ACL                0.973
+   MCL                0.955
+   Medial Meniscus    0.974
+   Lateral Meniscus   0.886
+   Medial OA          0.986
+   Lateral OA         0.810
+   PF OA              0.864
+   Effusion           0.989
+   Synovitis          0.860
+   Baker's            0.975
+   Contusion          0.941
+   Fracture           0.947
+saved raptor_ft_v6dflags_s42.pt / raptor_gold_v6dflags_s42.npz / raptor_ft_v6dflags_s42.json
+SWA over epochs [14, 13, 15] | gold 0.9289 (best-epoch 0.9299) no gain
+TOPK epochs [14, 13, 15] | best 0.9299 | epoch-ensemble 0.9293 (no gain)

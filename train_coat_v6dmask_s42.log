@@ -1,0 +1,33 @@
+/home/codemaster29/Documents/still_learning/rsna-knee-abnormality-detection/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:1061: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/94 | bs 1 | tag v6dmask_s42 | roi=False(compartment)
+train 4349 | gold-val 58
+[slots] layout=[26, 22, 18, 12, 18] depth=96 bounds=[(0, 26), (26, 48), (48, 66), (66, 78), (78, 96)]
+[label_weights] label_weights_consensus_v1.parquet rows=4349 zero_frac=0.120
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+  [timing] 4349 steps in 1691.0s (0.389 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep0 (0.7525)
+ep0 loss 0.860 | GOLD macro-AUC 0.7525 (best 0.7525) | topk by gold: [0] | 1724s
+  [timing] 4349 steps in 1684.1s (0.387 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep1 (0.8423)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 0.809 | GOLD macro-AUC 0.8423 (best 0.8423) | topk by gold: [1, 0] | 3445s
+  [timing] 4349 steps in 1780.8s (0.409 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep2 (0.8719)
+  [swa] running SWA updated over epochs [2, 1, 0]
+ep2 loss 0.765 | GOLD macro-AUC 0.8719 (best 0.8719) | topk by gold: [2, 1, 0] | 5268s
+  [timing] 4349 steps in 1795.3s (0.413 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep3 (0.8933)
+  [swa] running SWA updated over epochs [3, 2, 1]
+ep3 loss 0.740 | GOLD macro-AUC 0.8933 (best 0.8933) | topk by gold: [3, 2, 1] | 7128s
+  [timing] 4349 steps in 1837.5s (0.423 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep4 (0.8999)
+  [swa] running SWA updated over epochs [4, 3, 2]
+ep4 loss 0.723 | GOLD macro-AUC 0.8999 (best 0.8999) | topk by gold: [4, 3, 2] | 9038s
+  [timing] 4349 steps in 1837.8s (0.423 s/step) | peak 2.77 GB (reserved 3.22 GB)
+  [ckpt] best-so-far saved at ep5 (0.9063)
+  [swa] running SWA updated over epochs [5, 4, 3]
+ep5 loss 0.710 | GOLD macro-AUC 0.9063 (best 0.9063) | topk by gold: [5, 4, 3] | 10950s
+  [timing] 4349 steps in 1810.5s (0.416 s/step) | peak 2.77 GB (reserved 3.22 GB)

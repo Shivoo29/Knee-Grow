@@ -91,6 +91,11 @@
    "ep": 14,
    "loss": 0.6877570860096437,
    "gold_auc": 0.9298787154094424
+  },
+  {
+   "ep": 15,
+   "loss": 0.6867167120364706,
+   "gold_auc": 0.9279160694203729
   }
  ],
  "res": 384,
@@ -109,6 +114,6 @@
  "roi_mode": "compartment",
  "roi_pad": 0.06,
  "roi_overlap": 0.12,
- "partial": true,
- "epochs_done": 15
+ "partial": false,
+ "epochs_done": 16
 }
