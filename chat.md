@@ -1429,3 +1429,10 @@ Runs:
 - node1 NFS is the bottleneck: smoke test hung in NFS I/O; header scan (24 workers on the 265 GB zip) killed to free it; restart later with fewer workers. T04 laterality code (../knee-lat, branch laterality) already exists: side from ImageLaterality/Laterality/SeriesDescription + IOP/IPP flags; never run. Scanner patched to read 64 KB headers (scratchpad copy on node1 ~/projects/knee/lat).
 - PC: consensus run ep11 gold 0.9295; corpus192 copy 75.4/124.8 GB (slowed by node1 NFS); PC needs REBOOT (NVIDIA driver mismatch) before new GPU jobs.
 - Kaggle submit of blendmine was BLOCKED by Claude Code auto-mode permission -> user submits.
+
+## 59. Oct 17 ~12:40 IST (Claude)
+- blendmine fork: public 0.958 (confirmed).
+- ConvNeXt-T family (zoom 100 mm, 24 centres, hybrid labels, STKIM): fold0 gold 0.9106 (SWA 0.9094), fold1 gold 0.9271 (SWA 0.9246). node1 now used by someone else's tmux `queue_breakthrough` (not ours, untouched).
+- Decorrelation gate (folds 0-1 OOF, 2175 studies, truth labels_hybrid_v1): ConvNeXt macro 0.8871 vs CoAtNet oof4 0.8843; rho_pos 0.865 / rho_neg 0.811 (mean 0.838 <= 0.85) -> PASS. Rank blend 0.7/0.3 OOF 0.8908 (+0.0065). Gains on MCL (by label design), PF OA, Lateral Meniscus; ConvNeXt weaker on Lateral OA (0.813 vs 0.844), Effusion.
+- PC rebooted; folds 2 and 3 started 12:25 (pc192/), ~4 h each.
+- Laterality: DICOM tags give side for 2344/4407 studies; friend's X_center file agrees 96.8% -> usable for family 2.
