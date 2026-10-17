@@ -71,7 +71,7 @@ If you run out of host memory a few epochs in, set --topk 1 and lower --workers.
 The checkpoint it writes is a dict with keys model, arch, res and lab, which is exactly what the
 inference notebook expects.
 """
-import os, sys, time, json, math, random, argparse
+import os, sys, time, json, math, random, argparse, bisect, zlib
 import numpy as np, pandas as pd
 import torch, torch.nn as nn, torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
@@ -122,6 +122,60 @@ class _TwoPartVols:
         return self.a[row] if row < self.n_a else self.b[row - self.n_a]
 
 
+class _ZCorpus:
+    """Corpus folder written by tools/fastmri_corpus.py: vols/<id>.u8z (zlib uint8 volumes) plus
+    all_ids.npy, all_masks.npy and corpus.json. Inflates one study per index."""
+    def __init__(self, d):
+        self.d = d
+        self.ids = np.load(os.path.join(d, "all_ids.npy"), allow_pickle=True).astype(str)
+        self.masks = np.load(os.path.join(d, "all_masks.npy"))
+        self.shape = (len(self.ids),) + tuple(json.load(open(os.path.join(d, "corpus.json")))["shape"])
+
+    def __len__(self):
+        return self.shape[0]
+
+    def __getitem__(self, row):
+        with open(os.path.join(self.d, "vols", self.ids[row] + ".u8z"), "rb") as f:
+            return np.frombuffer(zlib.decompress(f.read()), np.uint8).reshape(self.shape[1:])
+
+
+class _MultiVols:
+    """Corpus parts stacked by row, in the same order as their ids are concatenated."""
+    def __init__(self, parts):
+        assert len({tuple(p.shape[1:]) for p in parts}) == 1, [p.shape for p in parts]
+        self.parts = parts
+        self.starts = np.cumsum([0] + [p.shape[0] for p in parts]).tolist()
+        self.shape = (self.starts[-1],) + tuple(parts[0].shape[1:])
+
+    def __len__(self):
+        return self.shape[0]
+
+    def __getitem__(self, row):
+        i = bisect.bisect_right(self.starts, row) - 1
+        return self.parts[i][row - self.starts[i]]
+
+
+def _extra_dirs():
+    """RAPTOR_EXTRA_CORPUS: comma list of extra corpus folders (tools/fastmri_corpus.py output or all_vols.npy)."""
+    return [d for d in os.environ.get("RAPTOR_EXTRA_CORPUS", "").split(",") if d]
+
+
+def _extra_part(d):
+    """(vols, masks, ids) of one corpus folder; the volumes stay on disk."""
+    if os.path.exists(os.path.join(d, "all_vols.npy")):
+        return (np.load(os.path.join(d, "all_vols.npy"), mmap_mode="r"), np.load(os.path.join(d, "all_masks.npy")),
+                np.load(os.path.join(d, "all_ids.npy"), allow_pickle=True).astype(str))
+    z = _ZCorpus(d)
+    return z, z.masks, z.ids
+
+
+def _with_extras(vols, masks):
+    parts = [_extra_part(d) for d in _extra_dirs()]
+    if not parts:
+        return vols, masks
+    return _MultiVols([vols] + [p[0] for p in parts]), np.concatenate([masks] + [p[1] for p in parts])
+
+
 _CORPUS = None   # RAPTOR_PRELOAD=1: the whole corpus in RAM, loaded once in the parent so forked loader workers share it
 
 
@@ -149,6 +203,7 @@ def _open_corpus():
         if mm is None:
             print(f"[corpus] preloaded into RAM in {time.time()-t0:.0f}s", flush=True)
         out = (vols, masks)
+    out = _with_extras(*out)                          # RAPTOR_EXTRA_CORPUS parts stay on disk even with preload
     if mm is None:
         _CORPUS = out
     return out
@@ -157,12 +212,34 @@ def _open_corpus():
 def _open_ids():
     local = os.path.join(HERE, "all_ids.npy")
     if os.path.exists(local):
-        return np.load(local, allow_pickle=True).astype(str)
-    a, b = _find("all_ids.npy"), _find("extra_ids.npy")
-    if not (a and b):
-        raise SystemExit("Could not find all_ids.npy / extra_ids.npy - attach both corpus parts.")
-    return np.concatenate([np.load(a, allow_pickle=True).astype(str),
-                           np.load(b, allow_pickle=True).astype(str)])
+        ids = np.load(local, allow_pickle=True).astype(str)
+    else:
+        a, b = _find("all_ids.npy"), _find("extra_ids.npy")
+        if not (a and b):
+            raise SystemExit("Could not find all_ids.npy / extra_ids.npy - attach both corpus parts.")
+        ids = np.concatenate([np.load(a, allow_pickle=True).astype(str),
+                              np.load(b, allow_pickle=True).astype(str)])
+    extra = [np.load(os.path.join(d, "all_ids.npy"), allow_pickle=True).astype(str) for d in _extra_dirs()]
+    return np.concatenate([ids] + extra) if extra else ids
+
+
+def add_extra(train_ids, labels, lw_all, ids, comp_ids, labels_path, weight, limit=0):
+    """Append extra-corpus studies that have a row in labels_path to the training set (never to the
+    folds, OOF or gold). Their per-label loss weight is `weight`; competition rows keep theirs (1 if
+    no --label_weights). Returns (train_ids, lw_all)."""
+    ex = pd.read_parquet(labels_path)
+    ex = ex.assign(StudyInstanceUID=ex["StudyInstanceUID"].astype(str)).set_index("StudyInstanceUID")
+    extra = [u for u in ids if u not in comp_ids and u in ex.index]
+    if limit:
+        extra = extra[:limit]
+    if not extra:
+        raise SystemExit(f"--extra_labels {labels_path}: no study in RAPTOR_EXTRA_CORPUS has a label row")
+    lw_all = dict(lw_all) if lw_all is not None else {u: np.ones(12, np.float32) for u in train_ids}
+    vals = ex.loc[extra, LAB].values.astype(np.float32)
+    for u, v in zip(extra, vals):
+        labels[u] = v
+        lw_all[u] = np.full(12, weight, np.float32)
+    return list(train_ids) + extra, lw_all
 LAB = ["ACL","MCL","Medial Meniscus","Lateral Meniscus","Medial OA","Lateral OA","PF OA",
        "Effusion","Synovitis","Baker's","Contusion","Fracture"]
 
@@ -624,6 +701,8 @@ def main():
     ap.add_argument("--stkim_k", type=int, default=0, help="ACMIL stochastic top-K window masking (training only): hide each finding's top-k windows")
     ap.add_argument("--stkim_p", type=float, default=0.7, help="probability each top-k window is hidden when --stkim_k > 0")
     ap.add_argument("--zoom_mm", type=float, default=0.0, help="two-scale tiles: each window also yields a centred close-up of this many mm (corpus field is 140 mm); 0 = off")
+    ap.add_argument("--extra_labels", default=None, help="parquet of soft labels for studies in RAPTOR_EXTRA_CORPUS (e.g. teacher predictions from tools/predict_corpus.py); they always train, never validate")
+    ap.add_argument("--extra_weight", type=float, default=1.0, help="loss weight of every extra-corpus label")
     a = ap.parse_args()
     random.seed(a.seed); np.random.seed(a.seed); torch.manual_seed(a.seed)
     XLA = None
@@ -732,6 +811,12 @@ def main():
             raise RuntimeError(f"label_weights missing {len(missing)} train ids")
         print(f"[label_weights] {os.path.basename(a.label_weights)} rows={len(lw_all)} "
               f"zero_frac={float((lw_df[lw_cols].values == 0).mean()):.3f}", flush=True)
+    if a.extra_labels:                                # after pos_weight, which stays on competition labels
+        n_comp = len(train_ids)
+        train_ids, lw_all = add_extra(train_ids, labels, lw_all, ids, set(tr["StudyInstanceUID"]),
+                                      a.extra_labels, a.extra_weight, a.limit)
+        print(f"[extra] +{len(train_ids) - n_comp} studies from RAPTOR_EXTRA_CORPUS "
+              f"({os.path.basename(a.extra_labels)}), weight {a.extra_weight:g}", flush=True)
 
     if os.environ.get("RAPTOR_PRELOAD") == "1":
         _open_corpus()                                # parent holds the RAM copy; forked workers inherit it
@@ -863,7 +948,7 @@ def main():
             x = batch[0].to(dev, non_blocking=True)
             y = batch[1].to(dev, non_blocking=True)
             slots = batch[2].to(dev, non_blocking=True) if a.slot_emb else None
-            w = batch[-1].to(dev, non_blocking=True) if a.label_weights else None
+            w = batch[-1].to(dev, non_blocking=True) if lw_all is not None else None
             with torch.autocast(DEVT, dtype=AMP_DTYPE, enabled=AMP_ON):
                 if a.seq_head:
                     logits, aux = model.forward_with_aux(x, slots=slots)
