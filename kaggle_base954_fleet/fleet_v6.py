@@ -55,7 +55,7 @@ K_EVAL = 94     # default 96 layout: 94 = MAXS - 2 window centers; re-derived fr
 WIN_CHUNK = 14  # Optimal benchmarked chunk size
 
 # Mode Toggle: Set True for standard LB submissions (Anatomical Mirror TTA gives +0.002 AUC)
-USE_TTA = True
+USE_TTA = os.environ.get("RAPTOR_TTA", "1") != "0"   # RAPTOR_TTA=0 halves GPU time
 
 DICOM_HEADER_TAGS = [
     'ImageOrientationPatient',
