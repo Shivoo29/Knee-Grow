@@ -1480,3 +1480,18 @@ Runs:
 - v2 pushed ~20:20. Gate on v2: probe s/study x 1300 / 3600 <= ~1.5 h (base also gets 2 GPUs). Then user submits
   "blendmine + cnxt 4-fold W0.3"; LB < 0.957 -> W 0.2 once.
 - PC cnxt_sev fold 0: ep5 gold 0.9101 (hybrid fold 0 best was 0.9106), ~12 min/epoch.
+
+## 63. Oct 17 ~21:00 IST (Claude) — text-labeler research: the report ceiling is ~0.89-0.90 on gold
+- Public evidence: joshuaziel "Slightly Overexhaustive Labeling Deathmatch" ran 8 Anthropic/OpenAI LLMs + DSPy
+  programs vs gold: no model meaningfully better; gold = independent image read is the dominant factor.
+  skarin "58 Gold Labels vs 4 Teachers": Steven v4 blend is the best default; blends/per-class selection do not beat
+  it under cross-fitting. Steven v4 = Steven v2 LLM labels + lixin73 GPT-5.6-Sol. Regex ~0.814.
+- Our scoring, 57 gold studies shared by all tables: JEV hybrid 0.904 (BUT its weights were fit on 67 gold
+  studies -> inflated), Steven v4 0.893, Clef severity 0.891 (V a priori, no gold use), Steven v2 0.887,
+  JEV final2 0.875, Clef any 0.847, gpt-5.6-luna (joshuaziel dataset, 0/1 + confidence) 0.831.
+- Experiment (BERT idea with a better target than gold-58): ridge from Clef's 75 grade probabilities to the
+  image OOF mean (CoAtNet oof4 + ConvNeXt) on 4,349 train studies, scored on gold: 0.895 vs 0.890
+  (CI -0.014..+0.025); rank mean with Steven v4 0.902 (CI -0.006..+0.032). Not significant.
+- Conclusion: a fine-tuned text model (BERT/mmBERT) would land at ~0.89-0.90 too. Reports are in ~9 languages,
+  so an English medical BERT would not fit anyway. Spend GPU on the image side; image models already beat every
+  report table on gold for Effusion, Baker's, Contusion, Fracture, Medial OA.
