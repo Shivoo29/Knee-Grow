@@ -8,6 +8,7 @@ import importlib.util
 import io
 import os
 import sys
+import tempfile
 import time
 from types import SimpleNamespace as NS
 
@@ -26,14 +27,17 @@ LAB = ['ACL', 'MCL', 'Medial Meniscus', 'Lateral Meniscus', 'Medial OA', 'Latera
 
 
 class FakeClef(torch.nn.Module):
-    def __init__(self):
+    def __init__(self, interrupt_at=None):
         super().__init__()
         self.w = torch.nn.Parameter(torch.zeros(1))
         self.calls = []
+        self.interrupt_at = interrupt_at
 
     def forward(self, batch):
         recs = batch["records"]
         self.calls.append(len(recs))
+        if len(self.calls) == self.interrupt_at:
+            raise KeyboardInterrupt
         if len(recs) > 3:
             raise torch.cuda.OutOfMemoryError("fake")
         g = torch.Generator().manual_seed(len(recs))
@@ -54,12 +58,16 @@ def _setup():
     return jsm, tok, csv.to_csv(index=False).encode()
 
 
-def _grade(smoke):
+def _grade(smoke, tmp, model=None):
     jsm, tok, data = _setup()
-    model = FakeClef()
-    _, defs = nb.grade_reports.run(grade=NS(value=True), grader=NS(value="Cloudflare/clef"), jsm=jsm, model=model,
-                                   processor=NS(tokenizer=tok), smoke=NS(value=smoke), torch=torch,
-                                   upload=NS(contents=lambda: data))
+    model = model or FakeClef()
+    tempfile.tempdir = tmp  # the notebook writes its part files to tempfile.gettempdir()
+    try:
+        _, defs = nb.grade_reports.run(grade=NS(value=True), grader=NS(value="Cloudflare/clef"), jsm=jsm, model=model,
+                                       processor=NS(tokenizer=tok), smoke=NS(value=smoke), torch=torch,
+                                       upload=NS(contents=lambda: data))
+    finally:
+        tempfile.tempdir = None
     return defs["grades"], defs["out_path"], model
 
 
@@ -71,24 +79,38 @@ def test_questions():
 
 
 def test_smoke_run():
-    grades, path, model = _grade(True)
-    assert len(grades) == 32 and max(model.calls) > 3  # every row graded although batches over 3 always fail
-    for f in LAB:
-        s = grades[[c for c in grades.columns if c.startswith(f + "|")]].sum(axis=1)
-        assert np.allclose(s, 1.0, atol=1e-4), f
-    back = pd.read_parquet(path)
-    assert back.shape == grades.shape and back.columns.tolist() == grades.columns.tolist()
+    with tempfile.TemporaryDirectory() as td:
+        grades, path, model = _grade(True, td)
+        assert len(grades) == 32 and max(model.calls) > 3  # every row graded although batches over 3 always fail
+        for f in LAB:
+            s = grades[[c for c in grades.columns if c.startswith(f + "|")]].sum(axis=1)
+            assert np.allclose(s, 1.0, atol=1e-4), f
+        back = pd.read_parquet(path)
+        assert back.shape == grades.shape and back.columns.tolist() == grades.columns.tolist()
+        assert path.name == "grades_clef_smoke.parquet"
     return f"32 rows, probabilities sum to 1 per finding, OOM split used, {grades['n_tokens'].mean():.0f} tokens/report"
 
 
 def test_full_run_alignment():
-    grades, _, _ = _grade(False)
-    want = [f"1.2.{i}" for i in range(40) if i not in (3, 17, 29)]
-    assert grades["StudyInstanceUID"].tolist() == want
+    with tempfile.TemporaryDirectory() as td:
+        grades, path, _ = _grade(False, td)
+        want = [f"1.2.{i}" for i in range(40) if i not in (3, 17, 29)]
+        assert grades["StudyInstanceUID"].tolist() == want and path.name == "grades_clef_part1.parquet"
     return "37 rows (3 empty reports skipped), ids in file order despite length-sorted batches"
 
 
-TESTS = [("questions", test_questions), ("smoke_run", test_smoke_run), ("full_run_alignment", test_full_run_alignment)]
+def test_interrupt_and_resume():
+    with tempfile.TemporaryDirectory() as td:
+        g1, p1, _ = _grade(False, td, FakeClef(interrupt_at=10))  # mid batch 2 (a batch of 10 takes 7 split calls)
+        g2, p2, _ = _grade(False, td)
+        ids1, ids2 = set(g1["StudyInstanceUID"]), set(g2["StudyInstanceUID"])
+        assert 0 < len(ids1) < 37 and not ids1 & ids2 and len(ids1 | ids2) == 37
+        assert (p1.name, p2.name) == ("grades_clef_part1.parquet", "grades_clef_part2.parquet")
+    return f"interrupt kept {len(ids1)} rows in part1; resume graded the other {len(ids2)} into part2, no overlap"
+
+
+TESTS = [("questions", test_questions), ("smoke_run", test_smoke_run), ("full_run_alignment", test_full_run_alignment),
+         ("interrupt_and_resume", test_interrupt_and_resume)]
 
 
 def main():

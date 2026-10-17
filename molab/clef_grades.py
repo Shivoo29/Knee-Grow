@@ -195,6 +195,15 @@ def grade_reports(MAX_BATCH, PREAMBLE, Path, QUESTIONS, TOKENS_PER_BATCH, grade,
     _n_all = len(_df)
     _df = _df[_df["Report"].fillna("").str.strip() != ""]
     _n_reports = len(_df)
+    _name = grader.value.split("/")[-1]
+    _tmp = Path(tempfile.gettempdir())
+    # Resume: skip reports already saved in earlier part files (every run saves the next part, even when interrupted).
+    _prev = [] if smoke.value else sorted(_tmp.glob(f"grades_{_name}_part*.parquet"))
+    _done_ids = set()
+    for _p in _prev:
+        _done_ids |= set(pd.read_parquet(_p, columns=["StudyInstanceUID"])["StudyInstanceUID"])
+    _df = _df[~_df["StudyInstanceUID"].isin(_done_ids)]
+    mo.stop(_df.empty, mo.md(f"All {_n_reports} reports are graded across {len(_prev)} part files."))
     if smoke.value:
         _df = _df.head(32)
     _tok = processor.tokenizer
@@ -221,22 +230,28 @@ def grade_reports(MAX_BATCH, PREAMBLE, Path, QUESTIONS, TOKENS_PER_BATCH, grade,
             return _run(idx[: len(idx) // 2]) + _run(idx[len(idx) // 2:])
 
     _rows = [None] * len(_enc)
-    for _b in mo.status.progress_bar(_batches, title=f"Grading {len(_enc)} reports", show_eta=True, show_rate=True):
-        for _i, _logits in _run(_b):
-            _row = {}
-            for _q, _ql in zip(_enc[_i].questions, _logits):
-                _row.update(zip([f"{_q.question_id}|{o}" for o in _q.option_ids], _ql.float().softmax(-1).tolist()))
-            _rows[_i] = _row
-    grades = pd.DataFrame(_rows).astype("float32")
-    grades.insert(0, "StudyInstanceUID", _df["StudyInstanceUID"].values)
-    grades["n_tokens"] = [len(e.input_ids) for e in _enc]
+    _interrupted = False
+    try:  # an interrupt keeps what is graded so far; the next press resumes from the part files
+        for _b in mo.status.progress_bar(_batches, title=f"Grading {len(_enc)} reports", show_eta=True, show_rate=True):
+            for _i, _logits in _run(_b):
+                _row = {}
+                for _q, _ql in zip(_enc[_i].questions, _logits):
+                    _row.update(zip([f"{_q.question_id}|{o}" for o in _q.option_ids], _ql.float().softmax(-1).tolist()))
+                _rows[_i] = _row
+    except KeyboardInterrupt:
+        _interrupted = True
+    _done = [i for i, r in enumerate(_rows) if r is not None]
+    mo.stop(not _done, mo.md("⚠️ Interrupted before any report was graded. Press **2. Grade reports** again."))
+    grades = pd.DataFrame([_rows[i] for i in _done]).astype("float32")
+    grades.insert(0, "StudyInstanceUID", _df["StudyInstanceUID"].values[_done])
+    grades["n_tokens"] = [len(_enc[i].input_ids) for i in _done]
     _secs = time.time() - _t0
-    out_path = Path(tempfile.gettempdir()) / (f"grades_{grader.value.split('/')[-1]}"
-                                              + ("_smoke" if smoke.value else "") + ".parquet")
+    out_path = _tmp / (f"grades_{_name}_smoke.parquet" if smoke.value else f"grades_{_name}_part{len(_prev) + 1}.parquet")
     grades.to_parquet(out_path, index=False)
-    _lines = [f"**{len(grades)} reports graded in {_secs / 60:.1f} min** ({_secs / len(grades):.2f} s per report; "
-              f"full run of {_n_reports} about {_secs / len(grades) * _n_reports / 60:.0f} min) | "
-              f"{_n_all - _n_reports} rows without a report skipped | tokens per report: mean "
+    _lines = [f"**{len(grades)} reports graded in {_secs / 60:.1f} min** ({_secs / len(grades):.2f} s per report) | "
+              f"{len(_done_ids) + len(grades)} of {_n_reports} graded in total"
+              + (" | ⚠️ interrupted: press 2 again to resume" if _interrupted else "")
+              + f" | {_n_all - _n_reports} rows without a report skipped | tokens per report: mean "
               f"{grades['n_tokens'].mean():.0f}, max {grades['n_tokens'].max()}", "", "Most likely option, count of reports:"]
     for _f in QUESTIONS:
         _cols = [c for c in grades.columns if c.startswith(_f + "|")]
