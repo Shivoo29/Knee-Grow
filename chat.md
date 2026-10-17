@@ -1498,3 +1498,17 @@ Runs:
 - v2 commit run COMPLETE in 41 min: "Dual-T4 Multi-GPU enabled" (base also ran 2 workers), probe 4.35 s/study
   (was 8.45) -> ~1.6 h on 1,300-1,322 hidden studies; gold-58 0.9289 unchanged; OWN_DONE + OWN_BLEND_COMPLETE.
   Just over the 1.5 h line, but the base now has 2 GPUs too and KILL_AT_H 8.4 caps the tail -> ready: user submits v2.
+
+## 64. Oct 17 ~21:15 IST (Claude) — status and next steps
+- Kaggle: 2 submissions PENDING today: 57314944 (20:10 IST) = v1 (one T4, no kill guard; may time out, same
+  predictions as v2) and 57316590 (21:04 IST) = v2 (two T4s). 3 left until 05:30 IST.
+- PC: cnxt_sev fold 0 ep11 gold 0.9196 (hybrid fold 0 best 0.9106); folds 1-3 overnight -> ~05:40 Oct 18.
+- node1 (was idle; the other agent's convnext_small "breakthrough" fold 0 finished: gold 0.9184, 6 h/fold):
+  cnxt_sev2 = second seed (90-93) of ConvNeXt on labels_sev_v1, tmux cnxt_sev2, started 21:10, ~3.8 h/fold
+  -> ~13:00-14:00 Oct 18. (plan Task 8)
+- Kaggle budget: one 4-ckpt ConvNeXt group = ~1.6 h on two T4s with flip TTA -> only ~2 groups fit.
+  fleet_v6 RAPTOR_TTA=0 switch (8a5b735) + test notebook shivoo29/rsna-knee-tta-test (cnxt 4-fold, no TTA):
+  if gold-58 stays within ~0.002 of 0.9289, drop TTA and fit 3-4 groups.
+- Next: v2 score (rule >= 0.958 keep; < 0.957 -> W 0.2 once) -> Oct 18 morning gate cnxt_sev (gold + OOF +
+  decorr) -> dataset knee-cnxt-sev-folds -> notebook groups cnxt + cnxt_sev -> user submits -> cnxt_sev2 as next
+  group -> PC from ~06:00: next family (EfficientNetV2-S or ConvNeXt-Small on sev labels, by the TTA result).
