@@ -13,7 +13,7 @@ Key architectural features:
   5. Hard guard: aborts loudly if fallbacks > 5% of studies (prevents 0.500 LB submissions)
   6. Multi-GPU dual-T4 producer-consumer queue with exact index alignment and ID verification
 """
-import os, sys, glob, time, queue, threading, traceback, shutil
+import os, sys, glob, time, queue, threading, traceback, shutil, re
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 import numpy as np
@@ -47,6 +47,7 @@ SLOTS = [
 ]
 MAXS = sum(k for _, _, k in SLOTS)  # 96 slices
 SLOT_SIZES = [26, 22, 18, 12, 18]
+SLOT_BOUNDS = [(0, 26), (26, 48), (48, 66), (66, 78), (78, 96)]
 SAGITTAL_SLOTS = (0, 1)
 _b_slots = np.cumsum([0] + SLOT_SIZES)
 _s_map = np.searchsorted(_b_slots, np.arange(MAXS), side='right') - 1
@@ -61,7 +62,10 @@ DICOM_HEADER_TAGS = [
     'ImageOrientationPatient',
     'ImagePositionPatient',
     'PixelSpacing',
-    'InstanceNumber'
+    'InstanceNumber',
+    'ImageLaterality',
+    'Laterality',
+    'SeriesDescription'
 ]
 
 # Exception diagnostics tracker
@@ -78,6 +82,140 @@ def record_exception(source, sid, exc):
             print(f"[DIAGNOSTIC EXCEPTION #{_exc_log_count}] in {source} for study {sid}: {type(exc).__name__}: {exc}", flush=True)
             traceback.print_exc()
             print(f"{'!' * 80}\n", flush=True)
+
+
+# ============================================================================
+# Laterality & Orientation Canonicalisation (T04)
+# ============================================================================
+_LEFT_RE = re.compile(r"\b(LT|LEFT)\b", re.IGNORECASE)
+_RIGHT_RE = re.compile(r"\b(RT|RIGHT)\b", re.IGNORECASE)
+
+
+def side_from_headers(list_of_dicts: list[dict]) -> str:
+    """Determine knee side ('L', 'R', or 'U') from DICOM series headers.
+
+    Priority order per series dict:
+      1. ImageLaterality ('L'/'LEFT' -> 'L', 'R'/'RIGHT' -> 'R')
+      2. Laterality ('L'/'LEFT' -> 'L', 'R'/'RIGHT' -> 'R')
+      3. SeriesDescription tokens (LT/LEFT -> 'L', RT/RIGHT -> 'R')
+
+    Voting rules across series:
+      - All agreeing 'L' -> 'L'
+      - All agreeing 'R' -> 'R'
+      - Any conflict (e.g. both 'L' and 'R' present) -> 'U'
+      - No tags found -> 'U'
+    """
+    if not list_of_dicts:
+        return "U"
+
+    votes = []
+    for d in list_of_dicts:
+        if not isinstance(d, dict):
+            continue
+        series_side = None
+
+        # 1. ImageLaterality
+        il = str(d.get("ImageLaterality") or "").strip().upper()
+        if il in ("L", "LEFT"):
+            series_side = "L"
+        elif il in ("R", "RIGHT"):
+            series_side = "R"
+
+        # 2. Laterality
+        if series_side is None:
+            lat = str(d.get("Laterality") or "").strip().upper()
+            if lat in ("L", "LEFT"):
+                series_side = "L"
+            elif lat in ("R", "RIGHT"):
+                series_side = "R"
+
+        # 3. SeriesDescription tokens
+        if series_side is None:
+            sd = str(d.get("SeriesDescription") or "").strip()
+            if sd:
+                has_l = bool(_LEFT_RE.search(sd))
+                has_r = bool(_RIGHT_RE.search(sd))
+                if has_l and not has_r:
+                    series_side = "L"
+                elif has_r and not has_l:
+                    series_side = "R"
+                elif has_l and has_r:
+                    series_side = "U"
+
+        if series_side in ("L", "R"):
+            votes.append(series_side)
+        elif series_side == "U":
+            votes.append("U")
+
+    if not votes:
+        return "U"
+    if "U" in votes or ("L" in votes and "R" in votes):
+        return "U"
+    if all(v == "L" for v in votes):
+        return "L"
+    if all(v == "R" for v in votes):
+        return "R"
+    return "U"
+
+
+def slot_flags(plane: str, iop: list[float], first_ipp: list[float], last_ipp: list[float], side: str) -> int:
+    """Compute canonicalisation flag (0 or 1) for a slot.
+
+    Level 1: Orientation canonicalisation:
+      - Sagittal: rev = 1 if x decreases along stored order (last_x < first_x), else 0.
+      - Coronal/Axial: hflip = 1 if r[0] < 0 (IOP[0] < 0), else 0.
+    Level 2: Side canonicalisation (if side is known):
+      - If side == 'L': invert flag (1 - flag), so every knee matches a right knee.
+      - If side == 'R' or 'U': keep flag as is.
+
+    Returns:
+      1 if reverse/flip should be applied, 0 otherwise.
+    """
+    p = str(plane).strip().lower()
+    if p.startswith("sag"):
+        x0 = float(first_ipp[0]) if first_ipp is not None and len(first_ipp) > 0 else 0.0
+        x1 = float(last_ipp[0]) if last_ipp is not None and len(last_ipp) > 0 else 0.0
+        flag = 1 if x1 < x0 else 0
+    else:
+        r0 = float(iop[0]) if iop is not None and len(iop) > 0 else 0.0
+        flag = 1 if r0 < 0.0 else 0
+
+    if str(side).strip().upper() == "L":
+        flag = 1 - flag
+
+    return int(flag)
+
+
+def apply_flags(vol: np.ndarray, mask: np.ndarray, flags: np.ndarray) -> np.ndarray:
+    """Apply canonicalisation flags to a (96, H, W) volume.
+
+    Args:
+      vol: numpy array of shape (96, H, W)
+      mask: numpy array of shape (96,) marking real (>0) vs padded (==0) slices
+      flags: array-like of shape (5,) with flags for the 5 slots:
+             [Sag FS, Sag non-FS, Cor FS, Cor non-FS, Axial]
+             - For sagittal slots (0, 1): flag=1 reverses real slices; padded remain at end.
+             - For coronal/axial slots (2, 3, 4): flag=1 horizontally flips (np.flip axis=-1).
+
+    Returns:
+      Canonicalised volume of shape (96, H, W).
+    """
+    flags_arr = np.asarray(flags)
+    if not np.any(flags_arr):
+        return vol.copy()
+
+    out = vol.copy()
+    for slot_idx, (start, end) in enumerate(SLOT_BOUNDS):
+        if slot_idx >= len(flags_arr) or not flags_arr[slot_idx]:
+            continue
+        if slot_idx in SAGITTAL_SLOTS:
+            slot_mask = mask[start:end]
+            n_real = int(np.sum(slot_mask > 0))
+            if n_real > 1:
+                out[start : start + n_real] = out[start : start + n_real][::-1]
+        else:
+            out[start:end] = np.flip(out[start:end], axis=-1)
+    return out
 
 
 # ============================================================================
@@ -154,14 +292,26 @@ def _read_header_single(item):
             c = np.array(iop[3:], float)
             n = np.cross(r, c)
             pos = float(np.dot(np.array(ipp, float), n))
+            iop_list = [float(v) for v in iop]
+            ipp_list = [float(v) for v in ipp]
         else:
             pos = float(getattr(h, 'InstanceNumber', 0) or 0)
+            iop_list = None
+            ipp_list = None
         ps = getattr(h, 'PixelSpacing', None)
         ps = float(ps[0]) if ps is not None else 0.5
-        return pos, f, ps
+        il = getattr(h, 'ImageLaterality', None)
+        lat = getattr(h, 'Laterality', None)
+        sd = getattr(h, 'SeriesDescription', None)
+        hdr_dict = {
+            "ImageLaterality": str(il) if il is not None else None,
+            "Laterality": str(lat) if lat is not None else None,
+            "SeriesDescription": str(sd) if sd is not None else None,
+        }
+        return pos, f, ps, iop_list, ipp_list, hdr_dict
     except Exception as e:
         record_exception("_read_header_single", sid, e)
-        return 0.0, f, 0.5
+        return 0.0, f, 0.5, None, None, {}
 
 
 def read_px(item):
@@ -219,10 +369,13 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
 
     # Stage 1: Fast header reading & slice sorting across series
     t_h0 = time.time()
-    for plane, fluid, k in SLOTS:
+    series_hdrs = {}
+    picked_slot_info = {}
+
+    for slot_idx, (plane, fluid, k) in enumerate(SLOTS):
         r = pick_series_for_slot(rows, plane, fluid, used)
         if r is None:
-            slot_plans.append((None, k, 0.5, None))
+            slot_plans.append((None, k, 0.5, None, slot_idx, plane, None))
             continue
         used.add(r['SeriesInstanceUID'])
 
@@ -235,7 +388,7 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
         else:
             fs = []
         if not fs:
-            slot_plans.append((None, k, 0.5, r['SeriesInstanceUID']))
+            slot_plans.append((None, k, 0.5, r['SeriesInstanceUID'], slot_idx, plane, None))
             continue
 
         header_items = [(sid, f) for f in fs]
@@ -245,8 +398,11 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
             recs = [_read_header_single(item) for item in header_items]
         recs.sort(key=lambda x: x[0])
         med_ps = float(np.median([r[2] for r in recs])) if recs else 0.5
-        ordered = [(f, ps) for _, f, ps in recs]
-        slot_plans.append((ordered, k, med_ps, r['SeriesInstanceUID']))
+        ordered = [(r[1], r[2]) for r in recs]
+        slot_plans.append((ordered, k, med_ps, r['SeriesInstanceUID'], slot_idx, plane, recs))
+        if recs:
+            ser_uid = str(r['SeriesInstanceUID'])
+            series_hdrs[ser_uid] = recs[0][5]
 
     t_header = time.time() - t_h0
 
@@ -257,7 +413,8 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
 
     cur_idx = 0
     all_files_to_read = []
-    for ordered, k, med_ps, ser_uid in slot_plans:
+    for plan in slot_plans:
+        ordered, k, med_ps, ser_uid, slot_idx, plane, recs = plan
         this_slot_requests = []
         if ordered is None or not ordered:
             cur_idx += k
@@ -267,6 +424,16 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
         lo, hi = int(n * 0.06), int(n * 0.94) - 1
         hi = max(hi, lo)
         picks = np.linspace(lo, hi, k).round().astype(int) if n > 1 else [0] * k
+
+        if recs:
+            first_pick = recs[min(picks[0], n - 1)]
+            last_pick = recs[min(picks[-1], n - 1)]
+            picked_slot_info[slot_idx] = {
+                "plane": plane,
+                "iop": recs[0][3],
+                "first_ipp": first_pick[4],
+                "last_ipp": last_pick[4],
+            }
 
         for p in picks:
             if cur_idx >= MAXS: break
@@ -317,13 +484,28 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
     mask = (vol.reshape(MAXS, -1).sum(1) > 0).astype(np.uint8)
     t_prep = time.time() - t_c0
 
+    side = side_from_headers(list(series_hdrs.values()))
+    lat_flags = np.zeros(5, dtype=np.int32)
+    for s_idx in range(5):
+        s_info = picked_slot_info.get(s_idx)
+        if s_info is not None:
+            lat_flags[s_idx] = slot_flags(
+                plane=s_info["plane"],
+                iop=s_info["iop"],
+                first_ipp=s_info["first_ipp"],
+                last_ipp=s_info["last_ipp"],
+                side=side,
+            )
+
     timings = {
         "header": t_header,
         "pixel": t_pixel,
         "prep": t_prep,
         "total_io": time.time() - t0,
         "decoded_slices": total_valid_slices,
-        "total_requested": len(all_files_to_read)
+        "total_requested": len(all_files_to_read),
+        "lat_flags": lat_flags,
+        "side": side,
     }
     return vol, mask, timings
 
@@ -337,8 +519,10 @@ def mirror_tri(tri_t, cs):
 
 
 @torch.no_grad()
-def predict_study(model, vol, mask, res, dev, use_tta=False):
+def predict_study(model, vol, mask, res, dev, use_tta=False, lat_flags=None):
     t_m0 = time.time()
+    if getattr(model, "lat_flags", False) and lat_flags is not None:
+        vol = apply_flags(vol, mask, lat_flags)
     valid = np.where(mask > 0)[0]
     if len(valid) < 3:
         valid = np.arange(min(3, MAXS))
@@ -500,9 +684,10 @@ def audit_corpus_parity(corpus_dir, comp_src, model, res, device, n_check=20):
         mean_abs_diff = float(np.abs(v_corpus.astype(float) - v_dicom.astype(float)).mean())
         mask_match = bool(np.array_equal(m_corpus, m_dicom))
 
+        lat_flags = timings.get("lat_flags")
         # Model output difference on both tensors
-        p_corp, _ = predict_study(model, v_corpus, m_corpus, res, device, use_tta=False)
-        p_dcm, _ = predict_study(model, v_dicom, m_dicom, res, device, use_tta=False)
+        p_corp, _ = predict_study(model, v_corpus, m_corpus, res, device, use_tta=False, lat_flags=lat_flags)
+        p_dcm, _ = predict_study(model, v_dicom, m_dicom, res, device, use_tta=False, lat_flags=lat_flags)
         max_p_diff = float(np.abs(p_corp - p_dcm).max())
         cos_sim = float(np.dot(p_corp, p_dcm) / (np.linalg.norm(p_corp) * np.linalg.norm(p_dcm) + 1e-8))
 
@@ -647,8 +832,9 @@ def run_pipeline(test_dir, test_series_csv, sample_sub_csv, devices, models, res
                     fallback_count += 1
                 record_exception(f"gpu_worker_{worker_idx}_zero_slices", sid, RuntimeError("Zero valid slices decoded for study!"))
 
+            lat_flags = timings.get("lat_flags")
             try:
-                preds, t_model = predict_study(model, vol, mask, res, dev, use_tta=USE_TTA)
+                preds, t_model = predict_study(model, vol, mask, res, dev, use_tta=USE_TTA, lat_flags=lat_flags)
                 timings["model"] = t_model
                 timings["worker"] = worker_idx
             except Exception as e:
@@ -762,7 +948,8 @@ def main():
     arch = ck.get("arch", "coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k")
     res = int(ck.get("res", 384))
     norm = ck.get("norm", "none")
-    print(f"[model] Checkpoint: {ckpt_path} | Arch: {arch} | Res: {res}", flush=True)
+    lat_flags_enabled = bool(ck.get("lat_flags", False))
+    print(f"[model] Checkpoint: {ckpt_path} | Arch: {arch} | Res: {res} | lat_flags: {lat_flags_enabled}", flush=True)
 
     # Initialize model replica per device
     models = []
@@ -775,6 +962,7 @@ def main():
         m = RaptorClassifier(bb, F_dim=f_dim).to(dev)
         m.load_state_dict(ck["model"])
         m.input_norm = norm
+        m.lat_flags = lat_flags_enabled
         m.eval()
         models.append(m)
 

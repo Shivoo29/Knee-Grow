@@ -78,6 +78,8 @@ from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import roc_auc_score
 import timm
 
+from laterality import apply_flags
+
 # --- ROI localizer (anatomical joint crop). Optional so the no-ROI path is untouched. ---
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 try:
@@ -190,7 +192,7 @@ class StudyWindows(Dataset):
     (matches the SSL input pipeline: ToTensor, no ImageNet norm)."""
     def __init__(self, root, ids, id2row, labels, res, k, train, aug=True, norm="none",
                  roi=False, roi_mode="tight", roi_pad=0.06, roi_overlap=0.12,
-                 roi_sbox=None, roi_cen=None):
+                 roi_sbox=None, roi_cen=None, lat_flags=None):
         self.root = root
         self.ids = ids
         self.id2row = id2row
@@ -200,6 +202,7 @@ class StudyWindows(Dataset):
         self._mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
         self._std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
         self.vols = None; self.masks = None
+        self.lat_flags = lat_flags        # dict uid -> np.ndarray[5] (int) or None
         # --- ROI anatomical joint-crop config ---
         self.roi = bool(roi)
         self.roi_mode, self.roi_pad, self.roi_overlap = roi_mode, roi_pad, roi_overlap
@@ -248,6 +251,8 @@ class StudyWindows(Dataset):
         n_centers = (self.k + 1) // 2 if compart else self.k
         cs = self._centers(valid, n_centers)
         vol = self.vols[row]  # (D,H,W) u8  (single study read)
+        if self.lat_flags is not None and uid in self.lat_flags:
+            vol = apply_flags(vol, m, self.lat_flags[uid])
         tiles = []            # list of (3,res,res) float32
         for c in cs:
             c = max(1, min(c, self._D - 2))
@@ -411,6 +416,7 @@ def main():
     ap.add_argument("--roi_pad", type=float, default=0.06)
     ap.add_argument("--roi_overlap", type=float, default=0.12)
     ap.add_argument("--roi_boxes", default=os.path.join(HERE, "roi_boxes.npz"))
+    ap.add_argument("--lat_flags", default=None, help="Path to laterality_flags.csv")
     a = ap.parse_args()
     random.seed(a.seed); np.random.seed(a.seed); torch.manual_seed(a.seed)
     XLA = None
@@ -489,8 +495,17 @@ def main():
             roi_sbox = rb["sbox"]; roi_cen = rb["cen"]
         print(f"[roi] ENABLED mode={a.roi_mode} pad={a.roi_pad} overlap={a.roi_overlap} "
               f"boxes={os.path.basename(a.roi_boxes)} sbox={roi_sbox.shape}", flush=True)
+    lat_flags_map = None
+    if a.lat_flags:
+        _lf_df = pd.read_csv(a.lat_flags)
+        lat_flags_map = {
+            str(r["StudyInstanceUID"]): np.array([int(r["f0"]), int(r["f1"]), int(r["f2"]), int(r["f3"]), int(r["f4"])], dtype=np.int32)
+            for _, r in _lf_df.iterrows()
+        }
+        print(f"[lat_flags] ENABLED: loaded {len(lat_flags_map)} study flags from {a.lat_flags}", flush=True)
+
     _roi_kw = dict(roi=a.roi, roi_mode=a.roi_mode, roi_pad=a.roi_pad, roi_overlap=a.roi_overlap,
-                   roi_sbox=roi_sbox, roi_cen=roi_cen)
+                   roi_sbox=roi_sbox, roi_cen=roi_cen, lat_flags=lat_flags_map)
 
     if os.environ.get("RAPTOR_PRELOAD") == "1":
         _open_corpus()                                # parent holds the RAM copy; forked workers inherit it
@@ -674,6 +689,7 @@ def main():
             patience_counter = 0
             best_state = {"model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
                           "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
+                          "lat_flags": bool(a.lat_flags),
                           "arch": a.arch, "lab": LAB, "epoch": ep}
         else:
             patience_counter += 1
@@ -688,6 +704,7 @@ def main():
                      pred=best_P, truth=Y, ids=np.array(gold_ids))
             json.dump({"tag": a.tag, "src": src, "best_gold_auc": best,
                        "aucs": best_state["aucs"], "hist": hist, "res": a.res, "norm": a.norm,
+                       "lat_flags": bool(a.lat_flags),
                        "epochs": a.epochs, "bb_lr": a.bb_lr, "head_lr": a.head_lr,
                        "n_train": len(train_ids), "n_gold": len(gold_ids),
                        "roi": a.roi, "roi_mode": a.roi_mode,
@@ -701,6 +718,7 @@ def main():
         if len(topk) < TOPK or sel > min(t.get("sel", t["gold_auc"]) for t in topk):
             topk.append({"model": {k: v.detach().cpu().clone() for k, v in model.state_dict().items()},
                          "gold_auc": au, "aucs": aucs, "src": src, "res": a.res, "norm": a.norm,
+                         "lat_flags": bool(a.lat_flags),
                          "arch": a.arch, "lab": LAB, "epoch": ep, "P": P, "sel": sel})
             topk.sort(key=lambda t: -t.get("sel", t["gold_auc"]))
             del topk[TOPK:]
@@ -716,6 +734,7 @@ def main():
                     else:
                         avg[k] = v0.clone()
                 swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
+                             "lat_flags": bool(a.lat_flags),
                              "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                              "swa_over": [int(t["epoch"]) for t in topk]}
                 torch.save(swa_state, os.path.join(HERE, f"raptor_ft_{a.tag}_swa.pt"))
@@ -756,7 +775,8 @@ def main():
         np.savez(os.path.join(HERE, f"raptor_gold_{a.tag}.npz"),
                  pred=best_P, truth=Y, ids=np.array(gold_ids))
         json.dump({"tag": a.tag, "src": src, "best_gold_auc": best, "aucs": best_state["aucs"],
-                   "hist": hist, "res": a.res, "norm": a.norm, "epochs": a.epochs, "bb_lr": a.bb_lr,
+                   "hist": hist, "res": a.res, "norm": a.norm, "lat_flags": bool(a.lat_flags),
+                   "epochs": a.epochs, "bb_lr": a.bb_lr,
                    "head_lr": a.head_lr, "n_train": len(train_ids), "n_gold": len(gold_ids),
                    "roi": a.roi, "roi_mode": a.roi_mode, "partial": False, "epochs_done": a.epochs},
                   open(os.path.join(HERE, f"raptor_ft_{a.tag}.json"), "w"), indent=1)
@@ -818,6 +838,7 @@ def main():
             else:
                 avg[k] = v0.clone()          # e.g. num_batches_tracked
         swa_state = {"model": avg, "gold_auc": None, "aucs": {}, "src": src, "res": a.res, "norm": a.norm,
+                     "lat_flags": bool(a.lat_flags),
                      "arch": a.arch, "lab": LAB, "epoch": [int(t["epoch"]) for t in topk],
                      "swa_over": [int(t["epoch"]) for t in topk]}
         model.load_state_dict(avg); model.eval()
