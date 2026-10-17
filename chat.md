@@ -1436,3 +1436,18 @@ Runs:
 - Decorrelation gate (folds 0-1 OOF, 2175 studies, truth labels_hybrid_v1): ConvNeXt macro 0.8871 vs CoAtNet oof4 0.8843; rho_pos 0.865 / rho_neg 0.811 (mean 0.838 <= 0.85) -> PASS. Rank blend 0.7/0.3 OOF 0.8908 (+0.0065). Gains on MCL (by label design), PF OA, Lateral Meniscus; ConvNeXt weaker on Lateral OA (0.813 vs 0.844), Effusion.
 - PC rebooted; folds 2 and 3 started 12:25 (pc192/), ~4 h each.
 - Laterality: DICOM tags give side for 2344/4407 studies; friend's X_center file agrees 96.8% -> usable for family 2.
+
+## 60. Oct 17 ~15:45 IST (Claude) — Task 9 on molab (user approved)
+- ConvNeXt fold 2 done: best gold 0.9276 (ep13). Fold 3 next on the PC (~18:00 IST).
+- User approved Task 9: an LLM reads the Report column (Claude never sees text or ids; only counts). Runs on molab
+  (marimo cloud, free RTX Pro 6000 96 GB, 12 h sessions). Host allows sending reports to LLM APIs (discussion 733965).
+- Grader: Cloudflare/clef (27B, post-trained Qwen3.8-27B, Apache-2.0). Its joint schema head returns a probability
+  per option of every question in one forward pass (no generated text, no parsing). Fallback: Cloudflare/clef-flash
+  (Qwen3.5-9B base, 19 GB), same code file.
+- molab/clef_grades.py (marimo notebook): 12 choice questions, 75 options, from the host rubric (733343); keeps
+  not_mentioned / possible / low-grade / high-grade apart so the grade -> label mapping is picked offline without
+  another GPU pass. Output: StudyInstanceUID + "finding|option" probabilities + n_tokens, lazy download (not embedded
+  in the shareable page). ~3.25k schema tokens per report -> full run est. 1-2 h.
+- tests/test_clef_notebook.py (CPU, real Clef tokenizer, fake model, OOM split, id alignment): 3/3 pass.
+- Next: user runs smoke (32 reports) then full on molab and downloads grades_clef.parquet -> Claude builds
+  labels_sev_v1 (mapping + gold-58 check) -> cnxt_sev 4-fold family.
