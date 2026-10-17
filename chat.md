@@ -1495,3 +1495,6 @@ Runs:
 - Conclusion: a fine-tuned text model (BERT/mmBERT) would land at ~0.89-0.90 too. Reports are in ~9 languages,
   so an English medical BERT would not fit anyway. Spend GPU on the image side; image models already beat every
   report table on gold for Effusion, Baker's, Contusion, Fracture, Medial OA.
+- v2 commit run COMPLETE in 41 min: "Dual-T4 Multi-GPU enabled" (base also ran 2 workers), probe 4.35 s/study
+  (was 8.45) -> ~1.6 h on 1,300-1,322 hidden studies; gold-58 0.9289 unchanged; OWN_DONE + OWN_BLEND_COMPLETE.
+  Just over the 1.5 h line, but the base now has 2 GPUs too and KILL_AT_H 8.4 caps the tail -> ready: user submits v2.
