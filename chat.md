@@ -1531,3 +1531,22 @@ Runs:
   eff-, but effusion head scores synovitis 0.77-0.82 < synovitis head); Lateral OA downweight (+0.0002).
 - DICOM headers (60 train studies): PatientAge 0/60 (stripped), PatientSex 57/60, Laterality 30/60, scanner/software
   57/60, InstitutionName 0/60.
+
+## 66. Oct 17 ~23:00 IST (Claude) — fastMRI noisy student (user got fastMRI access; has PC + node1 + 3 Kaggle + 3 RTX Pro 6000)
+- fastMRI knee DICOMs = ~10k clinical exams (batch2 ~1.9k, batch1 ~8.4k), same 5 sequences as ours (SAG PD,
+  SAG T2 FS, COR PD, COR PD FS, AX T2 FS; FS in ScanOptions). Real smoke (40 studies): 33/40 fill all 5 slots,
+  175/192 slices; compressed 20 MB/study; 3-4 s/study CPU (GDCM decode). No labels -> our OAI-free teacher.
+- No-TTA test (shivoo29/rsna-knee-tta-test): gold 0.9284 vs 0.9289 with TTA, 2.85 vs 4.35 s/study -> drop TTA,
+  a 4-fold ConvNeXt group = ~1.0 h on 1,300 studies, 3 groups fit.
+- f1313a2: tools/fetch_ranges.py, tools/fastmri_corpus.py, tools/predict_corpus.py (--calibrate undoes the BCE
+  pos_weight inflation), train_knee RAPTOR_EXTRA_CORPUS + --extra_labels, run_cnxt_fm_folds.sh, fastmri/*.sh.
+- Bandwidth: node1 <-> S3 ~5-8 MB/s (single stream stalled for minutes -> range downloader); PC <-> S3 0.3-1.3 MB/s.
+- Running overnight:
+  - node1 tmux fastmri: fetch batch2 (30.6 GB) -> build -> fetch first 64 GB of batch1 -> build (~5.8k studies,
+    ~115 GB in ~/projects/knee/fastmri/corpus) ETA ~03:00-04:00.
+  - node1 tmux teacher (run_overnight.sh): waits for the build + cnxt_sev2 fold 1, stops cnxt_sev2, then labels
+    the corpus with cnxt_sev f0-f3 as they arrive -> fastmri_teacher_sev.parquet (calibrated to labels_sev_v1).
+  - PC: fastmri/push_sev_ckpts.sh copies each finished cnxt_sev fold to node1.
+- Next: student folds (run_cnxt_fm_folds.sh, seeds 100+f) need corpus192 + fastMRI corpus on one machine:
+  node1 (both there, L4 ~5.8 h/fold), PC (needs ~110 GB: only if ds/corpus96 is deleted, user decision),
+  RTX Pro 6000 (user uploads both corpora). Gate: gold-58 + OOF vs cnxt_sev, then Kaggle group, no TTA.
