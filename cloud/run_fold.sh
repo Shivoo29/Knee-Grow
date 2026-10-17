@@ -16,7 +16,7 @@ set -euo pipefail
 : "${FASTMRI_URLS:?set FASTMRI_URLS=<file of fastMRI links>}"
 WORK=${WORK:-/data}; FM_GB=${FM_GB:-64}; PY=${PY:-python}; NP=$(nproc)
 mkdir -p "$WORK"; cd "$WORK"
-log() { echo "$(date +%H:%M:%S) $*"; }
+log() { echo "$(date +%H:%M:%S) $* | free $(free -g | awk '/^Mem:/{print $7}') GB, disk free $(df -h --output=avail "$WORK" | tail -n 1 | tr -d " ")"; }
 kget() {  # kget <dataset> <file> <dir>: one file of a Kaggle dataset, unzipped if Kaggle served it zipped
   kaggle datasets download "$1" -f "$2" -p "$3" -q --force
   if [ -f "$3/$2.zip" ]; then (cd "$3" && unzip -q -o "$2.zip" && rm -f "$2.zip"); fi
@@ -76,7 +76,7 @@ cp bundle/fastmri_teacher_sev.parquet run/
 log "step 5: train fold $FOLD"
 cd run
 RAPTOR_INPUT="$WORK/run" RAPTOR_EXTRA_CORPUS="$WORK/fm" TEACHER=fastmri_teacher_sev.parquet PY=$PY \
-  BS=${BS:-8} ACCUM=${ACCUM:-2} WORKERS=${WORKERS:-$NP} ./run_cnxt_fm_folds.sh "$FOLD"
+  BS=${BS:-8} ACCUM=${ACCUM:-2} WORKERS=${WORKERS:-12} ./run_cnxt_fm_folds.sh "$FOLD"
 grep -E "^ep[0-9]+ |TOPK|Traceback" "train_cnxt_fm_f$FOLD.log" | tail -n 4
 
 log "step 6: publish"

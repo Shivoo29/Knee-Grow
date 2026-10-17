@@ -40,13 +40,16 @@ p.wait()
 
 Steps, each skipped when its output already exists (a rerun resumes):
 
-| step | what | time (4 CPUs) |
+| step | what | time on molab (20 CPUs, ~100 MB/s) |
 |---|---|---|
 | 1 | bundle: code, labels, fold split, train.csv without reports | seconds |
-| 2 | fastMRI batch2 + first 64 GB of batch1 from S3, built into `WORK/fm` | download + ~1.5 h |
-| 3 | corpus192 shards from Kaggle into `WORK/run/vols` | ~15-30 min |
+| 2 | fastMRI batch2 + first 64 GB of batch1 from S3, built into `WORK/fm` | ~30 min |
+| 3 | corpus192 shards from Kaggle into `WORK/run/vols` | ~15 min |
 | 4 | waits (checks every 10 min) until the bundle has `fastmri_teacher_sev.parquet` | — |
-| 5 | trains the fold, batch 8 x accumulation 2 (same effective batch as the PC runs) | ~3 h |
+| 5 | trains the fold, batch 8 x accumulation 2 (same effective batch as the PC runs), 12 loader workers | ~2-3 h |
 | 6 | publishes `<your user>/knee-cnxt-fm-f<FOLD>` (SWA checkpoint, OOF, gold predictions, log) | minutes |
 
 Steps 2 and 3 run while the teacher labels are still being made on node1, so an instance can start before them.
+Checked on molab (Oct 18): 20 CPUs, 156 GB RAM free, the root disk is a real disk (a 4 GB write left RAM
+untouched), ~100 MB/s downloads. Start sessions after the corpus upload is confirmed; a session that starts
+by ~05:00 has 12 h for prep (~1 h), the wait for the teacher (~07:00-08:30) and training (~2-3 h).
