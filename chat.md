@@ -1588,3 +1588,13 @@ Runs:
 - cloud/molab_cells.py <FOLD> = pairing payload (no secrets): writes run_fold.sh to /tmp/knee, adds a password
   form, a launcher (detached run_fold.sh, secrets only in its env + 600 /tmp file) and a log view refreshed every
   minute. tests/test_molab_cells.py PASS. cloud/README.md molab section rewritten.
+
+## 70. Oct 18 ~04:30 IST (Claude) — new report labels (result_labels.csv) checked on gold-58
+- File (from the user's labeler; per-report codes calibrated on gold-58, gold rows 2-fold A/B): 4,407 rows in
+  train.csv order, unique ids, values in [0,1], no empties, ok=0 none, shots all 4,349 / A 29 / B 29. Saved as
+  result_labels.csv (earlier Gemma in-context run: gemma_labels.csv).
+- gold-58 macro AUC (tools/decorr.py, truth = expert labels): Clef severity 0.890 | new 0.864 | old Gemma 0.764.
+  Rank blend 0.7 Clef + 0.3 new: 0.889 (no gain). New is weakest on Synovitis 0.68 (Clef 0.78), Contusion 0.76
+  (0.81), Fracture 0.82 (0.91). Non-gold Spearman vs Clef: Effusion 0.95, MM 0.91 ... LM 0.40, Contusion 0.20.
+- Verdict: not used for training now (no measured gain, GPUs booked). Note: its non-gold rows were calibrated on
+  all 58 gold rows, so a model trained on it would score slightly optimistically on gold-58.
