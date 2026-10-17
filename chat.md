@@ -1578,3 +1578,13 @@ Runs:
   started 02:08 (~4-5 h). PC cnxt_sev fold 1 done 01:51 (gold 0.9253 best epoch), pushed to node1 01:55;
   fold 2 started 01:52 (~3.1 h/fold) -> fold 3 ends ~08:05 -> TEACHER_DONE ~08:45 -> bundle ~09:00.
 - molab students: start any time from now to ~05:00 (12 h cap; training ~09:00-12:00 + publish).
+
+## 69. Oct 18 ~02:45 IST (Claude) — molab secrets: no .env; pairing sets up cells, user types secrets
+- User: molab notebooks are public. Docs: "public but undiscoverable": anyone with the link sees a static preview
+  (code + outputs) and can fork; not documented whether forks copy uploaded files. So the .env plan is dropped.
+- "The MCP" = marimo-pair skill (.agents/skills/marimo-pair): needs a fresh "Pair with an agent" URL + token per
+  molab session. Auto mode blocks Claude from reading kaggle.json (credential materialization), so the user
+  types the Kaggle key + 2 fastMRI links into a password form.
+- cloud/molab_cells.py <FOLD> = pairing payload (no secrets): writes run_fold.sh to /tmp/knee, adds a password
+  form, a launcher (detached run_fold.sh, secrets only in its env + 600 /tmp file) and a log view refreshed every
+  minute. tests/test_molab_cells.py PASS. cloud/README.md molab section rewritten.
