@@ -52,3 +52,6 @@ kaggle_ds/
 *.u8d
 fastmri/*.log
 cloud/*.log
+
+# worktrees of the experiment branches (laterality, recipe, roi, seq, slots, views)
+knee-*/
