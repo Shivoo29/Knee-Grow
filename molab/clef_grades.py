@@ -2,7 +2,7 @@
 # requires-python = ">=3.11"
 # dependencies = [
 #     "marimo",
-#     "torch==2.11.*",
+#     "torch",
 #     "torchvision",
 #     "transformers==5.10.2",
 #     "accelerate",
@@ -18,14 +18,16 @@
 One forward pass per report returns a probability for every option of all 12 questions (Clef's joint schema
 head; no generated text). The notebook shows only timings and option counts, never report text or study ids;
 the grades parquet goes to the browser through a lazy download, so it is not embedded in the notebook page.
-Run on molab with the GPU on (RTX Pro 6000, 96 GB): upload train.csv, press 1, then 2 (smoke test first).
+Three plain cells, so they can be pasted into a new molab notebook (GPU on): upload train.csv, press 1, then 2.
 """
 import marimo
 
 __generated_with = "0.25.1"
 app = marimo.App(width="medium")
 
-with app.setup:
+
+@app.cell
+def controls():
     import importlib.util
     import io
     import shutil
@@ -141,22 +143,23 @@ with app.setup:
         }),
     }
 
-
-@app.cell
-def controls():
     upload = mo.ui.file(filetypes=[".csv"], label="Upload train.csv (only StudyInstanceUID and Report are read)")
     grader = mo.ui.dropdown(["Cloudflare/clef", "Cloudflare/clef-flash"], value="Cloudflare/clef", label="Grader")
     load = mo.ui.run_button(label="1. Load grader")
     smoke = mo.ui.checkbox(value=True, label="Smoke test: first 32 reports only")
     grade = mo.ui.run_button(label="2. Grade reports")
     mo.vstack([upload, grader, load, smoke, grade])
-    return grade, grader, load, smoke, upload
+    return (MAX_BATCH, PREAMBLE, Path, QUESTIONS, TOKENS_PER_BATCH, grade, grader, importlib, io, load, mo,
+            shutil, smoke, sys, tempfile, time, upload)
 
 
 @app.cell
-def load_grader(grader, load):
+def load_grader(Path, grader, importlib, load, mo, shutil, sys, tempfile, time):
     mo.stop(not load.value, mo.md("Press **1. Load grader** (downloads 56 GB for clef, 19 GB for clef-flash)."))
+    import accelerate  # noqa: F401  (imported here so a missing package shows up before the download)
     import torch
+    import torchvision  # noqa: F401  (the Qwen image processor needs it even for text-only records)
+    import transformers  # noqa: F401
 
     mo.stop(not torch.cuda.is_available(), mo.md("No GPU: turn the GPU on in the notebook specs, then restart."))
     _need = 60 if grader.value == "Cloudflare/clef" else 22
@@ -176,12 +179,13 @@ def load_grader(grader, load):
     model, processor = jsm.load_release_model(_path, device="cuda")
     mo.md(f"Loaded **{grader.value}** on {torch.cuda.get_device_name()} | download {_t_dl / 60:.1f} min | "
           f"load {(time.time() - _t0 - _t_dl) / 60:.1f} min | weights {torch.cuda.memory_allocated() / 1e9:.0f} GB "
-          f"| {_free:.0f} GB disk was free at `{_root}`")
+          f"| {_free:.0f} GB disk was free at `{_root}` | transformers {transformers.__version__}")
     return jsm, model, processor, torch
 
 
 @app.cell
-def grade_reports(grade, grader, jsm, model, processor, smoke, torch, upload):
+def grade_reports(MAX_BATCH, PREAMBLE, Path, QUESTIONS, TOKENS_PER_BATCH, grade, grader, io, jsm, mo, model,
+                  processor, smoke, tempfile, time, torch, upload):
     mo.stop(not grade.value, mo.md("Press **2. Grade reports** (smoke test first)."))
     mo.stop(upload.contents() is None, mo.md("Upload train.csv first."))
     import pandas as pd

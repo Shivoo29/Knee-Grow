@@ -64,9 +64,10 @@ def _grade(smoke):
 
 
 def test_questions():
-    assert list(nb.QUESTIONS) == LAB
-    assert all(q["type"] == "choice" and "not_mentioned" in q["criteria"] for q in nb.QUESTIONS.values())
-    return f"12 findings in label order, {sum(len(q['criteria']) for q in nb.QUESTIONS.values())} options"
+    q = nb.controls.run()[1]["QUESTIONS"]
+    assert list(q) == LAB
+    assert all(v["type"] == "choice" and "not_mentioned" in v["criteria"] for v in q.values())
+    return f"12 findings in label order, {sum(len(v['criteria']) for v in q.values())} options"
 
 
 def test_smoke_run():
