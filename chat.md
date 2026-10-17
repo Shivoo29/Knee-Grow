@@ -1566,3 +1566,15 @@ Runs:
   - node1 fold 0 staged (~/projects/knee/fm_student, fastmri/run_student_node1.sh), NOT started (user).
 - node1 fastMRI: batch2 done (2,064 studies, 0 errors, 10.5 min build); batch1 first 64 GB fetching -> ~02:40.
 - Upload speeds: PC 8.9 MB/s, node1 9.9 MB/s. molab disk size unknown: run_fold.sh needs ~150 GB.
+
+## 68. Oct 18 ~02:15 IST (Claude) — corpus upload done; molab ready to start
+- molab checked by user (Oct 18 ~00:45): 20 CPUs, 156 GB RAM free, root disk is a real disk, ~107 MB/s download.
+  run_fold.sh hardened for molab (kaggle via python -m, pip or uv, unzip in Python; secrets in the notebook's
+  .env, never in a cell): commits f7e026b + 5fe557e, bundle republished (run_fold.sh 5713 bytes).
+- shivoo29/knee-c192-u8d: status ready, 19 files (16 shards + all_ids/all_masks/corpus.json), 71.24 GB.
+  Own private datasets now total ~78 GB.
+- node1 fastMRI corpus done 02:04: 5,445 studies (batch2 2,064 + batch1 first 64 GB 3,381), 0 errors.
+- Teacher timing (later than said before): node1 cnxt_sev2 fold 0 done 02:08 (gold 0.9184 best epoch), fold 1
+  started 02:08 (~4-5 h). PC cnxt_sev fold 1 done 01:51 (gold 0.9253 best epoch), pushed to node1 01:55;
+  fold 2 started 01:52 (~3.1 h/fold) -> fold 3 ends ~08:05 -> TEACHER_DONE ~08:45 -> bundle ~09:00.
+- molab students: start any time from now to ~05:00 (12 h cap; training ~09:00-12:00 + publish).
