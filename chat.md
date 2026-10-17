@@ -1516,3 +1516,6 @@ Runs:
   2-4 CPU-min per volume (1,300 hidden studies = 43-87 CPU-h, no medial/lateral output, OAI-trained);
   denizlab/OAI-MRI-TKR predicts knee replacement, not Lateral OA. Gold has 11 Lateral OA positives (AUC SE ~0.06),
   so no gain there could be verified anyway. Past tries: compartment-ROI CoAtNet ~0.81, Swin 0.814, cnxt 0.809.
+- Lateral OA downweight (W 0.1 instead of 0.3 for the own branch) DROPPED: OOF on 4,349 studies (CoAtNet oof4 as
+  base proxy, truth labels_hybrid_v1): Lateral OA 0.844 at W 0.1 vs 0.842 at W 0.3 = +0.0002 macro. Not worth code.
+  W 0.3 is equal or better on the other 11 findings (MCL 0.879 vs 0.864, PF OA 0.850 vs 0.841).
