@@ -1519,3 +1519,15 @@ Runs:
 - Lateral OA downweight (W 0.1 instead of 0.3 for the own branch) DROPPED: OOF on 4,349 studies (CoAtNet oof4 as
   base proxy, truth labels_hybrid_v1): Lateral OA 0.844 at W 0.1 vs 0.842 at W 0.3 = +0.0002 macro. Not worth code.
   W 0.3 is equal or better on the other 11 findings (MCL 0.879 vs 0.864, PF OA 0.850 vs 0.841).
+
+## 65. Oct 17 ~22:00 IST (Claude) — user: "public ideas will not reach 0.970". Original quick ideas, all NULL
+- Own-only ensemble (CoAtNet oof4 + ConvNeXt 3 folds), no public models: gold macro 0.932 (public base954 was 0.931).
+- Where 0.970 lives: 4 weak findings. Own ensemble on gold: Lateral Meniscus 0.877, Lateral OA 0.822, PF OA 0.864,
+  Synovitis 0.827 (others 0.95-0.99). Raising these 4 to ~0.92 = +0.025 macro. 18 past runs (CoAtNet 96/192,
+  ConvNeXt, DINOv2, Swin, specialists): LatMen 0.84-0.89, LatOA 0.77-0.83, PF 0.82-0.88, Syn 0.75-0.88: architecture
+  does not move them. Gold SE on these is 0.05-0.07 -> only the LB can measure them.
+- NULL tonight: text labelers (ceiling 0.89-0.90); report grades -> image OOF ridge (+0.005 n.s.); 12-label stacker
+  on OOF logits (OOF +0.002, gold -0.001..-0.006); effusion as synovitis evidence (gold: syn+ in 22/35 eff+ vs 5/23
+  eff-, but effusion head scores synovitis 0.77-0.82 < synovitis head); Lateral OA downweight (+0.0002).
+- DICOM headers (60 train studies): PatientAge 0/60 (stripped), PatientSex 57/60, Laterality 30/60, scanner/software
+  57/60, InstitutionName 0/60.
