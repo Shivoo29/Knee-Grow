@@ -123,20 +123,24 @@ class _TwoPartVols:
 
 
 class _ZCorpus:
-    """Corpus folder written by tools/fastmri_corpus.py: vols/<id>.u8z (zlib uint8 volumes) plus
-    all_ids.npy, all_masks.npy and corpus.json. Inflates one study per index."""
+    """Compressed corpus folder: vols/<id>.<format> plus all_ids.npy, all_masks.npy and corpus.json.
+    format u8z = zlib of the uint8 volume (tools/fastmri_corpus.py); u8d = zlib of its row-delta along
+    the image width (tools/export_corpus.py, ~1.9x smaller than raw). Inflates one study per index."""
     def __init__(self, d):
         self.d = d
         self.ids = np.load(os.path.join(d, "all_ids.npy"), allow_pickle=True).astype(str)
         self.masks = np.load(os.path.join(d, "all_masks.npy"))
-        self.shape = (len(self.ids),) + tuple(json.load(open(os.path.join(d, "corpus.json")))["shape"])
+        meta = json.load(open(os.path.join(d, "corpus.json")))
+        self.fmt = meta.get("format", "u8z")
+        self.shape = (len(self.ids),) + tuple(meta["shape"])
 
     def __len__(self):
         return self.shape[0]
 
     def __getitem__(self, row):
-        with open(os.path.join(self.d, "vols", self.ids[row] + ".u8z"), "rb") as f:
-            return np.frombuffer(zlib.decompress(f.read()), np.uint8).reshape(self.shape[1:])
+        with open(os.path.join(self.d, "vols", f"{self.ids[row]}.{self.fmt}"), "rb") as f:
+            a = np.frombuffer(zlib.decompress(f.read()), np.uint8).reshape(self.shape[1:])
+        return np.cumsum(a, axis=-1, dtype=np.uint8) if self.fmt == "u8d" else a
 
 
 class _MultiVols:
@@ -190,6 +194,9 @@ def _open_corpus():
     local_v = os.path.join(HERE, "all_vols.npy")
     if os.path.exists(local_v):
         out = (np.load(local_v, mmap_mode=mm), np.load(os.path.join(HERE, "all_masks.npy")))
+    elif os.path.exists(os.path.join(HERE, "corpus.json")):   # compressed corpus folder beside the script
+        z = _ZCorpus(HERE)
+        out = (z, z.masks)
     else:
         av, bv = _find("all_vols.npy"), _find("extra_vols.npy")
         am, bm = _find("all_masks.npy"), _find("extra_masks.npy")

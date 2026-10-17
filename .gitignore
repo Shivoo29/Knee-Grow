@@ -44,3 +44,11 @@ ds/corpus192/
 research_notes/Knee MRI top leaderboard tactics/kernels/
 research_notes/Knee MRI top leaderboard tactics/listings/
 pc192/labels_distil_v1.parquet
+
+# large data and run logs (fastMRI / cloud pipeline)
+kaggle_ds/
+*.u8dtar
+*.u8z
+*.u8d
+fastmri/*.log
+cloud/*.log

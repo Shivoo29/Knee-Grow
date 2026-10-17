@@ -128,8 +128,25 @@ def test_truncated_archive():
     return "a cut archive keeps the complete study and skips the partial one"
 
 
+def test_u8d_format():
+    sys.path.insert(0, WT)
+    import train_knee as tk
+    with tempfile.TemporaryDirectory() as td:
+        tar, a, b = os.path.join(td, "a.tar.xz"), os.path.join(td, "u8z"), os.path.join(td, "u8d")
+        _archive(tar, [("studyB", SERIES_B)])
+        _run(["--out", a, "--tar", tar, "--workers", "1"])
+        _run(["--out", b, "--tar", tar, "--workers", "1", "--format", "u8d"])
+        za, zb = tk._ZCorpus(a), tk._ZCorpus(b)
+        assert (za.fmt, zb.fmt) == ("u8z", "u8d") and np.array_equal(za[0], zb[0])
+        try:
+            _run(["--out", b, "--tar", tar, "--format", "u8z"])
+        except SystemExit:
+            return "u8d build reads back identical to u8z; a folder refuses a second format"
+    raise AssertionError("mixed formats accepted")
+
+
 TESTS = [("flags", test_flags), ("build_resume_finalize", test_build_resume_finalize),
-         ("truncated_archive", test_truncated_archive)]
+         ("truncated_archive", test_truncated_archive), ("u8d_format", test_u8d_format)]
 
 
 def main():

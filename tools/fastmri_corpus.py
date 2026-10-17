@@ -9,7 +9,7 @@ ImageOrientationPatient, fat suppression from ScanOptions (FS) or the series des
 Localizers and series under 8 images are dropped.
 
 Output folder (resumable: a rerun skips studies already in index.csv):
-  vols/<id>.u8z   zlib-compressed uint8 volume, shape (192, 384, 384)
+  vols/<id>.u8z   zlib-compressed uint8 volume, shape (192, 384, 384) (--format u8d: row-delta, smaller)
   index.csv       id, series kept, filled slots, slice mask
   all_ids.npy, all_masks.npy, corpus.json   written at the end (or with --finalize);
                                             train_knee.py reads the folder via RAPTOR_EXTRA_CORPUS
@@ -96,15 +96,22 @@ def _init(sizes):
     bc.MAXS = sum(sizes)
 
 
-def process(key, files, out):
+def encode(vol, fmt):
+    """u8z: zlib of the volume; u8d: zlib of its row-delta (~1.9x smaller, see tools/export_corpus.py)."""
+    if fmt == "u8d":
+        return zlib.compress(np.diff(vol, axis=-1, prepend=0).astype(np.uint8).tobytes(), 6)
+    return zlib.compress(vol.tobytes(), 3)
+
+
+def process(key, files, out, fmt="u8z"):
     sid = study_id(key)
     file_map, rows = series_rows(files)
     bc._ZIP_HANDLE, bc._FILE_MAP, bc._SERIES_MAP = _MemZip(files), file_map, {sid: rows}
     _, vol, mask, recs = bc._process_single_study(sid)
-    tmp = os.path.join(out, "vols", sid + ".u8z.tmp")
+    tmp = os.path.join(out, "vols", f"{sid}.{fmt}.tmp")
     with open(tmp, "wb") as f:
-        f.write(zlib.compress(vol.tobytes(), 3))
-    os.replace(tmp, os.path.join(out, "vols", sid + ".u8z"))
+        f.write(encode(vol, fmt))
+    os.replace(tmp, os.path.join(out, "vols", f"{sid}.{fmt}"))
     return {"id": sid, "n_series": len(rows), "slots": "".join("1" if r["filled"] else "0" for r in recs),
             "mask": "".join(map(str, mask.tolist()))}
 
@@ -143,12 +150,22 @@ def read_index(out):
     return list(csv.DictReader(open(p))) if os.path.exists(p) else []
 
 
-def finalize(out, sizes=SLOT_SIZES):
-    rows = [r for r in read_index(out) if os.path.exists(os.path.join(out, "vols", r["id"] + ".u8z"))]
+def corpus_format(out, fmt):
+    """The folder's format; a corpus never mixes u8z and u8d files."""
+    p = os.path.join(out, "corpus.json")
+    old = json.load(open(p)).get("format", "u8z") if os.path.exists(p) else None
+    if old and fmt and old != fmt:
+        raise SystemExit(f"{out} is a {old} corpus; rerun with --format {old}")
+    return old or fmt or "u8z"
+
+
+def finalize(out, sizes=SLOT_SIZES, fmt=None):
+    fmt = corpus_format(out, fmt)
+    rows = [r for r in read_index(out) if os.path.exists(os.path.join(out, "vols", f"{r['id']}.{fmt}"))]
     np.save(os.path.join(out, "all_ids.npy"), np.array([r["id"] for r in rows], dtype=object))
     np.save(os.path.join(out, "all_masks.npy"),
             np.array([[int(c) for c in r["mask"]] for r in rows], dtype=np.uint8).reshape(len(rows), sum(sizes)))
-    json.dump({"format": "u8z", "shape": [sum(sizes), bc.IMG, bc.IMG], "slot_sizes": list(sizes)},
+    json.dump({"format": fmt, "shape": [sum(sizes), bc.IMG, bc.IMG], "slot_sizes": list(sizes)},
               open(os.path.join(out, "corpus.json"), "w"))
     return len(rows)
 
@@ -162,10 +179,14 @@ def main(argv=None):
     ap.add_argument("--workers", type=int, default=16)
     ap.add_argument("--limit", type=int, default=0, help="stop after this many new studies (testing)")
     ap.add_argument("--finalize", action="store_true", help="only rewrite all_ids.npy / all_masks.npy from index.csv")
+    ap.add_argument("--format", choices=["u8z", "u8d"], default=None,
+                    help="u8z (default for a new folder) or u8d (row-delta, ~1.3x smaller); fixed per folder")
     a = ap.parse_args(argv)
     os.makedirs(os.path.join(a.out, "vols"), exist_ok=True)
+    fmt = corpus_format(a.out, a.format)
+    n0 = finalize(a.out, fmt=fmt)                     # records the format before any study is written
     if a.finalize:
-        print(f"[finalize] {finalize(a.out)} studies", flush=True)
+        print(f"[finalize] {n0} studies", flush=True)
         return
     _init(SLOT_SIZES)
     done = {r["id"] for r in read_index(a.out)}
@@ -196,7 +217,7 @@ def main(argv=None):
             if study_id(key) in done:
                 n_skip += 1
                 continue
-            pending.add(ex.submit(process, key, files, a.out))
+            pending.add(ex.submit(process, key, files, a.out, fmt))
             if len(pending) >= 2 * a.workers:
                 drain()
             if a.limit and n_new + len(pending) >= a.limit:
@@ -206,7 +227,7 @@ def main(argv=None):
     fh.close()
     if proc:
         proc.kill()
-    n = finalize(a.out)
+    n = finalize(a.out, fmt=fmt)
     print(f"[done] {n_new} new, {n_skip} already there, {n_err} errors in {(time.time() - t0) / 60:.1f} min; "
           f"corpus now {n} studies", flush=True)
 

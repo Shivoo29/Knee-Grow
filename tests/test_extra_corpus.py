@@ -7,6 +7,7 @@ import io
 import json
 import os
 import sys
+import tarfile
 import tempfile
 import time
 import zlib
@@ -20,6 +21,7 @@ sys.path.insert(0, WT)
 sys.path.insert(0, os.path.join(WT, "tools"))
 import train_knee as tk  # noqa: E402
 import predict_corpus as pc  # noqa: E402
+import export_corpus as ec  # noqa: E402
 
 SHAPE = (192, 384, 384)
 
@@ -39,14 +41,15 @@ def _npy_corpus(d, ids, seeds):
     return v
 
 
-def _z_corpus(d, ids, seeds):
+def _z_corpus(d, ids, seeds, fmt="u8z"):
     os.makedirs(os.path.join(d, "vols"), exist_ok=True)
     vs = [_vol(s) for s in seeds]
     for u, v in zip(ids, vs):
-        open(os.path.join(d, "vols", u + ".u8z"), "wb").write(zlib.compress(v.tobytes(), 3))
+        blob = ec.encode(v) if fmt == "u8d" else zlib.compress(v.tobytes(), 3)
+        open(os.path.join(d, "vols", f"{u}.{fmt}"), "wb").write(blob)
     np.save(os.path.join(d, "all_ids.npy"), np.array(ids, dtype=object))
     np.save(os.path.join(d, "all_masks.npy"), np.stack([(v.reshape(SHAPE[0], -1).sum(-1) > 0).astype(np.uint8) for v in vs]))
-    json.dump({"format": "u8z", "shape": list(SHAPE)}, open(os.path.join(d, "corpus.json"), "w"))
+    json.dump({"format": fmt, "shape": list(SHAPE)}, open(os.path.join(d, "corpus.json"), "w"))
     return vs
 
 
@@ -80,6 +83,32 @@ def test_corpus_alignment():
                                  {u: np.zeros(12, np.float32) for u in ids}, 32, 6, train=False)
             assert tuple(ds[3][0].shape) == (6, 3, 32, 32)
     return "ids, volumes and masks line up across an npy part and a u8z part; StudyWindows reads both"
+
+
+def test_u8d_main_corpus_and_export():
+    with tempfile.TemporaryDirectory() as td:
+        src = os.path.join(td, "c192")
+        ref = _npy_corpus(src, ["c0", "c1", "c2", "c3", "c4"], [0, 1, 2, 3, 4])
+        out = os.path.join(td, "export")
+        with contextlib.redirect_stdout(io.StringIO()):
+            ec.main(["--src", src, "--out", out, "--shards", "2", "--workers", "2"])
+        shards = sorted(f for f in os.listdir(out) if f.endswith(".u8dtar"))
+        assert shards == ["vols_00.u8dtar", "vols_01.u8dtar"]
+        run = os.path.join(td, "run")                          # a run dir as the cloud script builds it
+        os.makedirs(os.path.join(run, "vols"))
+        for s in shards:
+            with tarfile.open(os.path.join(out, s)) as tf:
+                tf.extractall(os.path.join(run, "vols"), filter="data")
+        for f in ("all_ids.npy", "all_masks.npy", "corpus.json"):
+            os.symlink(os.path.join(out, f), os.path.join(run, f))
+        size = sum(os.path.getsize(os.path.join(out, s)) for s in shards)
+        with _env(run, []):
+            ids = tk._open_ids()
+            vols, masks = tk._open_corpus()
+            assert list(ids) == ["c0", "c1", "c2", "c3", "c4"] and vols.fmt == "u8d"
+            for row in range(5):
+                assert np.array_equal(vols[row], ref[row]), row
+    return f"export -> 2 shards ({ref.nbytes / size:.2f}x of raw on random data) -> unpack -> main corpus byte-exact"
 
 
 def test_add_extra():
@@ -155,8 +184,8 @@ def test_calibration():
     return "BCE pos_weight optimum is wq/(wq+1-q); uninflate recovers q; pos_weight matches train_knee"
 
 
-TESTS = [("corpus_alignment", test_corpus_alignment), ("add_extra", test_add_extra),
-         ("predict_corpus", test_predict_corpus), ("calibration", test_calibration)]
+TESTS = [("corpus_alignment", test_corpus_alignment), ("u8d_main_corpus_and_export", test_u8d_main_corpus_and_export),
+         ("add_extra", test_add_extra), ("predict_corpus", test_predict_corpus), ("calibration", test_calibration)]
 
 
 def main():
