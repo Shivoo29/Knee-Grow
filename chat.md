@@ -1550,3 +1550,19 @@ Runs:
 - Next: student folds (run_cnxt_fm_folds.sh, seeds 100+f) need corpus192 + fastMRI corpus on one machine:
   node1 (both there, L4 ~5.8 h/fold), PC (needs ~110 GB: only if ds/corpus96 is deleted, user decision),
   RTX Pro 6000 (user uploads both corpora). Gate: gold-58 + OOF vs cnxt_sev, then Kaggle group, no TTA.
+
+## 67. Oct 18 ~00:00 IST (Claude) — user: "do 2 but dont start anything and do 3 fully"
+- Item 2: deleted ds/corpus96/all_vols.npy (62 GB; tracked ids/masks/slots kept). PC free 110 GB. No PC job started.
+- Item 3 (RTX Pro 6000 path), committed 27b5130 + c0e824c:
+  - corpus192 -> 16 u8d shards (row-delta zlib, ~71 GB) -> private Kaggle dataset shivoo29/knee-c192-u8d
+    (cloud/upload_c192.sh running on PC: export ~00:05, upload ~2.2 h at 8.9 MB/s -> ~02:15).
+  - shivoo29/knee-cloud-bundle v1 uploaded (code, labels_sev_v1 + weights, folds_rand4, train.csv WITHOUT the
+    Report column). cloud/publish_teacher.sh (PC, running) adds fastmri_teacher_sev.parquet as a new version
+    when node1's overnight.log says TEACHER_DONE.
+  - cloud/run_fold.sh: one fold per instance: bundle -> fastMRI from S3 built on the instance (u8d, never
+    uploaded) -> corpus192 shards -> waits for teacher -> train (bs 8 x accum 2) -> publishes
+    <user>/knee-cnxt-fm-f<FOLD>. Steps in cloud/README.md. End-to-end CPU test with fake kaggle + fake S3 +
+    synthetic 4,407-id corpus + smoke fold: PASS.
+  - node1 fold 0 staged (~/projects/knee/fm_student, fastmri/run_student_node1.sh), NOT started (user).
+- node1 fastMRI: batch2 done (2,064 studies, 0 errors, 10.5 min build); batch1 first 64 GB fetching -> ~02:40.
+- Upload speeds: PC 8.9 MB/s, node1 9.9 MB/s. molab disk size unknown: run_fold.sh needs ~150 GB.
