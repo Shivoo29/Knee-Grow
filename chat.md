@@ -1598,3 +1598,13 @@ Runs:
   (0.81), Fracture 0.82 (0.91). Non-gold Spearman vs Clef: Effusion 0.95, MM 0.91 ... LM 0.40, Contusion 0.20.
 - Verdict: not used for training now (no measured gain, GPUs booked). Note: its non-gold rows were calibrated on
   all 58 gold rows, so a model trained on it would score slightly optimistically on gold-58.
+
+## 71. Oct 18 ~05:00 IST (Claude) — friend's ideas reviewed (BiGRU, class attention, ROI, stacking, 0.975 math)
+- BiGRU `--seq_head` (T09, Oct 14): built + tested, NEVER trained (no checkpoint/json has seq_head true). Only
+  untested idea of the batch; with zoom tiles the GRU sees field/zoom tiles interleaved per sorted center.
+- Class-specific attention: already in (att = Linear(256, 12): one weight per window per finding).
+- ROI crops: tried Oct 11-12 (compartment CoAtNet: LatOA 0.79->0.81 gold but model 0.898; axial PF OA
+  specialist 0.83->0.86 in blend); current ConvNeXt runs already add a centred 100 mm close-up tile.
+- Stacking test (CPU, honest: LR fit on ConvNeXt 4-fold OOF vs report labels, scored on gold-58 never fitted):
+  macro 0.9279 base -> 0.9277 all-12-logit stacker -> 0.9266 sparse edges. No gain.
+- Per-finding oracle / per-label epoch picked on gold-58 = selection bias; their 0.975 math is gold-58, not LB.
