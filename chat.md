@@ -1465,3 +1465,18 @@ Runs:
 - PC: ConvNeXt folds 2,3 done (gold best 0.9276 / 0.9226). cnxt_sev 4-fold family (run_cnxt_sev_folds.sh, seeds
   80-83) started 18:52, ~2.6 h per fold -> ~05:30 Oct 18.
 - tools/gemma_labels.py: second labeler for the user's Gemma PC (gold-58 as 2-fold in-context examples).
+
+## 62. Oct 17 ~20:30 IST (Claude) — Kaggle blend v1 read; v2 on two T4s
+- Dataset shivoo29/knee-cnxt-folds (4 SWA ckpts, private). Notebook shivoo29/rsna-knee-blend-own = blendmine +
+  ConvNeXt 4-fold rank branch at W 0.3 (kaggle_blend_own/w30).
+- v1 commit run COMPLETE, 66 min: OWN_DONE cnxt, OWN_BLEND_COMPLETE, no fallbacks. fleet probe: 4-fold cnxt
+  gold-58 macro 0.9289 (ACL .994 MCL .989 MedMen .972 LatMen .873 MedOA .977 LatOA .809 PF .874 Eff .980
+  Syn .810 Baker .986 Cont .946 Frac .938).
+- v1 FAILED the timing gate: probe 8.45 s/study on ONE T4 -> ~3.05 h on 1,300 hidden studies (gate 1.5 h).
+  Cause: blendmine metadata pins machine_shape "NvidiaTeslaT4" = 1 GPU (fleet printed "Single GPU enabled";
+  our Oct 8-11 kernels without the field got "Dual-T4 Multi-GPU").
+- 02cb27d build_nb: drop machine_shape (default T4 x2; fleet runs one thread per GPU) + KILL_AT_H 8.4: an own
+  group still running at 8.4 h is killed and the base kept, so 9 h can never be hit. Test 4/4 incl. a hung fake.
+- v2 pushed ~20:20. Gate on v2: probe s/study x 1300 / 3600 <= ~1.5 h (base also gets 2 GPUs). Then user submits
+  "blendmine + cnxt 4-fold W0.3"; LB < 0.957 -> W 0.2 once.
+- PC cnxt_sev fold 0: ep5 gold 0.9101 (hybrid fold 0 best was 0.9106), ~12 min/epoch.
