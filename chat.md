@@ -1451,3 +1451,17 @@ Runs:
 - tests/test_clef_notebook.py (CPU, real Clef tokenizer, fake model, OOM split, id alignment): 3/3 pass.
 - Next: user runs smoke (32 reports) then full on molab and downloads grades_clef.parquet -> Claude builds
   labels_sev_v1 (mapping + gold-58 check) -> cnxt_sev 4-fold family.
+
+## 61. Oct 17 ~19:00 IST (Claude) — Task 9 done: Clef severity labels beat presence labels on gold-58
+- Clef graded all 4,407 reports on molab (2 parts: 2,248 + 2,159; the first full run was interrupted twice: a
+  marimo-pair request whose connection drops interrupts the running kernel. Lesson in memory: no kernel calls
+  during a run). grades_clef.parquet = StudyInstanceUID + 75 "finding|option" probabilities + n_tokens.
+- tools/severity_labels.py: label = sum P(grade) * V[grade], V fixed a priori from the host rubric + forum evidence.
+- Gold-58, report labels used as scores (decorr --a presence --b severity --truth gold): macro 0.8467 -> 0.8900.
+  Better on 11/12: ACL .955->.994, MCL .921->.977, MedMen .946->.953, LatMen .848->.887, MedOA .905->.912,
+  PF OA .790->.898, Effusion .632->.832, Synovitis .768->.780, Baker's .886->.924, Contusion .768->.808,
+  Fracture .903->.907. Worse: Lateral OA .838->.807 -> kept from labels_hybrid_v1.
+- labels_sev_v1 (+ label_weights_sev_v1): labels_hybrid_v1 with 11 findings from Clef severity (weights reset to 1).
+- PC: ConvNeXt folds 2,3 done (gold best 0.9276 / 0.9226). cnxt_sev 4-fold family (run_cnxt_sev_folds.sh, seeds
+  80-83) started 18:52, ~2.6 h per fold -> ~05:30 Oct 18.
+- tools/gemma_labels.py: second labeler for the user's Gemma PC (gold-58 as 2-fold in-context examples).
