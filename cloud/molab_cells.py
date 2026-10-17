@@ -34,7 +34,7 @@ def _check(v):
 
 
 setup = mo.ui.dictionary({
-    "kaggle_key": mo.ui.text(kind="password", label="Kaggle API key of shivoo29 ('key' in kaggle.json)", full_width=True),
+    "kaggle_key": mo.ui.text(kind="password", label="Kaggle API key or token of shivoo29", full_width=True),
     "batch1": mo.ui.text(kind="password", label="fastMRI knee_DICOMs_batch1 link", full_width=True),
     "batch2": mo.ui.text(kind="password", label="fastMRI knee_DICOMs_batch2 link", full_width=True),
 }).form(submit_button_label=f"Start fold {FOLD}", clear_on_submit=True, validate=_check)
@@ -52,7 +52,8 @@ if setup.value and not _alive(_pid):
     _urls = work / "fastmri_urls.txt"
     _urls.touch(mode=0o600)
     _urls.write_text("".join(f"knee_DICOMs_{b} {setup.value[b].strip()}\\n" for b in ("batch1", "batch2")))
-    _env = {**os.environ, "KAGGLE_USERNAME": "shivoo29", "KAGGLE_KEY": setup.value["kaggle_key"].strip(),
+    _key = setup.value["kaggle_key"].strip()  # new-style tokens (KGAT_...) go in KAGGLE_API_TOKEN
+    _env = {**os.environ, "KAGGLE_USERNAME": "shivoo29", ("KAGGLE_API_TOKEN" if _key.startswith("KGAT_") else "KAGGLE_KEY"): _key,
             "FOLD": FOLD, "WORK": str(work), "FASTMRI_URLS": str(_urls), "PY": sys.executable}
     _proc = subprocess.Popen(["bash", str(work / "run_fold.sh")], cwd=work, env=_env, start_new_session=True,
                              stdout=open(work / "run_fold.log", "ab"), stderr=subprocess.STDOUT)
