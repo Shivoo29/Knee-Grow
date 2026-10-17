@@ -39,6 +39,7 @@ import numpy as np, pandas as pd
 W_OWN = __W__
 GROUPS = __GROUPS__
 STOP_AFTER_H = __STOP__   # no group starts after this; skipped groups leave the rest unchanged
+KILL_AT_H = __KILL__      # a group still running at this notebook hour is killed (base kept), so 9 h is never hit
 HAS_BASE = __HAS_BASE__
 
 def find_one(name):
@@ -57,12 +58,16 @@ for tag, names in GROUPS.items():
     env = dict(os.environ, RSNA_COMP_ROOT=str(DATA), RAPTOR_OUTPUT_CSV=str(out),
                RAPTOR_CKPTS=','.join(find_one(x) for x in names))
     t = time.time()
-    rc = subprocess.run([sys.executable, '-u', '/tmp/fleet_v6.py'], env=env, cwd='/tmp').returncode
+    try:
+        rc = subprocess.run([sys.executable, '-u', '/tmp/fleet_v6.py'], env=env, cwd='/tmp',
+                            timeout=max(1.0, KILL_AT_H * 3600 - (t - NB_T0))).returncode
+    except subprocess.TimeoutExpired:
+        rc = 'timeout at %.2f h' % KILL_AT_H
     if rc != 0:
         if HAS_BASE:
-            print('OWN_FAILED %s exit %d: group skipped, base kept' % (tag, rc), flush=True)
+            print('OWN_FAILED %s exit %s: group skipped, base kept' % (tag, rc), flush=True)
             continue
-        raise RuntimeError('own group %s failed with exit code %d' % (tag, rc))
+        raise RuntimeError('own group %s failed with exit code %s' % (tag, rc))
     print('OWN_DONE %s %.0fs' % (tag, time.time() - t), flush=True)
     outs[tag] = pd.read_csv(out, dtype={'StudyInstanceUID': str}).set_index('StudyInstanceUID').loc[test_ids, labels]
 
@@ -103,6 +108,7 @@ def main():
     ap.add_argument('--datasets', default='')
     ap.add_argument('--w', type=float, default=0.3)
     ap.add_argument('--stop_h', type=float, default=7.0)
+    ap.add_argument('--kill_h', type=float, default=8.4)
     a = ap.parse_args()
     groups = {}
     for g in a.group:
@@ -111,9 +117,11 @@ def main():
     code = lambda s: {'cell_type': 'code', 'metadata': {}, 'execution_count': None, 'outputs': [], 'source': s}
     fleet = (ROOT / 'kaggle_base954_fleet' / 'fleet_v6.py').read_text()
     stage = (STAGE.replace('__W__', repr(a.w)).replace('__GROUPS__', repr(groups))
-             .replace('__STOP__', repr(a.stop_h)).replace('__HAS_BASE__', repr(a.base != 'none')))
+             .replace('__STOP__', repr(a.stop_h)).replace('__KILL__', repr(a.kill_h))
+             .replace('__HAS_BASE__', repr(a.base != 'none')))
     nb = json.load(open(ROOT / 'kaggle_blendmine' / 'blendmine.ipynb'))
     meta = json.load(open(ROOT / 'kaggle_blendmine' / 'kernel-metadata.json'))
+    meta.pop('machine_shape', None)  # "NvidiaTeslaT4" gave 1 GPU (v1 log); no field = default T4 x2 (our Oct 8-11 kernels)
     extra = [d for d in a.datasets.split(',') if d]
     if a.base == 'none':
         nb['cells'] = [code(SETUP_NONE)]
