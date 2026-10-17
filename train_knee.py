@@ -585,6 +585,7 @@ class RaptorClassifier(nn.Module):
     win_chunk = 0   # >0: run the backbone over chunks of this many windows under activation checkpointing (8 GB cards)
     stkim_k = 0     # >0 (training only): ACMIL stochastic top-K masking of each finding's top-k windows
     stkim_p = 0.7   # probability that each of those top-k windows is hidden
+    seq_tracks = 1  # tiles per window position (2 with zoom: field, close-up); the GRU runs each track on its own
 
     def _attend(self, h):
         """Per-finding attention weights (B,K,n). In training with stkim_k > 0 each finding's top-k
@@ -595,6 +596,18 @@ class RaptorClassifier(nn.Module):
             hit = torch.zeros_like(a, dtype=torch.bool).scatter_(1, top, True)
             a = a.masked_fill(hit & (torch.rand_like(a) < self.stkim_p), float("-inf"))
         return torch.softmax(a, dim=1)
+
+    def _seq(self, feats):
+        """bi-GRU over the windows in slice order. With seq_tracks = T tiles per position (field, close-up,
+        field, ...) each track is its own sequence, so the GRU never alternates between scales."""
+        T = self.seq_tracks
+        if T == 1:
+            return self.gru(feats)[0]
+        B, K, F = feats.shape
+        S = K // T
+        g = feats[:, :S * T].reshape(B, S, T, F).transpose(1, 2).reshape(B * T, S, F)
+        g = self.gru(g)[0].reshape(B, T, S, F).transpose(1, 2).reshape(B, S * T, F)
+        return torch.cat([g, g.new_zeros(B, K - S * T, F)], 1)  # a cut-off last tile gets no GRU term
 
     def encode(self, x):
         B, K = x.shape[:2]
@@ -612,7 +625,7 @@ class RaptorClassifier(nn.Module):
         if self.slot_emb is not None and slots is not None:
             feats = feats + self.slot_emb(slots)
         if self.seq_head:
-            feats = feats + self.gru(feats)[0]
+            feats = feats + self._seq(feats)
         h = self.norm(feats)
         a = self._attend(h)
         pooled = torch.einsum("bkn,bkf->bnf", a, h)
@@ -861,6 +874,7 @@ def main():
                              seq_head=bool(a.seq_head)).to(dev)
     model.win_chunk = a.win_chunk
     model.stkim_k, model.stkim_p = a.stkim_k, a.stkim_p
+    model.seq_tracks = 2 if a.zoom_mm else 1   # zoom: field and close-up tiles alternate per window position
     if a.stkim_k > 0:
         print(f"[stkim] training-only top-{a.stkim_k} window masking, p={a.stkim_p}", flush=True)
     if a.freeze_blocks > 0:

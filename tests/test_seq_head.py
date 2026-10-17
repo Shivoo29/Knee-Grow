@@ -199,8 +199,26 @@ def test_build_label_weights_synthetic():
     return f"rows={len(w)} mask_ok (dedupe kept first)"
 
 
+def test_seq_tracks_deinterleave():
+    """seq_tracks=2 (zoom): the GRU runs field tiles and close-up tiles as two separate sequences."""
+    torch.manual_seed(0)
+    m = tk.RaptorClassifier(_tiny_backbone(), F_dim=16, seq_head=True).eval()
+    feats = torch.randn(2, 7, 16)          # 3 positions x (field, close-up) + 1 cut-off tile
+    m.seq_tracks = 2
+    with torch.no_grad():
+        got = m._seq(feats)
+        want = torch.zeros_like(feats)
+        want[:, 0:6:2] = m.gru(feats[:, 0:6:2])[0]
+        want[:, 1:6:2] = m.gru(feats[:, 1:6:2])[0]
+        assert torch.allclose(got, want, atol=1e-6), (got - want).abs().max()
+        m.seq_tracks = 1
+        assert torch.allclose(m._seq(feats), m.gru(feats)[0], atol=1e-6)
+    return "field and close-up tracks run as separate sequences, cut-off tile gets no GRU term, T=1 unchanged"
+
+
 TESTS = [("seq_off_keys", test_seq_off_keys),
          ("seq_on_order_aware", test_seq_on_order_aware),
+         ("seq_tracks_deinterleave", test_seq_tracks_deinterleave),
          ("class_source_identical", test_class_source_identical),
          ("ckpt_roundtrip_strict", test_ckpt_roundtrip_strict),
          ("seq_compartment_refused", test_seq_compartment_refused),

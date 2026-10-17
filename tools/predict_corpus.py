@@ -47,6 +47,7 @@ def predict(ckpt, vols, masks, ids, k_eval=0, bs=2, workers=4, win_chunk=0, dev=
     model = tk.RaptorClassifier(bb, F_dim=bb.num_features, slot_emb=slot_emb, seq_head=bool(st.get("seq_head")))
     model.load_state_dict(st["model"])
     model.win_chunk = win_chunk
+    model.seq_tracks = 2 if zoom else 1
     model.eval().to(dev)
     amp = torch.bfloat16 if dev == "cuda" and torch.cuda.is_bf16_supported() else torch.float16
     out, t0 = [], time.time()
