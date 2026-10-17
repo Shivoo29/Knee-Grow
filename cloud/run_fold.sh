@@ -17,14 +17,21 @@ set -euo pipefail
 WORK=${WORK:-/data}; FM_GB=${FM_GB:-64}; PY=${PY:-python}; NP=$(nproc)
 mkdir -p "$WORK"; cd "$WORK"
 log() { echo "$(date +%H:%M:%S) $* | free $(free -g | awk '/^Mem:/{print $7}') GB, disk free $(df -h --output=avail "$WORK" | tail -n 1 | tr -d " ")"; }
+kaggle() {  # the kaggle executable if one is on PATH, else the module of this python (molab: no PATH entry)
+  if type -P kaggle >/dev/null; then command kaggle "$@"; else "$PY" -m kaggle "$@"; fi
+}
+unzip_py() { "$PY" -c "import sys, zipfile; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "$1" "$2"; }
 kget() {  # kget <dataset> <file> <dir>: one file of a Kaggle dataset, unzipped if Kaggle served it zipped
   kaggle datasets download "$1" -f "$2" -p "$3" -q --force
-  if [ -f "$3/$2.zip" ]; then (cd "$3" && unzip -q -o "$2.zip" && rm -f "$2.zip"); fi
+  if [ -f "$3/$2.zip" ]; then unzip_py "$3/$2.zip" "$3" && rm -f "$3/$2.zip"; fi
 }
 
 log "step 0: packages"
-$PY -c "import torch, timm, pydicom, cv2, pyarrow, sklearn" 2>/dev/null || \
-  $PY -m pip install -q timm pydicom python-gdcm pylibjpeg pylibjpeg-libjpeg opencv-python-headless pyarrow scikit-learn kaggle
+MODS="torch timm pydicom cv2 pyarrow sklearn kaggle"
+if [ -z "${SKIP_INSTALL:-}" ] && ! "$PY" -c "import importlib.util as u, sys; sys.exit(any(u.find_spec(m) is None for m in sys.argv[1:]))" $MODS; then
+  PKGS="torch timm pydicom python-gdcm pylibjpeg pylibjpeg-libjpeg opencv-python-headless pyarrow scikit-learn kaggle"
+  "$PY" -m pip install -q $PKGS || uv pip install -q --python "$PY" $PKGS
+fi
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || log "nvidia-smi not found (CPU only?)"
 df -h "$WORK" | tail -n 1
 
@@ -69,7 +76,7 @@ for i in $(seq 1 72); do
   log "teacher labels not in the bundle yet; checking again in 10 min"
   sleep 600
   kaggle datasets download shivoo29/knee-cloud-bundle -f fastmri_teacher_sev.parquet -p bundle -q --force || true
-  if [ -f bundle/fastmri_teacher_sev.parquet.zip ]; then (cd bundle && unzip -q -o fastmri_teacher_sev.parquet.zip); fi
+  if [ -f bundle/fastmri_teacher_sev.parquet.zip ]; then unzip_py bundle/fastmri_teacher_sev.parquet.zip bundle; fi
 done
 cp bundle/fastmri_teacher_sev.parquet run/
 

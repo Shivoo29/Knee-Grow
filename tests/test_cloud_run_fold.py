@@ -99,7 +99,7 @@ def test_run_fold_end_to_end():
         open(urls, "w").write("".join(f"knee_DICOMs_batch{b} http://127.0.0.1:{srv.server_port}/b{b}?sig=x\n" for b in (1, 2)))
         env = dict(os.environ, PATH=binp + os.pathsep + os.environ["PATH"], FAKE_KAGGLE_MIRROR=mirror,
                    KAGGLE_USERNAME="tester", FOLD="0", WORK=work, FASTMRI_URLS=urls, FM_GB="0", PY=sys.executable,
-                   EXTRA="--smoke", BS="2", ACCUM="1", WORKERS="0", CUDA_VISIBLE_DEVICES="")
+                   EXTRA="--smoke", BS="2", ACCUM="1", WORKERS="0", CUDA_VISIBLE_DEVICES="", SKIP_INSTALL="1")
         try:
             r = subprocess.run(["bash", os.path.join(WT, "cloud", "run_fold.sh")], env=env, capture_output=True,
                                text=True, timeout=5400)

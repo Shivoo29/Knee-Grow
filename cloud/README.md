@@ -8,7 +8,7 @@ instances take folds 1, 2 and 3.
 
 1. **Kaggle access.** The instance downloads two private datasets owned by `shivoo29`:
    `shivoo29/knee-cloud-bundle` (code, labels, teacher labels) and `shivoo29/knee-c192-u8d` (our competition
-   corpus, 16 shards, ~61 GB). If the instance uses another Kaggle account, add that account as a collaborator
+   corpus, 16 shards, 71 GB). If the instance uses another Kaggle account, add that account as a collaborator
    on both datasets (Kaggle → dataset → Settings → Sharing). The token goes in `~/.kaggle/kaggle.json`
    (or `KAGGLE_USERNAME` + `KAGGLE_KEY`).
 2. **fastMRI links.** Put the two knee DICOM links from the NYU email into a private file, one per line:
@@ -27,16 +27,44 @@ Get the script from the bundle and start it:
 kaggle datasets download shivoo29/knee-cloud-bundle -f run_fold.sh -p .
 FOLD=1 WORK=/data FASTMRI_URLS=~/fastmri_urls.txt bash run_fold.sh 2>&1 | tee run_fold_1.log
 ```
-In a molab (marimo) notebook, run it from one cell and keep the cell busy, so the session never looks idle
-(molab stops after 90 idle minutes):
+### molab
+
+A molab notebook can be opened by anyone who has its link, so the Kaggle key and the fastMRI links never go in
+a cell. Put them in the notebook's `.env` file (it persists; source files are what the link shows):
+```
+KAGGLE_USERNAME=shivoo29
+KAGGLE_KEY=<your Kaggle API key>
+FASTMRI_BATCH1_URL=<knee_DICOMs_batch1 link from the NYU email>
+FASTMRI_BATCH2_URL=<knee_DICOMs_batch2 link from the NYU email>
+```
+Then one cell (attach the GPU first; set FOLD per instance). It keeps the cell busy, so the session never looks
+idle (molab stops after 90 idle minutes), and streams the log:
 ```python
-import os, subprocess
-env = {**os.environ, "FOLD": "1", "WORK": "/data", "FASTMRI_URLS": "/root/fastmri_urls.txt"}
-p = subprocess.Popen(["bash", "run_fold.sh"], env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+import os, sys, subprocess, pathlib, zipfile
+for line in pathlib.Path(".env").read_text().splitlines():
+    k, sep, v = line.partition("=")
+    if sep and not k.strip().startswith("#"):
+        os.environ.setdefault(k.strip(), v.strip())
+FOLD = "1"                                         # 1, 2 or 3: one fold per instance
+work = pathlib.Path("/tmp/knee"); work.mkdir(exist_ok=True)
+urls = work / "fastmri_urls.txt"
+urls.write_text(f"knee_DICOMs_batch1 {os.environ['FASTMRI_BATCH1_URL']}\n"
+                f"knee_DICOMs_batch2 {os.environ['FASTMRI_BATCH2_URL']}\n")
+urls.chmod(0o600)
+if subprocess.run([sys.executable, "-m", "pip", "install", "-q", "kaggle"]).returncode:
+    subprocess.run(["uv", "pip", "install", "-q", "--python", sys.executable, "kaggle"], check=True)
+subprocess.run([sys.executable, "-m", "kaggle", "datasets", "download", "shivoo29/knee-cloud-bundle",
+                "-f", "run_fold.sh", "-p", str(work), "--force"], check=True)
+if (work / "run_fold.sh.zip").exists():
+    zipfile.ZipFile(work / "run_fold.sh.zip").extractall(work)
+env = {**os.environ, "FOLD": FOLD, "WORK": str(work), "FASTMRI_URLS": str(urls), "PY": sys.executable}
+p = subprocess.Popen(["bash", str(work / "run_fold.sh")], env=env, stdout=subprocess.PIPE,
+                     stderr=subprocess.STDOUT, text=True)
 for line in p.stdout:
     print(line, end="")
-p.wait()
+print("exit code", p.wait())
 ```
+If it stops with an error, run the cell again: finished steps are skipped while the session is alive.
 
 Steps, each skipped when its output already exists (a rerun resumes):
 
