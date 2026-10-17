@@ -1512,3 +1512,7 @@ Runs:
 - Next: v2 score (rule >= 0.958 keep; < 0.957 -> W 0.2 once) -> Oct 18 morning gate cnxt_sev (gold + OOF +
   decorr) -> dataset knee-cnxt-sev-folds -> notebook groups cnxt + cnxt_sev -> user submits -> cnxt_sev2 as next
   group -> PC from ~06:00: next family (EfficientNetV2-S or ConvNeXt-Small on sev labels, by the TTA result).
+- Rejected for Lateral OA (Oct 17 21:30): wq2012/kneeseg = random-forest cascades on SKI10 + OAI 1 mm 3D scans,
+  2-4 CPU-min per volume (1,300 hidden studies = 43-87 CPU-h, no medial/lateral output, OAI-trained);
+  denizlab/OAI-MRI-TKR predicts knee replacement, not Lateral OA. Gold has 11 Lateral OA positives (AUC SE ~0.06),
+  so no gain there could be verified anyway. Past tries: compartment-ROI CoAtNet ~0.81, Swin 0.814, cnxt 0.809.
