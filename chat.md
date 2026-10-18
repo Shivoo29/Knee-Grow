@@ -1653,3 +1653,31 @@ Runs:
   Maker: GE +0.015, SIEMENS(caps) -0.011 (MCL -0.056), TOSHIBA ACL -0.077. 3 T +0.005 vs 1.5 T -0.004.
   Low AUC = model weaker there OR report labels noisier there (truth is report labels).
 - eda/review_list.csv: 120 study IDs (top-10 confident disagreements each way, 6 findings) for the user's visual review.
+
+## 76. Oct 18 ~23:45 IST (Antigravity) — Knee-Side Canonicalization Step 1 (Inference-Only) Results on Molab
+- **Hypothesis Tested:** Bilateral symmetry makes Left knees mirror images of Right knees. Section 75 showed Left knees underperform on side-specific findings. Hypothesis: mirroring Left knees to canonical Right knee layout improves side-specific prediction accuracy without retraining.
+- **Evaluation Benchmark:** 1,088 Fold-0 held-out studies (518 Left, 570 Right) scored via `raptor_ft_cnxt_sev_f0_swa.pt` (`--k_eval 380`, `zoom_mm 100`) on Molab Blackwell RTX PRO 6000 across 2 passes: Plain and Mirrored. Ground truth: `labels_sev_v1.parquet` (>0.5).
+- **Macro-AUC Summary:**
+  | Variant | N | Side-Specific (5) | Other (7) | Macro (12) |
+  | :--- | :--- | :--- | :--- | :--- |
+  | **Left Plain** | 518 | 0.9042 | 0.9275 | 0.9178 |
+  | **Left Mirrored** | 518 | 0.9056 | 0.9287 | 0.9191 |
+  | **Right Plain** | 570 | 0.9302 | 0.9250 | 0.9272 |
+  | **Right Mirrored (Control)** | 570 | 0.9278 | 0.9252 | 0.9263 |
+  | **Left Flip-TTA** | 518 | 0.9051 | 0.9286 | 0.9188 |
+  | **Right Flip-TTA** | 570 | 0.9294 | 0.9255 | 0.9271 |
+  | **All Plain** | 1,088 | 0.9189 | 0.9263 | 0.9232 |
+  | **All Flip-TTA** | 1,088 | 0.9189 | 0.9270 | 0.9236 |
+- **Per-Finding Analysis:**
+  - Lateral Meniscus: Left Mirrored 0.9036 vs Plain 0.8960 (**+0.0076** gain).
+  - Lateral OA: Left Mirrored 0.7686 vs Plain 0.7637 (**+0.0049** gain).
+  - Medial OA: Left Mirrored 0.9263 vs Plain 0.9294 (-0.0031 loss).
+  - MCL: Left Mirrored 0.9819 vs Plain 0.9833 (-0.0014 loss).
+  - Medial Meniscus: Left Mirrored 0.9478 vs Plain 0.9485 (-0.0007 loss).
+  - Right Knee Control: Mirrored drops side-specific AUC from 0.9302 -> 0.9278 (-0.0025), confirming directional specificity.
+- **Success Gate Evaluation:**
+  - Net Left Side-Specific gain: **+0.0014** (Threshold required: $\ge +0.0050$).
+  - **Verdict:** **DID NOT MEET SUCCESS GATE** (+0.0014 vs +0.0050 target).
+  - Flip-TTA across all knees shows negligible gain (+0.0004 macro-AUC, 0.9232 -> 0.9236).
+  - In-place test-time mirroring alone is insufficient to close the left-knee deficit for models trained on mixed uncanonicalized data. Step 2 (training from scratch with `--canon_side`) should only proceed if the user specifically chooses to test whether training on canonicalized knees forces shared representations.
+
