@@ -56,6 +56,15 @@ for _name, _f, _n in [("job", _k / "run_r2.log", 4), ("round-2 fold __FOLD__", _
     if _t:
         _parts += ([f"== {_name}"] if _name else []) + _t
 _gpu = _sp.run(["nvidia-smi", "--query-gpu=utilization.gpu,memory.used", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
+# molab kills the sandbox near 160 GB of files (kept in memory) + process RAM; guard.log shows any job the guard stopped
+_files = int(_sp.run(["df", "-B1", "--output=used", "/"], capture_output=True, text=True).stdout.split()[-1]) / 2**30
+try:
+    _ram = int(open("/sys/fs/cgroup/memory/memory.usage_in_bytes").read()) / 2**30
+except OSError:
+    _ram = 0.0
+_tot = _files + _ram
+_parts += [f"== memory: files {_files:.0f} GB + RAM {_ram:.0f} GB = {_tot:.0f} of ~160 GB"
+           + ("  !! DANGER" if _tot > 145 else "  (warning)" if _tot > 130 else "  ok")] + _tail(_k / "guard.log", 3)
 mo.md("**live log** (GPU " + _gpu + ")\\n\\n```\\n" + "\\n".join(_parts or ["nothing yet"]) + "\\n```")'''
 
 
