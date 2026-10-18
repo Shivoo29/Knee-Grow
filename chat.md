@@ -1632,3 +1632,14 @@ Runs:
 - Now: PC BiGRU fold 2 (pcseq) | molab FOLD 1 sandbox BiGRU fold 3 (/tmp/knee/run_seq.sh, upload form cell) |
   node1 tmux cnxt_sev2 folds 2,3 (seeds 92,93). Done: BiGRU f0 (best gold 0.9226), f1; cnxt_sev2 f0, f1; cnxt_sev f0-3.
 - Ready to submit: rsna-knee-blend-own-sev v1 (blendmine + cnxt_sev 4-fold W0.2), fastMRI-free, 4.25 s/study.
+
+## 74. Oct 18 ~21:30 IST (Claude) — goal = public LB top 10 (#10 = 0.966); round-2 self-training started
+- PC restart killed BiGRU fold 2 (dropped: +0.0024 blend-only value; GPUs go to round 2). Scratchpad (molab tokens) wiped.
+- Round-2 labels (tools/make_r2_labels.py -> labels_r2.parquet): report labels (labels_sev_v1) mixed with Platt-calibrated
+  4-fold OOF of ConvNeXt severity + CoAtNet oof4. Gold-58 label AUC by report weight alpha: 1.0 0.890 | 0.7 0.921 |
+  0.5 0.931 | 0.3 0.936 | 0.0 0.927; all 12 findings improve at 0.5 (Effusion .832->.948, Contusion .808->.899).
+  Chose alpha 0.4. Caveat: r2 OOF vs report labels is mildly leaky (teacher OOF saw other folds' reports); judge r2 on
+  gold-58 + LB only.
+- Running: PC pcr2 fold 0 (seed 110, workers 4) | node1 tmux r2: waits for cnxt_sev2 f2 SWA, kills sev2 loop, runs r2 fold 3 |
+  molab: cloud/molab_r2.py payload (needs new pairing) -> r2 fold 1, self-publishes knee-cnxt-r2-f1. Fold 2: next free GPU.
+- Bundle: labels_r2.parquet + current train_knee.py added.
