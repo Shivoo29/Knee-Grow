@@ -1643,3 +1643,13 @@ Runs:
 - Running: PC pcr2 fold 0 (seed 110, workers 4) | node1 tmux r2: waits for cnxt_sev2 f2 SWA, kills sev2 loop, runs r2 fold 3 |
   molab: cloud/molab_r2.py payload (needs new pairing) -> r2 fold 1, self-publishes knee-cnxt-r2-f1. Fold 2: next free GPU.
 - Bundle: labels_r2.parquet + current train_knee.py added.
+
+## 75. Oct 18 ~22:30 IST (Claude) — EDA (eda/eda_groups.py): OOF (cnxt_sev + CoAtNet rank mean) vs report labels by group
+- All 4,349: macro 0.9168. Side (DICOM coords): Left worse on every lateral-side finding: Lat Men 0.912 vs 0.929,
+  Lat OA 0.825 vs 0.848, MCL 0.938 vs 0.957, Med Men 0.937 vs 0.946; Medial OA equal.
+- Missing fluid-sensitive sagittal (255 studies, 5.9%): Effusion -0.130, Synovitis -0.057. Missing FS coronal (157):
+  Synovitis/Lateral OA/Contusion ~-0.09. Every study has FS axial.
+- Report language: de Effusion -0.126; el Synovitis -0.157; hr Lateral OA -0.093; bs Fracture -0.132; es Lateral OA -0.045.
+  Maker: GE +0.015, SIEMENS(caps) -0.011 (MCL -0.056), TOSHIBA ACL -0.077. 3 T +0.005 vs 1.5 T -0.004.
+  Low AUC = model weaker there OR report labels noisier there (truth is report labels).
+- eda/review_list.csv: 120 study IDs (top-10 confident disagreements each way, 6 findings) for the user's visual review.
