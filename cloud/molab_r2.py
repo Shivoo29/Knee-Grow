@@ -41,14 +41,22 @@ if r2_key.value and r2_key.value["key"].strip() and not _r2_alive():
     del _k, _env
 print("round-2 fold __FOLD__:", "running" if _r2_alive() else "not running: paste the key above and press Start")'''
 
-TICK = 'r2_tick = mo.ui.refresh(options=["1m"], default_interval="1m")\nr2_tick'
+TICK = 'r2_tick = mo.ui.refresh(options=["5s", "30s"], default_interval="5s", label="live log")\nr2_tick'
 
 LOG = '''r2_tick
-import pathlib as _pl
-_a = _pl.Path("/tmp/knee/run_r2.log"); _b = _pl.Path("/tmp/knee/run/train_cnxt_r2_f__FOLD__.log")
-_lines = (_a.read_text().splitlines()[-4:] if _a.exists() else []) + \\
-         ([x for x in _b.read_text().splitlines() if x.startswith("ep")][-6:] if _b.exists() else [])
-mo.md("**log**\\n\\n```\\n" + "\\n".join(_lines or ["nothing yet"]) + "\\n```")'''
+import pathlib as _pl, subprocess as _sp
+_k = _pl.Path("/tmp/knee")
+def _tail(p, n):
+    return _pl.Path(p).read_text(errors="replace").splitlines()[-n:] if _pl.Path(p).exists() else []
+_parts = []
+for _name, _f, _n in [("job", _k / "run_r2.log", 4), ("round-2 fold __FOLD__", _k / "run/train_cnxt_r2_f__FOLD__.log", 6),
+                      ("round-2 fold 2 (parallel)", _k / "run_r2_f2.log", 2), ("", _k / "run/train_cnxt_r2_f2.log", 6),
+                      ("BiGRU fold 3", _k / "run/train_cnxt_seq_f3.log", 4)]:
+    _t = _tail(_f, _n)
+    if _t:
+        _parts += ([f"== {_name}"] if _name else []) + _t
+_gpu = _sp.run(["nvidia-smi", "--query-gpu=utilization.gpu,memory.used", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
+mo.md("**live log** (GPU " + _gpu + ")\\n\\n```\\n" + "\\n".join(_parts or ["nothing yet"]) + "\\n```")'''
 
 
 def cells(fold):
