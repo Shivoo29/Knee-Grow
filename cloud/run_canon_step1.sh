@@ -19,11 +19,13 @@ kget() {
 }
 
 log "step 0: packages & environment"
-if type -P uv >/dev/null; then
-  uv pip install -q timm kaggle scikit-learn pandas pyarrow 2>/dev/null || true
-else
-  "$PY" -m pip install -q timm kaggle scikit-learn pandas pyarrow 2>/dev/null || true
-fi
+"$PY" -c "import torch, timm, kaggle, sklearn, pandas, pyarrow" 2>/dev/null || {
+  if type -P uv >/dev/null; then
+    uv pip install -q --no-deps timm kaggle 2>/dev/null || true
+  else
+    "$PY" -m pip install -q --no-deps timm kaggle 2>/dev/null || true
+  fi
+}
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || { log "no GPU found"; exit 1; }
 
 log "step 1: bundle files"
