@@ -21,6 +21,7 @@ kget() {
 log "step 0: packages"
 "$PY" -c "import torch, timm, pyarrow, sklearn, kaggle" 2>/dev/null || "$PY" -m pip install -q torch timm pyarrow pandas scikit-learn kaggle
 nvidia-smi --query-gpu=name --format=csv,noheader || { log "no GPU: switch this notebook to a GPU machine"; exit 1; }
+if [ -f before_r2.sh ]; then log "before_r2.sh (waits for the job already on this GPU)"; bash before_r2.sh; fi
 
 log "step 1: bundle (code + round-2 labels)"
 mkdir -p run dl
