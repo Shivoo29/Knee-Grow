@@ -1621,3 +1621,14 @@ Runs:
 - node1: student fold 0 seed 207 (EXTRA="--seed 207"), ep0 75 min (watch: may be NFS-bound).
 - Kaggle: Oct 17 v1/v2 "blendmine + cnxt 4-fold W0.3" = 0.956 (< 0.957 -> W 0.2 once). Built
   kaggle_blend_own/w20sev (blendmine + cnxt_sev 4-fold, W 0.2), dataset shivoo29/knee-cnxt-sev-folds.
+
+## 73. Oct 18 ~20:45 IST (Claude) — fastMRI dropped (eligibility); GPUs moved to fastMRI-free models
+- RSNA ruling (Carr, 743416): datasets that "limit access to users with institutional affiliations clearly do not" qualify.
+  fastMRI form requires "Institution" + "the investigator's institutional affiliation"; user applied with a college name.
+  DSA para 5 forbids passing on files derived from fastMRI. -> No fastMRI-based model in any final submission.
+- Student fold 1 (fastMRI) gold 0.9319 vs cnxt_sev 0.9253: kept private and UNUSED (shivoo29/knee-cnxt-fm-f1).
+- knee-cloud-bundle: new version without fastmri_teacher_sev.parquet (local copy kaggle_ds/*.notshared).
+  molab FOLD 1 sandbox: /tmp/knee/fm deleted. node1 student fold 0 had died (CUDA OOM) before this.
+- Now: PC BiGRU fold 2 (pcseq) | molab FOLD 1 sandbox BiGRU fold 3 (/tmp/knee/run_seq.sh, upload form cell) |
+  node1 tmux cnxt_sev2 folds 2,3 (seeds 92,93). Done: BiGRU f0 (best gold 0.9226), f1; cnxt_sev2 f0, f1; cnxt_sev f0-3.
+- Ready to submit: rsna-knee-blend-own-sev v1 (blendmine + cnxt_sev 4-fold W0.2), fastMRI-free, 4.25 s/study.
