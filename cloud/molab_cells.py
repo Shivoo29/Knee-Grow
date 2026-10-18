@@ -54,7 +54,10 @@ if setup.value and not _alive(_pid):
     _urls.write_text("".join(f"knee_DICOMs_{b} {setup.value[b].strip()}\\n" for b in ("batch1", "batch2")))
     _key = setup.value["kaggle_key"].strip()  # new-style tokens (KGAT_...) go in KAGGLE_API_TOKEN
     _env = {**os.environ, "KAGGLE_USERNAME": "shivoo29", ("KAGGLE_API_TOKEN" if _key.startswith("KGAT_") else "KAGGLE_KEY"): _key,
-            "FOLD": FOLD, "WORK": str(work), "FASTMRI_URLS": str(_urls), "PY": sys.executable}
+            "FOLD": FOLD, "WORK": str(work), "FASTMRI_URLS": str(_urls), "PY": sys.executable,
+            "WORKERS": "8"}  # molab keeps every file in memory (160 GiB in all): fewer loader workers
+    (work / "fm").mkdir(exist_ok=True)
+    (work / "fm" / ".done_knee_DICOMs_batch1").touch()  # fastMRI batch2 only: ~30 GB in memory, not ~86 GB
     _proc = subprocess.Popen(["bash", str(work / "run_fold.sh")], cwd=work, env=_env, start_new_session=True,
                              stdout=open(work / "run_fold.log", "ab"), stderr=subprocess.STDOUT)
     _pid.write_text(str(_proc.pid))

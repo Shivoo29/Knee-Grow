@@ -47,6 +47,7 @@ def test_cells():
         assert out.count("running") == 2 and "SECRET" not in out and "sig=" not in out, out
         urls = os.path.join(work, "fastmri_urls.txt")
         assert os.stat(urls).st_mode & 0o777 == 0o600
+        assert os.path.exists(os.path.join(work, "fm", ".done_knee_DICOMs_batch1"))  # batch1 skipped
         assert open(urls).read() == "".join(f"knee_DICOMs_{b} {SECRET[b]}\n" for b in ("batch1", "batch2"))
         time.sleep(3)
         assert open(os.path.join(work, "run_fold.log")).read() == "FOLD=2 user=shivoo29 key=8 links=2\n"
