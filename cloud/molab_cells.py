@@ -55,7 +55,7 @@ if setup.value and not _alive(_pid):
     _key = setup.value["kaggle_key"].strip()  # new-style tokens (KGAT_...) go in KAGGLE_API_TOKEN
     _env = {**os.environ, "KAGGLE_USERNAME": "shivoo29", ("KAGGLE_API_TOKEN" if _key.startswith("KGAT_") else "KAGGLE_KEY"): _key,
             "FOLD": FOLD, "WORK": str(work), "FASTMRI_URLS": str(_urls), "PY": sys.executable,
-            "WORKERS": "8"}  # molab keeps every file in memory (160 GiB in all): fewer loader workers
+            "WORKERS": "3", "BS": "2", "ACCUM": "8"}  # molab: files and loader RAM share 160 GiB; bs 8 x 8 workers ran out
     (work / "fm").mkdir(exist_ok=True)
     (work / "fm" / ".done_knee_DICOMs_batch1").touch()  # fastMRI batch2 only: ~30 GB in memory, not ~86 GB
     _proc = subprocess.Popen(["bash", str(work / "run_fold.sh")], cwd=work, env=_env, start_new_session=True,

@@ -1608,3 +1608,16 @@ Runs:
 - Stacking test (CPU, honest: LR fit on ConvNeXt 4-fold OOF vs report labels, scored on gold-58 never fitted):
   macro 0.9279 base -> 0.9277 all-12-logit stacker -> 0.9266 sparse edges. No gain.
 - Per-finding oracle / per-label epoch picked on gold-58 = selection bias; their 0.975 math is gold-58, not LB.
+
+## 72. Oct 18 ~14:00 IST (Claude) — molab deaths explained; students running; W0.2 cnxt_sev notebook
+- molab deaths = memory: sandbox files (corpus192 67 GB + fastMRI 30 GB) and process RAM share the 160 GB limit.
+  FOLD 2 (bs 8 x 8 workers) lost ~22 GB free per 2 min after training started, then was killed. Fix (cloud/molab_cells.py):
+  BS=2 ACCUM=8 WORKERS=3 -> cgroup steady ~9 GB, folds 1/2 alive 2.4 h+, ~21 min/epoch.
+- In-cell runpy training fails (DataLoader spawn from the marimo kernel: BrokenPipe) -> run train_knee as a subprocess.
+- Stale run_fold.pid after a sandbox restart can name an unrelated live pid -> Start does nothing; delete the pid file.
+- FOLD 3 instance had NO GPU (CPU notebook; "device cpu"); stopped. User must switch it to GPU and restart.
+- BiGRU fold 1 (PC) vs cnxt_sev fold 1 on 1,087 OOF: swa 0.9240 vs 0.9247, epens 0.9244 vs 0.9248; average of both 0.9271.
+  BiGRU = ensemble member, not a replacement. PC now: BiGRU fold 0 (pcseq, RAPTOR_INPUT=ds).
+- node1: student fold 0 seed 207 (EXTRA="--seed 207"), ep0 75 min (watch: may be NFS-bound).
+- Kaggle: Oct 17 v1/v2 "blendmine + cnxt 4-fold W0.3" = 0.956 (< 0.957 -> W 0.2 once). Built
+  kaggle_blend_own/w20sev (blendmine + cnxt_sev 4-fold, W 0.2), dataset shivoo29/knee-cnxt-sev-folds.
