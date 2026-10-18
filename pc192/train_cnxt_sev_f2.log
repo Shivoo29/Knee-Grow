@@ -68,3 +68,36 @@ ep11 OOF300 masked macro-AUC 0.9125
   [patience] no improvement for 3/5 epoch(s) (best 0.9254 at ep8)
   [swa] running SWA updated over epochs [11, 8, 10]
 ep11 loss 0.849 | GOLD macro-AUC 0.9161 (best 0.9254) | topk by OOF-subset: [11, 8, 10] | 8351s
+  [timing] 1631 steps in 424.8s (0.260 s/step) | peak 8.86 GB (reserved 9.59 GB)
+ep12 OOF300 masked macro-AUC 0.9059
+  [patience] no improvement for 4/5 epoch(s) (best 0.9254 at ep8)
+ep12 loss 0.842 | GOLD macro-AUC 0.9166 (best 0.9254) | topk by OOF-subset: [11, 8, 10] | 8985s
+  [timing] 1631 steps in 421.9s (0.259 s/step) | peak 8.86 GB (reserved 9.59 GB)
+ep13 OOF300 masked macro-AUC 0.9128
+  [patience] no improvement for 5/5 epoch(s) (best 0.9254 at ep8)
+  [swa] running SWA updated over epochs [13, 11, 8]
+ep13 loss 0.839 | GOLD macro-AUC 0.9169 (best 0.9254) | topk by OOF-subset: [13, 11, 8] | 9660s
+
+[early-stop] Validation score did not improve for 5 consecutive epochs! Stopping early at epoch 13 (best 0.9254 at epoch 8).
+
+DONE timm-pretrained | BEST GOLD macro-AUC 0.9254
+   ACL                0.990
+   MCL                0.975
+   Medial Meniscus    0.981
+   Lateral Meniscus   0.857
+   Medial OA          0.977
+   Lateral OA         0.849
+   PF OA              0.874
+   Effusion           0.968
+   Synovitis          0.746
+   Baker's            0.982
+   Contusion          0.960
+   Fracture           0.947
+saved raptor_ft_cnxt_sev_f2.pt / raptor_gold_cnxt_sev_f2.npz / raptor_ft_cnxt_sev_f2.json
+[cv] wrote raptor_oof_cnxt_sev_f2_fold2.npz (1087 studies; truth = soft labels)
+[cv] wrote top-K epoch OOF ep13
+[cv] wrote top-K epoch OOF ep11
+[cv] wrote epoch-ensemble OOF over epochs [8, 11, 13]
+SWA over epochs [13, 11, 8] | gold 0.9223 (best-epoch 0.9254) no gain
+[cv] wrote SWA OOF
+TOPK epochs [13, 11, 8] | best 0.9254 | epoch-ensemble 0.9206 (no gain)

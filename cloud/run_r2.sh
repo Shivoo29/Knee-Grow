@@ -2,7 +2,7 @@
 # One round-2 ConvNeXt fold on molab (or any Linux GPU box), competition data only (no fastMRI):
 #   1. code + round-2 labels from shivoo29/knee-cloud-bundle
 #   2. corpus192 (16 shards) from shivoo29/knee-c192-u8d, skipped if already unpacked
-#   3. train fold FOLD on labels_r2.parquet (bs 2, accum 8, 3 loader workers: molab files + RAM share 160 GB)
+#   3. train fold FOLD on labels_r2.parquet (bs 2, accum 8, 5 loader workers; molab: 20 CPUs, files + RAM share 160 GB)
 #   4. publish checkpoint, OOF, gold predictions and log as the private dataset <user>/knee-cnxt-r2-f<FOLD>
 # Needs KAGGLE_USERNAME + KAGGLE_KEY (or KAGGLE_API_TOKEN) in the environment. Rerun-safe.
 #   FOLD=1 WORK=/tmp/knee PY=python bash run_r2.sh
@@ -49,7 +49,7 @@ log "step 3: train round-2 fold $FOLD"
 cd run
 PYTHONUNBUFFERED=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True RAPTOR_INPUT="$WORK/run" \
 "$PY" train_knee.py --ckpt timm --arch convnext_tiny.in12k_ft_in1k --res 256 --norm imagenet --zoom_mm 100 \
-  --bs 2 --accum 8 --k 48 --k_eval 380 --grad_ckpt --epochs 15 --patience 5 --bb_lr 1e-4 --head_lr 1e-3 --workers 3 \
+  --bs 2 --accum 8 --k 48 --k_eval 380 --grad_ckpt --epochs 15 --patience 5 --bb_lr 1e-4 --head_lr 1e-3 --workers ${WORKERS:-5} \
   --clean_windows --mirror_p 0.5 --contrast_aug --slot_emb --slot_sizes 40,40,36,36,40 \
   --labels labels_r2.parquet --label_weights label_weights_sev_v1.parquet \
   --stkim_k 3 --stkim_p 0.7 --oof_every 300 \

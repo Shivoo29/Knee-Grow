@@ -88,6 +88,18 @@
    "loss": 0.8492647131698253,
    "gold_auc": 0.9161323113168011,
    "oof_sub_auc": 0.9124528664011627
+  },
+  {
+   "ep": 12,
+   "loss": 0.842450988541199,
+   "gold_auc": 0.9165667078453895,
+   "oof_sub_auc": 0.905893082429865
+  },
+  {
+   "ep": 13,
+   "loss": 0.8390305162499391,
+   "gold_auc": 0.9168530273219523,
+   "oof_sub_auc": 0.9128165627503607
   }
  ],
  "res": 256,
@@ -106,6 +118,6 @@
  "roi_mode": "compartment",
  "roi_pad": 0.06,
  "roi_overlap": 0.12,
- "partial": true,
- "epochs_done": 12
+ "partial": false,
+ "epochs_done": 15
 }
