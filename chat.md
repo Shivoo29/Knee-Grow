@@ -1653,3 +1653,64 @@ Runs:
   Maker: GE +0.015, SIEMENS(caps) -0.011 (MCL -0.056), TOSHIBA ACL -0.077. 3 T +0.005 vs 1.5 T -0.004.
   Low AUC = model weaker there OR report labels noisier there (truth is report labels).
 - eda/review_list.csv: 120 study IDs (top-10 confident disagreements each way, 6 findings) for the user's visual review.
+
+## 76. Oct 18 ~23:45 IST (Antigravity) — Knee-Side Canonicalization Step 1 (Inference-Only) Results on Molab
+- **Hypothesis Tested:** Bilateral symmetry makes Left knees mirror images of Right knees. Section 75 showed Left knees underperform on side-specific findings. Hypothesis: mirroring Left knees to canonical Right knee layout improves side-specific prediction accuracy without retraining.
+- **Evaluation Benchmark:** 1,088 Fold-0 held-out studies (518 Left, 570 Right) scored via `raptor_ft_cnxt_sev_f0_swa.pt` (`--k_eval 380`, `zoom_mm 100`) on Molab Blackwell RTX PRO 6000 across 2 passes: Plain and Mirrored. Ground truth: `labels_sev_v1.parquet` (>0.5).
+- **Macro-AUC Summary:**
+  | Variant | N | Side-Specific (5) | Other (7) | Macro (12) |
+  | :--- | :--- | :--- | :--- | :--- |
+  | **Left Plain** | 518 | 0.9042 | 0.9275 | 0.9178 |
+  | **Left Mirrored** | 518 | 0.9056 | 0.9287 | 0.9191 |
+  | **Right Plain** | 570 | 0.9302 | 0.9250 | 0.9272 |
+  | **Right Mirrored (Control)** | 570 | 0.9278 | 0.9252 | 0.9263 |
+  | **Left Flip-TTA** | 518 | 0.9051 | 0.9286 | 0.9188 |
+  | **Right Flip-TTA** | 570 | 0.9294 | 0.9255 | 0.9271 |
+  | **All Plain** | 1,088 | 0.9189 | 0.9263 | 0.9232 |
+  | **All Flip-TTA** | 1,088 | 0.9189 | 0.9270 | 0.9236 |
+- **Per-Finding Analysis:**
+  - Lateral Meniscus: Left Mirrored 0.9036 vs Plain 0.8960 (**+0.0076** gain).
+  - Lateral OA: Left Mirrored 0.7686 vs Plain 0.7637 (**+0.0049** gain).
+  - Medial OA: Left Mirrored 0.9263 vs Plain 0.9294 (-0.0031 loss).
+  - MCL: Left Mirrored 0.9819 vs Plain 0.9833 (-0.0014 loss).
+  - Medial Meniscus: Left Mirrored 0.9478 vs Plain 0.9485 (-0.0007 loss).
+  - Right Knee Control: Mirrored drops side-specific AUC from 0.9302 -> 0.9278 (-0.0025), confirming directional specificity.
+- **Success Gate Evaluation:**
+  - Net Left Side-Specific gain: **+0.0014** (Threshold required: $\ge +0.0050$).
+  - **Verdict:** **DID NOT MEET SUCCESS GATE** (+0.0014 vs +0.0050 target).
+  - Flip-TTA across all knees shows negligible gain (+0.0004 macro-AUC, 0.9232 -> 0.9236).
+  - In-place test-time mirroring alone is insufficient to close the left-knee deficit for models trained on mixed uncanonicalized data. Step 2 (training from scratch with `--canon_side`) should only proceed if the user specifically chooses to test whether training on canonicalized knees forces shared representations.
+
+## 77. Oct 19 ~05:35 IST (Antigravity) — FIX 3: Language-Aware Label Mixing (`cnxt_r2l_f0`) A/B Test Results on Molab
+- **Concept & Hypothesis:** Section 75 EDA revealed specific language/finding cells where report and image OOF severely disagreed (e.g. `de`/Effusion -0.126, `el`/Synovitis -0.157, `bs`/Fracture -0.132, `hr`/Lateral OA -0.093). Fix 3 dynamically downweights report weight: $\alpha_{\text{cell}} = \text{clip}(0.4 + k \times d, 0.15, 0.4)$ ($k=2.0$, best on Gold-58), producing `labels_r2l.parquet`.
+- **Training Setup:** Fold 0 ConvNeXt-Tiny (`raptor_ft_cnxt_r2l_f0`) trained on Molab Blackwell RTX PRO 6000 (15 epochs, seed 110, identical hyperparameters to PC baseline `pcr2/train_cnxt_r2_f0.log`). Artifacts published to `shivoo29/knee-cnxt-r2l-f0`.
+- **Gold-58 Performance:**
+  - Baseline ($r_2$): Best Gold-58 **`0.9296`** (at ep11)
+  - FIX 3 ($r_{2l}$): Best Gold-58 **`0.9293`** (at ep13, $\Delta = -0.0003$), SWA Gold-58 **`0.9285`**.
+- **OOF Performance (1,088 Fold-0 Held-out Studies vs `labels_sev_v1.parquet` > 0.5):**
+  - Baseline ($r_2$): **`0.9302`**
+  - FIX 3 ($r_{2l}$ Best Ep13): **`0.9316`** ($\Delta = \mathbf{+0.0014}$)
+  - FIX 3 ($r_{2l}$ SWA): **`0.9317`** ($\Delta = \mathbf{+0.0015}$)
+  - FIX 3 ($r_{2l}$ Epoch Ensemble [12, 13, 14]): **`0.9317`** ($\Delta = \mathbf{+0.0015}$)
+- **Per-Finding Breakdown (SWA vs Baseline):**
+  | Finding | Baseline ($r_2$) | FIX 3 ($r_{2l}$ SWA) | Diff |
+  | :--- | :---: | :---: | :---: |
+  | ACL | 0.9737 | 0.9756 | +0.0019 |
+  | MCL | 0.9829 | 0.9854 | +0.0025 |
+  | Medial Meniscus | 0.9611 | 0.9593 | -0.0018 |
+  | Lateral Meniscus | 0.9340 | 0.9317 | -0.0023 |
+  | Medial OA | 0.9313 | 0.9355 | +0.0042 |
+  | Lateral OA | 0.8460 | 0.8487 | +0.0027 |
+  | PF OA | 0.9019 | 0.9055 | +0.0036 |
+  | Effusion | 0.9207 | 0.9257 | +0.0050 |
+  | Synovitis | 0.9102 | 0.9131 | +0.0029 |
+  | Baker's | 0.9673 | 0.9690 | +0.0017 |
+  | Contusion | 0.9002 | 0.8987 | -0.0014 |
+  | Fracture | 0.9333 | 0.9324 | -0.0010 |
+  | **Macro (12)** | **0.9302** | **0.9317** | **+0.0015** |
+- **Analysis:**
+  - 8 of 12 findings improved under $r_{2l}$. Noticeably, the noisy cells flagged in EDA saw targeted gains: Effusion (+0.0050), Medial OA (+0.0042), PF OA (+0.0036), Synovitis (+0.0029), and Lateral OA (+0.0027).
+  - However, net OOF macro gain is **`+0.0015`** (within the $|\Delta| \le 0.0020$ band), while Gold-58 is essentially identical (0.9293 vs 0.9296, $\Delta = -0.0003$).
+- **Recommendation:**
+  - **Stay with plain $r_2$ (simpler pipeline)**. The $+0.0015$ OOF macro gain does not cross the $+0.0030$ decision threshold to justify the extra complexity of language-id classification and cell-dependent weighting across all 4 folds.
+
