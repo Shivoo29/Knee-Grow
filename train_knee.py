@@ -295,6 +295,30 @@ def slot_of(idx: int) -> int:
     return len(SLOT_BOUNDS) - 1
 
 
+def window_pos(c: int, mask: np.ndarray, side_sign: float, mirrored: bool) -> float:
+    """Anatomical position of window centre c in [-1, 1] along its slot's slice axis (--pos_emb).
+
+    The corpus stores every series in true 3D order (sorted by IPP . slice normal; a 600-series DICOM sample had
+    one direction per plane): sagittal patient-left -> patient-right, coronal front -> back, axial foot -> head.
+    Sagittal becomes lateral (-1) -> medial (+1) via the knee side (+1 left, -1 right, 0 unknown -> 0).
+    A training mirror (mirror_volume) reverses sagittal order, so it flips that sign; coronal/axial flips are
+    in-plane and leave the through-plane position alone.
+    """
+    s = slot_of(c)
+    start, _ = SLOT_BOUNDS[s]
+    n = int(np.sum(mask[start:SLOT_BOUNDS[s][1]] > 0))
+    t = min(max(2.0 * (c - start) / max(n - 1, 1) - 1.0, -1.0), 1.0)
+    if s in (0, 1):
+        t *= side_sign * (-1.0 if mirrored else 1.0)
+    return float(t)
+
+
+def pack_slot_pos(slot_ids, pos):
+    """--pos_emb rides on the existing slot tensor: integer part = slot id, fraction = (pos + 1) / 2 * 0.999.
+    ponytail: one float tensor instead of a new batch element threaded through every train/eval loop."""
+    return torch.tensor([s + (p + 1.0) * 0.4995 for s, p in zip(slot_ids, pos)], dtype=torch.float32)
+
+
 FIELD_MM = 140.0   # every corpus slice is a 140 mm square field at 384 px (build_corpus96_stream mm_crop_and_resize)
 
 
@@ -380,7 +404,8 @@ class StudyWindows(Dataset):
                  roi=False, roi_mode="tight", roi_pad=0.06, roi_overlap=0.12,
                  roi_sbox=None, roi_cen=None,
                  clean_windows=False, mirror_p=0.0, contrast_aug=False, slot_emb=False, slots=None,
-                 seq_head=False, label_w=None, zoom_px=0):
+                 seq_head=False, label_w=None, zoom_px=0, pos_side=None):
+        self.pos_side = pos_side          # dict uid -> +1 left / -1 right knee (--pos_emb), or None
         self.zoom_px = int(zoom_px)       # >0: each window also yields a centred close-up of this many corpus px
         if self.zoom_px and roi:
             raise ValueError("zoom_mm and roi are separate crop modes; use one")
@@ -443,7 +468,8 @@ class StudyWindows(Dataset):
         if self.seq_head:
             cs = sorted(cs)               # GRU sees slices in anatomical order (train and eval)
         vol = self.vols[row]  # (D,H,W) u8  (single study read)
-        if self.train and self.mirror_p > 0.0 and random.random() < self.mirror_p:
+        mirrored = self.train and self.mirror_p > 0.0 and random.random() < self.mirror_p
+        if mirrored:
             vol = mirror_volume(vol, m)
         tiles = []            # list of (3,res,res) float32
         slot_ids = []
@@ -496,7 +522,10 @@ class StudyWindows(Dataset):
             x = (x - self._mean) / self._std
         y = torch.from_numpy(self.labels[uid])
         out = [x, y]
-        if self.slot_emb:
+        if self.slot_emb and self.pos_side is not None:
+            side = float(self.pos_side.get(uid, 0.0))
+            out.append(pack_slot_pos(slot_ids, [window_pos(c, m, side, mirrored) for c in win_centers]))
+        elif self.slot_emb:
             out.append(torch.tensor(slot_ids, dtype=torch.long))
         if self.seq_head:
             out.append(torch.tensor(win_centers, dtype=torch.long))
@@ -556,13 +585,16 @@ def load_raptor(bb, ckpt_path):
 
 class RaptorClassifier(nn.Module):
     """Raptor encoder + per-diagnosis attention-MIL head (12 findings)."""
-    def __init__(self, backbone, F_dim=384, n=12, drop=0.2, slot_emb=False, seq_head=False):
+    def __init__(self, backbone, F_dim=384, n=12, drop=0.2, slot_emb=False, seq_head=False, pos_emb=False):
         super().__init__()
         self.backbone = backbone
         self.F_dim = F_dim
         self.slot_emb = nn.Embedding(5, F_dim) if slot_emb else None
         if self.slot_emb is not None:
             nn.init.zeros_(self.slot_emb.weight)
+        self.pos_proj = nn.Linear(3, F_dim) if pos_emb else None   # [p, sin(pi p), cos(pi p)] -> F, starts as a no-op
+        if self.pos_proj is not None:
+            nn.init.zeros_(self.pos_proj.weight); nn.init.zeros_(self.pos_proj.bias)
         self.seq_head = bool(seq_head)
         self.gru = nn.GRU(F_dim, F_dim // 2, num_layers=2,
                           batch_first=True, bidirectional=True,
@@ -621,9 +653,20 @@ class RaptorClassifier(nn.Module):
             f = self.backbone(flat)
         return f.view(B, K, -1)
 
-    def head(self, feats, slots=None):
-        if self.slot_emb is not None and slots is not None:
+    def _add_slots(self, feats, slots):
+        if slots is None:
+            return feats
+        if self.pos_proj is not None and slots.is_floating_point():   # pack_slot_pos: slot id + packed position
+            sid = slots.floor()
+            p = (slots - sid) / 0.4995 - 1.0
+            feats = feats + self.pos_proj(torch.stack([p, torch.sin(math.pi * p), torch.cos(math.pi * p)], -1).to(feats.dtype))
+            slots = sid.long()
+        if self.slot_emb is not None:
             feats = feats + self.slot_emb(slots)
+        return feats
+
+    def head(self, feats, slots=None):
+        feats = self._add_slots(feats, slots)
         if self.seq_head:
             feats = feats + self._seq(feats)
         h = self.norm(feats)
@@ -634,8 +677,7 @@ class RaptorClassifier(nn.Module):
 
     def aux_head(self, feats, slots=None):
         """Independent attention-MIL copy on the PRE-GRU features (training aux loss)."""
-        if self.slot_emb is not None and slots is not None:
-            feats = feats + self.slot_emb(slots)
+        feats = self._add_slots(feats, slots)
         h = self.aux_norm(feats)
         a = self.aux_att(h)
         a = torch.softmax(a, dim=1)
@@ -714,6 +756,7 @@ def main():
     ap.add_argument("--mirror_p", type=float, default=0.0, help="study-level anatomical mirror augmentation probability")
     ap.add_argument("--contrast_aug", action="store_true", help="study-level random gamma contrast augmentation in [0.8, 1.25]")
     ap.add_argument("--slots", default=None, help="specialist: comma list of slot ids whose windows are used, e.g. 2,3 = coronal")
+    ap.add_argument("--pos_emb", default=None, help="CSV StudyInstanceUID,Laterality (Left/Right): add each window's anatomical position (lateral->medial, front->back, foot->head) to its features")
     ap.add_argument("--slot_emb", action="store_true", help="add learned slot embedding (init zeros) to window features")
     ap.add_argument("--seq_head", action="store_true", help="bi-GRU sequence head over sorted windows + auxiliary attention loss (refuses roi_mode compartment)")
     ap.add_argument("--aux_w", type=float, default=0.3, help="weight of the auxiliary pre-GRU attention loss")
@@ -801,11 +844,18 @@ def main():
             roi_sbox = rb["sbox"]; roi_cen = rb["cen"]
         print(f"[roi] ENABLED mode={a.roi_mode} pad={a.roi_pad} overlap={a.roi_overlap} "
               f"boxes={os.path.basename(a.roi_boxes)} sbox={roi_sbox.shape}", flush=True)
+    pos_side = None
+    if a.pos_emb:
+        if not a.slot_emb:
+            raise ValueError("--pos_emb needs --slot_emb (the position rides on the slot tensor)")
+        lat = pd.read_csv(a.pos_emb)
+        pos_side = dict(zip(lat.StudyInstanceUID.astype(str), lat.Laterality.map({"Left": 1.0, "Right": -1.0}).fillna(0.0)))
+        print(f"[pos_emb] window position input; knee side for {sum(v != 0 for v in pos_side.values())} studies", flush=True)
     _roi_kw = dict(roi=a.roi, roi_mode=a.roi_mode, roi_pad=a.roi_pad, roi_overlap=a.roi_overlap,
                    roi_sbox=roi_sbox, roi_cen=roi_cen,
                    clean_windows=bool(a.clean_windows), slot_emb=bool(a.slot_emb),
                    slots=tuple(int(v) for v in a.slots.split(',')) if a.slots else None,
-                   seq_head=bool(a.seq_head), zoom_px=zoom_px(a.zoom_mm))
+                   seq_head=bool(a.seq_head), zoom_px=zoom_px(a.zoom_mm), pos_side=pos_side)
     if a.zoom_mm:
         print(f"[zoom] two-scale tiles: 140 mm field + centred {a.zoom_mm:g} mm close-up ({zoom_px(a.zoom_mm)} px); --k/--k_eval count tiles", flush=True)
 
@@ -871,7 +921,7 @@ def main():
         except Exception as e:
             print(f"[raptor] grad_ckpt unsupported for {a.arch}: {e}", flush=True)
     model = RaptorClassifier(bb, F_dim=F_dim, slot_emb=bool(a.slot_emb),
-                             seq_head=bool(a.seq_head)).to(dev)
+                             seq_head=bool(a.seq_head), pos_emb=bool(a.pos_emb)).to(dev)
     model.win_chunk = a.win_chunk
     model.stkim_k, model.stkim_p = a.stkim_k, a.stkim_p
     model.seq_tracks = 2 if a.zoom_mm else 1   # zoom: field and close-up tiles alternate per window position

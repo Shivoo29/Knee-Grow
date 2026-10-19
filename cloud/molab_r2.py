@@ -34,7 +34,7 @@ def _r2_alive():
 if r2_key.value and r2_key.value["key"].strip() and not _r2_alive():
     _k = r2_key.value["key"].strip()
     _env = {**_o.environ, "KAGGLE_USERNAME": "shivoo29", ("KAGGLE_API_TOKEN" if _k.startswith("KGAT_") else "KAGGLE_KEY"): _k,
-            "FOLD": "__FOLD__", "WORK": str(_w), "PY": _y.executable}
+            "FOLD": "__FOLD__", "WORK": str(_w), "PY": _y.executable, "TAG": "__TAG__", "EXTRA": "__EXTRA__"}
     _proc = _s.Popen(["bash", str(_w / "run_r2.sh")], cwd=_w, env=_env, start_new_session=True,
                      stdout=open(_w / "run_r2.log", "ab"), stderr=_s.STDOUT)
     _pid.write_text(str(_proc.pid))
@@ -68,11 +68,12 @@ _parts += [f"== memory: files {_files:.0f} GB + RAM {_ram:.0f} GB = {_tot:.0f} o
 mo.md("**live log** (GPU " + _gpu + ")\\n\\n```\\n" + "\\n".join(_parts or ["nothing yet"]) + "\\n```")'''
 
 
-def cells(fold):
-    return [c.replace("__FOLD__", fold) for c in (TITLE, FORM, LAUNCH, TICK, LOG)]
+def cells(fold, tag="cnxt_r2", extra=""):
+    return [c.replace("__FOLD__", fold).replace("__TAG__", tag).replace("__EXTRA__", extra).replace("cnxt_r2_f", tag + "_f")
+            for c in (TITLE, FORM, LAUNCH, TICK, LOG)]
 
 
-def payload(fold):
+def payload(fold, tag="cnxt_r2", extra=""):
     rs = base64.b64encode(open(os.path.join(HERE, "run_r2.sh"), "rb").read()).decode()
     return f'''import base64, pathlib
 import marimo._code_mode as cm
@@ -84,7 +85,7 @@ async with cm.get_context() as ctx:
     else:
         if "mo" not in ctx.globals:
             ctx.run_cell(ctx.create_cell("import marimo as mo", hide_code=False))
-        for code in {cells(fold)!r}:
+        for code in {cells(fold, tag, extra)!r}:
             ctx.run_cell(ctx.create_cell(code, hide_code=False))
         print("round-2 fold {fold}: cells added")
 '''

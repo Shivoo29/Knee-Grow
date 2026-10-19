@@ -13,7 +13,7 @@ Key architectural features:
   5. Hard guard: aborts loudly if fallbacks > 5% of studies (prevents 0.500 LB submissions)
   6. Multi-GPU dual-T4 producer-consumer queue with exact index alignment and ID verification
 """
-import os, sys, glob, time, queue, threading, traceback, shutil
+import os, sys, glob, time, math, queue, threading, traceback, shutil
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 import numpy as np
@@ -104,13 +104,16 @@ def build_backbone(arch, pretrained=False):
 
 class RaptorClassifier(nn.Module):
     """Raptor encoder + per-diagnosis attention-MIL head (12 findings)."""
-    def __init__(self, backbone, F_dim=384, n=12, drop=0.2, slot_emb=False, seq_head=False):
+    def __init__(self, backbone, F_dim=384, n=12, drop=0.2, slot_emb=False, seq_head=False, pos_emb=False):
         super().__init__()
         self.backbone = backbone
         self.F_dim = F_dim
         self.slot_emb = nn.Embedding(5, F_dim) if slot_emb else None
         if self.slot_emb is not None:
             nn.init.zeros_(self.slot_emb.weight)
+        self.pos_proj = nn.Linear(3, F_dim) if pos_emb else None   # [p, sin(pi p), cos(pi p)] -> F, starts as a no-op
+        if self.pos_proj is not None:
+            nn.init.zeros_(self.pos_proj.weight); nn.init.zeros_(self.pos_proj.bias)
         self.seq_head = bool(seq_head)
         self.gru = nn.GRU(F_dim, F_dim // 2, num_layers=2,
                           batch_first=True, bidirectional=True,
@@ -169,9 +172,20 @@ class RaptorClassifier(nn.Module):
             f = self.backbone(flat)
         return f.view(B, K, -1)
 
-    def head(self, feats, slots=None):
-        if self.slot_emb is not None and slots is not None:
+    def _add_slots(self, feats, slots):
+        if slots is None:
+            return feats
+        if self.pos_proj is not None and slots.is_floating_point():   # pack_slot_pos: slot id + packed position
+            sid = slots.floor()
+            p = (slots - sid) / 0.4995 - 1.0
+            feats = feats + self.pos_proj(torch.stack([p, torch.sin(math.pi * p), torch.cos(math.pi * p)], -1).to(feats.dtype))
+            slots = sid.long()
+        if self.slot_emb is not None:
             feats = feats + self.slot_emb(slots)
+        return feats
+
+    def head(self, feats, slots=None):
+        feats = self._add_slots(feats, slots)
         if self.seq_head:
             feats = feats + self._seq(feats)
         h = self.norm(feats)
@@ -182,8 +196,7 @@ class RaptorClassifier(nn.Module):
 
     def aux_head(self, feats, slots=None):
         """Independent attention-MIL copy on the PRE-GRU features (training aux loss)."""
-        if self.slot_emb is not None and slots is not None:
-            feats = feats + self.slot_emb(slots)
+        feats = self._add_slots(feats, slots)
         h = self.aux_norm(feats)
         a = self.aux_att(h)
         a = torch.softmax(a, dim=1)
@@ -205,6 +218,7 @@ class RaptorClassifier(nn.Module):
 # ============================================================================
 def _read_header_single(item):
     sid, f = item if isinstance(item, tuple) else ("unknown", item)
+    x_lps = float("nan")
     try:
         h = pydicom.dcmread(f, stop_before_pixels=True, specific_tags=DICOM_HEADER_TAGS, force=True)
         iop = getattr(h, 'ImageOrientationPatient', None)
@@ -214,14 +228,15 @@ def _read_header_single(item):
             c = np.array(iop[3:], float)
             n = np.cross(r, c)
             pos = float(np.dot(np.array(ipp, float), n))
+            x_lps = float(ipp[0])
         else:
             pos = float(getattr(h, 'InstanceNumber', 0) or 0)
         ps = getattr(h, 'PixelSpacing', None)
         ps = float(ps[0]) if ps is not None else 0.5
-        return pos, f, ps
+        return pos, f, ps, x_lps
     except Exception as e:
         record_exception("_read_header_single", sid, e)
-        return 0.0, f, 0.5
+        return 0.0, f, 0.5, float("nan")
 
 
 def read_px(item):
@@ -290,6 +305,7 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
     rows = ser_records.get(sid, [])
     used = set()
     slot_plans = []
+    sag_x = []   # IPP x of sagittal slices: LPS x > 0 = patient's left -> left knee (same rule as the training table)
 
     # Stage 1: Fast header reading & slice sorting across series
     t_h0 = time.time()
@@ -319,7 +335,9 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
             recs = [_read_header_single(item) for item in header_items]
         recs.sort(key=lambda x: x[0])
         med_ps = float(np.median([r[2] for r in recs])) if recs else 0.5
-        ordered = [(f, ps) for _, f, ps in recs]
+        ordered = [(r[1], r[2]) for r in recs]
+        if plane == "Sagittal":
+            sag_x += [r[3] for r in recs]
         slot_plans.append((ordered, k, med_ps, r['SeriesInstanceUID']))
 
     t_header = time.time() - t_h0
@@ -395,7 +413,8 @@ def build_study_optimized(sid, ser_records, test_dir, io_pool):
         "prep": t_prep,
         "total_io": time.time() - t0,
         "decoded_slices": total_valid_slices,
-        "total_requested": len(all_files_to_read)
+        "total_requested": len(all_files_to_read),
+        "side": (1.0 if np.nanmean(sag_x) > 0 else -1.0) if np.isfinite(sag_x).any() else 0.0,
     }
     return vol, mask, timings
 
@@ -436,6 +455,30 @@ FIELD_MM = 140.0   # every corpus slice is a 140 mm square field at 384 px (buil
 def zoom_px(zoom_mm, img=384):
     """Side in corpus pixels of a centred close-up of zoom_mm millimetres (0 = off)."""
     return int(round(img * float(zoom_mm) / FIELD_MM)) if zoom_mm else 0
+
+
+def window_pos(c: int, mask: np.ndarray, side_sign: float, mirrored: bool) -> float:
+    """Anatomical position of window centre c in [-1, 1] along its slot's slice axis (--pos_emb).
+
+    The corpus stores every series in true 3D order (sorted by IPP . slice normal; a 600-series DICOM sample had
+    one direction per plane): sagittal patient-left -> patient-right, coronal front -> back, axial foot -> head.
+    Sagittal becomes lateral (-1) -> medial (+1) via the knee side (+1 left, -1 right, 0 unknown -> 0).
+    A training mirror (mirror_volume) reverses sagittal order, so it flips that sign; coronal/axial flips are
+    in-plane and leave the through-plane position alone.
+    """
+    s = slot_of(c)
+    start, _ = SLOT_BOUNDS[s]
+    n = int(np.sum(mask[start:SLOT_BOUNDS[s][1]] > 0))
+    t = min(max(2.0 * (c - start) / max(n - 1, 1) - 1.0, -1.0), 1.0)
+    if s in (0, 1):
+        t *= side_sign * (-1.0 if mirrored else 1.0)
+    return float(t)
+
+
+def pack_slot_pos(slot_ids, pos):
+    """--pos_emb rides on the existing slot tensor: integer part = slot id, fraction = (pos + 1) / 2 * 0.999.
+    ponytail: one float tensor instead of a new batch element threaded through every train/eval loop."""
+    return torch.tensor([s + (p + 1.0) * 0.4995 for s, p in zip(slot_ids, pos)], dtype=torch.float32)
 
 
 def pick_centers(valid, count, train=False, clean_windows=False, mask=None, max_d=None, cap=False, slots=None):
@@ -760,7 +803,7 @@ def mirror_tri(tri_t, cs):
     return torch.where(is_sag, tri_t.flip(1), tri_t.flip(-1))
 
 
-def _study_inputs(model, vol, mask, res, dev):
+def _study_inputs(model, vol, mask, res, dev, side=0.0):
     """Windows of one study for `model`'s layout, on `dev`: (x, slots_t, win_centers)."""
     roi_cfg = None
     if getattr(model, "roi", False):
@@ -778,7 +821,10 @@ def _study_inputs(model, vol, mask, res, dev):
         assert all(b >= a for a, b in zip(win_centers, win_centers[1:])), \
             "seq_head requires ascending window centers"
     x = x.to(dev, non_blocking=True)
-    slots_t = torch.tensor(slot_ids, dtype=torch.long, device=dev)[None] if getattr(model, 'has_slot_emb', False) else None
+    if getattr(model, "pos_proj", None) is not None:
+        slots_t = pack_slot_pos(slot_ids, [window_pos(c, mask, side, False) for c in win_centers]).to(dev)[None]
+    else:
+        slots_t = torch.tensor(slot_ids, dtype=torch.long, device=dev)[None] if getattr(model, 'has_slot_emb', False) else None
     return x, slots_t, win_centers
 
 
@@ -788,7 +834,11 @@ def _probs(model, x, slots_t, win_centers, dev, use_tta):
         p_plain = torch.sigmoid(model(x[None], slots=slots_t).float())[0]
         if use_tta:
             x_m = mirror_tri(x, win_centers)
-            p_mirr = torch.sigmoid(model(x_m[None], slots=slots_t).float())[0]
+            slots_m = slots_t
+            if slots_t is not None and slots_t.is_floating_point():   # mirrored knee: sagittal position flips
+                sid_ = slots_t.floor(); p_ = (slots_t - sid_) / 0.4995 - 1.0
+                slots_m = sid_ + (torch.where(sid_ < 2, -p_, p_) + 1.0) * 0.4995
+            p_mirr = torch.sigmoid(model(x_m[None], slots=slots_m).float())[0]
             p_final = 0.5 * (p_plain + p_mirr)
         else:
             p_final = p_plain
@@ -796,18 +846,18 @@ def _probs(model, x, slots_t, win_centers, dev, use_tta):
 
 
 @torch.no_grad()
-def predict_study(model, vol, mask, res, dev, use_tta=False):
+def predict_study(model, vol, mask, res, dev, use_tta=False, side=0.0):
     t_m0 = time.time()
-    x, slots_t, win_centers = _study_inputs(model, vol, mask, res, dev)
+    x, slots_t, win_centers = _study_inputs(model, vol, mask, res, dev, side)
     p_np = _probs(model, x, slots_t, win_centers, dev, use_tta)
     return p_np, time.time() - t_m0
 
 
 @torch.no_grad()
-def predict_study_multi(models, vol, mask, res, dev, use_tta=False):
+def predict_study_multi(models, vol, mask, res, dev, use_tta=False, side=0.0):
     """Mean probability of same-layout models (check_same_layout); the windows are built once."""
     t_m0 = time.time()
-    x, slots_t, win_centers = _study_inputs(models[0], vol, mask, res, dev)
+    x, slots_t, win_centers = _study_inputs(models[0], vol, mask, res, dev, side)
     p_np = np.mean([_probs(m, x, slots_t, win_centers, dev, use_tta) for m in models], axis=0)
     return p_np, time.time() - t_m0
 
@@ -962,7 +1012,7 @@ def audit_corpus_parity(corpus_dir, comp_src, model, res, device, n_check=20):
 
         # Model output difference on both tensors
         p_corp, _ = predict_study(model, v_corpus, m_corpus, res, device, use_tta=False)
-        p_dcm, _ = predict_study(model, v_dicom, m_dicom, res, device, use_tta=False)
+        p_dcm, _ = predict_study(model, v_dicom, m_dicom, res, device, use_tta=False, side=timings.get("side", 0.0))
         max_p_diff = float(np.abs(p_corp - p_dcm).max())
         cos_sim = float(np.dot(p_corp, p_dcm) / (np.linalg.norm(p_corp) * np.linalg.norm(p_dcm) + 1e-8))
 
@@ -1108,7 +1158,8 @@ def run_pipeline(test_dir, test_series_csv, sample_sub_csv, devices, models, res
                 record_exception(f"gpu_worker_{worker_idx}_zero_slices", sid, RuntimeError("Zero valid slices decoded for study!"))
 
             try:
-                preds, t_model = predict_study_multi(model, vol, mask, res, dev, use_tta=USE_TTA)
+                preds, t_model = predict_study_multi(model, vol, mask, res, dev, use_tta=USE_TTA,
+                                                     side=timings.get("side", 0.0))
                 timings["model"] = t_model
                 timings["worker"] = worker_idx
             except Exception as e:
@@ -1252,8 +1303,8 @@ def main():
         group = []
         for c in cks:
             bb = build_backbone(arch, pretrained=False)
-            m = RaptorClassifier(bb, F_dim=f_dim, slot_emb=has_slot,
-                                 seq_head=bool(ck.get("seq_head", False))).to(dev)
+            m = RaptorClassifier(bb, F_dim=f_dim, slot_emb=has_slot, seq_head=bool(ck.get("seq_head", False)),
+                                 pos_emb="pos_proj.weight" in c["model"]).to(dev)
             m.load_state_dict(c["model"])
             m.win_chunk = WIN_CHUNK  # chunked eval as before (class default 0 = whole study)
             m.input_norm = norm
