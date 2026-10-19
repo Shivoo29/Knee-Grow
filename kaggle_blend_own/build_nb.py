@@ -37,6 +37,7 @@ STAGE = r'''
 import glob, os, subprocess, sys, time
 import numpy as np, pandas as pd
 W_OWN = __W__
+W_FIND = __W_FIND__   # per-finding override of W_OWN
 GROUPS = __GROUPS__
 STOP_AFTER_H = __STOP__   # no group starts after this; skipped groups leave the rest unchanged
 KILL_AT_H = __KILL__      # a group still running at this notebook hour is killed (base kept), so 9 h is never hit
@@ -82,7 +83,8 @@ else:
     for j, c in enumerate(labels):
         own = np.mean([pct(o[c].values) for o in outs.values()], axis=0)
         if HAS_BASE:
-            final[:, j] = (1 - W_OWN) * pct(base[c].values) + W_OWN * own
+            w = W_FIND.get(c, W_OWN)
+            final[:, j] = (1 - w) * pct(base[c].values) + w * own
             if n >= 3:
                 rho[c] = round(float(pd.Series(base[c].values).corr(pd.Series(own), method='spearman')), 4)
         else:
@@ -93,7 +95,7 @@ else:
     assert sub['StudyInstanceUID'].tolist() == test_ids and np.isfinite(sub[labels].values).all()
     assert ((sub[labels].values >= 0) & (sub[labels].values <= 1)).all()
     sub.to_csv(WORK / 'submission.csv', index=False)
-    print('OWN_BLEND_COMPLETE', json.dumps({'w_own': W_OWN if HAS_BASE else 1.0, 'groups': sorted(outs),
+    print('OWN_BLEND_COMPLETE', json.dumps({'w_own': W_OWN if HAS_BASE else 1.0, 'w_find': W_FIND, 'groups': sorted(outs),
                                              'total_seconds': round(time.time() - NB_T0, 1),
                                              'spearman_base_vs_own': rho}), flush=True)
 '''
@@ -107,6 +109,7 @@ def main():
     ap.add_argument('--group', action='append', required=True, help='TAG=file1.pt,file2.pt (names inside attached datasets)')
     ap.add_argument('--datasets', default='')
     ap.add_argument('--w', type=float, default=0.3)
+    ap.add_argument('--w_find', action='append', default=[], help="finding=weight, e.g. Synovitis=0.1")
     ap.add_argument('--stop_h', type=float, default=7.0)
     ap.add_argument('--kill_h', type=float, default=8.4)
     a = ap.parse_args()
@@ -116,7 +119,8 @@ def main():
         groups[tag] = [x for x in names.split(',') if x]
     code = lambda s: {'cell_type': 'code', 'metadata': {}, 'execution_count': None, 'outputs': [], 'source': s}
     fleet = (ROOT / 'kaggle_base954_fleet' / 'fleet_v6.py').read_text()
-    stage = (STAGE.replace('__W__', repr(a.w)).replace('__GROUPS__', repr(groups))
+    w_find = {k: float(v) for k, v in (x.split('=') for x in a.w_find)}
+    stage = (STAGE.replace('__W__', repr(a.w)).replace('__W_FIND__', repr(w_find)).replace('__GROUPS__', repr(groups))
              .replace('__STOP__', repr(a.stop_h)).replace('__KILL__', repr(a.kill_h))
              .replace('__HAS_BASE__', repr(a.base != 'none')))
     nb = json.load(open(ROOT / 'kaggle_blendmine' / 'blendmine.ipynb'))
