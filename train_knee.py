@@ -567,6 +567,9 @@ def build_backbone(arch="vit_small_patch16_224", pretrained=False):
     return timm.create_model(arch, **kw)
 
 
+RADIMAGENET_RESNET = {"0": "conv1", "1": "bn1", "4": "layer1", "5": "layer2", "6": "layer3", "7": "layer4"}
+
+
 def load_raptor(bb, ckpt_path):
     if ckpt_path in ("timm", "pretrained"):
         return "timm-pretrained"
@@ -576,6 +579,9 @@ def load_raptor(bb, ckpt_path):
     ck = torch.load(ckpt_path, map_location="cpu", weights_only=False)
     st = ck["student"] if "student" in ck else (ck["model"] if "model" in ck else ck)   # SSL student, or a released RaptorClassifier
     bbst = {k[len("backbone."):]: v for k, v in st.items() if k.startswith("backbone.")}
+    if bbst and next(iter(bbst))[0].isdigit():  # RadImageNet ResNet50: torchvision children as nn.Sequential
+        bbst = {RADIMAGENET_RESNET[k.split(".", 1)[0]] + "." + k.split(".", 1)[1]: v for k, v in bbst.items()}
+        missing, unexpected = bb.load_state_dict(bbst, strict=True)  # --arch resnet50; any mismatch is an error
     missing, unexpected = bb.load_state_dict(bbst, strict=False)
     ep = ck.get("epoch", "?")
     print(f"[raptor] loaded backbone from {os.path.basename(ckpt_path)} (ssl epoch {ep}) | "
