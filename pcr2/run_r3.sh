@@ -7,7 +7,7 @@ export PYTHONUNBUFFERED=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 PY=${PY:-python}; FOLDS=${FOLDS:-0 1 2 3 4}; SEED_BASE=${SEED_BASE:-210}
 case ${PRESET:?set PRESET=cnxt or coat} in
   cnxt) A="--arch convnext_tiny.in12k_ft_in1k --res 256" ;;
-  coat) A="--arch coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k --res 384 --k 12 --k_eval 128 --bb_lr 4e-5 --head_lr 2e-3" ;;
+  coat) A="--arch coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k --res 384 --k 12 --k_eval 128 --bb_lr 4e-5 --head_lr 2e-3 --win_chunk 32" ;;  # win_chunk: L4 OOMed scoring 128 tiles at once
 esac
 for f in $FOLDS; do
   tag=${PRESET}_r3_s${SEED_BASE}_f$f
