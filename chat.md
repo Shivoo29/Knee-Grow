@@ -15,7 +15,8 @@ Read this first if you are a new model/session continuing this work. **Solo (tea
 - Train: 4,407 studies. `train.csv` = `StudyInstanceUID, Report` + 12 labels; **only 58 rows have labels (gold)**; the rest have only the free-text report. `train_series.csv` = `Fluid_Sensitive, Fat_Suppression, Anatomical_Plane` per series.
 - **Test has images only (no report).** Reports are useful only as a training-label source.
 - No site column (can only get it from DICOM headers).
-- Rules: external data and models allowed if free and public. **Do not paste report text or images into any chat/hosted API** (Rule 4.b data security). Prize winners must open-source (CC-BY-NC 4.0, plus an OSI licence that does not limit commercial use).
+- Rules: external data and models allowed if free and public. 
+ Prize winners must open-source (CC-BY-NC 4.0, plus an OSI licence that does not limit commercial use).
 
 ## 3. Leaderboard (Oct 8, 5,426 teams)
 | Rank | 1 | 10 | 20 (gold) | 50 | 100 | 265 (silver) | 530 (bronze) |
@@ -1752,4 +1753,14 @@ Runs:
   - `test_final_oa_g` (current labels with Lateral OA & PF OA from gemma4_final): **0.886** (Lateral OA 0.607 -> 0.780, PF OA 0.785 -> 0.806, ZERO findings dropped).
 - Gate check: `test_final_oa_g` reaches 0.886 (>= 0.885 gate) with 0 finding drops > 0.03.
 - Verdict: PASS on the selective OA replacement recipe (`test_final_oa_g.csv`). Caveat: 25 studies with 4 Lateral OA positives is subject to small-sample noise (+/-0.01).
+
+## 81. Oct 20 ~19:30 IST (Claude) — final shot: full Gemma 4 relabel + 5-fold CoAtNet + 5-fold ConvNeXt
+- User decision: use the final rulebook (0.886 gate pass; gold set is small so gains look small).
+- Plan: labels = current (`labels/labels_clef_sev.csv`) with Lateral OA + PF OA from Gemma 4 + `rulebook_final.md`
+  -> round-3 labels via `tools/make_r2_labels.py` (alpha 0.4) -> 5-fold CoAtNet + 5-fold ConvNeXt -> Final 2.
+- node1: tmux `rbfull`, `RULEBOOK=rulebook_final.md python3 label_llm.py gemma4:31b all_ids.txt all_gemma4_final.csv`
+  (4,406 ids, forward order). Started 18:43 IST; 353 done at 19:20 (~6.5 s/report).
+- molab (RTX Pro 6000, notebook `final-rulebook`): files in /home/marimo/projects/knee; `~/go.sh` installs Ollama,
+  pulls gemma4:31b, runs 12 shards over REVERSED ids -> rulebook/out_0..11.csv. Merge with node1 by StudyInstanceUID.
+- User confirmed competition rules (section 4) allow using molab for this.
 
