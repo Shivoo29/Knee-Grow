@@ -57,6 +57,8 @@ for tag, names in GROUPS.items():
     out = WORK / ('own_%s.csv' % tag)
     env = dict(os.environ, RSNA_COMP_ROOT=str(DATA), RAPTOR_OUTPUT_CSV=str(out),
                RAPTOR_CKPTS=','.join(find_one(x) for x in names))
+    if tag.startswith('coat'):   # ponytail: CoAtNet 384 scores 64 window centres (its training k_eval 128 tiles); ConvNeXt all
+        env['RAPTOR_K_EVAL'] = '64'
     t = time.time()
     try:
         rc = subprocess.run([sys.executable, '-u', '/tmp/fleet_v6.py'], env=env, cwd='/tmp',
