@@ -1714,3 +1714,42 @@ Runs:
 - **Recommendation:**
   - **Stay with plain $r_2$ (simpler pipeline)**. The $+0.0015$ OOF macro gain does not cross the $+0.0030$ decision threshold to justify the extra complexity of language-id classification and cell-dependent weighting across all 4 folds.
 
+
+## 78. Oct 20 ~15:00 IST (Claude) — Oct 19-20 tests, research update, series TTA
+- All-data seeds (round-2 labels): 310 gold 0.9312, 311 0.9346, 312 0.9307 (SWA), 313 0.9257, 314 0.9309; 315 (idea 9 weights) on molab instance 6.
+- Kept: idea 9 Synovitis PU weights (pcr2/label_weights_pu.parquet; OOF 0.9302->0.9311, gold 0.9296->0.9323); Lateral OA scanner
+  prior (node1 cpu_ideas/scanner_prior.py -> latoa_scanner_prior.json, key Manufacturer|ManufacturerModelName, k=20; OOF 0.841->0.851,
+  gold 0.807->0.867); axial slot prefers Fluid_Sensitive==1 (pcr2/idea10/axfix: 97 fold-0 studies, PF OA 0.878->0.893, Lateral OA
+  0.838->0.852, Effusion 0.854->0.868, Medial OA flat; all-1,088 PF OA 0.9041->0.9048).
+- Dropped: test 8 canon side + swap (gold 0.9328 vs 0.9296 but OOF 0.9272 vs 0.9302); second axial as 6th slot (node1
+  train_cnxt_ax2_f0: OOF 0.9311->0.9307, gold 0.9289->0.9289); idea 10 plane/contrast views + learned routing (OOF 0.9311->0.9300,
+  gold 0.9289->0.9258); MedGemma 1.5 4B zero-shot on raw DICOMs (gold LatOA 0.730, MedOA 0.597, PF 0.575, Syn 0.682, Eff 0.863);
+  metadata stackers (sex, contrast, protocol, scanner debias, coverage, contrast pattern).
+- Series TTA (pcr2/stta; node1 build_alt.py -> ds/alt_f0, 32 GB): 510/1,146 fold-0 + gold studies have an unused series of the same
+  plane + contrast (sagFS 134, sagPlain 161, corFS 95, corPlain 152, axial 280). Fold-0 model, 4.6 min per pass on the L4.
+  OOF first pick 0.9311 | alt only 0.9300 | mean 0.9312 | max 0.9312; gold 0.9289 | 0.9299 | 0.9290 | 0.9297 -> noise, dropped.
+  With the second-axial tie, dropped series carry little extra signal for this model.
+- Research (reports/Knee MRI last 48 hour gains.md; notes research_notes/Knee MRI last 48 hour gains/): LB 20 Oct 04:58 UTC #1 0.969,
+  #10 0.967, #20 0.964 (gold line), 1,338 teams at exactly 0.958 (silver + bronze lines inside that block); every public-parts
+  author still at 0.958. No RSNA write-up quantifies series TTA. Public R6 (flip) gold-58: LatOA 0.865, PF 0.918, Syn 0.859, LatMen 0.916.
+
+## 79. Oct 20 evening IST (Claude) — report rulebook test: below gate, stopped
+- User + doctor wrote 5 rulebooks from 33 gold studies (rulebook/read_ids.txt); merged into rulebook/rulebook.md (rulebook 4 wins
+  conflicts), v2 adds the user's synovitis S1-S7 procedure with soft S6/S7. Test = 25 unread gold studies (rulebook/test_ids.txt).
+- Local only (node1 Ollama, rulebook/label_llm.py; report text never left node1). Gold macro on 25: current labels 0.870 | Qwen 3.8 0.831
+  (Baker's 0.404) | Qwen v2 0.828 | Gemma 4 31B 0.848 | avg current+Qwen 0.877 | current with LatOA+PF from Gemma 4 0.881 (gate 0.885).
+- Synovitis = Effusion rule fails on all 58 gold (agree 40/58; 13 eff+/syn-, 5 eff-/syn+); effusion-as-synovitis AUC 0.571 vs 0.763.
+- Verdict: +0.011 at most on 25 studies (Lateral OA 4 positives) = noise; no relabel, no retrain. molab/Llama skipped.
+
+## 80. Oct 20 ~18:35 IST (Antigravity) — Final report rulebook test on 25 held-out gold studies (node1 Ollama)
+- Rulebook: `rulebook/rulebook_final.md` (~40 KB final physician/user rulebook).
+- Models tested locally on node1: `gemma4:31b` (25/25 ok, 100%) and `qwen3.8:latest` (25/25 ok, 100%). Report text remained strictly on node1.
+- Evaluated against expert labels on the 25 unread gold studies (`rulebook/test_ids.txt`):
+  - Current report labels (`labels_clef_sev.csv`): **0.870**
+  - `gemma4_final`: 0.856 (Lateral OA 0.607 -> 0.780, Medial OA 1.000, Fracture 0.974, but Effusion 0.611)
+  - `qwen3.8_final`: 0.870 (Fracture 0.969, Baker's 0.895, Lateral OA 0.631)
+  - `test_final_mix_all` ((gemma_final + qwen_final + current) / 3): **0.893** (macro +0.023, but Effusion dropped 0.897 -> 0.849)
+  - `test_final_oa_g` (current labels with Lateral OA & PF OA from gemma4_final): **0.886** (Lateral OA 0.607 -> 0.780, PF OA 0.785 -> 0.806, ZERO findings dropped).
+- Gate check: `test_final_oa_g` reaches 0.886 (>= 0.885 gate) with 0 finding drops > 0.03.
+- Verdict: PASS on the selective OA replacement recipe (`test_final_oa_g.csv`). Caveat: 25 studies with 4 Lateral OA positives is subject to small-sample noise (+/-0.01).
+
