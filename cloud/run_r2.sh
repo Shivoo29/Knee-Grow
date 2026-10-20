@@ -59,13 +59,14 @@ fi
 
 log "step 3: train fold $FOLD on $LABELS (tag $TAG)"
 cd run
+RESUME=""; [ -f "raptor_resume_${TAG}.pt" ] && { RESUME="--resume raptor_resume_${TAG}.pt"; log "resuming from raptor_resume_${TAG}.pt"; }
 PYTHONUNBUFFERED=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True RAPTOR_INPUT="$WORK/run" \
 "$PY" train_knee.py --ckpt timm --arch "$ARCH" --res "$RES" --norm imagenet --zoom_mm 100 \
   --bs 2 --accum 8 --k 48 --k_eval 380 --grad_ckpt --epochs 15 --patience 5 --bb_lr 1e-4 --head_lr 1e-3 --workers ${WORKERS:-5} \
   --clean_windows --mirror_p 0.5 --contrast_aug --slot_emb --slot_sizes 40,40,36,36,40 \
   --labels "$LABELS" --label_weights "$LW" \
   --stkim_k 3 --stkim_p 0.7 --oof_every 300 \
-  --folds "$NFOLDS" --fold "$FOLD" --fold_file "$FOLD_FILE" --seed $((SEED_BASE + FOLD)) --tag "$TAG" $EXTRA \
+  --folds "$NFOLDS" --fold "$FOLD" --fold_file "$FOLD_FILE" --seed $((SEED_BASE + FOLD)) --tag "$TAG" $EXTRA $RESUME \
   > "train_${TAG}.log" 2>&1
 grep -E "^ep[0-9]+ loss|TOPK" "train_${TAG}.log" | tail -n 3
 
