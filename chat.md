@@ -1764,3 +1764,14 @@ Runs:
   pulls gemma4:31b, runs 12 shards over REVERSED ids -> rulebook/out_0..11.csv. Merge with node1 by StudyInstanceUID.
 - User confirmed competition rules (section 4) allow using molab for this.
 
+## 82. Oct 20 ~22:30 IST (Claude) — round-3 labels final; final training system written
+- Relabel complete: 4,407/4,407 reports, 0 failures (node1 1-1,750 + missing 205; molab final-rulebook rest).
+- pcr2/labels_r3.parquet built (make_r3_labels.py -> make_r2_labels.py --alpha 0.4). Gold-58 label AUC 0.9343 -> 0.9405;
+  Lateral OA 0.832 -> 0.878, PF OA 0.918 -> 0.946 (33 of 58 gold read while writing the rulebook: partly optimistic).
+- Plan + teammate molab guide: docs/FINAL_TRAINING_SYSTEM.md (artifact https://claude.ai/artifact/WA4gmURCHWdhcb9BQFvDiY).
+  Submissions: 5-fold CoAtNet, 5-fold ConvNeXt-T, their ensemble; no public ensemble.
+  Machines: new molab C = ConvNeXt seed 110, new molab D = CoAtNet seed 110 (cloud/molab_train.sh, 2 folds at once);
+  PC = ConvNeXt seed 210 folds 0->4, node1 = CoAtNet seed 210 folds 4->0 (pcr2/run_r3.sh); teammates seeds 310/410.
+- cloud/run_r2.sh: LABEL_DS / SEED_BASE / EXTRA settings. Kaggle dataset shivoo29/knee-r3-labels staged, NOT uploaded yet
+  (needs user OK). CoAtNet tiles 24/128 untested for speed: decide after epoch 0.
+

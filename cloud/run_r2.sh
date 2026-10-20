@@ -7,9 +7,11 @@
 # Needs KAGGLE_USERNAME + KAGGLE_KEY (or KAGGLE_API_TOKEN) in the environment. Rerun-safe.
 #   FOLD=1 WORK=/tmp/knee PY=python bash run_r2.sh
 set -euo pipefail
-: "${FOLD:?set FOLD=0..3}"
+: "${FOLD:?set FOLD=0..NFOLDS-1}"
 WORK=${WORK:-/tmp/knee}; PY=${PY:-python}
 LABELS=${LABELS:-labels_r2.parquet}
+ARCH=${ARCH:-convnext_tiny.in12k_ft_in1k}; RES=${RES:-256}; NFOLDS=${NFOLDS:-4}; FOLD_FILE=${FOLD_FILE:-folds_rand4.json}; LW=${LW:-label_weights_sev_v1.parquet}
+LABEL_DS=${LABEL_DS:-shivoo29/knee-cloud-bundle}; SEED_BASE=${SEED_BASE:-110}; EXTRA=${EXTRA:-}  # EXTRA: train_knee.py flags, last one wins
 TAG=${TAG:-cnxt_r2_f$FOLD}
 DATASET_NAME=${DATASET_NAME:-knee-cnxt-r2-f$FOLD}
 mkdir -p "$WORK"; cd "$WORK"
@@ -36,9 +38,8 @@ if [ -f before_r2.sh ]; then log "before_r2.sh (waits for the job already on thi
 
 log "step 1: bundle (code + labels)"
 mkdir -p run dl
-for f in train_knee.py roi_localize.py "$LABELS" label_weights_sev_v1.parquet folds_rand4.json train.csv; do
-  [ -f "run/$f" ] || kget shivoo29/knee-cloud-bundle "$f" run
-done
+for f in train_knee.py roi_localize.py train.csv; do [ -f "run/$f" ] || kget shivoo29/knee-cloud-bundle "$f" run; done
+for f in "$LABELS" "$LW" "$FOLD_FILE"; do [ -f "run/$f" ] || kget "$LABEL_DS" "$f" run; done
 
 log "step 2: corpus192"
 if [ ! -f run/.c192_done ]; then
@@ -59,12 +60,12 @@ fi
 log "step 3: train fold $FOLD on $LABELS (tag $TAG)"
 cd run
 PYTHONUNBUFFERED=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True RAPTOR_INPUT="$WORK/run" \
-"$PY" train_knee.py --ckpt timm --arch convnext_tiny.in12k_ft_in1k --res 256 --norm imagenet --zoom_mm 100 \
+"$PY" train_knee.py --ckpt timm --arch "$ARCH" --res "$RES" --norm imagenet --zoom_mm 100 \
   --bs 2 --accum 8 --k 48 --k_eval 380 --grad_ckpt --epochs 15 --patience 5 --bb_lr 1e-4 --head_lr 1e-3 --workers ${WORKERS:-5} \
   --clean_windows --mirror_p 0.5 --contrast_aug --slot_emb --slot_sizes 40,40,36,36,40 \
-  --labels "$LABELS" --label_weights label_weights_sev_v1.parquet \
+  --labels "$LABELS" --label_weights "$LW" \
   --stkim_k 3 --stkim_p 0.7 --oof_every 300 \
-  --folds 4 --fold "$FOLD" --fold_file folds_rand4.json --seed $((110 + FOLD)) --tag "$TAG" \
+  --folds "$NFOLDS" --fold "$FOLD" --fold_file "$FOLD_FILE" --seed $((SEED_BASE + FOLD)) --tag "$TAG" $EXTRA \
   > "train_${TAG}.log" 2>&1
 grep -E "^ep[0-9]+ loss|TOPK" "train_${TAG}.log" | tail -n 3
 
