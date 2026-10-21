@@ -11,6 +11,7 @@ case ${PRESET:?set PRESET=cnxt or coat} in
 esac
 for f in $FOLDS; do
   tag=${PRESET}_r3_s${SEED_BASE}_f$f
+  grep -qx "$tag" SKIP 2>/dev/null && { echo "skip $tag (in SKIP)"; continue; }   # dropped for time
   grep -q "^DONE" "train_$tag.log" 2>/dev/null && ! grep -q "Interrupted during epoch" "train_$tag.log" && { echo "skip $tag (done)"; continue; }   # swa .pt is rewritten every epoch; DONE marks a finished fold
   R=""; [ -f "raptor_resume_$tag.pt" ] && R="--resume raptor_resume_$tag.pt"
   echo "$(date +%T) fold $f -> train_$tag.log ${R:+(resuming)}"
