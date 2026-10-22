@@ -1,0 +1,18 @@
+{
+  "description": "Lateral OA prevalence per scanner (Manufacturer+Model) from training data",
+  "note": "Use to adjust Lateral OA prediction: adj = 0.7 * model + 0.3 * prior",
+  "priors": {
+    "SIEMENS|MAGNETOM Vida": 0.234,
+    "SIEMENS|MAGNETOM Aera": 0.241,
+    "SIEMENS|MAGNETOM Skyra": 0.228,
+    "SIEMENS|MAGNETOM Prisma": 0.239,
+    "GE MEDICAL SYSTEMS|DISCOVERY MR750": 0.245,
+    "GE MEDICAL SYSTEMS|SIGNA Premier": 0.231,
+    "GE MEDICAL SYSTEMS|SIGNA Architect": 0.248,
+    "Philips Medical Systems|Ingenia": 0.237,
+    "Philips Medical Systems|Achieva": 0.242,
+    "Canon Medical Systems|Vantage Galan 3T": 0.229,
+    "Canon Medical Systems|Vantage Elan": 0.244,
+    "default": 0.235
+  }
+}
