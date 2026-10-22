@@ -1,0 +1,6 @@
+{
+  "title": "RSNA Knee ConvNeXt Final All-Data Seeds",
+  "id": "shivoo29/knee-cnxt-final-all",
+  "licenses": [{"name": "CC0-1.0"}],
+  "keywords": ["pre-trained model", "rsna", "knee", "convnext"]
+}
