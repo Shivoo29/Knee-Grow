@@ -1,0 +1,18 @@
+09:46:57 fold 1 -> train_cnxt_r3_s210_f1.log (resuming)
+12:17:22 ALL_DONE
+12:17:22 fold 0 -> train_coat_r3_s210_f0.log (resuming)
+08:27:32 fold 1 -> train_coat_r3_s210_f1.log 
+/home/codemaster29/Documents/still_learning/rsna-knee-abnormality-detection/pcr2/run_r3.sh: line 12: 3720188 Killed                     $PY train_knee.py --ckpt timm --arch convnext_tiny.in12k_ft_in1k --res 256 --norm imagenet --zoom_mm 100 --bs 2 --accum 8 --k 48 --k_eval 380 --grad_ckpt --epochs 15 --patience 5 --bb_lr 1e-4 --head_lr 1e-3 --workers ${WORKERS:-6} --clean_windows --mirror_p 0.5 --contrast_aug --slot_emb --slot_sizes 40,40,36,36,40 --labels labels_r3.parquet --label_weights label_weights_pu.parquet --stkim_k 3 --stkim_p 0.7 --oof_every 300 --folds 5 --fold "$f" --fold_file folds_rand5.json --seed $((SEED_BASE + f)) --tag "$tag" $A $R > "train_$tag.log" 2>&1
+10:43:40 ALL_DONE
+skip cnxt_r3_s410_f0 (in SKIP)
+skip cnxt_r3_s410_f1 (in SKIP)
+skip cnxt_r3_s410_f2 (in SKIP)
+skip cnxt_r3_s410_f3 (in SKIP)
+skip cnxt_r3_s410_f4 (in SKIP)
+10:43:40 ALL_DONE
+skip coat_r3_s410_f0 (in SKIP)
+skip coat_r3_s410_f1 (in SKIP)
+skip coat_r3_s410_f2 (in SKIP)
+skip coat_r3_s410_f3 (in SKIP)
+skip coat_r3_s410_f4 (in SKIP)
+10:43:40 ALL_DONE

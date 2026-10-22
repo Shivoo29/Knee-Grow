@@ -1,0 +1,76 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 256 | k 48/380 | bs 2 | tag cnxt_r2_all_s312 | roi=False(compartment)
+train 4349 | gold-val 58
+[zoom] two-scale tiles: 140 mm field + centred 100 mm close-up (274 px); --k/--k_eval count tiles
+[slots] layout=[40, 40, 36, 36, 40] depth=192 bounds=[(0, 40), (40, 80), (80, 116), (116, 152), (152, 192)]
+[label_weights] label_weights_sev_v1.parquet rows=4349 zero_frac=0.013
+[raptor] timm-pretrained backbone: convnext_tiny.in12k_ft_in1k
+[raptor] gradient checkpointing ON
+[stkim] training-only top-3 window masking, p=0.7
+  [timing] 2174 steps in 571.6s (0.263 s/step) | peak 2.45 GB (reserved 2.85 GB)
+  [ckpt] best-so-far saved at ep0 (0.7916)
+ep0 loss 1.017 | GOLD macro-AUC 0.7916 (best 0.7916) | topk by gold: [0] | 603s
+  [timing] 2174 steps in 894.0s (0.411 s/step) | peak 8.86 GB (reserved 9.25 GB)
+  [ckpt] best-so-far saved at ep1 (0.8922)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 0.967 | GOLD macro-AUC 0.8922 (best 0.8922) | topk by gold: [1, 0] | 1559s
+  [timing] 2174 steps in 1055.1s (0.485 s/step) | peak 8.86 GB (reserved 9.25 GB)
+  [ckpt] best-so-far saved at ep2 (0.9179)
+  [swa] running SWA updated over epochs [2, 1, 0]
+ep2 loss 0.933 | GOLD macro-AUC 0.9179 (best 0.9179) | topk by gold: [2, 1, 0] | 2654s
+  [timing] 2174 steps in 824.8s (0.379 s/step) | peak 8.86 GB (reserved 9.57 GB)
+  [patience] no improvement for 1/5 epoch(s) (best 0.9179 at ep2)
+  [swa] running SWA updated over epochs [2, 3, 1]
+ep3 loss 0.916 | GOLD macro-AUC 0.9139 (best 0.9179) | topk by gold: [2, 3, 1] | 3512s
+  [timing] 2174 steps in 598.9s (0.275 s/step) | peak 8.86 GB (reserved 9.59 GB)
+  [ckpt] best-so-far saved at ep4 (0.9285)
+  [swa] running SWA updated over epochs [4, 2, 3]
+ep4 loss 0.908 | GOLD macro-AUC 0.9285 (best 0.9285) | topk by gold: [4, 2, 3] | 4179s
+  [timing] 2174 steps in 718.7s (0.331 s/step) | peak 8.86 GB (reserved 9.59 GB)
+  [patience] no improvement for 1/5 epoch(s) (best 0.9285 at ep4)
+  [swa] running SWA updated over epochs [4, 5, 2]
+ep5 loss 0.904 | GOLD macro-AUC 0.9268 (best 0.9285) | topk by gold: [4, 5, 2] | 4939s
+  [timing] 2174 steps in 577.2s (0.266 s/step) | peak 8.86 GB (reserved 9.59 GB)
+  [patience] no improvement for 2/5 epoch(s) (best 0.9285 at ep4)
+  [swa] running SWA updated over epochs [4, 5, 6]
+ep6 loss 0.900 | GOLD macro-AUC 0.9261 (best 0.9285) | topk by gold: [4, 5, 6] | 5555s
+  [timing] 2174 steps in 909.7s (0.418 s/step) | peak 8.86 GB (reserved 9.60 GB)
+  [ckpt] best-so-far saved at ep7 (0.9295)
+  [swa] running SWA updated over epochs [7, 4, 5]
+ep7 loss 0.896 | GOLD macro-AUC 0.9295 (best 0.9295) | topk by gold: [7, 4, 5] | 6510s
+  [timing] 2174 steps in 550.9s (0.253 s/step) | peak 8.86 GB (reserved 9.64 GB)
+  [patience] no improvement for 1/5 epoch(s) (best 0.9295 at ep7)
+  [swa] running SWA updated over epochs [7, 8, 4]
+ep8 loss 0.894 | GOLD macro-AUC 0.9294 (best 0.9295) | topk by gold: [7, 8, 4] | 7094s
+  [timing] 2174 steps in 806.4s (0.371 s/step) | peak 8.86 GB (reserved 9.64 GB)
+  [patience] no improvement for 2/5 epoch(s) (best 0.9295 at ep7)
+ep9 loss 0.889 | GOLD macro-AUC 0.9264 (best 0.9295) | topk by gold: [7, 8, 4] | 7932s
+  [timing] 2174 steps in 647.6s (0.298 s/step) | peak 8.86 GB (reserved 9.64 GB)
+  [patience] no improvement for 3/5 epoch(s) (best 0.9295 at ep7)
+ep10 loss 0.887 | GOLD macro-AUC 0.9267 (best 0.9295) | topk by gold: [7, 8, 4] | 8632s
+  [timing] 2174 steps in 583.3s (0.268 s/step) | peak 8.86 GB (reserved 9.64 GB)
+  [patience] no improvement for 4/5 epoch(s) (best 0.9295 at ep7)
+  [swa] running SWA updated over epochs [7, 11, 8]
+ep11 loss 0.886 | GOLD macro-AUC 0.9294 (best 0.9295) | topk by gold: [7, 11, 8] | 9277s
+  [timing] 2174 steps in 587.3s (0.270 s/step) | peak 8.86 GB (reserved 9.64 GB)
+  [patience] no improvement for 5/5 epoch(s) (best 0.9295 at ep7)
+ep12 loss 0.884 | GOLD macro-AUC 0.9272 (best 0.9295) | topk by gold: [7, 11, 8] | 9920s
+
+[early-stop] Validation score did not improve for 5 consecutive epochs! Stopping early at epoch 12 (best 0.9295 at epoch 7).
+
+DONE timm-pretrained | BEST GOLD macro-AUC 0.9295
+   ACL                0.977
+   MCL                0.986
+   Medial Meniscus    0.969
+   Lateral Meniscus   0.901
+   Medial OA          0.983
+   Lateral OA         0.807
+   PF OA              0.861
+   Effusion           0.996
+   Synovitis          0.812
+   Baker's            0.980
+   Contusion          0.951
+   Fracture           0.931
+saved raptor_ft_cnxt_r2_all_s312.pt / raptor_gold_cnxt_r2_all_s312.npz / raptor_ft_cnxt_r2_all_s312.json
+SWA over epochs [7, 11, 8] | gold 0.9307 (best-epoch 0.9295) BETTER
+TOPK epochs [7, 11, 8] | best 0.9295 | epoch-ensemble 0.9311 (BETTER)

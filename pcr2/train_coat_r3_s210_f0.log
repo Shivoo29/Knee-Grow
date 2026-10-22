@@ -1,0 +1,104 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/128 | bs 2 | tag coat_r3_s210_f0 | roi=False(compartment)
+[cv] fold 0/5: train 3479 | OOF held-out 870 | fold_file folds_rand5.json
+train 3479 | gold-val 58 | oof 870
+[zoom] two-scale tiles: 140 mm field + centred 100 mm close-up (274 px); --k/--k_eval count tiles
+[slots] layout=[40, 40, 36, 36, 40] depth=192 bounds=[(0, 40), (40, 80), (80, 116), (116, 152), (152, 192)]
+[label_weights] label_weights_pu.parquet rows=4349 zero_frac=0.013
+[oof-sub] 300 held-out studies scored every epoch (mask: none)
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+[stkim] training-only top-3 window masking, p=0.7
+[resume] from raptor_resume_coat_r3_s210_f0.pt: continuing at epoch 1/15 (best 0.0000, patience 0/5)
+  [timing] 1739 steps in 3917.3s (2.253 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep1 OOF300 masked macro-AUC 0.8186
+  [ckpt] best-so-far saved at ep1 (0.7602)
+ep1 loss 0.997 | GOLD macro-AUC 0.7602 (best 0.7602) | topk by OOF-subset: [1] | 4790s
+  [timing] 1739 steps in 3921.4s (2.255 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep2 OOF300 masked macro-AUC 0.8798
+  [ckpt] best-so-far saved at ep2 (0.8277)
+  [swa] running SWA updated over epochs [2, 1]
+ep2 loss 0.971 | GOLD macro-AUC 0.8277 (best 0.8277) | topk by OOF-subset: [2, 1] | 9035s
+  [timing] 1739 steps in 5218.1s (3.001 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep3 OOF300 masked macro-AUC 0.8987
+  [ckpt] best-so-far saved at ep3 (0.8371)
+  [swa] running SWA updated over epochs [3, 2, 1]
+ep3 loss 0.940 | GOLD macro-AUC 0.8371 (best 0.8371) | topk by OOF-subset: [3, 2, 1] | 14574s
+  [timing] 1739 steps in 3486.2s (2.005 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep4 OOF300 masked macro-AUC 0.9225
+  [ckpt] best-so-far saved at ep4 (0.8717)
+  [swa] running SWA updated over epochs [4, 3, 2]
+ep4 loss 0.926 | GOLD macro-AUC 0.8717 (best 0.8717) | topk by OOF-subset: [4, 3, 2] | 18370s
+  [timing] 1739 steps in 4259.5s (2.449 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep5 OOF300 masked macro-AUC 0.9398
+  [ckpt] best-so-far saved at ep5 (0.8794)
+  [swa] running SWA updated over epochs [5, 4, 3]
+ep5 loss 0.910 | GOLD macro-AUC 0.8794 (best 0.8794) | topk by OOF-subset: [5, 4, 3] | 22934s
+  [timing] 1739 steps in 5176.2s (2.977 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep6 OOF300 masked macro-AUC 0.9469
+  [ckpt] best-so-far saved at ep6 (0.8835)
+  [swa] running SWA updated over epochs [6, 5, 4]
+ep6 loss 0.905 | GOLD macro-AUC 0.8835 (best 0.8835) | topk by OOF-subset: [6, 5, 4] | 28501s
+  [timing] 1739 steps in 7372.3s (4.239 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep7 OOF300 masked macro-AUC 0.9566
+  [ckpt] best-so-far saved at ep7 (0.9006)
+  [swa] running SWA updated over epochs [7, 6, 5]
+ep7 loss 0.894 | GOLD macro-AUC 0.9006 (best 0.9006) | topk by OOF-subset: [7, 6, 5] | 36202s
+  [timing] 1739 steps in 4828.7s (2.777 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep8 OOF300 masked macro-AUC 0.9608
+  [ckpt] best-so-far saved at ep8 (0.9065)
+  [swa] running SWA updated over epochs [8, 7, 6]
+ep8 loss 0.890 | GOLD macro-AUC 0.9065 (best 0.9065) | topk by OOF-subset: [8, 7, 6] | 41417s
+  [timing] 1739 steps in 5694.5s (3.275 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep9 OOF300 masked macro-AUC 0.9627
+  [ckpt] best-so-far saved at ep9 (0.9104)
+  [swa] running SWA updated over epochs [9, 8, 7]
+ep9 loss 0.880 | GOLD macro-AUC 0.9104 (best 0.9104) | topk by OOF-subset: [9, 8, 7] | 47424s
+  [timing] 1739 steps in 2187.6s (1.258 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep10 OOF300 masked macro-AUC 0.9660
+  [ckpt] best-so-far saved at ep10 (0.9135)
+  [swa] running SWA updated over epochs [10, 9, 8]
+ep10 loss 0.877 | GOLD macro-AUC 0.9135 (best 0.9135) | topk by OOF-subset: [10, 9, 8] | 49923s
+  [timing] 1739 steps in 3576.6s (2.057 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep11 OOF300 masked macro-AUC 0.9673
+  [ckpt] best-so-far saved at ep11 (0.9180)
+  [swa] running SWA updated over epochs [11, 10, 9]
+ep11 loss 0.871 | GOLD macro-AUC 0.9180 (best 0.9180) | topk by OOF-subset: [11, 10, 9] | 53811s
+  [timing] 1739 steps in 4818.0s (2.771 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep12 OOF300 masked macro-AUC 0.9674
+  [patience] no improvement for 1/5 epoch(s) (best 0.9180 at ep11)
+  [swa] running SWA updated over epochs [12, 11, 10]
+ep12 loss 0.867 | GOLD macro-AUC 0.9117 (best 0.9180) | topk by OOF-subset: [12, 11, 10] | 58939s
+  [timing] 1739 steps in 3951.2s (2.272 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep13 OOF300 masked macro-AUC 0.9680
+  [patience] no improvement for 2/5 epoch(s) (best 0.9180 at ep11)
+  [swa] running SWA updated over epochs [13, 12, 11]
+ep13 loss 0.865 | GOLD macro-AUC 0.9108 (best 0.9180) | topk by OOF-subset: [13, 12, 11] | 63194s
+  [timing] 1739 steps in 5749.5s (3.306 s/step) | peak 6.00 GB (reserved 6.84 GB)
+ep14 OOF300 masked macro-AUC 0.9687
+  [patience] no improvement for 3/5 epoch(s) (best 0.9180 at ep11)
+  [swa] running SWA updated over epochs [14, 13, 12]
+ep14 loss 0.865 | GOLD macro-AUC 0.9110 (best 0.9180) | topk by OOF-subset: [14, 13, 12] | 69252s
+
+DONE timm-pretrained | BEST GOLD macro-AUC 0.9180
+   ACL                0.950
+   MCL                0.959
+   Medial Meniscus    0.971
+   Lateral Meniscus   0.863
+   Medial OA          0.978
+   Lateral OA         0.810
+   PF OA              0.843
+   Effusion           0.979
+   Synovitis          0.830
+   Baker's            0.982
+   Contusion          0.934
+   Fracture           0.915
+saved raptor_ft_coat_r3_s210_f0.pt / raptor_gold_coat_r3_s210_f0.npz / raptor_ft_coat_r3_s210_f0.json
+[cv] wrote raptor_oof_coat_r3_s210_f0_fold0.npz (870 studies; truth = soft labels)
+[cv] wrote top-K epoch OOF ep14
+[cv] wrote top-K epoch OOF ep13
+[cv] wrote top-K epoch OOF ep12
+[cv] wrote epoch-ensemble OOF over epochs [11, 12, 13, 14]
+SWA over epochs [14, 13, 12] | gold 0.9116 (best-epoch 0.9180) no gain
+[cv] wrote SWA OOF
+TOPK epochs [14, 13, 12] | best 0.9180 | epoch-ensemble 0.9115 (no gain)
