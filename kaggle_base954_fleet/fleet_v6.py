@@ -1355,7 +1355,8 @@ def main():
             traceback.print_exc()
 
     # STAGE 1: TEACHER PROBE VALIDATION ON VISIBLE DATA
-    should_run_probe = (comp_src is not None) and ((n_real <= 10) or (os.environ.get("RUN_PROBE", "0") == "1"))
+    should_run_probe = (comp_src is not None) and ((n_real <= 10) or (os.environ.get("RUN_PROBE", "0") == "1")) \
+        and os.environ.get("SKIP_PROBE", "0") != "1"   # SKIP_PROBE: checkpoints already passed it in an earlier commit run
 
     if should_run_probe:
         print("\n" + "=" * 80)

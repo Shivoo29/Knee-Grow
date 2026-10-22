@@ -15,8 +15,7 @@
     "heliosli/rsna-knee-r6-frozen-fe055406-w1",
     "nartaa/rsna-knee-publication-swa-weights-20261007",
     "heliosli/rsna-orthofoundation-fold0-epoch7-20261004",
-    "shivoo29/knee-cnxt-r3-folds",
-    "shivoo29/knee-coat-r3-folds"
+    "shivoo29/knee-cnxt-r3-folds"
   ],
   "kernel_sources": [],
   "competition_sources": [

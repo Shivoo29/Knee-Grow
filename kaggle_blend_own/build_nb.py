@@ -57,7 +57,7 @@ for tag, names in GROUPS.items():
         continue
     out = WORK / ('own_%s.csv' % tag)
     env = dict(os.environ, RSNA_COMP_ROOT=str(DATA), RAPTOR_OUTPUT_CSV=str(out),
-               RAPTOR_CKPTS=','.join(find_one(x) for x in names))
+               RAPTOR_CKPTS=','.join(find_one(x) for x in names), SKIP_PROBE=__SKIP_PROBE__)
     t = time.time()
     try:
         rc = subprocess.run([sys.executable, '-u', '/tmp/fleet_v6.py'], env=env, cwd='/tmp',
@@ -65,8 +65,8 @@ for tag, names in GROUPS.items():
     except subprocess.TimeoutExpired:
         rc = 'timeout at %.2f h' % KILL_AT_H
     if rc != 0:
-        if HAS_BASE:
-            print('OWN_FAILED %s exit %s: group skipped, base kept' % (tag, rc), flush=True)
+        if HAS_BASE or outs:   # a late/failed group is dropped; the base or the groups already done carry the submission
+            print('OWN_FAILED %s exit %s: group skipped' % (tag, rc), flush=True)
             continue
         raise RuntimeError('own group %s failed with exit code %s' % (tag, rc))
     print('OWN_DONE %s %.0fs' % (tag, time.time() - t), flush=True)
@@ -112,6 +112,7 @@ def main():
     ap.add_argument('--w_find', action='append', default=[], help="finding=weight, e.g. Synovitis=0.1")
     ap.add_argument('--stop_h', type=float, default=7.0)
     ap.add_argument('--kill_h', type=float, default=8.4)
+    ap.add_argument('--skip_probe', action='store_true', help='skip the gold-58 probe in the 3-study commit run (~1 h per group)')
     a = ap.parse_args()
     groups = {}
     for g in a.group:
@@ -122,7 +123,7 @@ def main():
     w_find = {k: float(v) for k, v in (x.split('=') for x in a.w_find)}
     stage = (STAGE.replace('__W__', repr(a.w)).replace('__W_FIND__', repr(w_find)).replace('__GROUPS__', repr(groups))
              .replace('__STOP__', repr(a.stop_h)).replace('__KILL__', repr(a.kill_h))
-             .replace('__HAS_BASE__', repr(a.base != 'none')))
+             .replace('__HAS_BASE__', repr(a.base != 'none')).replace('__SKIP_PROBE__', repr('1' if a.skip_probe else '0')))
     nb = json.load(open(ROOT / 'kaggle_blendmine' / 'blendmine.ipynb'))
     meta = json.load(open(ROOT / 'kaggle_blendmine' / 'kernel-metadata.json'))
     meta.pop('machine_shape', None)  # "NvidiaTeslaT4" gave 1 GPU (v1 log); no field = default T4 x2 (our Oct 8-11 kernels)
