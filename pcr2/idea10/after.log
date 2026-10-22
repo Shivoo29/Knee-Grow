@@ -1,0 +1,16 @@
+05:09:00 axial-FS swap
+[done] raptor_ft_cnxt_r2_f0_swa.pt: 104 studies in 0.7 min
+[out] idea10/axfix.parquet: 104 studies x 1 checkpoints | mean prob ACL 0.43 MCL 0.44 Medial 0.48 Latera 0.48 Medial 0.47 Latera 0.46 PF OA 0.47 Effusi 0.55 Synovi 0.53 Baker' 0.46 Contus 0.56 Fractu 0.49
+05:09:45 variant fs (oof)
+[done] raptor_ft_cnxt_r2_f0_swa.pt: 1088 studies in 6.2 min
+[out] idea10/fs_oof.parquet: 1088 studies x 1 checkpoints | mean prob ACL 0.40 MCL 0.40 Medial 0.46 Latera 0.43 Medial 0.44 Latera 0.41 PF OA 0.43 Effusi 0.48 Synovi 0.48 Baker' 0.44 Contus 0.49 Fractu 0.47
+05:16:03 variant fs (gold)
+[done] raptor_ft_cnxt_r2_f0_swa.pt: 58 studies in 0.4 min
+[out] idea10/fs_gold.parquet: 58 studies x 1 checkpoints | mean prob ACL 0.63 MCL 0.52 Medial 0.55 Latera 0.58 Medial 0.46 Latera 0.49 PF OA 0.40 Effusi 0.65 Synovi 0.55 Baker' 0.44 Contus 0.69 Fractu 0.59
+05:16:33 variant plain (oof)
+[done] raptor_ft_cnxt_r2_f0_swa.pt: 1088 studies in 6.1 min
+[out] idea10/plain_oof.parquet: 1088 studies x 1 checkpoints | mean prob ACL 0.40 MCL 0.43 Medial 0.48 Latera 0.44 Medial 0.46 Latera 0.46 PF OA 0.47 Effusi 0.48 Synovi 0.48 Baker' 0.44 Contus 0.50 Fractu 0.46
+05:22:47 variant plain (gold)
+[done] raptor_ft_cnxt_r2_f0_swa.pt: 58 studies in 0.4 min
+[out] idea10/plain_gold.parquet: 58 studies x 1 checkpoints | mean prob ACL 0.62 MCL 0.53 Medial 0.54 Latera 0.60 Medial 0.47 Latera 0.54 PF OA 0.46 Effusi 0.60 Synovi 0.53 Baker' 0.46 Contus 0.67 Fractu 0.57
+05:23:21 DONE after10

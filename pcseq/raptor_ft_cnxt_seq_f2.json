@@ -1,0 +1,51 @@
+{
+ "tag": "cnxt_seq_f2",
+ "src": "timm-pretrained",
+ "best_gold_auc": 0.8276418051942044,
+ "aucs": {
+  "ACL": 0.8504901960784313,
+  "MCL": 0.6575963718820862,
+  "Medial Meniscus": 0.9050480769230769,
+  "Lateral Meniscus": 0.7105590062111801,
+  "Medial OA": 0.9054263565891473,
+  "Lateral OA": 0.7350096711798839,
+  "PF OA": 0.7232947232947234,
+  "Effusion": 0.9614906832298137,
+  "Synovitis": 0.7718040621266428,
+  "Baker's": 0.9492753623188406,
+  "Contusion": 0.8367071524966261,
+  "Fracture": 0.925
+ },
+ "hist": [
+  {
+   "ep": 0,
+   "loss": 1.346412468658204,
+   "gold_auc": 0.758320655777093,
+   "oof_sub_auc": 0.768881600650134
+  },
+  {
+   "ep": 1,
+   "loss": 1.3023255657813506,
+   "gold_auc": 0.8276418051942044,
+   "oof_sub_auc": 0.8229552377926858
+  }
+ ],
+ "res": 256,
+ "norm": "imagenet",
+ "clean_windows": true,
+ "slot_emb": true,
+ "slots": null,
+ "slot_sizes": "40,40,36,36,40",
+ "label_weights": "label_weights_sev_v1.parquet",
+ "epochs": 15,
+ "bb_lr": 0.0001,
+ "head_lr": 0.001,
+ "n_train": 3262,
+ "n_gold": 58,
+ "roi": false,
+ "roi_mode": "compartment",
+ "roi_pad": 0.06,
+ "roi_overlap": 0.12,
+ "partial": true,
+ "epochs_done": 2
+}

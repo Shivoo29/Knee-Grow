@@ -1,0 +1,20 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 256 | k 48/380 | bs 2 | tag cnxt_seq_f2 | roi=False(compartment)
+[cv] fold 2/4: train 3262 | OOF held-out 1087 | fold_file folds_rand4.json
+train 3262 | gold-val 58 | oof 1087
+[zoom] two-scale tiles: 140 mm field + centred 100 mm close-up (274 px); --k/--k_eval count tiles
+[slots] layout=[40, 40, 36, 36, 40] depth=192 bounds=[(0, 40), (40, 80), (80, 116), (116, 152), (152, 192)]
+[label_weights] label_weights_sev_v1.parquet rows=4349 zero_frac=0.013
+[oof-sub] 300 held-out studies scored every epoch (mask: none)
+[raptor] timm-pretrained backbone: convnext_tiny.in12k_ft_in1k
+[raptor] gradient checkpointing ON
+[stkim] training-only top-3 window masking, p=0.7
+  [timing] 1631 steps in 437.9s (0.269 s/step) | peak 2.53 GB (reserved 2.93 GB)
+ep0 OOF300 masked macro-AUC 0.7689
+  [ckpt] best-so-far saved at ep0 (0.7583)
+ep0 loss 1.346 | GOLD macro-AUC 0.7583 (best 0.7583) | topk by OOF-subset: [0] | 610s
+  [timing] 1631 steps in 425.3s (0.261 s/step) | peak 8.94 GB (reserved 9.63 GB)
+ep1 OOF300 masked macro-AUC 0.8230
+  [ckpt] best-so-far saved at ep1 (0.8276)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 1.302 | GOLD macro-AUC 0.8276 (best 0.8276) | topk by OOF-subset: [1, 0] | 1216s
