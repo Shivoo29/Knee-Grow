@@ -1,0 +1,530 @@
+{
+  "topic": {
+    "id": 748181,
+    "title": "Kaggle could we please start doing something about the public notebooks? ",
+    "authorName": "Cody_Null",
+    "commentCount": 74,
+    "votes": 143,
+    "postDate": "2026-10-11T02:15:53.028000"
+  },
+  "comments": [
+    {
+      "id": 3540549,
+      "authorName": "Mega2814s",
+      "votes": 9,
+      "postDate": "2026-10-18T09:25:12.290000",
+      "content": "<p>This is my first competition, and the experience has been a little strange. My biggest problem is that the ranking is kind of useless; if someone skilled (or a thief) posts their entire pipeline, including weights, suddenly what used to be a difference of, say, 100 spots becomes one of 1,000. What would the ranking look like if only unique contributions were evaluated? I know I wouldn\u2019t be at the top because I\u2019m kind of a newbie and I\u2019m not interested in copying anyone, but that means I have no way of knowing how well I did.</p>\n<p>Plus, that whole \u201cI'll only put together teams if you have a score of +0.94\u201d thing seems stupid to me. Even if there's money for the top finishers, it takes all the fun out of this shared, collaborative project. Is winning medals or votes or whatever really that important?</p>\n<p>Also, for someone whose first language isn't English, it's awful to have to read so much AI-generated text everywhere, it's just unintelligible. </p>\n<p>When I first joined this site, I thought it was going to be pretty cool, but pretty soon I lost interest in participating in the forums and sharing my methodology (despite my position on the LB), because what\u2019s the point? It seems like 90% of the traffic on this site is from agents. It\u2019s such a relief to read posts from real people that it makes you wonder what this whole thing is turning into. And it's true that my main problem has nothing to do with whether AI is used or not, but that's certainly the impression it gives.</p>"
+    },
+    {
+      "id": 3540395,
+      "authorName": "Amanie El-Hajj",
+      "votes": 5,
+      "postDate": "2026-10-17T20:05:42.113000",
+      "content": "<p>One thing that keeps coming back is low-effort. </p>\n<p>What is low effort ? Is spending 10k in Claude compute (which is what Eliosli claims it has costed them) + probably just as much in GPU low effort ? </p>\n<p>I feel like this isn't as much the issue, the issue is more about how scoring will even work going from here. Right now we have no difference between the 100th to 1000th position, and while many hope there will be a shakedown, we don't know, and frankly, the notebook doesn't seem to be this overfitted to gold. </p>\n<p>So the question becomes, who even gets a medal, if 80% of silver, and all of bronze, + 500 other people have the same score ? </p>\n<p>It also makes it harder for people to afford competing. Silver used to mean something, so does Kaggle Expert, Kaggle Master. </p>\n<p>If simply copying a notebook will give you the same title, or even a better chance than someone truly learning and competing, does it even mean something ? </p>"
+    },
+    {
+      "id": 3540543,
+      "authorName": "Ravi Ramakrishnan",
+      "votes": -1,
+      "postDate": "2026-10-18T08:18:49.230000",
+      "content": "<p>This is a latent problem now-a-days. Firstly, compute costs + agents expenses is an issue and such notebooks accentuate the problem even further. Unfortunately Kaggle won't do anything regarding this - that is the biggest problem <a href=\"/aelhajj\" target=\"_blank\">@aelhajj</a> </p>"
+    },
+    {
+      "id": 3540547,
+      "authorName": "D Chakraborty",
+      "votes": 0,
+      "postDate": "2026-10-18T08:45:34.527000",
+      "content": "<p>Startup pitch: \nIntroducing Vibgle. Kaggle for vibe coders.</p>\n<p>Where Claude writes the code, GPT writes the explanations and the only thing you do is prompt repeatedly to produce slops.</p>\n<p>Testimony \ud83d\udc47\n<img src=\"https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F5819143%2F733ec9066713553e6ba49795b32d5bff%2FScreenshot%202026-10-18%20at%2011.44.55AM.png?generation=1792313113131302&amp;alt=media\" alt=\"\"></p>"
+    },
+    {
+      "id": 3540310,
+      "authorName": "Yassine Alouini",
+      "votes": 3,
+      "postDate": "2026-10-17T16:24:59.233000",
+      "content": "<p>I think, unless some measures are put into place, this practice will continue, especially nowadays thanks to coding agents and the likes. \nA more productive usage would be to fork the best public notebook, ask your best LLM to explain what are the significant ideas, try to reproduce locally or with a cloud setup, and then come up with new ideas etc. \nLow efforts might lead to random medals but won't translate into any gained knowledge.</p>"
+    },
+    {
+      "id": 3538995,
+      "authorName": "Satwik",
+      "votes": 16,
+      "postDate": "2026-10-15T05:30:02.680000",
+      "content": "<p>I think the main point here is that the notebooks section is just 99% meaningless slop notebooks copied from each other that contribute nothing meaningful. The code section in every competition now is just 'high scoring notebooks' over genuine contributions. A year ago,  the code section would start off with some EDA and analysis notebooks, then some baselines,  and then some more baselines that have different approaches and then the public score would saturate there. Now , everyone just wants upvotes and all you see is forks of literally the same notebook(s) with ensemble weights changed by 0.01 that gives a 0.001 boost on the LB. Meaningful work seems to be completely overshadowed by these notebooks, and that's the real problem. I also see this issue creeping around in discussion threads, where people just post AI generated walls of text , despite there being no more discussion medals or progression system. It's quite sad honestly.</p>"
+    },
+    {
+      "id": 3539005,
+      "authorName": "Ravi Ramakrishnan",
+      "votes": -5,
+      "postDate": "2026-10-15T06:07:31.833000",
+      "content": "<p><a href=\"/p4rallax\" target=\"_blank\">@p4rallax</a> great observations!</p>\n<p>Quality of work across non-competition tiers reduced a lot after Kaggle changed the rules and forum medals and upvotes last year.\nAlso, rise of LLM agents and assistants has shifted emphasis from <strong>doing my work in isolation all by myself</strong> to <strong>prompting an LLM to do my work</strong> - this is the biggest reason for the slop. \nConsidering the bad quality kernels, rule fork = upvote can be hacked easily and people have done so with aplomb. LLMs are great at finding that extra 0.001 on the LB with tweaks to the code, so even if I don't compete in a competition, I could simply prompt my LLM to grind that extra ounce of LB score based on no extra work from my end. </p>\n<p>What could be done now-</p>\n<ol>\n<li>Retain titles across datasets, discussions and notebooks (no leaderboard, just titles) till June2025 (when the rules were changed for the worse) - freeze this and close these tiers. Most of this is LLM driven lately and these tiers have lost their charm and allure</li>\n<li><em>Competition sharing</em> - strictly monitor the public code forums and discussion board for public junk and moderate (an agentic approach here is feasible), junk blends and spam posts could be taken down with human in loop type of approach</li>\n<li>Forum contribution could be restricted over the last 3 weeks of a 3-month competition instead of the last week. This includes notebook sharing and discussion contribution</li>\n<li>Kaggle could reserve a small cash prize, API credits, GPU/ TPU incentives for good contributions including notebooks, datasets and posts/ insights shared within their forums through a competition - this includes baseline kernels, EDA work, idea-sharing, etc. This could be an added prize along with the other host-relevant prizes for competitions</li>\n<li>Have short run progression rules instead of continuing long term commitments - perhaps shorter competition tracks, <em>baseline competitions (2-3 week sprints with emphasis on baseline approaches)</em>, collaborative assignments (instead of competitions, we collaborate and improve upon existing work), separate medals for playground competitions and better traction for community competitions could be considered</li>\n</ol>"
+    },
+    {
+      "id": 3540471,
+      "authorName": "ForcewithMe",
+      "votes": 3,
+      "postDate": "2026-10-18T03:40:38.613000",
+      "content": "<p><a href=\"/p4rallax\" target=\"_blank\">@p4rallax</a> Perhaps disabling \u201ccopy default upvotes\u201d could ease this issue?</p>"
+    },
+    {
+      "id": 3540537,
+      "authorName": "Satwik",
+      "votes": 0,
+      "postDate": "2026-10-18T07:53:36.823000",
+      "content": "<p>Yup I was thinking in the same direction. I'm almost certain no one bothers to upvote these high scoring notebooks, the automatic upvote after copying the notebook is what stacks up. If people actually upvote notebooks without making copies of it, that is a sign of a good contribution I feel.</p>"
+    },
+    {
+      "id": 3539066,
+      "authorName": "I2nfinit3y",
+      "votes": 9,
+      "postDate": "2026-10-15T09:24:14.583000",
+      "content": "<p>Kaggle can host a competition which ask kaggler to train models to filter those meaningless notebooks and discussions.</p>"
+    },
+    {
+      "id": 3539620,
+      "authorName": "Khubchandani",
+      "votes": 1,
+      "postDate": "2026-10-16T07:09:37.537000",
+      "content": "<p>Will there be a hard stop on release of high scoring notebooks now that we are entering the last week of the competition?</p>"
+    },
+    {
+      "id": 3539625,
+      "authorName": "AK",
+      "votes": 2,
+      "postDate": "2026-10-16T07:13:34.340000",
+      "content": "<p>she has switch off her comments\n<a href=\"https://www.kaggle.com/code/heliosli/blend-mine-in-private-lb-luck-to-all-upvoters/comments\" target=\"_blank\">https://www.kaggle.com/code/heliosli/blend-mine-in-private-lb-luck-to-all-upvoters/comments</a></p>\n<p>Enjoy</p>"
+    },
+    {
+      "id": 3538723,
+      "authorName": "Cody_Null",
+      "votes": 6,
+      "postDate": "2026-10-14T18:14:04.483000",
+      "content": "<p>I agree that public notebooks nearly always overfit the public LB, and chasing the LB alone would be unwise. But forks win medals more often than you would think (and ever is probably more than it should be). I could point to accounts that reached the top 100 in the competitions tier exclusively from forking. </p>\n<p>If you medal regularly, this probably doesn't feel like a big deal. It's worth thinking about the people who are newer to the platform, though. One of the most useful contributions in this competition came from someone in their first few months on Kaggle, and they're currently around 1500 on the LB. If the public ensemble holds up even partly, they could finish hundreds or a thousand places below where they arguably deserve to be. I would imagine scoring below people that just forked an ensemble built on your own work faster than you is not going to motivate people to continue on the platform.</p>\n<p>I also don't think anyone can be confident about a shakeup either way yet. Local validation is close to useless here. Only 58 labels are scored the same way as the leaderboard, and the rest are extracted labels. That makes the LB the largest sample we have that actually matches the scoring.</p>\n<p>As for the \"copy-paste crowd\" comment, I'd go a bit easier there. A lot of those upvotes likely come from people who are still learning, or from people who've put in serious time and want to protect the value of the medals they earned. Those are exactly the people we should be looking out for no? </p>"
+    },
+    {
+      "id": 3537821,
+      "authorName": "Tom",
+      "votes": 16,
+      "postDate": "2026-10-13T05:41:08.973000",
+      "content": "<p>It's more disappointing to see thieves copying other people's work and begging for upvotes on notebooks that aren't even theirs. I\u2019ve received many messages like this on LinkedIn. They even make AI-generated posts with exaggerated claims on social media after successfully stealing a notebook GM. Even few of them get a high-paid job by stealing other's work. I wish Kaggle would either shut down the notebook ranking system or spend more time maintaining notebook quality. tbh I think disucssion GM is much more valuable than Notebook GM. I don't know why Kaggle close it.</p>"
+    },
+    {
+      "id": 3540821,
+      "authorName": "Matterhorn3838",
+      "votes": 0,
+      "postDate": "2026-10-19T01:07:17.390000",
+      "content": "<p>I really agree, I've also seen people just copying other Grandmaster's work in not only this competition but the Google Deepmind and Playground series! This is just so annoying!</p>"
+    },
+    {
+      "id": 3537433,
+      "authorName": "Ryan Holbrook",
+      "votes": 14,
+      "postDate": "2026-10-12T15:06:05.307000",
+      "content": "<p>Hi <a href=\"/cody11null\" target=\"_blank\">@cody11null</a>,</p>\n<p>Thank you for sharing your concerns. Seeing low-effort notebooks getting rewarded is indeed frustrating and not something that we want either. We have spent considerable time internally discussing this.</p>\n<p>Unfortunately, it's been difficult to come up with a policy that's able to discriminate reliably between low-effort copying or blending and something that meaningfully builds off of the ideas of others. You're right too that the system incentivizes marginal (and often meaningless) improvements to the public leaderboard, because the public leaderboard score is often seen (erroneously) as the best judge of the quality of a notebook. You might take consolation in knowing that low-effort ensembles like this usually suffer from optimism bias from overfitting and tend to drop on the private leaderboard (perhaps because the score is just from a lucky random seed, as you pointed out).</p>\n<p>We do though still have a notebook publishing lock (one week, in this competition) before the submission deadline. And please do report verbatim copies with scrubbed attribution so we can act on them; whatever the case, people should be getting credit for their work. Use <strong>Report</strong> on the notebook and link the original.</p>"
+    },
+    {
+      "id": 3537456,
+      "authorName": "Cody_Null",
+      "votes": 8,
+      "postDate": "2026-10-12T15:54:59.967000",
+      "content": "<p>Respectfully, I believe there are several ways to address this issue, depending on which approach Kaggle would prefer to take. Below are two relatively low-impact ideas that have been brought up in previous discussions and would allow the community to help address the problem natrually.</p>\n<ol>\n<li><p>Separating forks from upvotes again - So that notebooks that are quickly copied and submitted aren't so rewarded, only truly thoughtful work would be. </p></li>\n<li><p>Adding a downvote option - So that the community can start punishing these low effort notebooks on our own. </p></li>\n</ol>\n<p>Yes, there is an existing delay preventing new public notebooks with 7 days (which to me personally to me seems too tight, though I know there is reasonable debate), but this system doesnt handle updating existing notebooks which was a massive problem in the last several competitions I have been in. Even competitions without that public LB bias like the last santa competition had high placing code being shared less than an hour before competition end.</p>\n<p>These are just a couple of relatively simple ideas, and I'm sure there are trade-offs to consider with each. The underlying problem, however, is that the current incentives can reward the rapid redistribution of existing solutions over original experimentation, meaningful discussion, and learning.</p>\n<p>Kaggle is home to some of the brightest minds in the world, both among its competitors and its administrators. Surely, we can find a fair solution that preserves open collaboration while better rewarding genuine contributions to the community.</p>\n<p>I do also greatly appreciate your response!</p>"
+    },
+    {
+      "id": 3537511,
+      "authorName": "MengYe",
+      "votes": 5,
+      "postDate": "2026-10-12T17:41:33.820000",
+      "content": "<p>can we link the low effort notebook to the original notebook so the author get the credits (upvotes)?</p>"
+    },
+    {
+      "id": 3537567,
+      "authorName": "Ravi Ramakrishnan",
+      "votes": 1,
+      "postDate": "2026-10-12T18:58:44.857000",
+      "content": "<p>What if 1 low effort notebook is linked to another low effort notebook <a href=\"/konohayui\" target=\"_blank\">@konohayui</a>?</p>"
+    },
+    {
+      "id": 3537808,
+      "authorName": "D Chakraborty",
+      "votes": 1,
+      "postDate": "2026-10-13T05:01:11.100000",
+      "content": "<p>That's recursive low effort notebook. Keep linking enough notebooks and eventually you'll have artificial intelligence. \ud83d\ude02</p>"
+    },
+    {
+      "id": 3539006,
+      "authorName": "Ravi Ramakrishnan",
+      "votes": 1,
+      "postDate": "2026-10-15T06:10:59.560000",
+      "content": "<p>This is artificial lack of intelligence <a href=\"/spoutop\" target=\"_blank\">@spoutop</a> </p>"
+    },
+    {
+      "id": 3539020,
+      "authorName": "D Chakraborty",
+      "votes": 1,
+      "postDate": "2026-10-15T06:59:27.957000",
+      "content": "<p><a href=\"/ravi20076\" target=\"_blank\">@ravi20076</a> Artificial because nobodys thinking and intelligence because everyone assumes the previous notebook did. Actually recursive copying creates artificial stupidity not intelligence lol</p>"
+    },
+    {
+      "id": 3539038,
+      "authorName": "Ravi Ramakrishnan",
+      "votes": 0,
+      "postDate": "2026-10-15T07:57:34.420000",
+      "content": "<p>Then it should be genuine stupidity <a href=\"/spoutop\" target=\"_blank\">@spoutop</a> </p>"
+    },
+    {
+      "id": 3539047,
+      "authorName": "D Chakraborty",
+      "votes": 1,
+      "postDate": "2026-10-15T08:14:51.767000",
+      "content": "<p><a href=\"/ravi20076\" target=\"_blank\">@ravi20076</a> This stupidity is created by man. It is 100% artifical imo lol</p>"
+    },
+    {
+      "id": 3537573,
+      "authorName": "Heliosli",
+      "votes": -12,
+      "postDate": "2026-10-12T19:04:40.200000",
+      "content": "<p>To be honest, over the past few days, I\u2019ve seen a lot of discussion about fairness around competition data and code analysis in the discussion forums. I\u2019ve even seen people ask why the top 10 can achieve such high scores when they can\u2019t, and suggest that it\u2019s unfair unless those competitors explain how they did it.\nFirst, we\u2019re taking part in a competition. Differences in performance and rankings are part of what a competition is about, especially when prestigious recognition and prize money are at stake.\nSecond, having such an open, supportive culture of sharing within a competitive environment is genuinely rare. Take the notebooks I\u2019ve shared, for example: every new model and every new set of weights has cost me considerable time, effort, and money, including server and compute costs. A large part of why I\u2019m willing to share them for free is that I hope my contributions can help everyone achieve better scores. I also hope to earn recognition for my work and perhaps become a Notebooks Grandmaster one day. Without incentives like these, I can easily imagine the quality of community contributions declining.\nThat\u2019s why I don\u2019t think there\u2019s anything fundamentally wrong with the system the Kaggle team has designed. If you\u2019ve spent a lot of time on other similar forums, you\u2019ll find that Kaggle is one of the best communities out there.\nEven so, after I updated one of my datasets and some people could no longer reproduce the score with one click, I was accused of misleading people to get upvotes.\nOf course, I understand that any community will have different perspectives and opinions. I\u2019ll continue putting in the work to achieve better results and sharing those results publicly with everyone. I wish everyone in the community and the Kaggle team all the best.</p>"
+    },
+    {
+      "id": 3537791,
+      "authorName": "Frank S.",
+      "votes": 3,
+      "postDate": "2026-10-13T04:18:05.120000",
+      "content": "<p>I think intentions matter, and I appreciate the effort you've put into sharing your work. I've noticed quite a few of your comments getting downvoted, and honestly, some of it feels more like piling on than constructive disagreement. People should be able to express different opinions without being discouraged from participating. Thanks for continuing to share your perspective.</p>"
+    },
+    {
+      "id": 3537829,
+      "authorName": "Heliosli",
+      "votes": -7,
+      "postDate": "2026-10-13T06:00:14.303000",
+      "content": "<p>I\u2019m genuinely glad to have your support, and I really appreciate it.</p>\n<p>To be honest, I love Kaggle. When it comes to sharing high-quality code publicly, I think the very thing that makes some people appreciate it is also what makes others resent it. As the saying goes, \u201cWhere you stand depends on where you sit.\u201d</p>\n<p>I feel that many of the downvotes I\u2019ve received have little to do with the original concern raised in this post about hundreds of nearly identical forks that do nothing to improve scores. Instead, the objection seems to be that sharing strong notebooks changes the competitive landscape.</p>\n<p>In fact, I believe more people support what I\u2019m doing than oppose it. Even some people who withhold their upvotes still choose to incorporate my model weights into their own solutions\u2014and some use the weights, then take the extra step of removing their upvote. To me, those actions speak for themselves about whether the work is useful.</p>\n<p>That is why I believe what I\u2019m doing is worthwhile and beneficial to the community. I value the long-standing tradition in computing of sharing work openly so that everyone can grow together, and I think Kaggle does an excellent job of bringing competition and open discussion together to help people improve.</p>\n<p>More broadly, I believe we are witnessing a profound change in what it means to keep technical knowledge and expertise exclusive. At our company, we are deeply involved in both using and developing a range of models and AI agents, and we see this as an era-defining shift.</p>\n<p>Mathematics, for example, places great importance on attribution and recognition for individual contributions. I understand the value of that, but I also see a tension between protecting individual recognition and accelerating collective progress. Fermat\u2019s famous remark about having a marvelous proof that would not fit in the margin became part of his enduring legacy, while a complete proof of the theorem was not published until centuries later. That is not the same as saying research stood still during that time, but it does remind me how much the value of an idea depends on others being able to examine, understand, and build upon it.</p>\n<p>The recent debate surrounding OpenAI\u2019s announced solution to the Navier\u2013Stokes Millennium Prize Problem raises similar questions for me. The announcement was accompanied by a dispute involving NYU mathematician Tristan Buckmaster over research priority and the circumstances surrounding the work. Buckmaster raised concerns but explicitly stated that he did not know whether his group\u2019s data had been used; OpenAI denied using their unpublished work or relevant user data. </p>\n<p>Whatever one\u2019s position on that dispute, I think it illustrates a difficult tension: a development can represent an enormous step forward for collective knowledge while also raising serious concerns about individual recognition and interests.</p>\n<p>I believe we are at a turning point. We are beginning to confront the possibility that, once an individual\u2019s ideas and experience become accessible, some of their value as an exclusive advantage may diminish, because AI can quickly build on them\u2014and potentially take them further than the individual could alone. Yet, from the perspective of humanity as a whole, that can be a good thing: people everywhere can use AI to build on those insights and stand on the shoulders of those who came before them.</p>\n<p>As individuals, we may need time to adjust to that change.</p>\n<p>Regardless, I believe that high-quality code, knowledge, deep insights, and meaningful results shared openly deserve respect. There is something genuinely admirable about that generosity. Behind those contributions are real investments of time, effort, money, and resources, offered freely so that others can benefit and the community as a whole can improve.</p>\n<p>What I share is the research and the results I have earned through my own investment and hard work. Everyone is free to use them. I do not believe that sharing them harms anyone\u2019s interests; I see it as a positive contribution to the community.</p>\n<p>I also want to thank everyone who downvoted my work for prompting me to think more deeply about all of this. I\u2019ll keep working to do better.</p>"
+    },
+    {
+      "id": 3537850,
+      "authorName": "D Chakraborty",
+      "votes": 1,
+      "postDate": "2026-10-13T06:49:20.127000",
+      "content": "<p>From copypaste Kaggle blends to Fermat, Navier Stokes and the future of humanity. Now THAT is a SOTA ensemble of unrelated ideas. \ud83d\ude02</p>"
+    },
+    {
+      "id": 3537927,
+      "authorName": "",
+      "votes": 4,
+      "postDate": "2026-10-13T10:58:51.937000",
+      "content": ""
+    },
+    {
+      "id": 3537940,
+      "authorName": "Heliosli",
+      "votes": -9,
+      "postDate": "2026-10-13T11:56:20.567000",
+      "content": "<p>This is a fair and thoughtful perspective, and I understand the different viewpoints and lines of reasoning involved.</p>\n<p>If we\u2019re talking strictly about competitive fairness, I\u2019ve also seen people argue that absolute fairness would require everyone to use the same data, the same GPU models for the same amount of time, and even the same tools. That would make it more like China\u2019s gaokao\u2014a standardized national university entrance exam. But clearly, that is not the kind of platform Kaggle is.</p>\n<p>I think this discussion ultimately comes from different understandings of what Kaggle is supposed to be, with people approaching it from many different positions and perspectives. Some value the medals and prize money; others value the open exchange of ideas and the opportunity to improve together. As Kaggle describes itself, it is \u201cthe world\u2019s AI proving ground.\u201d We are, first and foremost, a community that brings together some of the world\u2019s best machine learning engineers and data scientists. Kaggle also hosts challenges from companies and organizations that address real-world problems and research questions. To me, our purpose goes beyond leaderboard scores: it is to develop better solutions to the challenging, unresolved problems facing humanity.</p>\n<p>First, the people using my notebooks are not coming into this thread to vote on these comments; they are showing their support by upvoting the notebooks themselves. Second, the downvotes here reflect a mixture of different objections and frustrations, including both complaints about low-quality notebooks that simply copy high-scoring weights and a desire for an absolutely level competitive playing field.</p>\n<p>My concern is that people seeking an absolutely level playing field are using the frustration behind cody_null\u2019s criticism of nearly identical forks to justify downvoting and attacking my work. This conflates two fundamentally different things: flooding the community with repetitive copies that bury genuinely useful notebooks, and sharing newly trained models and weights that help everyone improve.</p>\n<p>But we are an open community. Computing would not be where it is today without the open-source ethos and platforms like GitHub. You also acknowledge the effort I have put into helping raise the community\u2019s overall level.\nWhat I strongly disagree with is the idea that sharing my work undermines other developers\u2019 contributions. The models and weights I publish are ones I have trained myself. Where my work incorporates other people\u2019s designs, those come from people who, like me, are happy to share their models publicly because doing so helps others. I have not stolen anyone\u2019s private model weights.</p>\n<p>Everyone can use the methods I share to pursue a better score. So I do not agree that this raises barriers for other competitors. On the contrary, it helps us develop stronger solutions for competition hosts, allowing them to put those solutions into practice and better address the real-world challenges our society faces. Our ability as a species to keep advancing is rooted in what we inherit from those before us, both genetically and through knowledge.</p>\n<p>In other words, this is not a problem with Kaggle\u2019s rules; it is a question of whether we are willing to look at the bigger picture. I am committed to helping everyone improve together. And even if winning or losing is someone\u2019s only concern, whether open-source reference code is available is actually one of the least significant factors.</p>\n<p>Competitive outcomes are often shaped by unequal advantages across many dimensions. For example, your background at ISGlobal gives you specialized insight into this competition and a competitive advantage that has helped you reach 0.962. Even if I open-sourced a solution scoring 0.961, that would not erase your advantage.</p>\n<p>To sum up, flooding the community with low-quality notebooks that merely copy high-scoring weights, without even citing or crediting the original work, does damage the quality of discussion. But that has nothing to do with my reason for sharing: helping everyone improve together and build better solutions.</p>\n<p>The sacrifices I make by sharing are my own: the time, effort, and money I have invested, along with the competitive advantage I could otherwise have kept to myself in pursuit of a higher rank or a medal. Sharing that work helps create better solutions and serves the community\u2019s interests. That is why I believe I am doing the right thing, and why I do not think I should be targeted in a pile-on that lumps all these different grievances together.</p>"
+    },
+    {
+      "id": 3537971,
+      "authorName": "D Chakraborty",
+      "votes": 1,
+      "postDate": "2026-10-13T13:10:50.083000",
+      "content": "<p>Wondering if anyone is actually reading through the LLM generated wall of text or summarizing in &lt;30 words?</p>"
+    },
+    {
+      "id": 3537985,
+      "authorName": "Bull",
+      "votes": 1,
+      "postDate": "2026-10-13T13:40:52.800000",
+      "content": "<p>If your ideals are really that noble, you should have no grounds to complain if someone tells you to delete the notebook you used to earn a gold medal in this competition and give up the medal to prove your commitment to those ideals.</p>\n<p>I didn\u2019t read the entire post because it was too long, but personally, I find it simply frustrating when high-scoring notebooks are released close to the competition deadline, as it makes all the effort people put in up to that point feel meaningless.</p>"
+    },
+    {
+      "id": 3537989,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-13T13:47:06.783000",
+      "content": ""
+    },
+    {
+      "id": 3537990,
+      "authorName": "D Chakraborty",
+      "votes": 1,
+      "postDate": "2026-10-13T13:53:26.483000",
+      "content": "<p><a href=\"/davidsarrat\" target=\"_blank\">@davidsarrat</a> DO NOT UNDERESTIMATE HIM! IT'S \ud83d\udea8\ud83e\udd2f\ud83d\udd25 HYPER MEGA ULTRA-BLEND \ud83d\udea8\ud83e\udd2f\ud83d\udd25</p>"
+    },
+    {
+      "id": 3537994,
+      "authorName": "",
+      "votes": 1,
+      "postDate": "2026-10-13T14:11:06.983000",
+      "content": ""
+    },
+    {
+      "id": 3538370,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-14T03:49:14.533000",
+      "content": ""
+    },
+    {
+      "id": 3538550,
+      "authorName": "Dread Development",
+      "votes": 5,
+      "postDate": "2026-10-14T13:41:59.967000",
+      "content": "<p>Not sure if YOU actually wrote this, or if this was a crafted AI response.\nI did read the wall of text &amp; from what I can decipher, the overall attitude &amp; tone here is very negative.</p>\n<p>The core problem is people like myself, spend months working on a solution, understanding the problem &amp; designing the solution for it. Then someone comes in, snags a bunch of datasets that were already public, makes a decent enough score &amp; releases it for the 4,000 AI in the competition taking away from the people who put time &amp; effort into their work.</p>\n<p>I have personally been in RSNA since the 2-3 week, never saw your name in one discussion, one code post, not a single model not a word so you appeared from thin air towards the end of the competition.</p>\n<p>As someone with time &amp; effort into this competition, its extremely obnoxious to watch people releasing code end of comp for quick easy medals when some of us EARNED them.</p>\n<p>Before you \"Craft\" another wall of text written by AI, maybe put some of your own actual thoughts &amp; reasoning into your reply.</p>\n<p>Respectfully, someone who spent months working on a solution.</p>"
+    },
+    {
+      "id": 3539754,
+      "authorName": "Heliosli",
+      "votes": -4,
+      "postDate": "2026-10-16T12:49:55.797000",
+      "content": "<p>\u6211\u7528\u4e2d\u6587\u6765\u56de\u7b54\u4f60\u7684\u56de\u590d\u5427\uff0c\u56e0\u4e3a\u73b0\u5728\u6700\u5f3a\u7684AI\u4e5f\u6ca1\u6709\u529e\u6cd5\u505a\u5230\u5f88\u597d\u7684\u4e2d\u6587\u957f\u96be\u53e5\u63aa\u8f9e\uff0c\u540c\u65f6\u4f60\u8bf4\u8ba4\u771f\u8bfb\u5b8c\u4e86\u6211\u5199\u7684\u5185\u5bb9\uff0c\u6240\u4ee5\u6211\u4e5f\u4ee5\u8fd9\u6837\u7684\u65b9\u5f0f\u8bc1\u660e\u6211\u662f\u81ea\u5df1\u5199\u7684\u56de\u590d\u4ece\u800c\u8868\u8fbe\u6211\u5bf9\u4f60\u7684\u5c0a\u91cd\u3002</p>\n<p>\u9996\u5148\u6211\u60f3\u505a\u4e00\u4e2a\u6f84\u6e05\uff0c\u6211\u4eec\u8fd9\u573a\u8ba8\u8bba\u91cc\u5176\u5b9e\u5b58\u5728\u4e24\u4e2a\u90e8\u5206\u7684\u77db\u76fe\u3002</p>\n<p>\u7b2c\u4e00\u662f\u5927\u91cf\u4f4e\u8d28\u91cf\u7684\u7b14\u8bb0\u672c\u5145\u65a5\u793e\u533a\uff0c\u8fd9\u4e9b\u7b14\u8bb0\u672c\u4ec5\u4ec5\u590d\u5236\u9ad8\u5206\u6743\u91cd\uff0c\u5374\u4e0d\u5f15\u7528\u6216\u6ce8\u660e\u539f\u59cb\u51fa\u5904\uff0c\u8fd9\u786e\u5b9e\u4f1a\u635f\u5bb3\u8ba8\u8bba\u7684\u8d28\u91cf\uff0c\u800c\u8fd9\u4e0e\u6211\u65e0\u5173\uff0c\u6211\u5206\u4eab\u6240\u4ed8\u51fa\u7684\u727a\u7272\u90fd\u662f\u6211\u81ea\u5df1\u7684\uff1a\u6211\u6295\u5165\u7684\u65f6\u95f4\u3001\u7cbe\u529b\u548c\u91d1\u94b1\uff0c\u4ee5\u53ca\u6211\u539f\u672c\u53ef\u4ee5\u72ec\u5360\u7684\u7ade\u4e89\u4f18\u52bf\u2014\u2014\u8fd9\u4e9b\u4f18\u52bf\u539f\u672c\u53ef\u4ee5\u7528\u6765\u8ffd\u6c42\u66f4\u9ad8\u7684\u6392\u540d\u6216\u5956\u724c\u3002\u5206\u4eab\u8fd9\u4e9b\u6210\u679c\u6709\u52a9\u4e8e\u521b\u9020\u66f4\u597d\u7684\u89e3\u51b3\u65b9\u6848\uff0c\u4e5f\u7b26\u5408\u793e\u7fa4\u7684\u5229\u76ca\u3002\u6b63\u56e0\u5982\u6b64\uff0c\u6211\u76f8\u4fe1\u6211\u505a\u7684\u662f\u6b63\u786e\u7684\uff0c\u4e5f\u6b63\u56e0\u5982\u6b64\uff0c\u6211\u4e0d\u8ba4\u4e3a\u6211\u5e94\u8be5\u6210\u4e3a\u4f17\u77e2\u4e4b\u7684\uff0c\u88ab\u5377\u5165\u5404\u79cd\u4e0d\u540c\u7684\u6307\u8d23\u4e4b\u4e2d\u3002</p>\n<p>\u7b2c\u4e8c\u5c31\u662f\u4f60\u6240\u8bf4\u7684\u5956\u724c\u83b7\u5f97\u7684\u95ee\u9898\uff0c\u6211\u662f\u9760\u81ea\u5df1\u7684\u6295\u5165\u4ea7\u51fa\u4e86\u66f4\u597d\u7684\u6210\u7ee9\u5e76\u4e14\u516c\u5f00\uff0c\u5e76\u4e0d\u53ea\u662f\u7b80\u5355\u7684\u8c03\u4e00\u4e2a\u53c2\u53bb\u83b7\u5f97\u5956\u724c\u3002\u6211\u8fd9\u6837\u7684\u884c\u4e3a\u662f\u53ea\u5bf9\u6211\u81ea\u5df1\u6709\u6d88\u8017\u800c\u5bf9\u6240\u6709\u4eba\u90fd\u6709\u76ca\u7684\u4e8b\uff0c\u4f46\u5bf9\u4e8e\u6211\u5206\u4eab\u7684\u6240\u6709\u4ee3\u7801\u548c\u6a21\u578b\u7814\u7a76\u6210\u679c\u800c\u8a00\uff0c\u6211\u81ea\u5df1\u4e00\u4e2a\u4eba\u5728\u7528\u81ea\u5df1\u672c\u53ef\u4ee5\u73af\u6e38\u4e16\u754c\u7684\u4f11\u606f\u65f6\u95f4\u5728\u6295\u5165\u4e00\u573a\u6bd4\u8d5b\uff0c\u540c\u65f6\u82b1\u8d39\u4e86\u8fc7\u4e07\u7f8e\u5143\u7684\u6295\u5165\u800c\u8a00\uff0c\u5176\u5b9e\u51e0\u4e2anotebook\u7684\u91d1\u724c\u5e76\u4e0d\u8db3\u4ee5\u8ba9\u6211\u6295\u5165\u8fd9\u4e9b\u3002\u800c\u5728\u73b0\u5728\u7684\u8fd9\u4e2a\u65f6\u4ee3\uff0c\u6b4c\u9882\u201c\u65f6\u957f\u201d\uff0c\u201c\u53e4\u6cd5\u7f16\u7a0b\u201d\uff0c\u201c\u82e6\u529f\u201d\u66f4\u662f\u4e00\u4ef6\u9664\u4e86\u81ea\u6211\u611f\u52a8\u4ee5\u5916\u6ca1\u6709\u4efb\u4f55\u610f\u4e49\u7684\u4e8b\u3002\u6d17\u8863\u673a\u53ef\u4ee5\u53c8\u5feb\u53c8\u597d\u7684\u6d17\u597d\u4f60\u7684\u8863\u670d\uff0c\u5982\u679c\u8fd9\u4e2a\u65f6\u5019\u6709\u4e2a\u4eba\u8bf4\u6211\u6bcf\u6b21\u6d17\u8863\u670d\u90fd\u662f\u81ea\u5df1\u624b\u6413\u7684\uff0c\u53ea\u6709\u624b\u6413\u7684\u624d\u5e72\u51c0\uff0c\u5c0a\u91cd\u6bcf\u4e00\u4e2a\u624b\u6413\u7684\u4eba\uff0c\u90a3\u6211\u4e5f\u786e\u5b9e\u4f1a\u5c0a\u91cd\u5e76\u4e14\u8fdc\u79bb\u4ed6\u3002\u6211\u4eec\u8fd9\u4e2a\u9886\u57df\u4e00\u76f4\u4ee5\u6765\u90fd\u5d07\u5c1a\u7528\u66f4\u8f7b\u677e\u7684\u65b9\u5f0f\u8fbe\u5230\u66f4\u597d\u7684\u6548\u679c\uff0c\u5e76\u4e14\u6211\u4eec\u6c38\u8fdc\u90fd\u53ea\u4f1a\u7528\u6700\u597d\u7684\u65b9\u6848\u548c\u6a21\u578b\uff0c\u4eca\u5929fable\u5f3a\u6211\u4eec\u4f1a\u7528fable\uff0c\u660e\u5929astra\u5f3a\u6211\u4eec\u4e5f\u4e0d\u4f1a\u5bf9fable\u6709\u4efb\u4f55\u7559\u604b\u3002\u6211\u4eec\u6240\u6709\u4eba\u8eab\u5904\u7684\u6240\u6709\u884c\u4e1a\u73b0\u5728\u90fd\u5728\u88abAI\u541e\u566c\uff0c\u6211\u66f4\u60f3\u4f53\u9a8c\u7684\u662f\u5c06\u81ea\u8eab\u6295\u5165\u8fdb\u8fd9\u573aAI\u8fdb\u5316\u7684\u6d6a\u6f6e\u91cc\u770b\u770b\u662f\u4ec0\u4e48\u6837\u7684\u611f\u89c9\uff0c\u6070\u597dkaggle\u4e5f\u662f\u4e00\u4e2a\u62e5\u6709\u975e\u5e38\u68d2\u7684\u5206\u4eab\u73af\u5883\u7684\u793e\u533a\uff0c\u4e5f\u5c31\u50cf\u6211\u4e0a\u9762\u63d0\u5230\u7684\uff0c\u4e00\u9879\u53d1\u5c55\u53ef\u80fd\u4ee3\u8868\u7740\u96c6\u4f53\u77e5\u8bc6\u7684\u5de8\u5927\u8fdb\u6b65\uff0c\u540c\u65f6\u4e5f\u5f15\u53d1\u4e86\u4eba\u4eec\u5bf9\u4e2a\u4eba\u8ba4\u53ef\u548c\u5229\u76ca\u7684\u4e25\u91cd\u62c5\u5fe7\u3002\u5e76\u4e14\uff0c\u5176\u5b9e\u5373\u4f7f\u6709\u4eba\u53ea\u5173\u5fc3\u7ade\u8d5b\u7684\u8f93\u8d62\uff0c\u5f00\u6e90\u53c2\u8003\u4ee3\u7801\u662f\u5426\u53ef\u7528\u5b9e\u9645\u4e0a\u4e5f\u662f\u6700\u4e0d\u91cd\u8981\u7684\u56e0\u7d20\u4e4b\u4e00\u3002</p>\n<p>\u6211\u8ba4\u4e3a\u6211\u4eec\u6b63\u5904\u4e8e\u4e00\u4e2a\u8f6c\u6298\u70b9\u3002\u6211\u4eec\u5f00\u59cb\u9762\u5bf9\u8fd9\u6837\u4e00\u79cd\u53ef\u80fd\u6027\uff1a\u4e00\u65e6\u4e2a\u4eba\u7684\u60f3\u6cd5\u548c\u7ecf\u9a8c\u53d8\u5f97\u553e\u624b\u53ef\u5f97\uff0c\u5b83\u4eec\u4f5c\u4e3a\u72ec\u7279\u4f18\u52bf\u7684\u4ef7\u503c\u53ef\u80fd\u4f1a\u964d\u4f4e\uff0c\u56e0\u4e3a\u4eba\u5de5\u667a\u80fd\u53ef\u4ee5\u8fc5\u901f\u5728\u6b64\u57fa\u7840\u4e0a\u53d1\u5c55\uff0c\u751a\u81f3\u8d85\u8d8a\u4e2a\u4eba\u72ec\u81ea\u6240\u80fd\u8fbe\u5230\u7684\u9ad8\u5ea6\u3002\u7136\u800c\uff0c\u4ece\u5168\u4eba\u7c7b\u7684\u89d2\u5ea6\u6765\u770b\uff0c\u8fd9\u6216\u8bb8\u662f\u4e00\u4ef6\u597d\u4e8b\uff1a\u4e16\u754c\u5404\u5730\u7684\u4eba\u4eec\u90fd\u53ef\u4ee5\u5229\u7528\u4eba\u5de5\u667a\u80fd\u6765\u62d3\u5c55\u8fd9\u4e9b\u6d1e\u89c1\uff0c\u7ad9\u5728\u524d\u4eba\u7684\u80a9\u8180\u4e0a\u3002</p>\n<p>\u4ee5\u540e\u5728ai\u65f6\u4ee3\u6240\u6709\u7684\u4e1c\u897f\u90fd\u4f1a\u53d8\u5f97\u4fbf\u5b9c\uff0c\u5e76\u4e14\u4ee5\u540e\u4f1a\u52a0\u5267\u81ea\u5df1\u7684\u7814\u7a76\u5982\u679c\u6ca1\u6709\u4efb\u4f55\u4eba\u77e5\u9053\u5c31\u6ca1\u6709\u4ef7\u503c\u7684\u73b0\u8c61\uff0c\u4f46\u53ea\u8981\u6709\u4eba\u77e5\u9053\u4e86\uff0cAI\u5c31\u5f88\u96be\u4e0d\u77e5\u9053\uff0cAI\u77e5\u9053\u4e86\u4ee5\u540e\uff0c\u8fd9\u4efd\u201c\u72ec\u6709\u201d\u7684\u4ef7\u503c\u5c31\u4f1a\u4ece\u975e\u5e38\u9ad8\u53d8\u6210\u4e00\u4e2a\u8c03\u7528\u7684token\u8d39\u3002\u4f5c\u4e3a\u4e2a\u4f53\uff0c\u6211\u4eec\u53ef\u80fd\u9700\u8981\u65f6\u95f4\u6765\u9002\u5e94\u8fd9\u79cd\u53d8\u5316\u3002</p>\n<p>\u65e0\u8bba\u5982\u4f55\uff0c\u6211\u8ba4\u4e3a\u9ad8\u8d28\u91cf\u7684\u4ee3\u7801\u3001\u77e5\u8bc6\u3001\u6df1\u523b\u7684\u89c1\u89e3\u548c\u6709\u610f\u4e49\u7684\u6210\u679c\u90fd\u5e94\u8be5\u5f97\u5230\u5c0a\u91cd\uff0c\u5e76\u4e14\u5e94\u8be5\u516c\u5f00\u5206\u4eab\u3002\u8fd9\u79cd\u6177\u6168\u7cbe\u795e\u786e\u5b9e\u4ee4\u4eba\u94a6\u4f69\u3002\u8fd9\u4e9b\u8d21\u732e\u80cc\u540e\u51dd\u805a\u7740\u65f6\u95f4\u3001\u7cbe\u529b\u3001\u91d1\u94b1\u548c\u8d44\u6e90\u7684\u771f\u6b63\u6295\u5165\uff0c\u5b83\u4eec\u88ab\u65e0\u507f\u63d0\u4f9b\uff0c\u4f7f\u4ed6\u4eba\u53d7\u76ca\uff0c\u5e76\u4fc3\u8fdb\u6574\u4e2a\u793e\u533a\u7684\u8fdb\u6b65\u3002\u6211\u5206\u4eab\u7684\u662f\u6211\u81ea\u5df1\u6295\u5165\u65f6\u95f4\u548c\u7cbe\u529b\u8fdb\u884c\u7684\u7814\u7a76\u548c\u6210\u679c\u3002\u4efb\u4f55\u4eba\u90fd\u53ef\u4ee5\u514d\u8d39\u4f7f\u7528\u3002\u6211\u4e0d\u8ba4\u4e3a\u5206\u4eab\u8fd9\u4e9b\u4f1a\u635f\u5bb3\u4efb\u4f55\u4eba\u7684\u5229\u76ca\uff1b\u6211\u8ba4\u4e3a\u8fd9\u662f\u5bf9\u793e\u533a\u7684\u79ef\u6781\u8d21\u732e\u3002</p>\n<p>\u8ba1\u7b97\u673a\u8fd9\u4e2a\u9886\u57df\u7684\u5feb\u901f\u53d1\u5c55\u662f\u6765\u81ea\u4e8e\u5949\u732e\u7684\u5f00\u6e90\u7cbe\u795e\uff0c\u800c\u5728\u5176\u4ed6\u9886\u57df\uff0c\u6bd4\u5982\u6570\u5b66\uff0c\u4e0d\u8bba\u662fNS\u65b9\u7a0b\u7684\u95ee\u9898\u8fd8\u662f\u8d39\u9a6c\u7684\u95ee\u9898\uff0c\u90fd\u6709\u5f88\u591a\u5178\u578b\u7684\u4e2a\u4f53\u6240\u6709\u6743\u5f52\u5c5e\u95ee\u9898\uff0c\u800c\u8fd9\u79cd\u5f52\u5c5e\u95ee\u9898\u5728\u8d39\u9a6c\u65f6\u671f\u5176\u5b9e\u67d0\u79cd\u7a0b\u5ea6\u4e0a\u662f\u4ed6\u83b7\u5f97\u4e86\u5927\u5bb6\u7684\u8d5e\u8a89\u5938\u5956\u662f\u5929\u624d\uff0c\u8ba9\u4ed6\u4e00\u53e5\u8fd9\u91cc\u8bc1\u660e\u5199\u4e0d\u4e0b\u6d41\u4f20\u4e86\u51e0\u767e\u5e74\u88c5\u5b8c\u4e86\uff0c\u4f46\u5bf9\u4e8e\u6211\u4eec\u6240\u6709\u4eba\u5305\u62ec\u6211\u624b\u4e0b\u7684\u5404\u4e2a\u90e8\u95e8\u5728\u9762\u5bf9AI\u5feb\u901f\u8fed\u4ee3\u7684\u4eca\u5929\uff0c\u5bf9\u4e8e\u73b0\u5728\u7684\u89c2\u5bdf\u4ee5\u53ca\u5bf9\u672a\u6765\u7684\u9884\u6d4b\uff0c\u6211\u4eec\u6240\u6709\u7684\u6280\u672f\u4eba\u5458\u548c\u4ea7\u54c1\u4eba\u5458\u90fd\u5728\u9762\u4e34\u4f60\u63d0\u5230\u7684\u8fd9\u6837\u7684\u95ee\u9898\u2014\u2014\u5373\u53ea\u8981\u88abAI\u77e5\u9053\u4e86\u4eba\u7c7b\u4e13\u4e1a\u4e2a\u4f53\u7684\u5728\u8fd9\u4e2a\u9886\u57df\u7684\u8fd9\u90e8\u5206\u4e13\u4e1a\u7814\u7a76\uff0c\u8fd9\u90e8\u5206\u7814\u7a76\u5c31\u50cf\u88ab\u5265\u593a\u4e86\u4e2a\u4f53\u6240\u6709\u6743\uff0c\u800c\u4e14\u56e0\u4e3aai\u53ef\u4ee5\u7acb\u9a6c\u505a\u5f97\u66f4\u597d\uff0c\u6240\u4ee5\u73b0\u5728\u8fd9\u4e2a\u60c5\u51b5\u4e0b\u6211\u4eec\u89c9\u5f97\u5176\u5b9e\u6ca1\u6709\u4ec0\u4e48\u662f\u771f\u6b63\u5c5e\u4e8e\u81ea\u5df1\u7684\u4e86\uff0c\u4eca\u5929\u6211\u53ef\u4ee5\u505a\u5230\u7684\uff0c\u53ea\u8981\u6211\u516c\u5f00\u4e86\u660e\u5929\u4f60\u53ef\u4ee5\u505a\u7684\u6bd4\u6211\u66f4\u597d\uff0c\u6bd4\u5982\u73b0\u5728\uff0c\u6211\u5c31\u4eb2\u8eab\u4f53\u4f1a\u5230\u4e86\u8fd9\u4e2a\u611f\u89c9\uff0c\u8fd9\u51e0\u4e07\u7f8e\u5143\u7684\u79ef\u5206\u548c\u65f6\u95f4\u7cbe\u529b\u4ee5\u53ca\u7b97\u529b\u662f\u201c\u6211\u7684\u201d\u94b1\u548c\u6295\u5165\uff0c\u6211\u7684\u4ed8\u51fa\u6253\u9020\u7684\u6210\u679c\u88ab\u5927\u5bb6\u4f7f\u7528\u4e86\u4ee5\u540e\uff0c\u5927\u5bb6\u5f88\u5feb\u5c31\u80fd\u505a\u7684\u6bd4\u6211\u66f4\u597d\u4e86\uff0c\u8fd9\u4f1a\u8ba9\u4eba\u611f\u89c9\u5931\u843d\uff0c\u4f46\u4e0e\u6b64\u540c\u65f6\uff0c\u6211\u4e5f\u4eb2\u8eab\u7684\u611f\u53d7\u5230\u4e86\u4e0a\u9762\u6211\u63d0\u5230\u7684\u6211\u4eec\u4eba\u7c7b\u8fdb\u5316\u7684\u539f\u56e0\uff0c\u6211\u4e5f\u81f4\u529b\u4e8e\u5728\u4f11\u95f2\u65f6\u95f4\u5185\u73b0\u5728\u5728\u793e\u533a\u5e2e\u52a9\u5927\u5bb6\u5171\u540c\u8fdb\u6b65\u3002\u6211\u4e5f\u611f\u53d7\u5230\u4e86\u65b0\u65f6\u4ee3\u5f00\u6e90\u7684\u4ef7\u503c\uff0c\u4ee5\u540e\u6240\u6709\u6709\u4ef7\u503c\u7684\u4e8b\u7269\u548c\u7814\u7a76\u4e00\u5b9a\u90fd\u662f\u4f1a\u88abAI\u7528\u4e0a\u7684\u90a3\u90e8\u5206\u800c\u4e0d\u662f\u79c1\u6709\u7684\u90a3\u90e8\u5206\uff0c\u79c1\u6709\u53ea\u4f1a\u5bfc\u81f4\u5931\u4f20\u3002\u8d39\u9a6c\u6ca1\u6709\u63d0\u4f9b\u8bc1\u660e\u5bfc\u81f4\u8d39\u9a6c\u5b9a\u7406\u62d6\u5ef6\u4e86\u4eba\u7c7b\u5bf9\u5176\u7684\u8fed\u4ee3\u53d1\u5c55352\u5e74\uff0c\u800c\u516c\u5f00\u867d\u7136\u5931\u53bb\u4e86\u79c1\u6709\u7684\u8fd9\u90e8\u5206\u4ef7\u503c\u8ba9\u5927\u5bb6\u90fd\u53ef\u4ee5\u5f88\u4fbf\u5b9c\u7684\u7528\u4e0a\u6211\u82b1\u65f6\u95f4\u7cbe\u529b\u6295\u5165\u4ea7\u51fa\u7684\u6210\u679c\uff0c\u4f46\u5927\u5bb6\u7684\u5f15\u7528\u91cc\u90fd\u5c5e\u4e0a\u4e86heliosli\u8fd9\u4e2a\u540d\u5b57\u3002\u66f4\u4f55\u51b5\u6211\u672c\u8eab\u4e0d\u662f\u4e13\u4e1a\u7684\u9aa8\u79d1\u533b\u751f\u6839\u672c\u770b\u4e0d\u61c2X\u5149\u7247\uff0c\u80fd\u5728kaggle\u8fd9\u4e2a\u5305\u5bb9\u7684\u5e73\u53f0\u91cc\u5206\u4eab\u51fa\u4f5c\u4e3a\u4e00\u4e2a\u6a21\u578b\u5de5\u7a0b\u5e08\u5bf9\u4e8e\u6a21\u578b\u7684\u6280\u672f\u6539\u9020\u548c\u8bad\u7ec3\u4f18\u5316\uff0c\u6211\u5c31\u611f\u89c9\u8fd9\u6bb5\u65f6\u95f4\u5f88\u6709\u4ef7\u503c\u4e86\u3002\u8fd9\u662f\u6211\u8fd9\u6bb5\u65f6\u95f4\u4ece\u4e00\u4e2a\u4f01\u4e1a\u7684\u7ba1\u7406\u8005\u9762\u5bf9\u9879\u76ee\u5230\u4e00\u4e2a\u4e00\u7ebf\u6a21\u578b\u5de5\u7a0b\u5e08\u9762\u5bf9\u7ade\u4e89\u548c\u8fed\u4ee3\u541e\u566c\u7684\u601d\u8003\uff0c\u5e0c\u671b\u5bf9\u4f60\u4f1a\u6709\u5e2e\u52a9\u3002<img src=\"https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F31141478%2F4ad7293305e8b279dab4812931f5d311%2F31f9bd82128a2e26d0cfc572f1d57777.png?generation=1792154991616686&amp;alt=media\" alt=\"\"></p>"
+    },
+    {
+      "id": 3539835,
+      "authorName": "D Chakraborty",
+      "votes": 1,
+      "postDate": "2026-10-16T16:08:55.543000",
+      "content": "<p>Let's use images from now on so you have to put in some actual effort before Claude can write your essays \ud83e\udd23</p>\n<p><img src=\"https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F5819143%2F0b0147d33463763545c42859c08e816f%2FScreenshot%202026-10-16%20at%207.08.25PM.png?generation=1792166918664849&amp;alt=media\" alt=\"\">\n<img src=\"https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F5819143%2Fd46ba2cf85a34d8eb53bf23362e0ac06%2FScreenshot%202026-10-16%20at%207.08.08PM.png?generation=1792166929538529&amp;alt=media\" alt=\"\"></p>"
+    },
+    {
+      "id": 3539854,
+      "authorName": "Heliosli",
+      "votes": -5,
+      "postDate": "2026-10-16T16:44:58.923000",
+      "content": "<p><img src=\"https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F31141478%2Fd7e27f5500e6ab9fd0bd3423493a4f7e%2Fdc1f65ba2f41f1d5a9fcd7086924b86f.png?generation=1792168966322526&amp;alt=media\" alt=\"\">  I genuinely thought you wanted to help me, or that you needed help yourself. But if you just want to take screenshots, you should include the full context.</p>"
+    },
+    {
+      "id": 3539879,
+      "authorName": "D Chakraborty",
+      "votes": 0,
+      "postDate": "2026-10-16T17:23:35.463000",
+      "content": "<p><img src=\"https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F5819143%2F7ee3d9b3a62fb887a3bbf5bc58fc6297%2FScreenshot%202026-10-16%20at%208.23.15PM.png?generation=1792171411724438&amp;alt=media\" alt=\"\"></p>"
+    },
+    {
+      "id": 3540351,
+      "authorName": "Dread Development",
+      "votes": 1,
+      "postDate": "2026-10-17T17:48:42.327000",
+      "content": "<p>Sorry but in case you haven\u2019t noticed, we were well aware that you didn\u2019t actually do anything other than copy/paste.\nI did also take your public notebook apart as well as everything pertaining to RSNA (literally do it once a week to everyone so you\u2019re not special just so we\u2019re on the same page) you have errors within your public notebooks that YOU introduced from a copy of my code.</p>\n<p>Now I made my code/notebook/weights public so that other competitors could learn and grow, not so people could copy/paste with no earthly idea as to what is going on.</p>\n<p>I for one am most against the use of AI at all, however the quality of your copy/paste on my work is by far the lowest quality &amp; the fact you continue to post &amp; attempt to mitigate/defend yourself is mind boggling as can be.</p>\n<p>Respectfully, learn to think for yourself.</p>\n<p>&amp; perhaps next time you copy/paste someone\u2019s work don\u2019t attempt to pass it off as your own.</p>\n<p>Raptor has been a creation of dread development, unique and specific for this competition. \nI myself spent many late night working very hard so to see you galavant around like you did this is laughable.</p>\n<p>I hope you learn from this and in the future just do better.</p>"
+    },
+    {
+      "id": 3537930,
+      "authorName": "Raagav Anand",
+      "votes": 4,
+      "postDate": "2026-10-13T11:19:59.847000",
+      "content": "<p>hello there good sir</p>\n<p>The notebook publishing lock will indeed be in effect in 3 days. However, the lock for updating notebooks is in fact never implemented. I saw this in kaggriculture and to be frank I feel it was a main reason why I dropped several places on the leaderboard. Literally 2.5 hours before the competition ended there were new things on the notebook arena that when detected and forked gave a #600-#700 rank </p>\n<p>While yes that is not silver or gold, I feel it really de-values the bronze medal that so many of us have put insane effort to achieve</p>\n<p>Thank you.</p>"
+    },
+    {
+      "id": 3538658,
+      "authorName": "k256.dev",
+      "votes": 2,
+      "postDate": "2026-10-14T16:41:08.523000",
+      "content": "<p>I'm not so sure about that, bro. Looking at what's actually inside the public notebook scoring 0.954, it might surprisingly not be overfitting after all. As for the 0.957 notebook, well, that's harder to say.\ud83d\ude05</p>\n<p>I know that's not usually the case in most competitions, but this time, it might actually end up scoring surprisingly well.</p>\n<p>Quite a significant proportion of participants were affected by this in BirdCLEF+ 2026. This time, the impact could be even greater. Given that it has happened before, I don't think we can simply ignore the possibility.</p>"
+    },
+    {
+      "id": 3536805,
+      "authorName": "ForcewithMe",
+      "votes": 15,
+      "postDate": "2026-10-11T09:25:02.810000",
+      "content": "<p>I think a better approach would be to freeze all notebook achievements as of a certain date. All achievements earned before that cutoff would be retained\u2014medals, titles, the fancy GM profile frames\u2014but no new notebook achievements would be added after that date. This change should be implemented in a way that makes players who have genuinely contributed to Kaggle's open-source ecosystem feel respected.\nFive years ago, earning a Notebook GM title carried real weight, but today it's worth re-examining. Kaggle has already removed the discussion achievements and titles, yet nowadays, some widely recognized contributions\u2014insightful comments, healthy commentary that guides the direction of competitions\u2014are actually more valuable than AI-generated code, or code that farms scores and undermines leaderboard fairness.</p>"
+    },
+    {
+      "id": 3536908,
+      "authorName": "mikelou1",
+      "votes": 10,
+      "postDate": "2026-10-11T13:44:51.900000",
+      "content": "<p>dw i'll be releasing '\ud83d\udea8\ud83e\udd2f\ud83d\udd25 [ORIGINAL] NOVEL HYPER MEGA ULTRA-BLEND (DUAL GRANDMASTER SOTA BLEND) MULTI-EXPERT QUANTUM  NEURO SYNTHESIS \u2b50\u2b50\u2b50\u2b50\u2b50\u2705\u2705\ud83d\udc4d' tomorrow that (hopefully) scores 0.956</p>"
+    },
+    {
+      "id": 3537085,
+      "authorName": "Danial Zakaria",
+      "votes": 0,
+      "postDate": "2026-10-11T20:22:33.530000",
+      "content": "<p>I have to admit, this is a funny response \ud83e\udd23</p>"
+    },
+    {
+      "id": 3537166,
+      "authorName": "Dread Development",
+      "votes": 0,
+      "postDate": "2026-10-12T03:21:54.463000",
+      "content": "<p>This was great </p>"
+    },
+    {
+      "id": 3538812,
+      "authorName": "Trandict Ellegus",
+      "votes": 0,
+      "postDate": "2026-10-14T20:11:32.243000",
+      "content": "<p>true and funny</p>"
+    },
+    {
+      "id": 3536702,
+      "authorName": "AK",
+      "votes": 10,
+      "postDate": "2026-10-11T03:50:56.317000",
+      "content": "<p>people posting high public notebook at the final leg of competition is ALWAYS the worst, it kills the soul of the competition :'(</p>\n<p>with this speed i think soon we will see .960 notebook :p</p>"
+    },
+    {
+      "id": 3536753,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-11T06:36:56.467000",
+      "content": ""
+    },
+    {
+      "id": 3536773,
+      "authorName": "Ravi Ramakrishnan",
+      "votes": 8,
+      "postDate": "2026-10-11T07:57:44.060000",
+      "content": "<p>With almost 100% code being generated with coding agents lately, are notebook medals still relevant <a href=\"/cody11null\" target=\"_blank\">@cody11null</a>? I think Kaggle could simply scrap off datasets and kernels tiers and resort to competitions only, like older times. If anyone wishes to share code, he/ she could do it in good faith and such public sharing could be put to rest (people deliberately sharing code like this are doing it just for votes and have no interest in competing anyway. With no votes and medals, these bad actors will naturally move off).</p>"
+    },
+    {
+      "id": 3536956,
+      "authorName": "Raymond Yuen",
+      "votes": 6,
+      "postDate": "2026-10-11T15:02:40.343000",
+      "content": "<p>It is genuinely sad to think about how the vast majority of hardworking participants\u2019 work suddenly means nothing.</p>"
+    },
+    {
+      "id": 3536958,
+      "authorName": "AK",
+      "votes": 2,
+      "postDate": "2026-10-11T15:04:21.857000",
+      "content": "<p>still private lb will be our saviour my friend .. \ud83d\ude00</p>"
+    },
+    {
+      "id": 3536960,
+      "authorName": "Raymond Yuen",
+      "votes": 3,
+      "postDate": "2026-10-11T15:09:47.750000",
+      "content": "<p>Or imagine the public blends actually outperforming us on private. That\u2019ll be the real nightmare \ud83d\ude28</p>"
+    },
+    {
+      "id": 3536974,
+      "authorName": "Cody_Null",
+      "votes": 5,
+      "postDate": "2026-10-11T15:54:49.753000",
+      "content": "<p>Totally agree. The fact that in 12 hours we can collect 50 upvotes on a post like this you would think would get us a response from Kaggle. </p>"
+    },
+    {
+      "id": 3537165,
+      "authorName": "Dread Development",
+      "votes": 6,
+      "postDate": "2026-10-12T03:21:30.137000",
+      "content": "<p>Honestly just waiting to see the private board at this point.\nThe teams that didn't put effort into &amp; don't understand will do far worse than those of us that have spent months working away.\nA large portion of the board is just forked versions of my 0.924 weights as well as other solid datasets &amp; unfortunately as much as I wanted to release my 0.945 weights I haven't because of this.</p>"
+    },
+    {
+      "id": 3536709,
+      "authorName": "Bull",
+      "votes": 6,
+      "postDate": "2026-10-11T04:27:17.713000",
+      "content": "<p>With the advancement of coding agents, the current rules are no longer as appropriate as they used to be.</p>"
+    },
+    {
+      "id": 3537087,
+      "authorName": "Danial Zakaria",
+      "votes": 2,
+      "postDate": "2026-10-11T20:35:24.570000",
+      "content": "<p>Personally, I don't see a problem with sharing, even this late. I shared my best single model (0.949) because I was stuck and hoped to get new ideas from others once they adapted it, and that's exactly what happened. And of course, I was also hoping for some votes.</p>\n<p>Did I lose my rank on the leaderboard? Yes. By the next day I was already down by 500, and others combined it with ensembles and picked up most of the votes. But I was so stuck that I was willing to sacrifice that just to find out how on earth everyone else was climbing so high. I honestly didn't expect an ensemble to give such a big boost.</p>"
+    },
+    {
+      "id": 3537090,
+      "authorName": "Cody_Null",
+      "votes": 2,
+      "postDate": "2026-10-11T20:40:48.187000",
+      "content": "<p>I personally consider your work to be different. Your work and the work of <a href=\"/dreaddevelopment\" target=\"_blank\">@dreaddevelopment</a> would be the people I think should be getting more credit, not less. I personally don\u2019t love the timing but it is great for the hosts and for learning so I can\u2019t complain too too much! In most instances if people were already above your score then your sharing should only help I would think!</p>"
+    },
+    {
+      "id": 3536905,
+      "authorName": "k256.dev",
+      "votes": 2,
+      "postDate": "2026-10-11T13:36:42.197000",
+      "content": "<p>I saw a suggestion to add downvotes to notebooks -- but if that happens, bots\nwill just end up downvoting every notebook LOL.</p>"
+    },
+    {
+      "id": 3536906,
+      "authorName": "Ravi Ramakrishnan",
+      "votes": 0,
+      "postDate": "2026-10-11T13:40:26.467000",
+      "content": "<p>What will a downvote do anyway? Bad actors will share such junk and net upvotes will outweigh downvotes <a href=\"/k256net\" target=\"_blank\">@k256net</a> </p>"
+    },
+    {
+      "id": 3536936,
+      "authorName": "Cody_Null",
+      "votes": 1,
+      "postDate": "2026-10-11T14:26:30.317000",
+      "content": "<p>Idk I would imagine the same volume of people that upvote this would downvote the copies, but I do fear it would still be outnumbered by forks</p>"
+    },
+    {
+      "id": 3537118,
+      "authorName": "Pand",
+      "votes": 0,
+      "postDate": "2026-10-11T22:49:14.773000",
+      "content": "<p>yep. so fair.</p>"
+    },
+    {
+      "id": 3539077,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-15T09:59:40.370000",
+      "content": ""
+    },
+    {
+      "id": 3538362,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-14T03:37:35.830000",
+      "content": ""
+    },
+    {
+      "id": 3537703,
+      "authorName": "",
+      "votes": 16,
+      "postDate": "2026-10-12T23:47:35.677000",
+      "content": ""
+    },
+    {
+      "id": 3537969,
+      "authorName": "ForcewithMe",
+      "votes": 7,
+      "postDate": "2026-10-13T13:08:57.717000",
+      "content": "<p>How about extending the deadline of high-scoring notebook from 1 week to 1 month?</p>"
+    },
+    {
+      "id": 3538934,
+      "authorName": "Cody_Null",
+      "votes": 1,
+      "postDate": "2026-10-15T02:16:52.680000",
+      "content": "<p>I have been proposing this for some time myself to me a month is plenty of time to adapt, adopt, or retest. </p>"
+    },
+    {
+      "id": 3540319,
+      "authorName": "Yassine Alouini",
+      "votes": 1,
+      "postDate": "2026-10-17T16:39:25.493000",
+      "content": "<p>I think 1 month could be a lot for shorter competitions, maybe a percentage of the total duration of the competition? So for a 3 months competition, 1 month should be fair etc.</p>"
+    },
+    {
+      "id": 3537091,
+      "authorName": "",
+      "votes": -1,
+      "postDate": "2026-10-11T20:42:26.217000",
+      "content": ""
+    },
+    {
+      "id": 3537094,
+      "authorName": "Cody_Null",
+      "votes": 8,
+      "postDate": "2026-10-11T20:56:58.647000",
+      "content": "<p>I would argue that the hundreds of forks that are nearly identical are not just not making scores better, but that they are actively making scores worse by making it harder to see actually helpful notebooks. </p>"
+    },
+    {
+      "id": 3540312,
+      "authorName": "Yassine Alouini",
+      "votes": 1,
+      "postDate": "2026-10-17T16:27:22.050000",
+      "content": "<p>100%. Maybe, using Gemini or Gemma, Kaggle could have a CI check each time a notebook is made public and if it is very similar to previously posted notebooks, it would be hidden or put at the bottom of the list of notebooks.</p>"
+    },
+    {
+      "id": 3540332,
+      "authorName": "D Chakraborty",
+      "votes": 0,
+      "postDate": "2026-10-17T17:16:00.430000",
+      "content": "<p>Honestly we need bot detection for vibe coded llm slops aimed at upvotes. Near duplicate detection and behavioral fingerprinting aren't difficult to implement either. Both discussion and code sections are filled with this garbage.  The question is whether Kaggle wants a community of actual contributors or an endless army of bots posting generated slops.</p>\n<p><img src=\"https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F5819143%2Fb01ed2a5cc09d6a49ee450b3ea8961a0%2FScreenshot%202026-10-16%20at%207.08.25PM.png?generation=1792256454661554&amp;alt=media\" alt=\"\"></p>"
+    }
+  ]
+}

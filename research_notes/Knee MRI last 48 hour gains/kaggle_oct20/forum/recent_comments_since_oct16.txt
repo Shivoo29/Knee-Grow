@@ -1,0 +1,581 @@
+
+====================================================================================================
+TOPIC 735304 (2026-08-14): Best single-model score
+--- [2026-10-16T04:28] colum2131 (votes 0, id 3539501)
+Thanks!
+
+The pseudo-labels are generated from the images, with the image model taking the same input as at submission time. I tried separate heads to predict the LLM labels and the pseudo-labels, but currently I just blend the two at a fixed ratio and use the blended labels as training targets.
+--- [2026-10-16T05:00] Syed Asad Ali (votes 0, id 3539539)
+how have you been improving your labels gradually?
+--- [2026-10-16T10:17] Nicolai Karcher (votes 0, id 3539695)
+thanks for the info! Could you give some hints on how to select the best checkpoint? can only be done 100% fairly on completely held out 58 gold knees, but that is very noisy
+
+====================================================================================================
+TOPIC 743416 (2026-09-26): Please clarify which external knee MRI datasets are allowed
+--- [2026-10-16T06:11] Richard_61 (votes -1, id 3539588)
+@cdcarr [/cdcarr] thank you for the ruling, it settles most of the dataset questions. One case it leaves open is the one @drizlo [/drizlo] raised right below it, and it decides which side of your test OAI falls on. Tagging the rest of the host and Kaggle team so it is seen before final selections: @javaduke95 [/javaduke95] @michelleriopel [/michelleriopel] @shosys [/shosys] @ryanholbrook [/ryanholbrook] @macruzbar [/macruzbar]
+
+OAI's own process meets the letter of the test. It needs a Login.gov account and acceptance of NDA's data use terms, with no institutional sign-off, and individuals report being approved at once. Whether a participant can actually get it depends on where they live:
+
+
+NIH notice NOT-OD-25-083 bars access to NIH controlled-access repositories from "countries of concern", China included, and NDA's security notice repeats this for NDA data.
+Login.gov rejects registrations from China with error LG22. Several participants in #746792 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/746792] report the same error after trying several email addresses.
+An NDA help-desk reply posted in this thread says the restriction does not apply to OAI. That contradicts the reports above, and participants cannot resolve it themselves.
+China is not on the excluded list in Rule 3.1, and Rule 2.6.b names "geo restrictions" as something that can stop external data from being reasonably accessible to all.
+
+This matters for fairness. In its author's own table in #746792 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/746792] (a recipe comparison, not a controlled ablation), adding 2,399 OAI knees moved the public 0.949 model from 0.940 to 0.945. Near the medal lines about 135 teams share each 0.001 (count in #749570 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/749570]), so a gain of that size is several hundred places. Checkpoints trained on OAI are now inside many of the top public notebooks, while teams that cannot register, or that read the rules strictly, cannot match it. Your ruling says winners should be distinguished by ingenuity rather than privileged access to resources; access that depends on a participant's country is that kind of privilege.
+
+Two yes/no questions, so that every team picks its final submissions under the same rule:
+
+
+Does a dataset whose provider blocks participants in an eligible country meet "equally accessible to use by all Participants"?
+If not, does the same apply to publicly shared weights trained on that dataset? Your answer in #744056 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/744056] covered weights trained on the competition data.
+
+Our final selections use competition data only, and we will follow whichever answer you give. Thank you.
+--- [2026-10-16T09:02] hengck23 (votes 2, id 3539661)
+I think time to move on. Don’t get yourself trapped into external data details. The host already said they won’t say yes or no on specific data. (please read their latest post). 
+
+Move on! If it doesn’t work for you, try other methods. It is last week and they cannot make any changes now. Fair or not fair is one matter. What you can do is another. You should assume the host cannot and would not make changes at last week and move on based on your best available choice.
+
+My point is : move on!!!
+--- [2026-10-18T04:58] nishchal jain (votes -4, id 3540493)
+@heliosli [/heliosli] @cdcarr [/cdcarr]
+
+Following RSNA's request in this thread (14 Oct) and the reply in 744056 to list shared weights and their source datasets, here is everything external used in our submissions.
+
+Summary
+
+
+
+Resource
+Licence
+Used for
+
+
+
+
+4 public LLM report-label tables
+CC0-1.0
+Training labels for our own models
+
+
+ImageNet weights (timm convnext_tiny.fb_in22k_ft_in1k)
+Apache-2.0
+Initialising our own models
+
+
+nartaa CoAtNet-2 checkpoints
+other
+Inference only
+
+
+heliosli R6 ConvNeXt-S bundle
+other
+Inference only
+
+
+heliosli inference code + anatomy.pt localiser
+other
+Inference only
+
+
+heliosli blend notebook
+public notebook
+Rank-blend code
+
+
+
+
+1. Public LLM report-label tables (CC0-1.0)
+
+stevenleehans/rsna-knee-llm-report-labels [https://www.kaggle.com/datasets/stevenleehans/rsna-knee-llm-report-labels]
+pilkwang/rsna-knee-llm-labels [https://www.kaggle.com/datasets/pilkwang/rsna-knee-llm-labels]
+lixin73/rsna-knee-llm-report-labels-sol56 [https://www.kaggle.com/datasets/lixin73/rsna-knee-llm-report-labels-sol56]
+dreaddevelopment/rsna-knee-labels [https://www.kaggle.com/datasets/dreaddevelopment/rsna-knee-labels]
+
+Use: the mean of the four as soft training targets for our own 2.5D models, together with out-of-fold predictions of our own models.
+
+2. ImageNet weights (Apache-2.0)
+
+timm convnext_tiny.fb_in22k_ft_in1k
+
+Use: initialisation of our own models.
+
+3. nartaa CoAtNet-2 checkpoints (384 px, 224 px)
+
+nartaa/rsna-knee-publication-swa-weights-20261007 [https://www.kaggle.com/datasets/nartaa/rsna-knee-publication-swa-weights-20261007]
+Licence: "other" (research and education, incl. this competition)
+
+Use: inference only. Per the authors, trained with the competition data plus 2,399 baseline knees of the Osteoarthritis Initiative (OAI, NIMH Data Archive).
+
+4. heliosli R6 ConvNeXt-S bundle
+
+heliosli/rsna-knee-r6-frozen-fe055406-w1 [https://www.kaggle.com/datasets/heliosli/rsna-knee-r6-frozen-fe055406-w1]
+Licence: "other"
+
+Use: inference only.
+
+5. heliosli inference code + anatomy.pt knee localiser
+
+heliosli/rsna-orthofoundation-fold0-epoch7-20261004 [https://www.kaggle.com/datasets/heliosli/rsna-orthofoundation-fold0-epoch7-20261004]
+Licence: "other"; upstream licences retained
+
+Use: inference only, to place R6's crops. Per its documentation, the localiser was trained on SKM-TEA (Stanford AIMI). The OrthoFoundation ViT weights in this dataset are not loaded.
+
+6. Blend recipe
+
+heliosli/blend-mine-in-private-lb-luck-to-all-upvoters [https://www.kaggle.com/code/heliosli/blend-mine-in-private-lb-luck-to-all-upvoters]
+Public notebook (competition code-sharing rule)
+
+Use: rank-blend code for the three readers above.
+
+
+Not used
+
+OAI, fastMRI / fastMRI+, MRNet, KneeMRI or SKM-TEA images directly
+The R7 bundle
+
+
+Question for @heliosli [/heliosli]
+Was R6 (bundle fe055406, run tag cnx_r6fm) trained with fastMRI or fastMRI+ data in any way, including an auxiliary task?
+
+Its manifest lists no fm_aux entry, but the trainer version supports one, and I'd like to be sure before final selection.
+
+Thanks to nartaa, heliosli and the label-table authors for sharing their work! 🙏
+--- [2026-10-18T23:42] RealEclypso (votes -2, id 3540805)
+Hi organizers, could you clarify how Section 2.6 applies to publicly released pretrained models? Are research/competition checkpoints trained partly on OAI allowed when access to the original raw data is geographically restricted? Does the answer differ for Stanford's ungated, Apache-2.0 SKM-TEA anatomy checkpoint used only for localization? We would disclose the exact models and training-data lineage and retain the original notices. We are asking for clarification, not an exception. Thank you!
+
+====================================================================================================
+TOPIC 743698 (2026-09-26): Am new here: Is the Kaggle GPU enough for this competition?
+--- [2026-10-16T20:44] Arun (votes 1, id 3539967)
+I trained a model from scratch from 0.85 to 0.92 just by using Kaggle gpu. Fusion with public notebook gives me 0.93 not sure whether its enough to earn a medal but had pretty fun in this competition and had lot to learn from this competition. 
+
+@cdeotte [/cdeotte] how do you find whether a public model overfits as most of them expose there weight only not pipeline, aint it a black box, shedding some light would help me ?
+
+Thanks
+
+====================================================================================================
+TOPIC 744230 (2026-09-29): PSA: bf16 on Kaggle's T4/P100 silently cost me 0.14 AUC (0.851 → 0.710). How to spot it.
+--- [2026-10-19T04:19] Capitaalgain (votes -2, id 3540858)
+Thanks for sharing your DINOv2 approach. Would you consider publicly releasing the five-fold checkpoints and a minimal inference/preprocessing script for all participants? An independent architecture would be valuable to evaluate before the final deadline. A public download link with the required settings and license would be very helpful.
+--- [2026-10-19T04:46] SwapIY (votes -2, id 3540872)
+Great write-up. "A silent partial fallback looks exactly like a bad model" is the line I wish I'd read earlier. Two related things that only showed up at hidden-test scale for us:
+
+
+If you push kernels with the CLI, set "machine_shape": "NvidiaTeslaT4" in kernel-metadata.json. Otherwise a GPU kernel can land on a P100 (sm_60), which the offline torch build we used doesn't support.
+For blend kernels with a try/except fallback, check the commit log for each member's fallback/empty count, not just that submission.csv exists. A member that fails quietly still produces a perfectly valid-looking file.
+
+====================================================================================================
+TOPIC 745949 (2026-10-05): Synovitis and Effusion Help
+--- [2026-10-19T15:56] voires (votes -1, id 3541151)
+Thanks for sharing, especially the report/expert disagreement breakdown. Your Effusion image-model result looks interesting. Could you clarify a few details?
+. Which image architecture and MRI preprocessing did you use?
+. How did you encode “not mentioned,” explicit negatives, and small/equivocal effusions in the pseudo-labels—separate states, soft probabilities, or binary labels?
+. How were the58 expert-labelled studies used: evaluation only, or also prompt/model selection? Were their images and any related studies excluded from training? Do you have results on another held-out set?
+. Would you consider sharing the checkpoint and inference code, if permitted? Otherwise, continuous per-study predictions on the58 would be helpful for comparing error patterns.
+I’m particularly interested in whether your reader makes different errors from an existing ensemble, rather than just comparing standalone AUCs.
+
+====================================================================================================
+TOPIC 747455 (2026-10-08): are public weights trained on OAI knee MRI allowed?
+--- [2026-10-19T22:46] María Cruz (votes 1, id 3541335)
+Hi @anaychauhan [/anaychauhan], Arihant, and everyone -- apologies for the delay in getting back to you.
+
+Unfortunately, we cannot provide legal interpretations of third-party data-use agreements or licenses, or pre-approve specific datasets or model weights under the competition rules. As Chris Carr (@cdcarr) shared on behalf of RSNA in this thread [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/743416#3538535], the host is not designating individual external datasets as permitted or off limits.
+
+Instead, please refer to the Competition Rules and the guidance the host team has shared across the forum when choosing your final submissions. Ultimately, each team is responsible for ensuring that their submission and any external data or models they use comply with both the Competition Rules and the third-party provider's terms of use.
+
+Good luck with your final submissions!
+
+María
+
+====================================================================================================
+TOPIC 747658 (2026-10-09): RSNA Knee MRI reports — LLM label-extraction benchmark 
+--- [2026-10-16T08:32] Kirderf (votes 0, id 3539655)
+Still trying understand the new Kaggle Benchmark engine, still showing overall model benchmark score even with partial study scores, reading the logs looks like it can be the daily kaggle quota/credit limits, going for a top 10 studiues instead for Vision, for the Reports we managed to take all 58 in one prompt!
+--- [2026-10-16T08:58] Nicolai Karcher (votes 0, id 3539660)
+The image you shared above, with >90% AUC VLM performance - is that on all labels of 58 gold knees using the 'mosaic' image you posted? if so, I'm doing something very wrong, cause I am not even close to that level of performance :P
+--- [2026-10-16T09:16] Kirderf (votes 0, id 3539667)
+I think you shall let that one go due to my recent post of failed and inconsistent scores for vision, I want 58/58 several of times, showing the similiar score not only once and not with underlying/hidden failures, kaggle daily quota limit seems like one bottleneck so I'm now working with fewer but still good spread/balance studies instead, and min to max canvas tasks, then running several of times. Let us see what that get us! Btw, if someone put work testing and published benchmarks from the hengck23 linked solution https://github.com/lamawmouk/SGMRI-VQA [https://github.com/lamawmouk/SGMRI-VQA] , it showed massive results in the github report, that would be interesting to see!
+
+====================================================================================================
+TOPIC 748181 (2026-10-11): Kaggle could we please start doing something about the public notebooks? 
+--- [2026-10-16T07:09] Khubchandani (votes 1, id 3539620)
+Will there be a hard stop on release of high scoring notebooks now that we are entering the last week of the competition?
+--- [2026-10-16T07:13] AK (votes 2, id 3539625)
+she has switch off her comments
+https://www.kaggle.com/code/heliosli/blend-mine-in-private-lb-luck-to-all-upvoters/comments [https://www.kaggle.com/code/heliosli/blend-mine-in-private-lb-luck-to-all-upvoters/comments]
+
+Enjoy
+--- [2026-10-16T12:49] Heliosli (votes -4, id 3539754)
+我用中文来回答你的回复吧，因为现在最强的AI也没有办法做到很好的中文长难句措辞，同时你说认真读完了我写的内容，所以我也以这样的方式证明我是自己写的回复从而表达我对你的尊重。
+
+首先我想做一个澄清，我们这场讨论里其实存在两个部分的矛盾。
+
+第一是大量低质量的笔记本充斥社区，这些笔记本仅仅复制高分权重，却不引用或注明原始出处，这确实会损害讨论的质量，而这与我无关，我分享所付出的牺牲都是我自己的：我投入的时间、精力和金钱，以及我原本可以独占的竞争优势——这些优势原本可以用来追求更高的排名或奖牌。分享这些成果有助于创造更好的解决方案，也符合社群的利益。正因如此，我相信我做的是正确的，也正因如此，我不认为我应该成为众矢之的，被卷入各种不同的指责之中。
+
+第二就是你所说的奖牌获得的问题，我是靠自己的投入产出了更好的成绩并且公开，并不只是简单的调一个参去获得奖牌。我这样的行为是只对我自己有消耗而对所有人都有益的事，但对于我分享的所有代码和模型研究成果而言，我自己一个人在用自己本可以环游世界的休息时间在投入一场比赛，同时花费了过万美元的投入而言，其实几个notebook的金牌并不足以让我投入这些。而在现在的这个时代，歌颂“时长”，“古法编程”，“苦功”更是一件除了自我感动以外没有任何意义的事。洗衣机可以又快又好的洗好你的衣服，如果这个时候有个人说我每次洗衣服都是自己手搓的，只有手搓的才干净，尊重每一个手搓的人，那我也确实会尊重并且远离他。我们这个领域一直以来都崇尚用更轻松的方式达到更好的效果，并且我们永远都只会用最好的方案和模型，今天fable强我们会用fable，明天astra强我们也不会对fable有任何留恋。我们所有人身处的所有行业现在都在被AI吞噬，我更想体验的是将自身投入进这场AI进化的浪潮里看看是什么样的感觉，恰好kaggle也是一个拥有非常棒的分享环境的社区，也就像我上面提到的，一项发展可能代表着集体知识的巨大进步，同时也引发了人们对个人认可和利益的严重担忧。并且，其实即使有人只关心竞赛的输赢，开源参考代码是否可用实际上也是最不重要的因素之一。
+
+我认为我们正处于一个转折点。我们开始面对这样一种可能性：一旦个人的想法和经验变得唾手可得，它们作为独特优势的价值可能会降低，因为人工智能可以迅速在此基础上发展，甚至超越个人独自所能达到的高度。然而，从全人类的角度来看，这或许是一件好事：世界各地的人们都可以利用人工智能来拓展这些洞见，站在前人的肩膀上。
+
+以后在ai时代所有的东西都会变得便宜，并且以后会加剧自己的研究如果没有任何人知道就没有价值的现象，但只要有人知道了，AI就很难不知道，AI知道了以后，这份“独有”的价值就会从非常高变成一个调用的token费。作为个体，我们可能需要时间来适应这种变化。
+
+无论如何，我认为高质量的代码、知识、深刻的见解和有意义的成果都应该得到尊重，并且应该公开分享。这种慷慨精神确实令人钦佩。这些贡献背后凝聚着时间、精力、金钱和资源的真正投入，它们被无偿提供，使他人受益，并促进整个社区的进步。我分享的是我自己投入时间和精力进行的研究和成果。任何人都可以免费使用。我不认为分享这些会损害任何人的利益；我认为这是对社区的积极贡献。
+
+计算机这个领域的快速发展是来自于奉献的开源精神，而在其他领域，比如数学，不论是NS方程的问题还是费马的问题，都有很多典型的个体所有权归属问题，而这种归属问题在费马时期其实某种程度上是他获得了大家的赞誉夸奖是天才，让他一句这里证明写不下流传了几百年装完了，但对于我们所有人包括我手下的各个部门在面对AI快速迭代的今天，对于现在的观察以及对未来的预测，我们所有的技术人员和产品人员都在面临你提到的这样的问题——即只要被AI知道了人类专业个体的在这个领域的这部分专业研究，这部分研究就像被剥夺了个体所有权，而且因为ai可以立马做得更好，所以现在这个情况下我们觉得其实没有什么是真正属于自己的了，今天我可以做到的，只要我公开了明天你可以做的比我更好，比如现在，我就亲身体会到了这个感觉，这几万美元的积分和时间精力以及算力是“我的”钱和投入，我的付出打造的成果被大家使用了以后，大家很快就能做的比我更好了，这会让人感觉失落，但与此同时，我也亲身的感受到了上面我提到的我们人类进化的原因，我也致力于在休闲时间内现在在社区帮助大家共同进步。我也感受到了新时代开源的价值，以后所有有价值的事物和研究一定都是会被AI用上的那部分而不是私有的那部分，私有只会导致失传。费马没有提供证明导致费马定理拖延了人类对其的迭代发展352年，而公开虽然失去了私有的这部分价值让大家都可以很便宜的用上我花时间精力投入产出的成果，但大家的引用里都属上了heliosli这个名字。更何况我本身不是专业的骨科医生根本看不懂X光片，能在kaggle这个包容的平台里分享出作为一个模型工程师对于模型的技术改造和训练优化，我就感觉这段时间很有价值了。这是我这段时间从一个企业的管理者面对项目到一个一线模型工程师面对竞争和迭代吞噬的思考，希望对你会有帮助。
+--- [2026-10-16T16:08] D Chakraborty (votes 1, id 3539835)
+Let's use images from now on so you have to put in some actual effort before Claude can write your essays 🤣
+--- [2026-10-16T16:44] Heliosli (votes -5, id 3539854)
+I genuinely thought you wanted to help me, or that you needed help yourself. But if you just want to take screenshots, you should include the full context.
+--- [2026-10-16T17:23] D Chakraborty (votes 0, id 3539879)
+
+--- [2026-10-17T16:24] Yassine Alouini (votes 3, id 3540310)
+I think, unless some measures are put into place, this practice will continue, especially nowadays thanks to coding agents and the likes. 
+A more productive usage would be to fork the best public notebook, ask your best LLM to explain what are the significant ideas, try to reproduce locally or with a cloud setup, and then come up with new ideas etc. 
+Low efforts might lead to random medals but won't translate into any gained knowledge.
+--- [2026-10-17T16:27] Yassine Alouini (votes 1, id 3540312)
+100%. Maybe, using Gemini or Gemma, Kaggle could have a CI check each time a notebook is made public and if it is very similar to previously posted notebooks, it would be hidden or put at the bottom of the list of notebooks.
+--- [2026-10-17T16:39] Yassine Alouini (votes 1, id 3540319)
+I think 1 month could be a lot for shorter competitions, maybe a percentage of the total duration of the competition? So for a 3 months competition, 1 month should be fair etc.
+--- [2026-10-17T17:16] D Chakraborty (votes 0, id 3540332)
+Honestly we need bot detection for vibe coded llm slops aimed at upvotes. Near duplicate detection and behavioral fingerprinting aren't difficult to implement either. Both discussion and code sections are filled with this garbage.  The question is whether Kaggle wants a community of actual contributors or an endless army of bots posting generated slops.
+--- [2026-10-17T17:48] Dread Development (votes 1, id 3540351)
+Sorry but in case you haven’t noticed, we were well aware that you didn’t actually do anything other than copy/paste.
+I did also take your public notebook apart as well as everything pertaining to RSNA (literally do it once a week to everyone so you’re not special just so we’re on the same page) you have errors within your public notebooks that YOU introduced from a copy of my code.
+
+Now I made my code/notebook/weights public so that other competitors could learn and grow, not so people could copy/paste with no earthly idea as to what is going on.
+
+I for one am most against the use of AI at all, however the quality of your copy/paste on my work is by far the lowest quality & the fact you continue to post & attempt to mitigate/defend yourself is mind boggling as can be.
+
+Respectfully, learn to think for yourself.
+
+& perhaps next time you copy/paste someone’s work don’t attempt to pass it off as your own.
+
+Raptor has been a creation of dread development, unique and specific for this competition. 
+I myself spent many late night working very hard so to see you galavant around like you did this is laughable.
+
+I hope you learn from this and in the future just do better.
+--- [2026-10-17T20:05] Amanie El-Hajj (votes 5, id 3540395)
+One thing that keeps coming back is low-effort. 
+
+What is low effort ? Is spending 10k in Claude compute (which is what Eliosli claims it has costed them) + probably just as much in GPU low effort ? 
+
+I feel like this isn't as much the issue, the issue is more about how scoring will even work going from here. Right now we have no difference between the 100th to 1000th position, and while many hope there will be a shakedown, we don't know, and frankly, the notebook doesn't seem to be this overfitted to gold. 
+
+So the question becomes, who even gets a medal, if 80% of silver, and all of bronze, + 500 other people have the same score ? 
+
+It also makes it harder for people to afford competing. Silver used to mean something, so does Kaggle Expert, Kaggle Master. 
+
+If simply copying a notebook will give you the same title, or even a better chance than someone truly learning and competing, does it even mean something ?
+--- [2026-10-18T03:40] ForcewithMe (votes 3, id 3540471)
+@p4rallax [/p4rallax] Perhaps disabling “copy default upvotes” could ease this issue?
+--- [2026-10-18T07:53] Satwik (votes 0, id 3540537)
+Yup I was thinking in the same direction. I'm almost certain no one bothers to upvote these high scoring notebooks, the automatic upvote after copying the notebook is what stacks up. If people actually upvote notebooks without making copies of it, that is a sign of a good contribution I feel.
+--- [2026-10-18T08:18] Ravi Ramakrishnan (votes -1, id 3540543)
+This is a latent problem now-a-days. Firstly, compute costs + agents expenses is an issue and such notebooks accentuate the problem even further. Unfortunately Kaggle won't do anything regarding this - that is the biggest problem @aelhajj [/aelhajj]
+--- [2026-10-18T08:45] D Chakraborty (votes 0, id 3540547)
+Startup pitch: 
+Introducing Vibgle. Kaggle for vibe coders.
+
+Where Claude writes the code, GPT writes the explanations and the only thing you do is prompt repeatedly to produce slops.
+
+Testimony 👇
+--- [2026-10-18T09:25] Mega2814s (votes 9, id 3540549)
+This is my first competition, and the experience has been a little strange. My biggest problem is that the ranking is kind of useless; if someone skilled (or a thief) posts their entire pipeline, including weights, suddenly what used to be a difference of, say, 100 spots becomes one of 1,000. What would the ranking look like if only unique contributions were evaluated? I know I wouldn’t be at the top because I’m kind of a newbie and I’m not interested in copying anyone, but that means I have no way of knowing how well I did.
+
+Plus, that whole “I'll only put together teams if you have a score of +0.94” thing seems stupid to me. Even if there's money for the top finishers, it takes all the fun out of this shared, collaborative project. Is winning medals or votes or whatever really that important?
+
+Also, for someone whose first language isn't English, it's awful to have to read so much AI-generated text everywhere, it's just unintelligible. 
+
+When I first joined this site, I thought it was going to be pretty cool, but pretty soon I lost interest in participating in the forums and sharing my methodology (despite my position on the LB), because what’s the point? It seems like 90% of the traffic on this site is from agents. It’s such a relief to read posts from real people that it makes you wonder what this whole thing is turning into. And it's true that my main problem has nothing to do with whether AI is used or not, but that's certainly the impression it gives.
+--- [2026-10-19T01:07] Matterhorn3838 (votes 0, id 3540821)
+I really agree, I've also seen people just copying other Grandmaster's work in not only this competition but the Google Deepmind and Playground series! This is just so annoying!
+
+====================================================================================================
+TOPIC 748295 (2026-10-11): Stuck at .954 is there anyway to bypass it ?
+--- [2026-10-16T09:03] Heliosli (votes -2, id 3539662)
+Thanks for your concern! Yep, I’ve used it all up. Care to top it up for me?
+--- [2026-10-16T09:13] D Chakraborty (votes 1, id 3539665)
+Funny that you need to spend on vibe coding and still stuck way at the bottom. 🤣 Kaggle was meant for people to learn and then we got people like you 
+
+
+
+Screenshotted so you can't delete. Good vibes!
+--- [2026-10-16T09:22] Heliosli (votes -1, id 3539669)
+I thought you were asking because you wanted to sponsor me with some Claude credits…
+--- [2026-10-16T09:33] Heliosli (votes -1, id 3539673)
+Anyway, if money’s tight and you’re doing everything manually because you can’t afford vibe coding, feel free to email me your payment details—I’d be happy to sponsor you with some Claude code credits if that could help you improve on your current score.
+--- [2026-10-16T09:52] D Chakraborty (votes 0, id 3539683)
+Yeah, money's tight but compute, isn't. If your agents need some B200 horsepower to finally get past 0.957, let me know. Happy to sponsor. Maybe use those Claude credits to improve your own score first. I can write my own code and my own Kaggle replies too
+--- [2026-10-16T10:17] Nicolai Karcher (votes 0, id 3539694)
+is this a fever dream? lol
+--- [2026-10-16T11:11] AK (votes 2, id 3539710)
+so you spent as much as the first place prize money… I think RSNA should contact you next time for sponsorship 🥹
+--- [2026-10-16T11:44] Heliosli (votes -3, id 3539737)
+Honestly, how much I’ve spent isn’t the point. The money’s never going to run out. I care much more about having a good community where people can exchange ideas. It’s clear that sharing my code has helped others improve. I’ve had a bit more free time lately, and knowing I’ve used it to do something meaningful is enough for me.
+
+When it comes to model performance, data quality always comes first. I have a master’s in data science, and ever since I started studying the subject seriously, that lesson has only become clearer to me. But in this competition, I don’t have a radiologist’s expertise in reading and interpreting medical images. As I mentioned in my comment under the first-place Biohub solution, I also have ADHD. What I bring to the table is my understanding of models and the skills I’ve developed as a data scientist. I’ve done almost no manual annotation—the 0.958 score came entirely from my work on the modeling side.
+
+I’ve also fully embraced letting AI write code for me. I genuinely haven’t written a single line of code myself; it’s all been done through AI agents. Still, even the best LLMs we have access to today have plenty of room to improve when it comes to this kind of specialized annotation.
+
+As I mentioned in another discussion, once models from OpenAI and Anthropic can truly handle this kind of work, that expertise will lose its value as an exclusively individual advantage. Instead, it will become something everyone can build on, driving progress for humanity as a whole.
+
+Maybe competitions like this won’t exist anymore one day. But I’m sure there will be better ones—competitions we can’t even imagine yet. I’m looking forward to that day.
+
+I actually thought about hosting a Kaggle competition a while back, but a few of the departments I oversee have been pretty busy lately, so I haven’t had a chance to move it forward yet. Maybe soon, though—keep an eye out!
+--- [2026-10-16T14:15] D Chakraborty (votes 1, id 3539785)
+"A community where people exchange ideas"
+what ideas have you actually exchanged? So far it's been ultra mega giga blends, one click notebooks  and claude generated essays about the future of humanity. 
+
+Masters in data science yet Claude writes your code, builds your models and apparently thinks for you too. 
+
+Maybe ask your agents to explain what your models actually learned before asking them to explain the future of humanity 😂
+--- [2026-10-16T14:49] AK (votes 0, id 3539803)
+it bring luck to all upvoters 😂
+--- [2026-10-18T16:01] M. Ehtasham (votes 0, id 3540679)
+upvoted no luck found lol!
+
+====================================================================================================
+TOPIC 748403 (2026-10-11): Submission Stuck for Over 24 Hours
+--- [2026-10-17T18:37] Volodymyr (votes 0, id 3540367)
+Thanks! resolved
+
+====================================================================================================
+TOPIC 749359 (2026-10-14): 0.950 with a second architecture: Heliosli's S6 ConvNeXt retrained on our labels
+--- [2026-10-17T06:04] Danial Zakaria (votes -1, id 3540135)
+Training code is now public. The full training code behind this S6 model, and behind our CoAtNet 0.949/0.945 weights, is now in rsna-knee-s6fall-weights [https://www.kaggle.com/datasets/nartaa/rsna-knee-s6fall-weights] under training_code/, shared under Apache-2.0. It includes the trainer, exact argv, pinned input hashes, training pool and targets, the JEV-blend labels with a script that rebuilds them, and the CoAtNet trainer with its OAI wrapper. No OAI subject data is included; the exact OAI input manifest is available only through NDA Study 3407.
+
+Details and caveats, including that the CoAtNet SWA epochs were ranked on Gold-58: discussion 750180 [https://www.kaggle.com/datasets/nartaa/rsna-knee-s6fall-weights/discussion/750180].
+
+====================================================================================================
+TOPIC 749798 (2026-10-16): Notebook throw exception
+--- [2026-10-16T01:29] Thin Sweet (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+--- [2026-10-16T01:39] Chris Deotte (votes 0, id 3539473)
+There's another discussion here [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/749623] with comments
+--- [2026-10-16T13:58] Thin Sweet (votes 0, id 3539777)
+Thanks! Appreciate it !
+
+====================================================================================================
+TOPIC 749858 (2026-10-16): What external data is inside the public 0.956/0.957 blends (for the disclosure ask in 743416)
+--- [2026-10-16T05:50] edteoh (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+--- [2026-10-16T06:33] Cà Rốt Production (votes 1, id 3539608)
+fair enough and that is a great process of using external datasets, I particularly impressed at the atonomy.pt it is a great use
+--- [2026-10-16T16:41] Noir.s (votes 1, id 3539850)
+Are external datasets allowed? I'm still confused 🫠
+
+====================================================================================================
+TOPIC 750236 (2026-10-17): External data before final selection: what will be checked, and for whom?
+--- [2026-10-17T11:59] Michał Choiński (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+
+====================================================================================================
+TOPIC 750257 (2026-10-17): Are nartaa's OAI-trained public weights allowed in a final submission?
+--- [2026-10-17T13:39] Karan Bhatti (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+
+====================================================================================================
+TOPIC 750258 (2026-10-17): Is heliosli's SKM-TEA/KneeXNet anatomy model allowed in a final submission?
+--- [2026-10-17T13:40] Karan Bhatti (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+
+====================================================================================================
+TOPIC 750259 (2026-10-17): Is heliosli's R7 model, trained with fastMRI, allowed in a final submission?
+--- [2026-10-17T13:41] Karan Bhatti (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+--- [2026-10-17T18:49] Dread Development (votes 0, id 3540374)
+Not staff just so we’re clear on that.
+
+The datasets that they used you have to sign up for.
+
+The base code used was copied & my educated assumption is that their AI remake of my work with this additional data is overfit anyways.
+
+Personally, could’ve done the same thing two months ago but did not, the private board should shake it out of the mix.
+
+====================================================================================================
+TOPIC 750260 (2026-10-17): Are RadImageNet pretrained weights allowed in a final submission?
+--- [2026-10-17T13:42] Karan Bhatti (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+
+====================================================================================================
+TOPIC 750318 (2026-10-17): Submit queue issue?
+--- [2026-10-17T18:07] Andrey Chankin (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+--- [2026-10-17T18:14] Yuriy Samorodov (votes 0, id 3540360)
+Same issue here. My commit is stuck for 4 hours now
+--- [2026-10-17T18:27] Optimo (votes 0, id 3540363)
+same here for about 6 hours…
+--- [2026-10-17T21:38]  (votes 0, id 3540417)
+
+--- [2026-10-17T23:48] Muhmad KwaZulu gorilla (votes -2, id 3540441)
+Unuseable
+
+disallow certain sha256 datasets if more than 2 clusters using infrence
+
+this is not an infrence site
+
+this is a research and learning site
+https://www.kaggle.com/code/muhmadkwazulugorilla/glm-5-3-flash-on-a-free-kaggle-tpu-64-tok-s-api/edit [https://www.kaggle.com/code/muhmadkwazulugorilla/glm-5-3-flash-on-a-free-kaggle-tpu-64-tok-s-api/edit]
+
+BLACKLIST TPU FROM RUNNING LLM MODELS
+--- [2026-10-19T04:45] SwapIY (votes 0, id 3540871)
+Not sure it's the same issue, but two things we hit that look similar from the outside.
+
+Stuck in QUEUED: Kaggle runs at most 2 GPU batch sessions per account at once, so if two of your commits are already running, the next one just waits.
+
+ERROR within ~2 min with a completely empty log (no traceback, no failure message): for us that was GPU quota. If you push with the CLI and no time cap, Kaggle reserves the full 12 h session, so with less than 12 h of weekly quota left it refuses to start. Fix: kaggle kernels push -p <dir> --timeout <seconds> with a value below your remaining quota (kaggle quota shows it, CLI 2.2.4+). That took us from three refusals in a row to a clean run.
+
+P.S. If you push from Windows and get a 'charmap' codec can't decode error, set PYTHONUTF8=1 first.
+
+====================================================================================================
+TOPIC 750334 (2026-10-17): Extremely high accuracy datasets (98% and 99.1%)
+--- [2026-10-17T19:54] OmerZalman (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+--- [2026-10-17T21:19] OmerZalman (votes -3, id 3540412)
+A few people tested it and it increased AUC by around 0.02-0.1 auc
+
+====================================================================================================
+TOPIC 750355 (2026-10-17): pilkwang/rsna-knee-weights: what data and training code are behind these weights?
+--- [2026-10-17T22:35] Karan Bhatti (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+--- [2026-10-17T23:55]  (votes 0, id 3540444)
+
+--- [2026-10-18T07:25] Pilkwang Kim (votes 0, id 3540530)
+Thanks for asking. The 20 checkpoints in pilkwang/rsna-knee-weights [https://www.kaggle.com/datasets/pilkwang/rsna-knee-weights] are one DINOv2-small slice-window model (four seeds × five folds), trained in August on the competition's training MRI. The labels are a separate component: an LLM extracted them from the competition's own radiology reports, and that label table and the labelling script are public in pilkwang/rsna-knee-llm-labels [https://www.kaggle.com/datasets/pilkwang/rsna-knee-llm-labels]. According to the original run records, no external medical data (OAI, MRNet, fastMRI, SKM-TEA or similar) was used. The only outside component of the image model is the general DINOv2-small pretrained backbone from Hugging Face.
+
+The exact training source of that August run predates our version control and is not preserved byte for byte, so I won't post a code pack that claims to reproduce it exactly. I've added a README to the dataset with the training and input settings from the run records. manifest.json records each member's architecture and input configuration and a fingerprint for checking a reload; a compatible head and reader implementation is still needed to load them.
+
+Ref. RSNA Knee baseline v1 [https://www.kaggle.com/code/pilkwang/rsna-knee-baseline-v1]
+
+====================================================================================================
+TOPIC 750356 (2026-10-17): mattiaangeli's knee weights: what data and training code are behind them?
+--- [2026-10-17T22:36] Karan Bhatti (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+--- [2026-10-18T18:34] Mattia Angeli (votes 1, id 3540728)
+Hi Karan, thanks for asking, and for taking the time to check these! You’re right that the dataset descriptions should be clearer.
+
+For the six releases you listed, the knee-task training used only the competition’s RSNA images and reports—no additional OAI, fastMRI, SKM-TEA, MRNet, KneeMRI or private knee data. This is separate from backbone pretraining: I used public pretrained backbones, including RadImageNet for the explicitly named RadImageNet arm.
+
+The general training approach is similar to this public training notebook [https://www.kaggle.com/code/dreaddevelopment/knee-mri-training-the-twelve-finding-model], with different architectures, heads and sampling. Most experiments used four public target sets; the recipes differ across releases. There isn’t a hidden dataset or one special trick—mostly several tens experiments, around 60 variants by now 🙂
+
+The published inference code also shows the corresponding architectures, although that is not the same as a complete end-to-end reproduction package for every release.
+
+For M448, its backbone is convnext_small.dinov3_lvd1689m, so the upstream DINOv3 licence [https://github.com/facebookresearch/dinov3/blob/main/LICENSE.md] applies. “Other” without an explanation is insufficient documentation; it should explicitly identify those terms rather than imply CC0.
+--- [2026-10-18T20:08] Karan Bhatti (votes 0, id 3540751)
+Thanks a lot, @mattiaangeli [/mattiaangeli] ! That's very clear and helpful: competition data only, public pretrained backbones, and the DINOv3 licence for M448.
+
+====================================================================================================
+TOPIC 750357 (2026-10-17): antoinegg1's RadImageNet heads: what data and training code are behind them?
+--- [2026-10-17T22:37] Karan Bhatti (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+
+====================================================================================================
+TOPIC 750529 (2026-10-18): There seems to be no need for an external dataset
+--- [2026-10-18T18:15] M. Ehtasham (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+--- [2026-10-18T18:16] M. Ehtasham (votes 0, id 3540719)
+To Those who wanna Puch hard keep it up and I am open to discuss my methods what I used feel free to drop a comment Thanks!!! 🙏
+--- [2026-10-19T03:26] OmerZalman (votes 0, id 3540844)
+what did you use?
+--- [2026-10-19T07:10] Civitasmass (votes 0, id 3540912)
+I haven't used any external data too, but some public notebooks seem to have gotten quite a big score boost from using these data. 
+not sure if that's a good choose lol.
+--- [2026-10-19T07:59] Syed Asad Ali (votes 0, id 3540927)
+Hi my friend Jing, I think for the next competition, we should team up!
+--- [2026-10-19T09:03] M. Ehtasham (votes 0, id 3540949)
+Could you share some hint from your solution
+--- [2026-10-19T14:54] M. Ehtasham (votes -1, id 3541118)
+HERE IS THE DESCRIPTION OF MY WORK
+
+"""Knee MRI: twelve findings from a single model
+
+This notebook takes a knee MRI study and scores twelve findings at once: ACL tear, MCL tear,
+medial and lateral meniscus tears, osteoarthritis in the medial, lateral and patellofemoral
+compartments, joint effusion, synovitis, a Baker's cyst, bone contusion and fracture. It scores
+0.924 on the public leaderboard using one model, with no ensembling and no test-time augmentation.
+
+This is the inference half of the work. The model was trained separately and its weights are
+attached as a dataset, so this notebook only loads them and predicts:
+https://www.kaggle.com/datasets/dreaddevelopment/raptor-knee-widedense [https://www.kaggle.com/datasets/dreaddevelopment/raptor-knee-widedense]
+
+Where the training labels came from
+
+Worth saying up front, because it shapes everything else. The competition gives you 4,407 studies
+but structured labels for only 58 of them. Every other study arrives with a free-text radiology
+report and nothing more, so there is very little to train against out of the box.
+
+The labels behind these weights were made by reading those reports with a language model and
+turning each into twelve probabilities rather than twelve yes or no answers. A report that says a
+tear is suspected becomes a number near 0.8, not a 1, which is a fairer target than forcing every
+hedged sentence into a hard label. That yields 4,349 studies to train on. The 58 studies that came
+with real labels were never trained on and are used to check the result honestly; the model reaches
+0.9167 macro-AUC on them.
+
+Building a fixed input from studies that are all shaped differently
+
+The hard part of this competition is not the network, it is that no two studies look alike. A
+study holds several DICOM series shot in different planes, the number of series varies, and the
+number of slices in a series varies more. Anything that expects a fixed-size input has to be given
+one.
+
+The approach here is to fill five fixed slots per study, always in the same order, for a stack of
+64 images:
+
+18 slices from a sagittal series, preferring a fluid-sensitive one
+  14 slices from a second sagittal series, preferring one that is not fluid-sensitive
+  12 slices from a coronal series, preferring a fluid-sensitive one
+   8 slices from a second coronal series
+  12 slices from an axial series
+
+Preferring a fluid-sensitive series for some slots and not for others is deliberate. Fluid-
+sensitive sequences show swelling, effusion and acute injury clearly, while the other sequences
+show anatomy and cartilage better, and the twelve findings are split across both. If a study has
+no series for a slot, the slot is left as zeros and the model is told to skip it rather than being
+fed something misleading.
+
+Within a series, slices are taken evenly across 6 to 94 percent of the stack rather than from the
+middle. The outer slices are where the collateral ligaments and the lateral meniscus sit, and
+cutting them was measurably costing accuracy on exactly those findings.
+
+Every slice is cropped to a 140 mm box around the centre of the image using the pixel spacing from
+the DICOM header, then resized to 336 pixels. Cropping by millimetres rather than by pixel count
+matters: it means a knee occupies the same fraction of the frame whether the scan was acquired at
+0.3 or 0.5 mm per pixel, so the model is not asked to learn scale differences that carry no medical
+information.
+
+How the model reads the stack
+
+Three neighbouring slices are stacked into the three channels of one image. The network then sees
+a little of what lies above and below the slice in the middle, which is most of the benefit of a 3D
+model at the cost of a 2D one. Each of these three-slice windows is passed through a CoAtNet
+backbone at 384 pixels.
+
+The windows are combined with an attention layer that has separate weights for each of the twelve
+findings. This is the part that matters most. A cruciate tear may be visible on two sagittal slic
+
+====================================================================================================
+TOPIC 750752 (2026-10-19): Clarification: using public LLM-generated report-label datasets, and hosted LLM APIs on the reports
+--- [2026-10-19T18:10] Abdul Wahab (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+
+====================================================================================================
+TOPIC 750790 (2026-10-19): Request to hosts: a GPU quota top-up for the final days?
+--- [2026-10-19T19:54] Minal kharat123 (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+--- [2026-10-20T03:10] D Chakraborty (votes 0, id 3541415)
+Get Colab Pro?
+
+====================================================================================================
+TOPIC 750791 (2026-10-19): 97.1% accuracy dataset at 60% coverage reuploaded
+--- [2026-10-19T19:55] OmerZalman (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+
+====================================================================================================
+TOPIC 750889 (2026-10-20): Clarification on fastMRI and SKM-TEA for pretrained weights
+--- [2026-10-20T02:25] Marvin O (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]
+
+====================================================================================================
+TOPIC 750899 (2026-10-20): Host ruling request: are public checkpoints fine-tuned on OAI images allowed?
+--- [2026-10-20T03:56] manduinca (votes None, id topic)
+[TOPIC OPENED; opening post body not in CLI JSON]

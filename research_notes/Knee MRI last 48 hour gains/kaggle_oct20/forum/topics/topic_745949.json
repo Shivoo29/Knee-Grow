@@ -1,0 +1,47 @@
+{
+  "topic": {
+    "id": 745949,
+    "title": "Synovitis and Effusion Help",
+    "authorName": "OmerZalman",
+    "commentCount": 5,
+    "votes": 6,
+    "postDate": "2026-10-05T12:49:49.684000"
+  },
+  "comments": [
+    {
+      "id": 3533108,
+      "authorName": "colum2131",
+      "votes": 3,
+      "postDate": "2026-10-05T14:09:26.670000",
+      "content": "<p>I joined this competition about a week ago and I'm still struggling with the same two labels. Here are my results on the 58 expert-labelled studies (accuracy uses a 50% confidence threshold):</p>\n<table>\n<thead>\n<tr>\n<th></th>\n<th>Effusion AUC / Acc</th>\n<th>Synovitis AUC / Acc</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>LLM, reports only</td>\n<td>0.835 / 0.707</td>\n<td>0.799 / 0.741</td>\n</tr>\n<tr>\n<td>LLM, reports + MRI</td>\n<td>~0.91-0.92 / 0.845</td>\n<td>~0.84-0.86 / 0.69-0.72</td>\n</tr>\n<tr>\n<td>Image model trained on my pseudo-labels</td>\n<td>0.986 / 0.931</td>\n<td>0.859 / 0.776</td>\n</tr>\n</tbody>\n</table>\n<p>An AUC of around 0.7 with ~75% accuracy makes me wonder whether your pipeline outputs hard 0/1 labels. Since AUC measures ranking, asking for probabilities might help, e.g. ranking roughly \"explicitly present\" &gt; \"equivocal\" &gt; \"not mentioned\" &gt; \"explicitly absent\". This could improve AUC without necessarily changing accuracy.</p>\n<p>In my extraction, ~73% of the training reports say nothing about synovitis. My prompt treats silence as weak evidence of absence, while using effusion, trauma, degeneration, and age as context rather than simply defaulting to a negative label.</p>\n<p>The report negatives also don't always agree with the expert labels. Among the 58 studies:</p>\n<ul>\n<li>Synovitis not mentioned: 11/36 (31%) were positive according to the experts.</li>\n<li>Effusion reported as absent/normal: 10/26 (38%) were positive.</li>\n<li>Effusion reported as equivocal/small: 14/18 (78%) were positive.</li>\n</ul>\n<p>The expert panel calls fluid positive more often than the reports do. Adding images helped substantially with effusion: 0.835 -&gt; ~0.92 for the LLM, and 0.986 for the image model trained on the pseudo-labels. Synovitis improved much less. My guess is that synovium and fluid are difficult to distinguish on non-contrast MRI, so the image input may have led the LLM to predict synovitis more often than the experts did.</p>"
+    },
+    {
+      "id": 3533117,
+      "authorName": "OmerZalman",
+      "votes": 0,
+      "postDate": "2026-10-05T14:26:35.853000",
+      "content": "<p>Thank you so much, also, im assuming that you are using pseudolabelling to train a better model. How would you trust the synovitis labels when most models usually get around 70-80% accuracy on the synovitis labels?</p>"
+    },
+    {
+      "id": 3533121,
+      "authorName": "colum2131",
+      "votes": 1,
+      "postDate": "2026-10-05T14:38:21.887000",
+      "content": "<p>Yes, it's pseudo-labelling. To be honest, I don't fully trust the synovitis labels either, and it's my weakest label as well.</p>\n<p>I train on soft probabilities rather than 0/1, so uncertain cases stay around 0.3-0.6 instead of being forced to one side. Since the metric is AUC, ranking matters more than accuracy at 0.5, and labels with ~75% accuracy can still rank reasonably well.</p>\n<p>For effusion, the noise largely averages out and the image model ends up better than its labels. Synovitis doesn't benefit as much, so I'm still looking for ways to reduce the noise in the synovitis labels and make them more accurate.</p>"
+    },
+    {
+      "id": 3541151,
+      "authorName": "voires",
+      "votes": -1,
+      "postDate": "2026-10-19T15:56:44.223000",
+      "content": "<p>Thanks for sharing, especially the report/expert disagreement breakdown. Your Effusion image-model result looks interesting. Could you clarify a few details?\n. Which image architecture and MRI preprocessing did you use?\n. How did you encode \u201cnot mentioned,\u201d explicit negatives, and small/equivocal effusions in the pseudo-labels\u2014separate states, soft probabilities, or binary labels?\n. How were the58 expert-labelled studies used: evaluation only, or also prompt/model selection? Were their images and any related studies excluded from training? Do you have results on another held-out set?\n. Would you consider sharing the checkpoint and inference code, if permitted? Otherwise, continuous per-study predictions on the58 would be helpful for comparing error patterns.\nI\u2019m particularly interested in whether your reader makes different errors from an existing ensemble, rather than just comparing standalone AUCs.</p>"
+    },
+    {
+      "id": 3533119,
+      "authorName": "OmerZalman",
+      "votes": 0,
+      "postDate": "2026-10-05T14:37:45.797000",
+      "content": "<p>Also, How did you get effusion accuracy so high?</p>"
+    }
+  ]
+}

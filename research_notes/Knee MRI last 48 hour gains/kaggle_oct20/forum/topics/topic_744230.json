@@ -1,0 +1,47 @@
+{
+  "topic": {
+    "id": 744230,
+    "title": "PSA: bf16 on Kaggle's T4/P100 silently cost me 0.14 AUC (0.851 \u2192 0.710). How to spot it.",
+    "authorName": "Md Kishor Morol",
+    "commentCount": 5,
+    "votes": 4,
+    "postDate": "2026-09-29T02:54:02.310000"
+  },
+  "comments": [
+    {
+      "id": 3540872,
+      "authorName": "SwapIY",
+      "votes": -2,
+      "postDate": "2026-10-19T04:46:33.793000",
+      "content": "<p>Great write-up. \"A silent partial fallback looks exactly like a bad model\" is the line I wish I'd read earlier. Two related things that only showed up at hidden-test scale for us:</p>\n<ul>\n<li>If you push kernels with the CLI, set <code>\"machine_shape\": \"NvidiaTeslaT4\"</code> in kernel-metadata.json. Otherwise a GPU kernel can land on a P100 (sm_60), which the offline torch build we used doesn't support.</li>\n<li>For blend kernels with a try/except fallback, check the commit log for each member's fallback/empty count, not just that submission.csv exists. A member that fails quietly still produces a perfectly valid-looking file.</li>\n</ul>"
+    },
+    {
+      "id": 3540858,
+      "authorName": "Capitaalgain",
+      "votes": -2,
+      "postDate": "2026-10-19T04:19:41.983000",
+      "content": "<p>Thanks for sharing your DINOv2 approach. Would you consider publicly releasing the five-fold checkpoints and a minimal inference/preprocessing script for all participants? An independent architecture would be valuable to evaluate before the final deadline. A public download link with the required settings and license would be very helpful.</p>"
+    },
+    {
+      "id": 3531161,
+      "authorName": "Roman Vuskov",
+      "votes": -1,
+      "postDate": "2026-10-01T11:32:39.323000",
+      "content": "<p>Good catch! You need to use <code>torch.cuda.is_bf16_supported(including_emulation=False)</code> though as the default may still output <code>true</code> depending on torch version.</p>"
+    },
+    {
+      "id": 3538689,
+      "authorName": "Ayiyeke Olori",
+      "votes": 0,
+      "postDate": "2026-10-14T17:28:48.863000",
+      "content": "<p>Hi, I\u2019m interested in teaming up before the merger deadline. I currently have a 0.944 reproducible ensemble and I\u2019m in discussions with a 0.963 competitor about merging. Your independent DINOv2 arm sounds highly complementary. Are you still open to a team merge?</p>"
+    },
+    {
+      "id": 3531176,
+      "authorName": "Quan Vu",
+      "votes": 0,
+      "postDate": "2026-10-01T12:27:30.753000",
+      "content": "<p>As far as I understand, the P100 and T4 GPUs do not support bfloat16.</p>"
+    }
+  ]
+}

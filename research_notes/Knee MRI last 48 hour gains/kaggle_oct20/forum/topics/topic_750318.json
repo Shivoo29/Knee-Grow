@@ -1,0 +1,47 @@
+{
+  "topic": {
+    "id": 750318,
+    "title": "Submit queue issue?",
+    "authorName": "Andrey Chankin",
+    "commentCount": 5,
+    "votes": 9,
+    "postDate": "2026-10-17T18:07:42.341000"
+  },
+  "comments": [
+    {
+      "id": 3540441,
+      "authorName": "Muhmad KwaZulu gorilla",
+      "votes": -2,
+      "postDate": "2026-10-17T23:48:07.287000",
+      "content": "<p>Unuseable</p>\n<p>disallow certain sha256 datasets if more than 2 clusters using infrence</p>\n<p>this is not an infrence site</p>\n<p>this is a research and learning site\n<a href=\"https://www.kaggle.com/code/muhmadkwazulugorilla/glm-5-3-flash-on-a-free-kaggle-tpu-64-tok-s-api/edit\" target=\"_blank\">https://www.kaggle.com/code/muhmadkwazulugorilla/glm-5-3-flash-on-a-free-kaggle-tpu-64-tok-s-api/edit</a></p>\n<p>BLACKLIST TPU FROM RUNNING LLM MODELS</p>"
+    },
+    {
+      "id": 3540871,
+      "authorName": "SwapIY",
+      "votes": 0,
+      "postDate": "2026-10-19T04:45:22.783000",
+      "content": "<p>Not sure it's the same issue, but two things we hit that look similar from the outside.</p>\n<p>Stuck in QUEUED: Kaggle runs at most 2 GPU batch sessions per account at once, so if two of your commits are already running, the next one just waits.</p>\n<p>ERROR within ~2 min with a completely empty log (no traceback, no failure message): for us that was GPU quota. If you push with the CLI and no time cap, Kaggle reserves the full 12 h session, so with less than 12 h of weekly quota left it refuses to start. Fix: <code>kaggle kernels push -p &lt;dir&gt; --timeout &lt;seconds&gt;</code> with a value below your remaining quota (<code>kaggle quota</code> shows it, CLI 2.2.4+). That took us from three refusals in a row to a clean run.</p>\n<p>P.S. If you push from Windows and get a <code>'charmap' codec can't decode</code> error, set <code>PYTHONUTF8=1</code> first.</p>"
+    },
+    {
+      "id": 3540363,
+      "authorName": "Optimo",
+      "votes": 0,
+      "postDate": "2026-10-17T18:27:09.957000",
+      "content": "<p>same here for about 6 hours\u2026</p>"
+    },
+    {
+      "id": 3540360,
+      "authorName": "Yuriy Samorodov",
+      "votes": 0,
+      "postDate": "2026-10-17T18:14:43.173000",
+      "content": "<p>Same issue here. My commit is stuck for 4 hours now</p>"
+    },
+    {
+      "id": 3540417,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-17T21:38:27.243000",
+      "content": ""
+    }
+  ]
+}

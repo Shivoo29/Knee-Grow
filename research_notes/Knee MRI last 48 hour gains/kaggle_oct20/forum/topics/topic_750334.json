@@ -1,0 +1,19 @@
+{
+  "topic": {
+    "id": 750334,
+    "title": "Extremely high accuracy datasets (98% and 99.1%)",
+    "authorName": "OmerZalman",
+    "commentCount": 1,
+    "votes": -16,
+    "postDate": "2026-10-17T19:54:30.464000"
+  },
+  "comments": [
+    {
+      "id": 3540412,
+      "authorName": "OmerZalman",
+      "votes": -3,
+      "postDate": "2026-10-17T21:19:00.560000",
+      "content": "<p>A few people tested it and it increased AUC by around 0.02-0.1 auc</p>"
+    }
+  ]
+}

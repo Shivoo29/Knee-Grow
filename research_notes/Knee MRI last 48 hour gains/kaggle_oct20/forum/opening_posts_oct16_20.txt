@@ -1,0 +1,326 @@
+==========================================================================================
+749858 2026-10-16 05:50:47.766000 | edteoh | votes 2 | forum RSNA Knee Abnormality Detection
+TITLE: What external data is inside the public 0.956/0.957 blends (for the disclosure ask in 743416)
+Chris Carr's post in 743416 asks everyone to list the external datasets they used. I went back through the notebooks I'd been forking to check what's actually in them, and it wasn't obvious from the titles. Most of the top public blends are built from the same handful of models, so I figured a table might save people some digging.
+
+All of this comes from the authors' own notebooks, write-ups and the manifest.json files in their datasets. I'm reading code and manifests, not training logs, so if an author says otherwise, go with the author.
+
+
+
+
+Model
+Dataset
+External data in training
+
+
+
+
+nartaa CoAtNet 384 (..._oai_d96_r384_swa.pt)
+nartaa/rsna-knee-publication-swa-weights-20261007
+OAI, 2,399 knees, used only for PF OA, Lateral OA and Synovitis (see nartaa's write-up in 746792)
+
+
+nartaa CoAtNet 224 crop (..._oai_d96_c08_r224_swa.pt)
+same dataset
+OAI, same recipe
+
+
+heliosli R7 ConvNeXt-S (bundle 8c7b666e)
+heliosli/rsna-knee-compact-r7cnxfsss
+fastMRI images with fastMRI+ boxes as an auxiliary task (fm_aux, weight 0.3 in the manifest; heliosli's notebook also says so)
+
+
+heliosli R6 ConvNeXt-S (bundle fe055406)
+used by the new "0.9576" notebook
+no fm_aux entry in its manifest
+
+
+heliosli S6 (compact-v1)
+heliosli/rsna-knee-compact-v1
+nothing external I could find
+
+
+dreaddevelopment Raptor CoAtNet
+dreaddevelopment/raptor-knee-maxspan
+nothing external I could find
+
+
+anatomy.pt (places the crops for R6, R7 and S6)
+heliosli/rsna-orthofoundation-fold0-epoch7-20261004
+SKM-TEA
+
+
+
+All the ConvNeXt/CoAtNet models start from ImageNet weights through timm, which I'm not counting.
+
+A few things that tripped me up:
+
+
+The orthofoundation dataset name is misleading. The R6/R7/S6 notebooks attach it for the code and for anatomy.pt. From what I can see they don't load the OrthoFoundation ViT weights in it, which are the OAI-pretrained part. If you blend heliosli's ViT-L itself, that one is OAI-derived.
+heliosli/rsna-knee-r6-frozen-fe055406 currently holds the R7 bundle, not R6, despite the name (its manifest hash matches R7's). The "0.9576" notebook needs an older version of it. If you fork either one, check that the BUNDLE_ID in the notebook matches what's mounted.
+If you forked any of the 0.956/0.957 R7 + Raptor notebooks, you're almost certainly using OAI (through nartaa) and fastMRI (through R7), plus SKM-TEA through anatomy.pt. All three are free with registration and a click-through agreement, which is the kind of access Chris said is fine. But per that same post they still need to be listed.
+
+Not covered: hengck23's MaViT (training data not stated), the DINOv2 / A5 / RadImageNet bundles, and goodpjw's reader (the "read the report then the knee" notebook uses frozen fastMRI+ ViTDet heads, so add fastMRI+ if you use that one).
+
+Corrections welcome, especially from the model authors.
+==========================================================================================
+750180 2026-10-17 05:22:48.521000 | 李鲲鹏 | votes 0 | forum RSNA Knee S6 ConvNeXt all-data weights 0950
+TITLE: Materials needed for leakage-controlled retraining and grouped CV
+Thank you for the detailed releases. I am trying to evaluate the complete training procedure with grouped outer folds, rather than score the released all-data weights as OOF.
+
+I recovered the public HPO label/fold assets and reproduced labels_v1_blend exactly. I also recovered the six Heliosli base scripts from s6_extras.bin and verified their hashes. Could you publicly release, or identify the existing public location of:
+
+
+the S6 training adapter with SHA256 ae18d2e11de9a16202934787a9428ecdcefc0543d7944a75182926fb53965967;
+the construction procedure for targets_s6f0.csv, including the unaddressed-cell prior fill and per-cell weights;
+pool_ok.json (SHA256 378f782f6dd0a613df8bbdbc6d3d9f38d6b70697ef966b178800ea350a83e9a6), or a deterministic procedure and exclusion reasons that reproduce its 4263-study membership;
+confirmation of whether the folds_v0.json in rsna-knee-hpo-assets v9 is the one used for S6;
+the selected 384/224 CoAtNet training source/configuration, including masked OAI loss and SWA selection, and the permitted route for qualified researchers to obtain the exact OAI linkage manifest?
+
+I am not requesting redistribution of restricted OAI images or subject-level data outside their permitted access process. The existing Gold58 scores are treated as development diagnostics, not fresh validation.
+==========================================================================================
+750236 2026-10-17 11:59:54.186000 | Michał Choiński | votes -5 | forum RSNA Knee Abnormality Detection
+TITLE: External data before final selection: what will be checked, and for whom?
+@javaduke95 [/javaduke95] @cdcarr [/cdcarr] @michelleriopel [/michelleriopel] @shosys [/shosys] @ryanholbrook [/ryanholbrook] @macruzbar [/macruzbar]
+
+With five days left before the October 22 deadline, I'd like to ask for a short statement about how external data will be checked. It decides how every team uses its two final selections.
+
+What the rules and rulings say
+
+
+Rules section 6.a: External Data must be "publicly available and equally accessible to use by all Participants of the Competition for purposes of the competition at no cost to the other Participants", or meet the Reasonableness criteria in 6.b, which names "geo restrictions" as a possible obstacle.
+KneeCoT is explicitly not allowed (734109 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/734109]).
+OAI is allowed only "if it is generally accessible to all participants without an escalated (i.e. institutional) review and sign-off" (741819 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/741819]).
+"Datasets that require an institutional research agreement or limit access to users with institutional affiliations clearly do not" meet the criteria (743416 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/743416]).
+Publicly shared weights are eligible, with their source datasets disclosed (744056 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/744056]). That answer concerned weights trained on competition data.
+
+Where this leaves the commonly used datasets
+
+Measured against those criteria, several of them look doubtful:
+
+
+OAI: NIH blocks access from several countries, including China, which is eligible here (748276 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/748276], 749145 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/749145]).
+fastMRI: an application stating affiliation and intended use.
+MRNet and KneeMRI: licences that forbid derivative works.
+KneeXNet: derived from OAI.
+
+None of these has received a yes or no.
+
+What is happening in practice
+
+
+External data clearly moves the score. One public write-up reports +0.005 public AUC from adding OAI knees. Near the medal lines that is hundreds of places.
+Many of the most-forked public notebooks combine checkpoints whose dataset cards declare OAI, fastMRI or undisclosed private pretraining. Others carry no training-data statement at all. Teams that fork them often cannot tell what their own submission contains.
+The rules describe compliance checks for prize winners (2.8, 3.9.b), but nothing for medal positions.
+
+So the incentive is simple. If only the top few are checked, a team aiming for a medal gains by using doubtful data and has almost nothing to lose. Teams that read the rules strictly are pushed down the leaderboard by teams that don't. That works against the hosts' own stated wish that "winning models be distinguished by the ingenuity and rigor
+==========================================================================================
+750257 2026-10-17 13:39:13.494000 | Karan Bhatti | votes -25 | forum RSNA Knee Abnormality Detection
+TITLE: Are nartaa's OAI-trained public weights allowed in a final submission?
+nartaa/rsna-knee-publication-swa-weights-20261007 is in 90% public notebooks at 0.95+ (30% of notebooks at 0.90+). Its page says: "Both models used the same 2,399 baseline OAI knees for masked external supervision." In its author's own table (746792 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/746792]), adding OAI moved the model from 0.940 to 0.945.
+
+What we have from you so far:
+
+
+OAI is allowed "if it is generally accessible to all participants without an escalated (i.e. institutional) review and sign-off" (741819 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/741819]).
+Publicly shared weights are eligible, listed with their source datasets (744056 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/744056]). That question was about weights trained on the competition data.
+
+Whether OAI itself passes, given the NIH country block, is already asked in 743416 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/743416] and 750236 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/750236]. This post is only about the weights:
+
+
+Can a final submission that includes these weights win a prize or a medal?
+Does it matter if the team never downloaded OAI itself?
+
+A yes or no is enough. So many public notebooks use this one dataset that the answer decides most of the top of the leaderboard. Thank you.
+
+@javaduke95 [/javaduke95] @cdcarr [/cdcarr] @michelleriopel [/michelleriopel] @shosys [/shosys] @ryanholbrook [/ryanholbrook] @macruzbar [/macruzbar]
+==========================================================================================
+750258 2026-10-17 13:40:48.483000 | Karan Bhatti | votes -27 | forum RSNA Knee Abnormality Detection
+TITLE: Is heliosli's SKM-TEA/KneeXNet anatomy model allowed in a final submission?
+heliosli/rsna-orthofoundation-fold0-epoch7-20261004 is in about 70% of the public notebooks at 0.95+ (about a quarter of those at 0.90+). Its page says it holds "unchanged SKM-TEA/KneeXNet auxiliary weights" and that "no new open-source license is granted". The file anatomy.pt finds the knee in each test scan, and the R6, R7 and S6 ConvNeXt models then read crops placed by it.
+
+
+SKM-TEA (Stanford AIMI) needs registration and acceptance of data-use terms.
+KneeXNet is built from OAI images and has no licence we could find.
+
+Questions:
+
+
+Can a final submission use a model trained on SKM-TEA?
+Can it use one trained on KneeXNet?
+These weights come with no licence. Can a winner still use them, given the CC BY-NC 4.0 winner licence?
+
+A yes or no for each is enough. Most top public notebooks attach this dataset, so the answer matters to many teams. Thank you.
+
+@javaduke95 [/javaduke95] @cdcarr [/cdcarr] @michelleriopel [/michelleriopel] @shosys [/shosys] @ryanholbrook [/ryanholbrook] @macruzbar [/macruzbar]
+==========================================================================================
+750259 2026-10-17 13:41:24.563000 | Karan Bhatti | votes -24 | forum RSNA Knee Abnormality Detection
+TITLE: Is heliosli's R7 model, trained with fastMRI, allowed in a final submission?
+heliosli/rsna-knee-compact-r7cnxfsss (R7) is in about a third of the public notebooks at 0.95+, and close to 40% counting copies (varianceofx/rsna-knee-compact-r7cnxfsss, and heliosli/rsna-knee-r6-frozen-fe055406, whose latest version holds R7). heliosli's notebook says R7 uses "fastMRI auxiliary training", with fastMRI+ boxes as an extra task (fm_aux in its manifest, per 749858 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/749858]).
+
+To get the fastMRI images you send a request stating your affiliation and intended use.
+
+Questions:
+
+
+Does fastMRI pass your test of "registration and acknowledgement of licensing terms" (743416 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/743416])?
+Can a final submission that includes R7 win a prize or a medal?
+
+A yes or no is enough. Thank you.
+
+@javaduke95 [/javaduke95] @cdcarr [/cdcarr] @michelleriopel [/michelleriopel] @shosys [/shosys] @ryanholbrook [/ryanholbrook] @macruzbar [/macruzbar]
+==========================================================================================
+750260 2026-10-17 13:42:22.137000 | Karan Bhatti | votes -28 | forum RSNA Knee Abnormality Detection
+TITLE: Are RadImageNet pretrained weights allowed in a final submission?
+About 60% of the public notebooks at 0.90+ load a RadImageNet ResNet-50, or heads trained on top of it (e.g. marwanmath/resnet-50-radimagenet-marwan, antoinegg1/rsna-knee-e9-radimagenet-heads-v15, prvsiyan/rsna-knee-v52-radimagenet-heads-20260812). Anyone can download the weights from Google Drive, linked from the RadImageNet GitHub [https://github.com/BMEII-AI/RadImageNet]. The images they were trained on are "available by request" only. The licence is unclear: the repository lists MIT, and 735121 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/735121] says CC BY-NC-SA.
+
+Questions:
+
+
+Is a public pretrained model allowed when its training images are shared only on request?
+If the weights are CC BY-NC-SA, is that fine under rule 2.5.a.4 (pretrained models with an incompatible licence keep their own)?
+
+A yes or no is enough. Thank you.
+
+@javaduke95 [/javaduke95] @cdcarr [/cdcarr] @michelleriopel [/michelleriopel] @shosys [/shosys] @ryanholbrook [/ryanholbrook] @macruzbar [/macruzbar]
+==========================================================================================
+750318 2026-10-17 18:07:42.341000 | Andrey Chankin | votes 9 | forum RSNA Knee Abnormality Detection
+TITLE: Submit queue issue?
+Hi, my subs are being queued for oven an hour now
+
+Anyone similar issue?
+
+UPD: they run, but after 5-6 hours in a queue. Idk if Kaggle prioritize certain kernels over others
+==========================================================================================
+750334 2026-10-17 19:54:30.464000 | OmerZalman | votes -16 | forum RSNA Knee Abnormality Detection
+TITLE: Extremely high accuracy datasets (98% and 99.1%)
+Here are 2 datasets that are pretty nice and helpful
+One of them are 99.14% accuracy at around 36% coverage of all the labels (softlabels as well)
+Another one is 98.04% accuracy at around 56% coverage of all the labels of the RSNA dataset
+I spent like 200$ on API costs and more to create them for you guys 🥲
+==========================================================================================
+750355 2026-10-17 22:35:52.964000 | Karan Bhatti | votes -7 | forum RSNA Knee Abnormality Detection
+TITLE: pilkwang/rsna-knee-weights: what data and training code are behind these weights?
+@pilkwang [/pilkwang], thank you for sharing pilkwang/rsna-knee-weights. About half of the public notebooks at 0.90+ load it. It is CC0, but the page has no description, so anyone who builds on it can't say how it was made. Winners must hand over code that trains every weight (rules 2.8) and list each shared weight with its source datasets (744056 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/744056]).
+
+Could you say:
+
+
+Was any data other than the competition data used (for example OAI, fastMRI, SKM-TEA, MRNet, KneeMRI, or private data)?
+Is the training code public? Where?
+
+A short README on the dataset page would help everyone. Thank you.
+==========================================================================================
+750356 2026-10-17 22:36:41.151000 | Karan Bhatti | votes -6 | forum RSNA Knee Abnormality Detection
+TITLE: mattiaangeli's knee weights: what data and training code are behind them?
+@mattiaangeli [/mattiaangeli], thank you for sharing your weights. About half of the public notebooks at 0.90+ load at least one of them:
+
+
+
+
+Dataset
+Share of notebooks at 0.90+
+Licence
+
+
+
+
+knee-mri-fold-weights
+about half
+CC0
+
+
+rsna-knee-coat-resgated-ep10-top3
+about 30%
+CC0
+
+
+rsna-knee-radimagenet-foldsv1-heads
+under 20%
+CC BY-NC-SA
+
+
+rsna-knee-coatnet-d4-depthzone-swa3-b2
+about 15%
+CC0
+
+
+rsna-knee-coatnet-global96-top3
+about 10%
+CC0
+
+
+rsna-knee-cnx-m448-f0-public
+very few
+other
+
+
+
+None of the pages has a description, so anyone who builds on them can't say how they were made. Winners must hand over code that trains every weight (rules 2.8) and list each shared weight with its source datasets (744056 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/744056]).
+
+Could you say, for each:
+
+
+Was any data other than the competition data used (for example OAI, fastMRI, SKM-TEA, MRNet, KneeMRI, or private data)?
+Is the training code public? Where?
+What licence does rsna-knee-cnx-m448-f0-public have? Its page says "other".
+
+Thank you.
+==========================================================================================
+750357 2026-10-17 22:37:22.256000 | Karan Bhatti | votes -7 | forum RSNA Knee Abnormality Detection
+TITLE: antoinegg1's RadImageNet heads: what data and training code are behind them?
+@antoinegg1 [/antoinegg1], thank you for sharing rsna-knee-e9-radimagenet-heads-v15 and rsna-knee-e11-diverse-heads-v20. About half and about 40% of the public notebooks at 0.90+ load them. Both are CC BY-NC-SA with no description. sofiaanjenje's public e11/e13 training notebooks may be the code for e11, but they take the e9 heads as an input, so how the e9 heads were trained isn't shown.
+
+Could you say:
+
+
+Apart from the RadImageNet encoder, was any data other than the competition data used?
+Is the training code for both sets public? Where?
+
+Winners must hand over code that trains every weight (rules 2.8) and list each shared weight with its source datasets (744056 [https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/744056]). Thank you.
+==========================================================================================
+750529 2026-10-18 18:15:05.154000 | M. Ehtasham | votes -2 | forum RSNA Knee Abnormality Detection
+TITLE: There seems to be no need for an external dataset
+I am trying a zoomed in method so far and it is progressing well the only real issue is I am out of GPU and not have a GPU have been using kaggles free on so far and this was my last shot and ALL WAS WORTH IT
+==========================================================================================
+750752 2026-10-19 18:10:29.326000 | Abdul Wahab | votes -1 | forum RSNA Knee Abnormality Detection
+TITLE: Clarification: using public LLM-generated report-label datasets, and hosted LLM APIs on the reports
+Hi, a quick rules clarification before the final deadline.
+
+Several public Kaggle datasets contain labels generated by running an LLM over the Report column of train.csv. Some were produced with open-weight models, others with hosted commercial APIs (for example Claude or GPT). They are published under CC0 and are available to all participants.
+
+Is it allowed to use these public label datasets as training targets in a submission that is eligible for prizes (including the Efficiency Prize)?
+Does it matter whether the labels were produced by sending report text to a hosted third-party LLM API, given Rule 4.b (Data Security)?
+Thank you!
+==========================================================================================
+750790 2026-10-19 19:54:52.654000 | Minal kharat123 | votes -2 | forum RSNA Knee Abnormality Detection
+TITLE: Request to hosts: a GPU quota top-up for the final days?
+Hi RSNA and Kaggle team,
+
+Thank you for hosting this competition. The weekly GPU quota resets on 24 Oct, after the 22 Oct deadline, so anyone who has used this week's 30 hours can't train on Kaggle for the final days.
+
+Would you consider a one-off top-up for participants, for example an early reset or extra hours this week? Submission limits would stay the same for everyone.
+
+Thanks for considering it.
+==========================================================================================
+750791 2026-10-19 19:55:32.950000 | OmerZalman | votes -1 | forum RSNA Knee Abnormality Detection
+TITLE: 97.1% accuracy dataset at 60% coverage reuploaded
+For some reason my last discussion posts have been getting a bunch of downvotes even though I am helping the community.
+The datasets have helped around 200-600 people and I don't understand the backlash, if you are willing to tell me what was wrong I will love to listen and fix any mistakes, if it was something I said, I am sorry. (It feels like the mean comments from stack overflow again tbh, horrible experience)
+Attaching the dataset here: https://www.kaggle.com/datasets/omerzalman/rsna-knee-11-label-evidence-fusion [https://www.kaggle.com/datasets/omerzalman/rsna-knee-11-label-evidence-fusion]
+==========================================================================================
+750889 2026-10-20 02:25:58.480000 | Marvin O | votes 0 | forum RSNA Knee Abnormality Detection
+TITLE: Clarification on fastMRI and SKM-TEA for pretrained weights
+Could you please confirm two points?
+
+
+Is it allowed to use pretrained weights trained on fastMRI in a final submission? The fastMRI application form asks for an institution, so I wanted to check whether it counts as “registration only”.
+The same question for SKM-TEA, whose terms are unclear on publis publishing weights derived from it.
+==========================================================================================
+750899 2026-10-20 03:56:14.275000 | manduinca | votes -3 | forum RSNA Knee Abnormality Detection
+TITLE: Host ruling request: are public checkpoints fine-tuned on OAI images allowed?
+Many public notebooks in this competition, including the most-forked 0.949-0.957 blends, use the public checkpoints in nartaa/rsna-knee-publication-swa-weights-20261007. Their notebooks state that these checkpoints were fine-tuned on images from the Osteoarthritis Initiative (OAI), which the NIMH Data Archive distributes under a signed Data Use Certification.
+
+In topic 734109 the host ruled that KneeCoT is not allowed because its required data agreement makes the playing field uneven. The same question for public weights trained on such data was asked in topic 737950 (comments by Doublej37 and junicus), but it has no host answer yet.
+
+Could the host confirm, before the final submission deadline, whether a submission that uses only these public weights (no OAI data) is eligible for the Leaderboard and Efficiency prizes under Rule 2.6.a and the CC-BY-NC 4.0 winner license? A clear ruling would help everyone choose their final submissions. Thank you.

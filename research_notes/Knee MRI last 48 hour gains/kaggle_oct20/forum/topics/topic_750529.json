@@ -1,0 +1,54 @@
+{
+  "topic": {
+    "id": 750529,
+    "title": "There seems to be no need for an external dataset",
+    "authorName": "M. Ehtasham",
+    "commentCount": 6,
+    "votes": -2,
+    "postDate": "2026-10-18T18:15:05.154000"
+  },
+  "comments": [
+    {
+      "id": 3540912,
+      "authorName": "Civitasmass",
+      "votes": 0,
+      "postDate": "2026-10-19T07:10:21.117000",
+      "content": "<p>I haven't used any external data too, but some public notebooks seem to have gotten quite a big score boost from using these data. \nnot sure if that's a good choose lol.</p>"
+    },
+    {
+      "id": 3540927,
+      "authorName": "Syed Asad Ali",
+      "votes": 0,
+      "postDate": "2026-10-19T07:59:52.053000",
+      "content": "<p>Hi my friend Jing, I think for the next competition, we should team up!</p>"
+    },
+    {
+      "id": 3540949,
+      "authorName": "M. Ehtasham",
+      "votes": 0,
+      "postDate": "2026-10-19T09:03:28.557000",
+      "content": "<p>Could you share some hint from your solution</p>"
+    },
+    {
+      "id": 3540719,
+      "authorName": "M. Ehtasham",
+      "votes": 0,
+      "postDate": "2026-10-18T18:16:38.753000",
+      "content": "<p>To Those who wanna Puch hard keep it up and I am open to discuss my methods what I used feel free to drop a comment Thanks!!! \ud83d\ude4f</p>"
+    },
+    {
+      "id": 3540844,
+      "authorName": "OmerZalman",
+      "votes": 0,
+      "postDate": "2026-10-19T03:26:34.960000",
+      "content": "<p>what did you use?</p>"
+    },
+    {
+      "id": 3541118,
+      "authorName": "M. Ehtasham",
+      "votes": -1,
+      "postDate": "2026-10-19T14:54:30.173000",
+      "content": "<p>HERE IS THE DESCRIPTION OF MY WORK</p>\n<p>\"\"\"Knee MRI: twelve findings from a single model</p>\n<p>This notebook takes a knee MRI study and scores twelve findings at once: ACL tear, MCL tear,\nmedial and lateral meniscus tears, osteoarthritis in the medial, lateral and patellofemoral\ncompartments, joint effusion, synovitis, a Baker's cyst, bone contusion and fracture. It scores\n0.924 on the public leaderboard using one model, with no ensembling and no test-time augmentation.</p>\n<p>This is the inference half of the work. The model was trained separately and its weights are\nattached as a dataset, so this notebook only loads them and predicts:\n<a href=\"https://www.kaggle.com/datasets/dreaddevelopment/raptor-knee-widedense\" target=\"_blank\">https://www.kaggle.com/datasets/dreaddevelopment/raptor-knee-widedense</a></p>\n<p>Where the training labels came from</p>\n<p>Worth saying up front, because it shapes everything else. The competition gives you 4,407 studies\nbut structured labels for only 58 of them. Every other study arrives with a free-text radiology\nreport and nothing more, so there is very little to train against out of the box.</p>\n<p>The labels behind these weights were made by reading those reports with a language model and\nturning each into twelve probabilities rather than twelve yes or no answers. A report that says a\ntear is suspected becomes a number near 0.8, not a 1, which is a fairer target than forcing every\nhedged sentence into a hard label. That yields 4,349 studies to train on. The 58 studies that came\nwith real labels were never trained on and are used to check the result honestly; the model reaches\n0.9167 macro-AUC on them.</p>\n<p>Building a fixed input from studies that are all shaped differently</p>\n<p>The hard part of this competition is not the network, it is that no two studies look alike. A\nstudy holds several DICOM series shot in different planes, the number of series varies, and the\nnumber of slices in a series varies more. Anything that expects a fixed-size input has to be given\none.</p>\n<p>The approach here is to fill five fixed slots per study, always in the same order, for a stack of\n64 images:</p>\n<p>18 slices from a sagittal series, preferring a fluid-sensitive one\n  14 slices from a second sagittal series, preferring one that is not fluid-sensitive\n  12 slices from a coronal series, preferring a fluid-sensitive one\n   8 slices from a second coronal series\n  12 slices from an axial series</p>\n<p>Preferring a fluid-sensitive series for some slots and not for others is deliberate. Fluid-\nsensitive sequences show swelling, effusion and acute injury clearly, while the other sequences\nshow anatomy and cartilage better, and the twelve findings are split across both. If a study has\nno series for a slot, the slot is left as zeros and the model is told to skip it rather than being\nfed something misleading.</p>\n<p>Within a series, slices are taken evenly across 6 to 94 percent of the stack rather than from the\nmiddle. The outer slices are where the collateral ligaments and the lateral meniscus sit, and\ncutting them was measurably costing accuracy on exactly those findings.</p>\n<p>Every slice is cropped to a 140 mm box around the centre of the image using the pixel spacing from\nthe DICOM header, then resized to 336 pixels. Cropping by millimetres rather than by pixel count\nmatters: it means a knee occupies the same fraction of the frame whether the scan was acquired at\n0.3 or 0.5 mm per pixel, so the model is not asked to learn scale differences that carry no medical\ninformation.</p>\n<p>How the model reads the stack</p>\n<p>Three neighbouring slices are stacked into the three channels of one image. The network then sees\na little of what lies above and below the slice in the middle, which is most of the benefit of a 3D\nmodel at the cost of a 2D one. Each of these three-slice windows is passed through a CoAtNet\nbackbone at 384 pixels.</p>\n<p>The windows are combined with an attention layer that has separate weights for each of the twelve\nfindings. This is the part that matters most. A cruciate tear may be visible on two sagittal slices\nwhile osteoarthritis is spread across many coronal ones, and a single pooled score forces those two\nto share one notion of which slices are important. Giving each finding its own attention weights\nlets each one draw on the slices that actually show it.</p>\n<p>Running it</p>\n<p>Scoring uses 42 windows per study. Inference runs in half precision and automatically retries a\nstudy in full precision if it fails, so no study is ever dropped from the submission. The notebook\nneeds no internet: the backbone is loaded from the attached weights rather than downloaded.\n\"\"\"</p>"
+    }
+  ]
+}

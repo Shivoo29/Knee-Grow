@@ -1,0 +1,313 @@
+{
+  "topic": {
+    "id": 743416,
+    "title": "Please clarify which external knee MRI datasets are allowed",
+    "authorName": "YYama",
+    "commentCount": 43,
+    "votes": 99,
+    "postDate": "2026-09-26T01:52:06.163000"
+  },
+  "comments": [
+    {
+      "id": 3540805,
+      "authorName": "RealEclypso",
+      "votes": -2,
+      "postDate": "2026-10-18T23:42:39.983000",
+      "content": "<p>Hi organizers, could you clarify how Section 2.6 applies to publicly released pretrained models? Are research/competition checkpoints trained partly on OAI allowed when access to the original raw data is geographically restricted? Does the answer differ for Stanford's ungated, Apache-2.0 SKM-TEA anatomy checkpoint used only for localization? We would disclose the exact models and training-data lineage and retain the original notices. We are asking for clarification, not an exception. Thank you!</p>"
+    },
+    {
+      "id": 3540493,
+      "authorName": "nishchal jain",
+      "votes": -4,
+      "postDate": "2026-10-18T04:58:17.323000",
+      "content": "<p><a href=\"/heliosli\" target=\"_blank\">@heliosli</a> <a href=\"/cdcarr\" target=\"_blank\">@cdcarr</a></p>\n<p>Following RSNA's request in this thread (14 Oct) and the reply in 744056 to list shared weights and their source datasets, here is <strong>everything external used in our submissions</strong>.</p>\n<h3>Summary</h3>\n<table>\n<thead>\n<tr>\n<th>Resource</th>\n<th>Licence</th>\n<th>Used for</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>4 public LLM report-label tables</td>\n<td>CC0-1.0</td>\n<td>Training labels for our own models</td>\n</tr>\n<tr>\n<td>ImageNet weights (timm <code>convnext_tiny.fb_in22k_ft_in1k</code>)</td>\n<td>Apache-2.0</td>\n<td>Initialising our own models</td>\n</tr>\n<tr>\n<td>nartaa CoAtNet-2 checkpoints</td>\n<td>other</td>\n<td>Inference only</td>\n</tr>\n<tr>\n<td>heliosli R6 ConvNeXt-S bundle</td>\n<td>other</td>\n<td>Inference only</td>\n</tr>\n<tr>\n<td>heliosli inference code + <code>anatomy.pt</code> localiser</td>\n<td>other</td>\n<td>Inference only</td>\n</tr>\n<tr>\n<td>heliosli blend notebook</td>\n<td>public notebook</td>\n<td>Rank-blend code</td>\n</tr>\n</tbody>\n</table>\n<hr>\n<h3>1. Public LLM report-label tables (CC0-1.0)</h3>\n<ul>\n<li><a href=\"https://www.kaggle.com/datasets/stevenleehans/rsna-knee-llm-report-labels\" target=\"_blank\">stevenleehans/rsna-knee-llm-report-labels</a></li>\n<li><a href=\"https://www.kaggle.com/datasets/pilkwang/rsna-knee-llm-labels\" target=\"_blank\">pilkwang/rsna-knee-llm-labels</a></li>\n<li><a href=\"https://www.kaggle.com/datasets/lixin73/rsna-knee-llm-report-labels-sol56\" target=\"_blank\">lixin73/rsna-knee-llm-report-labels-sol56</a></li>\n<li><a href=\"https://www.kaggle.com/datasets/dreaddevelopment/rsna-knee-labels\" target=\"_blank\">dreaddevelopment/rsna-knee-labels</a></li>\n</ul>\n<p><strong>Use:</strong> the mean of the four as soft training targets for our own 2.5D models, together with out-of-fold predictions of our own models.</p>\n<h3>2. ImageNet weights (Apache-2.0)</h3>\n<ul>\n<li>timm <code>convnext_tiny.fb_in22k_ft_in1k</code></li>\n</ul>\n<p><strong>Use:</strong> initialisation of our own models.</p>\n<h3>3. nartaa CoAtNet-2 checkpoints (384 px, 224 px)</h3>\n<ul>\n<li><a href=\"https://www.kaggle.com/datasets/nartaa/rsna-knee-publication-swa-weights-20261007\" target=\"_blank\">nartaa/rsna-knee-publication-swa-weights-20261007</a></li>\n<li><strong>Licence:</strong> \"other\" (research and education, incl. this competition)</li>\n</ul>\n<p><strong>Use:</strong> inference only. Per the authors, trained with the competition data plus <strong>2,399 baseline knees of the Osteoarthritis Initiative</strong> (OAI, NIMH Data Archive).</p>\n<h3>4. heliosli R6 ConvNeXt-S bundle</h3>\n<ul>\n<li><a href=\"https://www.kaggle.com/datasets/heliosli/rsna-knee-r6-frozen-fe055406-w1\" target=\"_blank\">heliosli/rsna-knee-r6-frozen-fe055406-w1</a></li>\n<li><strong>Licence:</strong> \"other\"</li>\n</ul>\n<p><strong>Use:</strong> inference only.</p>\n<h3>5. heliosli inference code + <code>anatomy.pt</code> knee localiser</h3>\n<ul>\n<li><a href=\"https://www.kaggle.com/datasets/heliosli/rsna-orthofoundation-fold0-epoch7-20261004\" target=\"_blank\">heliosli/rsna-orthofoundation-fold0-epoch7-20261004</a></li>\n<li><strong>Licence:</strong> \"other\"; upstream licences retained</li>\n</ul>\n<p><strong>Use:</strong> inference only, to place R6's crops. Per its documentation, the localiser was trained on <strong>SKM-TEA</strong> (Stanford AIMI). The OrthoFoundation ViT weights in this dataset are <strong>not loaded</strong>.</p>\n<h3>6. Blend recipe</h3>\n<ul>\n<li><a href=\"https://www.kaggle.com/code/heliosli/blend-mine-in-private-lb-luck-to-all-upvoters\" target=\"_blank\">heliosli/blend-mine-in-private-lb-luck-to-all-upvoters</a></li>\n<li>Public notebook (competition code-sharing rule)</li>\n</ul>\n<p><strong>Use:</strong> rank-blend code for the three readers above.</p>\n<hr>\n<h3>Not used</h3>\n<ul>\n<li>OAI, fastMRI / fastMRI+, MRNet, KneeMRI or SKM-TEA <strong>images</strong> directly</li>\n<li>The R7 bundle</li>\n</ul>\n<hr>\n<h3>Question for <a href=\"/heliosli\" target=\"_blank\">@heliosli</a></h3>\n<p>Was <strong>R6</strong> (bundle <code>fe055406</code>, run tag <code>cnx_r6fm</code>) trained with <strong>fastMRI or fastMRI+</strong> data in any way, including an auxiliary task?</p>\n<p>Its manifest lists no <code>fm_aux</code> entry, but the trainer version supports one, and I'd like to be sure before final selection.</p>\n<p>Thanks to <strong>nartaa</strong>, <strong>heliosli</strong> and the label-table authors for sharing their work! \ud83d\ude4f</p>"
+    },
+    {
+      "id": 3538535,
+      "authorName": "Chris Carr",
+      "votes": 1,
+      "postDate": "2026-10-14T13:18:53.197000",
+      "content": "<p>Writing on behalf RSNA, thank you for posing this question in such a thoughtful and cogent way. For reasons stated by one of the respondents below, we are not prepared to designate specific datasets as permitted or off limits. Instead we would reiterate the provision of the contest rules that states that external data sets used must be, \u201ceither publicly available and equally accessible to use by all Participants of the Competition for purposes of the competition at no cost to the other Participants.\u201d </p>\n<p>Datasets that require only registration and acknowledgement of licensing terms would clearly meet these criteria. Datasets that require an institutional research agreement or limit access to users with institutional affiliations clearly do not. </p>\n<p>Beyond that guidance, we would simply advise adhering to the broader \u201creasonableness\u201d criterion and also providing transparency in disclosing your training methods, including datasets used. In the spirit of the competition, we would greatly prefer that the winning models be distinguished by the ingenuity and rigor of their approach rather than by privileged access to resources.</p>\n<p>Christopher Carr\nDirector of Informatics\nRSNA</p>"
+    },
+    {
+      "id": 3538541,
+      "authorName": "Driz Lo",
+      "votes": 0,
+      "postDate": "2026-10-14T13:26:37.023000",
+      "content": "<p>If a dataset meets these requirements in principle, but its website restricts registration from certain geographic regions (for example, registration attempts from those regions consistently return an \"LG22\" error code), would such a dataset still be considered \"publicly available and equally accessible to all Participants\" under the competition rules?</p>\n<p>In this situation, would the use of such a dataset be permitted?</p>"
+    },
+    {
+      "id": 3539588,
+      "authorName": "Richard_61",
+      "votes": -1,
+      "postDate": "2026-10-16T06:11:20.743000",
+      "content": "<p><a href=\"/cdcarr\" target=\"_blank\">@cdcarr</a> thank you for the ruling, it settles most of the dataset questions. One case it leaves open is the one <a href=\"/drizlo\" target=\"_blank\">@drizlo</a> raised right below it, and it decides which side of your test OAI falls on. Tagging the rest of the host and Kaggle team so it is seen before final selections: <a href=\"/javaduke95\" target=\"_blank\">@javaduke95</a> <a href=\"/michelleriopel\" target=\"_blank\">@michelleriopel</a> <a href=\"/shosys\" target=\"_blank\">@shosys</a> <a href=\"/ryanholbrook\" target=\"_blank\">@ryanholbrook</a> <a href=\"/macruzbar\" target=\"_blank\">@macruzbar</a></p>\n<p>OAI's own process meets the letter of the test. It needs a Login.gov account and acceptance of NDA's data use terms, with no institutional sign-off, and individuals report being approved at once. Whether a participant can actually get it depends on where they live:</p>\n<ul>\n<li>NIH notice NOT-OD-25-083 bars access to NIH controlled-access repositories from \"countries of concern\", China included, and NDA's security notice repeats this for NDA data.</li>\n<li>Login.gov rejects registrations from China with error LG22. Several participants in <a href=\"https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/746792\" target=\"_blank\">#746792</a> report the same error after trying several email addresses.</li>\n<li>An NDA help-desk reply posted in this thread says the restriction does not apply to OAI. That contradicts the reports above, and participants cannot resolve it themselves.</li>\n<li>China is not on the excluded list in Rule 3.1, and Rule 2.6.b names \"geo restrictions\" as something that can stop external data from being reasonably accessible to all.</li>\n</ul>\n<p>This matters for fairness. In its author's own table in <a href=\"https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/746792\" target=\"_blank\">#746792</a> (a recipe comparison, not a controlled ablation), adding 2,399 OAI knees moved the public 0.949 model from 0.940 to 0.945. Near the medal lines about 135 teams share each 0.001 (count in <a href=\"https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/749570\" target=\"_blank\">#749570</a>), so a gain of that size is several hundred places. Checkpoints trained on OAI are now inside many of the top public notebooks, while teams that cannot register, or that read the rules strictly, cannot match it. Your ruling says winners should be distinguished by ingenuity rather than privileged access to resources; access that depends on a participant's country is that kind of privilege.</p>\n<p>Two yes/no questions, so that every team picks its final submissions under the same rule:</p>\n<ol>\n<li>Does a dataset whose provider blocks participants in an eligible country meet \"equally accessible to use by all Participants\"?</li>\n<li>If not, does the same apply to publicly shared weights trained on that dataset? Your answer in <a href=\"https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/744056\" target=\"_blank\">#744056</a> covered weights trained on the competition data.</li>\n</ol>\n<p>Our final selections use competition data only, and we will follow whichever answer you give. Thank you.</p>"
+    },
+    {
+      "id": 3539661,
+      "authorName": "hengck23",
+      "votes": 2,
+      "postDate": "2026-10-16T09:02:49.153000",
+      "content": "<p>I think time to move on. Don\u2019t get yourself trapped into external data details. The host already said they won\u2019t say yes or no on specific data. (please read their latest post). </p>\n<p>Move on! If it doesn\u2019t work for you, try other methods. It is last week and they cannot make any changes now. Fair or not fair is one matter. What you can do is another. You should assume the host cannot and would not make changes at last week and move on based on your best available choice.</p>\n<p>My point is : move on!!!</p>"
+    },
+    {
+      "id": 3535226,
+      "authorName": "Tucker Arrants",
+      "votes": 12,
+      "postDate": "2026-10-08T13:52:21.413000",
+      "content": "<p>Hope this reply from NDA regarding intended accessibility of OAI dataset helps<img src=\"https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F4379159%2Fa2d23bb7a3e71f51b42db249f94db22c%2FScreenshot%202026-10-08%20095205.png?generation=1791467540572386&amp;alt=media\" alt=\"\"></p>"
+    },
+    {
+      "id": 3535238,
+      "authorName": "YYama",
+      "votes": 3,
+      "postDate": "2026-10-08T14:11:33.263000",
+      "content": "<p>Thank you for sharing this! Based on their response, it seems reasonable to consider OAI permissible for use in this competition.</p>"
+    },
+    {
+      "id": 3535787,
+      "authorName": "Satwik",
+      "votes": 2,
+      "postDate": "2026-10-09T08:06:12.993000",
+      "content": "<p>While it does seem reasonable to use from OAI's end, I would still be careful until the hosts explicitly mention it - access to it seems to be blocked from China, as someone mentioned in another thread, so the hosts might restrict it.</p>"
+    },
+    {
+      "id": 3536012,
+      "authorName": "Tucker Arrants",
+      "votes": 4,
+      "postDate": "2026-10-09T15:40:34.463000",
+      "content": "<p>The challenge is 1) the host is not going to reply, as they have avoided clear answers regarding external dataset usage with the exception of KneeCot, 2) NDA themselves are saying OAI is open sourced and available for everyone, with no country exclusions, so user reported access denial is not <em>supposed</em> to happen and 3) a public model trained on OAI has now spread through the code section via blind fork ensembling and the exposure to OAI is rapidly growing, so a flat OAI ban impacts a huge number of submissions. Its an annoyingly grey situation thus far.</p>\n<p>-&gt; If it is banned, only those extremely cautious will not get DQ'd (assuming this can even be caught in the first place) and if it isn't banned, those same people are at a potential data disadvantage.  </p>"
+    },
+    {
+      "id": 3536021,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-09T15:55:11.433000",
+      "content": ""
+    },
+    {
+      "id": 3536133,
+      "authorName": "Satwik",
+      "votes": 0,
+      "postDate": "2026-10-09T19:36:20.530000",
+      "content": "<p>Yup, unfortunately that's where we stand right now. The OAI access issue seems to be due to restrictions in China, not from OAI themselves. And I think the public model weights should be fine, as that does not involve direct use of the dataset (the person who shared it, however, might get disqualified). I wonder why the hosts won't respond to any queries at all. The hosts last year were very active in the community. It's a little disappointing honestly.</p>"
+    },
+    {
+      "id": 3536158,
+      "authorName": "Pavel",
+      "votes": 5,
+      "postDate": "2026-10-09T20:18:11.663000",
+      "content": "<p>Just a reminder that both Claude and Codex are officially unavailable in China as well.</p>"
+    },
+    {
+      "id": 3537170,
+      "authorName": "Renmq",
+      "votes": 1,
+      "postDate": "2026-10-12T03:49:43.220000",
+      "content": "<p>Since NDA says the OAI dataset is publicly available to everyone with no country restrictions, could someone upload the original, unprocessed dataset to Kaggle? That way, all participants would have equal access to the data, helping ensure a level playing field.</p>"
+    },
+    {
+      "id": 3534071,
+      "authorName": "YYama",
+      "votes": 8,
+      "postDate": "2026-10-07T09:35:08.100000",
+      "content": "<p>I would like to follow up on this question, as the status of several commonly used knee MRI datasets is still unclear.</p>\n<table>\n<thead>\n<tr>\n<th>Resource</th>\n<th>Host status</th>\n<th>Access / licensing issue</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>KneeCoT</strong></td>\n<td><strong>Prohibited</strong> (<a href=\"https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/734109\" target=\"_blank\">host ruling</a>)</td>\n<td>Download is technically easy, but the dataset card requires a <strong>formal ethical-use agreement with the affiliated hospital</strong></td>\n</tr>\n<tr>\n<td><strong>Stanford MRNet</strong></td>\n<td>Unclear</td>\n<td>Stanford AIMI / Redivis access; subject to research-use terms and dataset-specific access requirements</td>\n</tr>\n<tr>\n<td><strong>Stanford SKM-TEA</strong></td>\n<td>Unclear</td>\n<td>Stanford AIMI / Redivis access; registration and dataset-specific access requirements</td>\n</tr>\n<tr>\n<td><strong>NYU fastMRI / fastMRI+</strong></td>\n<td>Unclear</td>\n<td><strong>Application required</strong>, including institutional affiliation and proposed use; Data Sharing Agreement</td>\n</tr>\n<tr>\n<td><strong>OAI</strong></td>\n<td>Unclear</td>\n<td>NDA registration / controlled-access process; not simply an unrestricted public download</td>\n</tr>\n<tr>\n<td><strong>KneeMRI</strong></td>\n<td>Unclear</td>\n<td>Public download, but <strong>CC BY-NC-ND 4.0</strong>; unclear whether training/releasing model weights is compatible with the NoDerivatives clause</td>\n</tr>\n<tr>\n<td><strong>KneeXNet-2.5D</strong></td>\n<td>Unclear</td>\n<td>Publicly released OAI-derived annotations/models; repository says research/educational use, but no explicit repository license identified</td>\n</tr>\n</tbody>\n</table>\n<p>Given that <strong>KneeCoT is prohibited because of its institutional agreement requirement</strong>, could the hosts clarify whether datasets requiring comparable or more substantial access procedures are also prohibited?</p>\n<p>At minimum, could the <strong>KneeCoT prohibition be pinned</strong>? Although the dataset card explicitly requires a formal ethical-use agreement with the affiliated hospital, the files themselves are relatively easy to access, and this requirement may easily be overlooked in practice. Given the dataset\u2019s large scale and its inclusion of knee MRI examinations, diagnostic reports, labels, VQA data, and reasoning annotations that closely overlap with this competition\u2019s tasks, its use could potentially lead to substantial score gains. A pinned notice would help prevent inadvertent use and ensure that all teams are operating under the same rules.</p>\n<p><a href=\"/javaduke95\" target=\"_blank\">@javaduke95</a></p>"
+    },
+    {
+      "id": 3534883,
+      "authorName": "Taeyang",
+      "votes": 4,
+      "postDate": "2026-10-08T04:04:15.933000",
+      "content": "<p><a href=\"/javaduke95\" target=\"_blank\">@javaduke95</a> Following your Aug 27 guidance (straightforward registration or click-through data-use agreements are generally acceptable; institution-specific approvals are not), could you give a yes/no on two specific points before final selections on Oct 22?</p>\n<ol>\n<li>OAI through the NIMH Data Archive (login.gov account + click-through data-use terms): is it allowed as external training data? Some participants report that NIH country restrictions block access from their location (e.g. China), which seems relevant to \"reasonably accessible to all\".</li>\n<li>Publicly released checkpoints trained partly on OAI (for example the checkpoint behind the public 0.949 notebook, shared under Apache 2.0): may other teams use them in their submissions?</li>\n</ol>\n<p>Many teams are now building on public notebooks that use such a checkpoint, so a clear answer would keep the leaderboard fair for everyone. Thank you!</p>"
+    },
+    {
+      "id": 3535775,
+      "authorName": "Eesh saxena",
+      "votes": 3,
+      "postDate": "2026-10-09T07:38:19.080000",
+      "content": "<p>For reference on accessibility: I applied for OAI on NDA as an individual and was approved immediately, with no institution, signing official or IRB involved (the Data Permissions page lists the Osteoarthritis Initiative group as \u201cInstitutional Approval Required: No\u201d). Signup was a Login.gov account with just an email. That seems to match the 09-21 condition in 741819, though I understand access from some countries may still be an issue.</p>"
+    },
+    {
+      "id": 3534909,
+      "authorName": "NguyenThanhNhan",
+      "votes": 2,
+      "postDate": "2026-10-08T04:42:45.703000",
+      "content": "<p>I find the calls for a strict external-data ban in the name of \u201cfairness\u201d pretty LAUGHABLE \ud83d\ude00. How exactly is this supposed to be enforced, and what level playing field are we pretending exists?</p>\n<p>We can use LLMs from Google, OpenAI, or Anthropic to extract labels from radiology reports or help annotate knee MRIs. We don\u2019t know their complete pretraining and post-training datasets. I\u2019m not claiming they were trained on any particular knee MRI dataset, but if these teachers are allowed, how do we establish that their labels contain no benefit from external data? Where exactly is the boundary?</p>\n<p>In my experience, datasets such as fastMRI, fastMRI+, OAI, and MRNet are readily accessible because:</p>\n<ol>\n<li>You don't need an academic institution email</li>\n<li>You don't have to sign any agreement and wait for human approval</li>\n</ol>\n<p>How would organizers verify that a winning model never used them? Rerunning an inference notebook verifies its predictions, not its training history. Independently reproducing the full training pipeline requires substantial time and compute that most participants cannot spare.</p>\n<p>And if the argument is equal opportunity, what about participants working with two T4 GPUs and Kaggle\u2019s limited weekly quota while others train on clusters of H200s/ B200s/ B300s ? An external-data ban leaves that disparity intact. If equal resources are the principle, apply it to compute too. </p>"
+    },
+    {
+      "id": 3534922,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-08T05:04:11.087000",
+      "content": ""
+    },
+    {
+      "id": 3534929,
+      "authorName": "YYama",
+      "votes": 6,
+      "postDate": "2026-10-08T05:16:36.410000",
+      "content": "<p>I don\u2019t have much to add, but personally, I\u2019m not asking for external data to be banned. I just want the rules to be clear.</p>\n<p>If external data is allowed, I\u2019d love to use all of it too!</p>"
+    },
+    {
+      "id": 3537177,
+      "authorName": "Navneet",
+      "votes": -2,
+      "postDate": "2026-10-12T04:13:39.680000",
+      "content": "<p>Are the external knee MRI datasets safe? <a href=\"/yosukeyama\" target=\"_blank\">@yosukeyama</a> </p>"
+    },
+    {
+      "id": 3530838,
+      "authorName": "Tucker Arrants",
+      "votes": 5,
+      "postDate": "2026-09-30T22:59:48.650000",
+      "content": "<p>I also think this is only going to get worse, largely due to the widespread adoption/use of LLM agents. They insist on finding and using external data, basically ignoring the fine print, to improve CV/LB score. I guess it's their reward training - you tell a LLM to \"improve the score\" and that is what it will try to do. </p>\n<p>If people are minimally \"in the loop\" or fully out of it, it is hard to catch. I've had to paste verbatim the host comments and the content of the Rules tab multiple times for LLMs to finally accept that most of these sources do not strictly comply with usage requirements, either from the host's perspective, Kaggle's perspective, or the data owner's perspective\u2026</p>\n<p>Not sure what the solution is but the host has no reason to check solutions other than the prize eligible ones, the data providers themselves are unlikely to respond, so what to do? \"Cheat\" and hope you don't place in top 10 but otherwise secure a medal? Play it safe and wonder if the people that placed above you weren't as conservative?</p>"
+    },
+    {
+      "id": 3530957,
+      "authorName": "pomcho555",
+      "votes": 1,
+      "postDate": "2026-10-01T04:40:59.317000",
+      "content": "<p>We're now at the point where we're basically \"jumping at shadows.\" Whether some users get banned could depend on the host, while some cheaters might still manage to get ahead of the pack. We're literally just rolling the dice.</p>"
+    },
+    {
+      "id": 3530730,
+      "authorName": "Eugene Khvedchenya",
+      "votes": 5,
+      "postDate": "2026-09-30T19:10:33.850000",
+      "content": "<p>Based on all my past kaggle experience, the most 'safe' action of host is to ignore the dataset clearance questions competely. \nSince to do it \"the right way\" requires involvement of legal department and I imagine it's tedious process.  I would be happy to proven wrong and get clear answer. But before that the best course of action is to use common sense: public registration is ok, non-commerial/research license is ok; gated dataset <em>requiring</em> academia email - probably less ok, but if top 10 solutions will end up using it - also ok ;) </p>"
+    },
+    {
+      "id": 3530964,
+      "authorName": "pomcho555",
+      "votes": 0,
+      "postDate": "2026-10-01T04:46:26.300000",
+      "content": "<p><a href=\"/bloodaxe\" target=\"_blank\">@bloodaxe</a> </p>\n<p>Are you aware of any past instances in similar competitions where the same external dataset was used in a gold medalist's write-up and didn't result in a ban?</p>\n<p>I'm gonna also do my analysis once I scraped write-ups in the previous competitions. I'll post the result here.</p>"
+    },
+    {
+      "id": 3532465,
+      "authorName": "Eugene Khvedchenya",
+      "votes": 1,
+      "postDate": "2026-10-03T16:53:51.190000",
+      "content": "<p>In Deep Fake challenge two teams from prize places were removed - <a href=\"https://www.kaggle.com/competitions/deepfake-detection-challenge/discussion/157925\" target=\"_blank\">https://www.kaggle.com/competitions/deepfake-detection-challenge/discussion/157925</a></p>\n<blockquote>\n  <p>Unfortunately, the top two teams in the preliminary standings used external data sources in their winning submissions that were not allowed under the rules of this competition.</p>\n</blockquote>\n<p>Despite numerous clarification requests, the host never explicitly answered whether youtube scraping was allowed.\nSome teams took the risk and paid the price.</p>"
+    },
+    {
+      "id": 3530459,
+      "authorName": "madmax0404",
+      "votes": 3,
+      "postDate": "2026-09-30T08:03:51.747000",
+      "content": "<p>4 days and still no answer. is that a yes?</p>"
+    },
+    {
+      "id": 3530726,
+      "authorName": "Ali Ozan Memetoglu",
+      "votes": 2,
+      "postDate": "2026-09-30T19:08:19.573000",
+      "content": "<p>MRNet\u2019s user agreement says we\u2019re not allowed to modify, reverse engineer, decompile, or create derivative works from the dataset, so that might be an issue too.</p>"
+    },
+    {
+      "id": 3528398,
+      "authorName": "Tucker Arrants",
+      "votes": 7,
+      "postDate": "2026-09-26T03:25:50.803000",
+      "content": "<p>This is quite pressing and could really throw off the leaderboard. I could be wrong, but it's only the winning solutions (top 10) that would be audited thoroughly enough that training on external data sources that are not allowed would even get \"caught\" and disqualified. Basically everyone else could probably get away with it. This is a problem as it can totally reshape the final non top 10 rankings. I think external data, even small amounts of it, can substantially increase score in this competition so the impact of this could be extreme.</p>"
+    },
+    {
+      "id": 3528497,
+      "authorName": "YYama",
+      "votes": 5,
+      "postDate": "2026-09-26T05:50:04.413000",
+      "content": "<p>I couldn't agree more. I worry that detailed review may naturally focus on prize-eligible teams, while the effects of unclear external-data rules could extend across the entire leaderboard.</p>\n<p>What particularly concerns me is that relevant external knee MRI data could allow even a fairly simple approach to achieve a dramatic improvement in score. If some teams use those datasets while others refrain because the rules are unclear, the competition becomes substantially unequal. I would appreciate explicit guidance from the hosts on which datasets are allowed.</p>"
+    },
+    {
+      "id": 3531046,
+      "authorName": "Optimo",
+      "votes": 1,
+      "postDate": "2026-10-01T07:56:26.583000",
+      "content": "<p>Have you seen improvements by using external data? I haven't tried yet but this discussion makes me want to give it a try\u2026</p>"
+    },
+    {
+      "id": 3532786,
+      "authorName": "OmerZalman",
+      "votes": 0,
+      "postDate": "2026-10-04T17:57:43.023000",
+      "content": "<p>Not really</p>"
+    },
+    {
+      "id": 3534099,
+      "authorName": "YYama",
+      "votes": 1,
+      "postDate": "2026-10-07T11:40:55.860000",
+      "content": "<p>Maybe this one?<br>\n<a href=\"https://www.kaggle.com/competitions/rsna-breast-cancer-detection/writeups/mr-robot-1st-place-solution\" target=\"_blank\">https://www.kaggle.com/competitions/rsna-breast-cancer-detection/writeups/mr-robot-1st-place-solution</a></p>\n<p>It looks like using external data improved the private LB score from around 0.53 to 0.55\u20130.56.</p>\n<p>External data can be pretty important in medical imaging, so I think there are probably other examples if we look around.</p>\n<p>For example, the 2nd-place team also used external data for segmentation in the recent RSNA intracranial aneurysm competition, including TopCoW and TopBrain data:\n<a href=\"https://www.kaggle.com/competitions/rsna-intracranial-aneurysm-detection/writeups/2nd-place-solution\" target=\"_blank\">https://www.kaggle.com/competitions/rsna-intracranial-aneurysm-detection/writeups/2nd-place-solution</a></p>"
+    },
+    {
+      "id": 3534117,
+      "authorName": "Satwik",
+      "votes": 0,
+      "postDate": "2026-10-07T12:33:55.743000",
+      "content": "<p><a href=\"/yosukeyama\" target=\"_blank\">@yosukeyama</a> if I may ask, does your current LB score have any use of external data?</p>"
+    },
+    {
+      "id": 3534126,
+      "authorName": "YYama",
+      "votes": 1,
+      "postDate": "2026-10-07T12:40:43.597000",
+      "content": "<p>Of course, I haven\u2019t used any of them. Since the rules are not clearly specified, I\u2019m assuming for now that any external dataset could potentially be prohibited.</p>"
+    },
+    {
+      "id": 3534129,
+      "authorName": "Satwik",
+      "votes": 0,
+      "postDate": "2026-10-07T12:47:54.320000",
+      "content": "<p>Thank you, that's what I thought too. Do your gains mainly come from labels/labelling strategies then, or is it other things?</p>"
+    },
+    {
+      "id": 3534133,
+      "authorName": "YYama",
+      "votes": 2,
+      "postDate": "2026-10-07T13:00:59.937000",
+      "content": "<p>Sorry, since I'm teamed up and this goes beyond the external data question, I can't really share details about our approach for now. We'll be happy to share more after the competition ends. Good luck!</p>"
+    },
+    {
+      "id": 3534138,
+      "authorName": "Satwik",
+      "votes": 2,
+      "postDate": "2026-10-07T13:18:01.590000",
+      "content": "<p>No problem, I understand. Thank you, and all the best!</p>"
+    },
+    {
+      "id": 3529114,
+      "authorName": "Cemal Atas",
+      "votes": 2,
+      "postDate": "2026-09-27T11:19:57.487000",
+      "content": "<p>This is really important. I have a similar question for the hosts. Can we use publicly released pretrained models (MIT license and all) that were trained on OAI-derived data? </p>"
+    },
+    {
+      "id": 3529492,
+      "authorName": "YYama",
+      "votes": 0,
+      "postDate": "2026-09-28T11:22:00.937000",
+      "content": "<p>I agree. Clear guidance on this point is important to ensure a level playing field for all participants.</p>"
+    },
+    {
+      "id": 3536285,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-10T03:23:13.330000",
+      "content": ""
+    },
+    {
+      "id": 3535769,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-09T07:33:14.323000",
+      "content": ""
+    },
+    {
+      "id": 3530682,
+      "authorName": "",
+      "votes": 2,
+      "postDate": "2026-09-30T17:25:08.863000",
+      "content": ""
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "topic": {
+    "id": 749359,
+    "title": "0.950 with a second architecture: Heliosli's S6 ConvNeXt retrained on our labels",
+    "authorName": "Danial Zakaria",
+    "commentCount": 1,
+    "votes": 11,
+    "postDate": "2026-10-14T18:52:49.669000"
+  },
+  "comments": [
+    {
+      "id": 3540135,
+      "authorName": "Danial Zakaria",
+      "votes": -1,
+      "postDate": "2026-10-17T06:04:21.710000",
+      "content": "<p><strong>Training code is now public.</strong> The full training code behind this S6 model, and behind our CoAtNet 0.949/0.945 weights, is now in <a href=\"https://www.kaggle.com/datasets/nartaa/rsna-knee-s6fall-weights\" target=\"_blank\">rsna-knee-s6fall-weights</a> under <code>training_code/</code>, shared under Apache-2.0. It includes the trainer, exact argv, pinned input hashes, training pool and targets, the JEV-blend labels with a script that rebuilds them, and the CoAtNet trainer with its OAI wrapper. No OAI subject data is included; the exact OAI input manifest is available only through NDA Study 3407.</p>\n<p>Details and caveats, including that the CoAtNet SWA epochs were ranked on Gold-58: <a href=\"https://www.kaggle.com/datasets/nartaa/rsna-knee-s6fall-weights/discussion/750180\" target=\"_blank\">discussion 750180</a>.</p>"
+    }
+  ]
+}

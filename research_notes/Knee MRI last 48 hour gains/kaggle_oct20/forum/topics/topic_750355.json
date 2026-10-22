@@ -1,0 +1,26 @@
+{
+  "topic": {
+    "id": 750355,
+    "title": "pilkwang/rsna-knee-weights: what data and training code are behind these weights?",
+    "authorName": "Karan Bhatti",
+    "commentCount": 2,
+    "votes": -7,
+    "postDate": "2026-10-17T22:35:52.964000"
+  },
+  "comments": [
+    {
+      "id": 3540530,
+      "authorName": "Pilkwang Kim",
+      "votes": 0,
+      "postDate": "2026-10-18T07:25:03.897000",
+      "content": "<p>Thanks for asking. The 20 checkpoints in <a href=\"https://www.kaggle.com/datasets/pilkwang/rsna-knee-weights\" target=\"_blank\">pilkwang/rsna-knee-weights</a> are one DINOv2-small slice-window model (four seeds \u00d7 five folds), trained in August on the competition's training MRI. The labels are a separate component: an LLM extracted them from the competition's own radiology reports, and that label table and the labelling script are public in <a href=\"https://www.kaggle.com/datasets/pilkwang/rsna-knee-llm-labels\" target=\"_blank\">pilkwang/rsna-knee-llm-labels</a>. <strong>According to the original run records, no external medical data (OAI, MRNet, fastMRI, SKM-TEA or similar) was used.</strong> The only outside component of the image model is the general DINOv2-small pretrained backbone from Hugging Face.</p>\n<p>The exact training source of that August run predates our version control and is not preserved byte for byte, so I won't post a code pack that claims to reproduce it exactly. I've added a README to the dataset with the training and input settings from the run records. manifest.json records each member's architecture and input configuration and a fingerprint for checking a reload; a compatible head and reader implementation is still needed to load them.</p>\n<p>Ref. <a href=\"https://www.kaggle.com/code/pilkwang/rsna-knee-baseline-v1\" target=\"_blank\">RSNA Knee baseline v1</a></p>"
+    },
+    {
+      "id": 3540444,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-10-17T23:55:51.993000",
+      "content": ""
+    }
+  ]
+}

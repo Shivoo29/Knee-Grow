@@ -1,0 +1,23 @@
+name                                                      size  creationDate                
+---------------------------------------------------  ---------  --------------------------  
+_fastread.py                                             49181  2026-10-18 12:42:10.550000  
+cache_builder.py                                          8269  2026-10-18 12:42:10.511000  
+cufile.log                                                 368  2026-10-18 12:42:10.507000  
+raptor224_raw.csv                                          699  2026-10-18 12:42:10.586000  
+raptor224_sub.csv                                          470  2026-10-18 12:42:10.646000  
+raptor_raw.csv                                             709  2026-10-18 12:42:10.630000  
+raptor_sub.csv                                             470  2026-10-18 12:42:10.633000  
+run_s0_f01/fold0/models/E_prior_s0_f0.pt             200378627  2026-10-18 12:42:13.619000  
+run_s0_f01/fold0/partial_oof_E_prior_s0.npy             159728  2026-10-18 12:42:10.535000  
+run_s0_f01/fold0/partial_oof_synspec_E_prior_s0.npy      13428  2026-10-18 12:42:10.601000  
+run_s0_f01/fold0/partial_preds_E_prior_s0.json           11766  2026-10-18 12:42:10.504000  
+run_s0_f01/fold0/pool_uids.json                         226100  2026-10-18 12:42:10.533000  
+run_s0_f01/fold0/run_config.json                          2183  2026-10-18 12:42:10.482000  
+run_s0_f01/fold0/train.log                                3145  2026-10-18 12:42:10.527000  
+run_s0_f01/fold1/models/E_prior_s0_f1.pt             200378627  2026-10-18 12:42:13.617000  
+run_s0_f01/fold1/partial_oof_E_prior_s0.npy             159728  2026-10-18 12:42:10.577000  
+run_s0_f01/fold1/partial_oof_synspec_E_prior_s0.npy      13428  2026-10-18 12:42:10.540000  
+run_s0_f01/fold1/partial_preds_E_prior_s0.json           11774  2026-10-18 12:42:10.505000  
+run_s0_f01/fold1/pool_uids.json                         226100  2026-10-18 12:42:10.545000  
+run_s0_f01/fold1/run_config.json                          2183  2026-10-18 12:42:10.536000  
+run_s0_f01/fold1/train.log                                2692  2026-10-18 12:42:10.595000  

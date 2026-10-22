@@ -1,0 +1,26 @@
+{
+  "topic": {
+    "id": 750356,
+    "title": "mattiaangeli's knee weights: what data and training code are behind them?",
+    "authorName": "Karan Bhatti",
+    "commentCount": 2,
+    "votes": -6,
+    "postDate": "2026-10-17T22:36:41.151000"
+  },
+  "comments": [
+    {
+      "id": 3540728,
+      "authorName": "Mattia Angeli",
+      "votes": 1,
+      "postDate": "2026-10-18T18:34:58.010000",
+      "content": "<p>Hi Karan, thanks for asking, and for taking the time to check these! You\u2019re right that the dataset descriptions should be clearer.</p>\n<p>For the six releases you listed, the knee-task training used only the competition\u2019s RSNA images and reports\u2014no additional OAI, fastMRI, SKM-TEA, MRNet, KneeMRI or private knee data. This is separate from backbone pretraining: I used public pretrained backbones, including RadImageNet for the explicitly named RadImageNet arm.</p>\n<p>The general training approach is similar to <a href=\"https://www.kaggle.com/code/dreaddevelopment/knee-mri-training-the-twelve-finding-model\" target=\"_blank\">this public training notebook</a>, with different architectures, heads and sampling. Most experiments used four public target sets; the recipes differ across releases. There isn\u2019t a hidden dataset or one special trick\u2014mostly several tens experiments, around 60 variants by now \ud83d\ude42</p>\n<p>The published inference code also shows the corresponding architectures, although that is not the same as a complete end-to-end reproduction package for every release.</p>\n<p>For M448, its backbone is <code>convnext_small.dinov3_lvd1689m</code>, so the upstream <a href=\"https://github.com/facebookresearch/dinov3/blob/main/LICENSE.md\" target=\"_blank\">DINOv3 licence</a> applies. \u201cOther\u201d without an explanation is insufficient documentation; it should explicitly identify those terms rather than imply CC0.</p>"
+    },
+    {
+      "id": 3540751,
+      "authorName": "Karan Bhatti",
+      "votes": 0,
+      "postDate": "2026-10-18T20:08:21.840000",
+      "content": "<p>Thanks a lot, <a href=\"/mattiaangeli\" target=\"_blank\">@mattiaangeli</a> ! That's very clear and helpful: competition data only, public pretrained backbones, and the DINOv3 licence for M448.</p>"
+    }
+  ]
+}

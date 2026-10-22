@@ -1,0 +1,19 @@
+{
+  "topic": {
+    "id": 750259,
+    "title": "Is heliosli's R7 model, trained with fastMRI, allowed in a final submission?",
+    "authorName": "Karan Bhatti",
+    "commentCount": 1,
+    "votes": -24,
+    "postDate": "2026-10-17T13:41:24.563000"
+  },
+  "comments": [
+    {
+      "id": 3540374,
+      "authorName": "Dread Development",
+      "votes": 0,
+      "postDate": "2026-10-17T18:49:57.707000",
+      "content": "<p>Not staff just so we\u2019re clear on that.</p>\n<p>The datasets that they used you have to sign up for.</p>\n<p>The base code used was copied &amp; my educated assumption is that their AI remake of my work with this additional data is overfit anyways.</p>\n<p>Personally, could\u2019ve done the same thing two months ago but did not, the private board should shake it out of the mix.</p>"
+    }
+  ]
+}

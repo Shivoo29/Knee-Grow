@@ -1,0 +1,33 @@
+{
+  "topic": {
+    "id": 747455,
+    "title": "are public weights trained on OAI knee MRI allowed?",
+    "authorName": "Anay Chauhan",
+    "commentCount": 3,
+    "votes": 10,
+    "postDate": "2026-10-08T19:16:00.316000"
+  },
+  "comments": [
+    {
+      "id": 3541335,
+      "authorName": "Mar\u00eda Cruz",
+      "votes": 1,
+      "postDate": "2026-10-19T22:46:13.880000",
+      "content": "<p>Hi <a href=\"/anaychauhan\" target=\"_blank\">@anaychauhan</a>, Arihant, and everyone -- apologies for the delay in getting back to you.</p>\n<p>Unfortunately, we cannot provide legal interpretations of third-party data-use agreements or licenses, or pre-approve specific datasets or model weights under the competition rules. As Chris Carr (@cdcarr) shared on behalf of RSNA in <a href=\"https://www.kaggle.com/competitions/rsna-knee-abnormality-detection/discussion/743416#3538535\" target=\"_blank\">this thread</a>, the host is not designating individual external datasets as permitted or off limits.</p>\n<p>Instead, please refer to the Competition Rules and the guidance the host team has shared across the forum when choosing your final submissions. Ultimately, each team is responsible for ensuring that their submission and any external data or models they use comply with both the Competition Rules and the third-party provider's terms of use.</p>\n<p>Good luck with your final submissions!</p>\n<p>Mar\u00eda</p>"
+    },
+    {
+      "id": 3536023,
+      "authorName": "Civitasmass",
+      "votes": -1,
+      "postDate": "2026-10-09T15:56:54.533000",
+      "content": "<p>I think the safest approach is to avoid using this external data,\nit offers limited benefits but carries high risks.</p>"
+    },
+    {
+      "id": 3538052,
+      "authorName": "Arihant Jain",
+      "votes": 0,
+      "postDate": "2026-10-13T16:09:26.747000",
+      "content": "<p><a href=\"/macruzbar\" target=\"_blank\">@macruzbar</a> <a href=\"/javaduke95\" target=\"_blank\">@javaduke95</a> - could we get a ruling on this before the notebook lock? Many top public notebooks (0.954-0.956) use nartaa/rsna-knee-publication-swa-weights-20261007, whose description says the models used 2,399 baseline OAI knees (NIMH Data Archive, Shared NDA Study 3407) for external supervision. OAI access requires an NDA data-use application, which per earlier guidance is not the same as click-through registration. Specifically:\n1) Are public weights trained on OAI data allowed for leaderboard/medal eligibility?\n2) Are they allowed for prize eligibility?\nA clear answer would help a lot of teams choose their final submissions. Thanks!</p>"
+    }
+  ]
+}

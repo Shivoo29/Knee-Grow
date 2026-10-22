@@ -1,0 +1,61 @@
+{
+  "topic": {
+    "id": 743698,
+    "title": "Am new here: Is the Kaggle GPU enough for this competition?",
+    "authorName": "Dhiyanesh Babu C V",
+    "commentCount": 7,
+    "votes": 1,
+    "postDate": "2026-09-26T13:44:02.705000"
+  },
+  "comments": [
+    {
+      "id": 3530360,
+      "authorName": "Chris Deotte",
+      "votes": 4,
+      "postDate": "2026-09-30T03:30:39.240000",
+      "content": "<p>I think it is enough to achieve a medal but may not be enough to get Gold and/or top positions. Using Kaggle GPUs we can do lots of experiments with smaller backbones and/or subset of train data. We can explore diverse models from public notebooks. Using ensemble between your work and public notebooks can usually always achieve medal. When using public notebooks, you will need to use your common sense and/or local validate public notebooks to determine what is legitimate and what is overfitting public LB.</p>\n<p>In conclusion, using Kaggle GPU is enough to learn data science, explore competition models, and have a good time. Have fun, participate, and good luck!</p>"
+    },
+    {
+      "id": 3530593,
+      "authorName": "Lavin Wins",
+      "votes": -2,
+      "postDate": "2026-09-30T14:24:25.153000",
+      "content": "<p>Hi! I am obsessed with asking questions to like-minded people as you .\nSo here is my questions :-</p>\n<p>Which GPU do you use ?</p>"
+    },
+    {
+      "id": 3539967,
+      "authorName": "Arun",
+      "votes": 1,
+      "postDate": "2026-10-16T20:44:34.127000",
+      "content": "<p>I trained a model from scratch from 0.85 to 0.92 just by using Kaggle gpu. Fusion with public notebook gives me 0.93 not sure whether its enough to earn a medal but had pretty fun in this competition and had lot to learn from this competition. </p>\n<p><a href=\"/cdeotte\" target=\"_blank\">@cdeotte</a> how do you find whether a public model overfits as most of them expose there weight only not pipeline, aint it a black box, shedding some light would help me ?</p>\n<p>Thanks</p>"
+    },
+    {
+      "id": 3530093,
+      "authorName": "Rohit Chaudhari",
+      "votes": 1,
+      "postDate": "2026-09-29T14:17:54.903000",
+      "content": "<p>Kaggle GPU is enough for learning and experimentation.\nIf you are concerned about big data and how GPU handles it, you can probably split the data preparation and model training phase.\ndata preparation is CPU intensive task where you can prepare your dataset without consuming GPU quota.\nGPU quota can be exclusively used for model training. \nIf your theory is good enough and deep learning understanding is descent, you can get a good score even with kaggle GPU by optimizing the pipeline as much as you can.</p>\n<p>If you just want to sweep every hyperparameter across range , then that will fall in blind search category where you can burn through any GPU if you are not careful enough.  </p>\n<p>So understand the strategies from open kaggle code notebooks and community discussions , you will get some ideas. Experiment with those ideas.</p>"
+    },
+    {
+      "id": 3529912,
+      "authorName": "Seeing Times",
+      "votes": 1,
+      "postDate": "2026-09-29T07:00:23.343000",
+      "content": "<p>Not enough for competitions like RSNA</p>"
+    },
+    {
+      "id": 3529533,
+      "authorName": "Lavin Wins",
+      "votes": 0,
+      "postDate": "2026-09-28T12:57:20.110000",
+      "content": "<p>if you are just here for experience kaggle GPU is enough , however if you are here to win or secure a medal then you need to be rich and which RTX series are you talking about cause if you have above 4090 you are good to go</p>"
+    },
+    {
+      "id": 3529612,
+      "authorName": "",
+      "votes": 0,
+      "postDate": "2026-09-28T16:28:36.393000",
+      "content": ""
+    }
+  ]
+}
