@@ -1287,7 +1287,7 @@ def main():
     SLOT_SIZES = list(ck_sizes)
     SLOTS = [(pl, fl, k) for (pl, fl, _), k in zip(SLOTS, SLOT_SIZES)]
     MAXS = sum(SLOT_SIZES)
-    K_EVAL = MAXS - 2
+    K_EVAL = int(os.environ.get("RAPTOR_K_EVAL") or MAXS - 2)   # window centres; CoAtNet r3 trained/scored on 64 (128 tiles)
     SLOT_BOUNDS = bounds_from_sizes(SLOT_SIZES)
     _b_slots = np.cumsum([0] + SLOT_SIZES)
     _s_map = np.searchsorted(_b_slots, np.arange(MAXS), side='right') - 1
