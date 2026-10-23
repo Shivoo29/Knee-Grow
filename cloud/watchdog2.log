@@ -1,0 +1,79 @@
+[2026-10-22 02:10:58] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:10:58] Log tail:  Rulebook) === | Traceback (most recent call last): |   File "/tmp/knee_radiologist/test_pipeline.py", line 25, in <module> |     for s in rep_res.scores: |              ^^^^^^^^^^^^^^ | AttributeError: 'ReportResult' object has no attribute 'scores'
+[2026-10-22 02:10:58] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:10:59] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_2884
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:11:10] Starting Molab2 15-second continuous watchdog loop...
+[2026-10-22 02:11:12] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:11:12] Log tail:  | === Auto-Healer Re-running Corrected Pipeline === |   File "/tmp/knee_radiologist/test_pipeline.py", line 23 |     print(f" |           ^ | SyntaxError: unterminated f-string literal (detected at line 23)
+[2026-10-22 02:11:12] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:11:13] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_2907
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:11:30] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:11:30] Log tail:  | === Auto-Healer Re-running Corrected Pipeline === |   File "/tmp/knee_radiologist/test_pipeline.py", line 23 |     print(f" |           ^ | SyntaxError: unterminated f-string literal (detected at line 23)
+[2026-10-22 02:11:30] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:11:32] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_2932
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:11:38] Starting Molab2 15-second continuous watchdog loop...
+[2026-10-22 02:11:39] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:11:39] Log tail:  | === Auto-Healer Re-running Corrected Pipeline === |   File "/tmp/knee_radiologist/test_pipeline.py", line 23 |     print(f" |           ^ | SyntaxError: unterminated f-string literal (detected at line 23)
+[2026-10-22 02:11:39] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:11:41] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_2945
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:11:58] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:11:58] Log tail:  | === Auto-Healer Re-running Corrected Pipeline === |   File "/tmp/knee_radiologist/test_pipeline.py", line 23 |     print(' |           ^ | SyntaxError: unterminated string literal (detected at line 23)
+[2026-10-22 02:11:58] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:11:59] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_2970
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:12:16] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:12:16] Log tail:  | === Auto-Healer Re-running Corrected Pipeline === |   File "/tmp/knee_radiologist/test_pipeline.py", line 23 |     print(' |           ^ | SyntaxError: unterminated string literal (detected at line 23)
+[2026-10-22 02:12:16] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:12:17] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_3001
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:12:34] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:12:34] Log tail:  | === Auto-Healer Re-running Corrected Pipeline === |   File "/tmp/knee_radiologist/test_pipeline.py", line 23 |     print(' |           ^ | SyntaxError: unterminated string literal (detected at line 23)
+[2026-10-22 02:12:34] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:12:36] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_3142
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:12:53] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:12:53] Log tail:  | === Auto-Healer Re-running Corrected Pipeline === |   File "/tmp/knee_radiologist/test_pipeline.py", line 23 |     print(' |           ^ | SyntaxError: unterminated string literal (detected at line 23)
+[2026-10-22 02:12:53] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:12:54] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_3165
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:12:55] Starting Molab2 15-second continuous watchdog loop...
+[2026-10-22 02:12:57] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:12:57] Log tail:  | === Auto-Healer Re-running Corrected Pipeline === |   File "/tmp/knee_radiologist/test_pipeline.py", line 23 |     print(' |           ^ | SyntaxError: unterminated string literal (detected at line 23)
+[2026-10-22 02:12:57] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:12:58] Rectify & restart result: Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+Traceback (most recent call last):
+  File "/tmp/marimo_80/__marimo__cell___scratch___.py", line 70, in <module>
+    test_script.write_text('\n'.join(test_lines) + '\n')
+    ^^^^^^^^^^^
+NameError: name 'test_script' is not defined
+[2026-10-22 02:13:15] Starting Molab2 15-second continuous watchdog loop...
+[2026-10-22 02:13:17] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:13:17] Log tail:  | === Auto-Healer Re-running Corrected Pipeline === |   File "/tmp/knee_radiologist/test_pipeline.py", line 23 |     print(' |           ^ | SyntaxError: unterminated string literal (detected at line 23)
+[2026-10-22 02:13:17] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:13:18] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_3204
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:13:35] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:13:35] Log tail:  |  | Cannot access gated repo for url https://huggingface.co/google/medgemma-27b-it/resolve/main/chat_template.json. | Access to model google/medgemma-27b-it is restricted. You must have access to it and be authenticated to access it. Please log in.
+[2026-10-22 02:13:35] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:13:36] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_3275
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.
+[2026-10-22 02:13:53] Molab2 Status: Alive=False, Done=False, GPU=0 %, 559 MiB
+[2026-10-22 02:13:53] Log tail:  |  | Cannot access gated repo for url https://huggingface.co/google/medgemma-27b-it/resolve/main/chat_template.json. | Access to model google/medgemma-27b-it is restricted. You must have access to it and be authenticated to access it. Please log in.
+[2026-10-22 02:13:53] ⚠️ Detected stopped process or error! Triggering automatic rectification...
+[2026-10-22 02:13:54] Rectify & restart result: RECTIFIED_AND_RESTARTED_PID_3340
+
+Warning: connecting to non-local server 'sb-2d47249a6c0820f2.sb.molab.run'. Ensure this is trusted.

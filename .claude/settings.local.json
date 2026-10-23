@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(kaggle kernels push:*)",
+      "Bash(/tmp/claude-1000/-home-codemaster29-Documents-still-learning-rsna-knee-abnormality-detection/3f24cffc-344a-4ba2-b836-67395dd6b5cf/scratchpad/mx.sh:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "code-review-graph"
+  ]
+}

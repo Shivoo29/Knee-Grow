@@ -1,0 +1,959 @@
+[2026-10-22 13:48:17] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 13:48:17] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 13:48:47] Starting Molab3 60-second watchdog loop...
+[2026-10-22 13:48:49] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 13:48:49] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 13:48:54] Starting Molab3 60-second watchdog loop...
+[2026-10-22 13:48:56] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 13:48:56] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 13:49:58] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:00:26] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:00:26] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:00:35] Starting Molab3 60-second watchdog loop...
+[2026-10-22 14:00:35] Starting Molab3 60-second watchdog loop...
+[2026-10-22 14:00:37] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:00:37] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:00:37] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:00:37] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:01:39] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:01:39] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:01:39] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:01:39] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:02:41] Molab3 Status: Alive=True, Done=False, GPU=81 %, 8515 MiB
+[2026-10-22 14:02:41] Molab3 Status: Alive=True, Done=False, GPU=81 %, 8515 MiB
+[2026-10-22 14:02:41] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt) | 08:35:26 started fold 1 (log_cnxt_r3_s310_f1.txt) | 08:35:26 started fold 2 (log_cnxt_r3_s310_f2.txt)
+[2026-10-22 14:02:41] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt) | 08:35:26 started fold 1 (log_cnxt_r3_s310_f1.txt) | 08:35:26 started fold 2 (log_cnxt_r3_s310_f2.txt)
+[2026-10-22 14:03:42] Molab3 Status: Alive=True, Done=False, GPU=0 %, 10911 MiB
+[2026-10-22 14:03:42] Molab3 Status: Alive=True, Done=False, GPU=0 %, 10911 MiB
+[2026-10-22 14:03:42] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt) | 08:35:26 started fold 1 (log_cnxt_r3_s310_f1.txt) | 08:35:26 started fold 2 (log_cnxt_r3_s310_f2.txt)
+[2026-10-22 14:03:42] Master Log: 08:19:26 started fold 0 (log_cnxt_r3_s310_f0.txt) | 08:35:26 started fold 1 (log_cnxt_r3_s310_f1.txt) | 08:35:26 started fold 2 (log_cnxt_r3_s310_f2.txt)
+[2026-10-22 14:04:43] Molab3 notice: Warning: connecting to non-local server 'sb-5db0f9a383670956.sb.molab.run'. Ensure this is trusted.
+No active sessions o
+[2026-10-22 14:04:43] Molab3 notice: Warning: connecting to non-local server 'sb-5db0f9a383670956.sb.molab.run'. Ensure this is trusted.
+No active sessions o
+[2026-10-22 14:05:45] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:05:45] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:06:47] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:06:47] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:07:49] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:07:49] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:08:51] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:08:51] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:09:52] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:09:52] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:10:54] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:10:54] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:11:55] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:11:55] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:12:57] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:12:57] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:13:59] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:13:59] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:15:01] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:15:01] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:16:02] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:16:02] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:17:04] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:17:04] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:18:07] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:18:07] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:18:07] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:18:07] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:19:09] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:19:09] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:19:09] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:19:09] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:20:10] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:20:10] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:20:10] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:20:10] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:21:12] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:21:12] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:21:12] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:21:12] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:22:13] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:22:13] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:22:13] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:22:13] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:23:15] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:23:15] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:23:15] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:23:15] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:24:17] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:24:17] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:24:17] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:24:17] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:25:19] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:25:19] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:25:19] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:25:19] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:26:21] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:26:21] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:26:21] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:26:21] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:27:22] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:27:22] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:27:22] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:27:22] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:28:24] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:28:24] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:28:24] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:28:24] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:29:26] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:29:26] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:29:26] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:29:26] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:30:28] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:30:28] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:30:28] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:30:28] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:31:29] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:31:29] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:31:29] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:31:29] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:32:31] Molab3 Status: Alive=True, Done=False, GPU=0 %, 7274 MiB
+[2026-10-22 14:32:31] Molab3 Status: Alive=True, Done=False, GPU=0 %, 7274 MiB
+[2026-10-22 14:32:31] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:32:31] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:33:33] Molab3 Status: Alive=True, Done=False, GPU=0 %, 7274 MiB
+[2026-10-22 14:33:33] Molab3 Status: Alive=True, Done=False, GPU=0 %, 7274 MiB
+[2026-10-22 14:33:33] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:33:33] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:34:34] Molab3 Status: Alive=True, Done=False, GPU=64 %, 7274 MiB
+[2026-10-22 14:34:34] Molab3 Status: Alive=True, Done=False, GPU=64 %, 7274 MiB
+[2026-10-22 14:34:34] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:34:34] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:35:36] Molab3 Status: Alive=True, Done=False, GPU=5 %, 7274 MiB
+[2026-10-22 14:35:36] Molab3 Status: Alive=True, Done=False, GPU=5 %, 7274 MiB
+[2026-10-22 14:35:36] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:35:36] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:36:38] Molab3 Status: Alive=True, Done=False, GPU=0 %, 7274 MiB
+[2026-10-22 14:36:38] Molab3 Status: Alive=True, Done=False, GPU=0 %, 7274 MiB
+[2026-10-22 14:36:38] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:36:38] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:37:39] Molab3 Status: Alive=True, Done=False, GPU=100 %, 7274 MiB
+[2026-10-22 14:37:39] Molab3 Status: Alive=True, Done=False, GPU=100 %, 7274 MiB
+[2026-10-22 14:37:39] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:37:39] Master Log: 08:50:39 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:05:09 started fold 1 (log_cnxt_r3_s310_f1.txt)
+[2026-10-22 14:38:42] Molab3 notice: Warning: connecting to non-local server 'sb-5db0f9a383670956.sb.molab.run'. Ensure this is trusted.
+No active sessions o
+[2026-10-22 14:38:42] Molab3 notice: Warning: connecting to non-local server 'sb-5db0f9a383670956.sb.molab.run'. Ensure this is trusted.
+No active sessions o
+[2026-10-22 14:39:44] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:39:44] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:40:45] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:40:45] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:41:47] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:41:47] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:42:49] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:42:49] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:43:50] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:43:50] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:44:52] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:44:52] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:45:53] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:45:53] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:46:55] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:46:55] Molab3 Status: Alive=False, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:47:23] Starting Molab3 60-second watchdog loop...
+[2026-10-22 14:47:23] Starting Molab3 60-second watchdog loop...
+[2026-10-22 14:47:24] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:47:24] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:47:24] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:47:24] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:48:26] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:48:26] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:48:26] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:48:26] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:49:28] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:49:28] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:49:28] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:49:28] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:50:30] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:50:30] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:50:30] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:50:30] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:51:31] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:51:31] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:51:31] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:51:31] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:52:33] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:52:33] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:52:33] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:52:33] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:53:35] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:53:35] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:53:35] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:53:35] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:54:36] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:54:36] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:54:36] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:54:36] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:55:38] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:55:38] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:55:38] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:55:38] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:56:40] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:56:40] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:56:40] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:56:40] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:57:41] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:57:41] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:57:41] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:57:41] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:58:43] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:58:43] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:58:43] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:58:43] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:59:45] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:59:45] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 14:59:45] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 14:59:45] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:00:46] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 15:00:46] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 15:00:46] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:00:46] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:01:48] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 15:01:48] Molab3 Status: Alive=True, Done=False, GPU=0 %, 0 MiB
+[2026-10-22 15:01:48] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:01:48] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:02:50] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:02:50] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:02:50] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:02:50] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:03:51] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:03:51] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:03:51] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:03:51] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:04:53] Molab3 Status: Alive=True, Done=False, GPU=98 %, 3639 MiB
+[2026-10-22 15:04:53] Molab3 Status: Alive=True, Done=False, GPU=98 %, 3639 MiB
+[2026-10-22 15:04:53] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:04:53] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:05:56] Molab3 Status: Alive=True, Done=False, GPU=96 %, 3639 MiB
+[2026-10-22 15:05:56] Molab3 Status: Alive=True, Done=False, GPU=96 %, 3639 MiB
+[2026-10-22 15:05:56] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:05:56] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:06:58] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:06:58] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:06:58] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:06:58] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:08:00] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:08:00] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:08:00] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:08:00] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:09:01] Molab3 Status: Alive=True, Done=False, GPU=59 %, 3639 MiB
+[2026-10-22 15:09:01] Molab3 Status: Alive=True, Done=False, GPU=59 %, 3639 MiB
+[2026-10-22 15:09:01] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:09:01] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:10:03] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:10:03] Molab3 Status: Alive=True, Done=False, GPU=0 %, 3639 MiB
+[2026-10-22 15:10:03] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:10:03] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:11:05] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:11:05] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:11:05] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:11:05] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:12:06] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:12:06] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:12:06] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:12:06] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:13:08] Molab3 Status: Alive=True, Done=False, GPU=28 %, 13619 MiB
+[2026-10-22 15:13:08] Molab3 Status: Alive=True, Done=False, GPU=28 %, 13619 MiB
+[2026-10-22 15:13:08] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:13:08] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:14:10] Molab3 Status: Alive=True, Done=False, GPU=74 %, 13619 MiB
+[2026-10-22 15:14:10] Molab3 Status: Alive=True, Done=False, GPU=74 %, 13619 MiB
+[2026-10-22 15:14:10] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:14:10] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt)
+[2026-10-22 15:14:10]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:14:10]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:15:12] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:15:12] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:15:12] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:15:12] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:15:12]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:15:12]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:16:14] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:16:14] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:16:14] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:16:14] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:16:14]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:16:14]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:17:15] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:17:15] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:17:15] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:17:15] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:17:15]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:17:15]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:18:17] Molab3 Status: Alive=True, Done=False, GPU=96 %, 13619 MiB
+[2026-10-22 15:18:17] Molab3 Status: Alive=True, Done=False, GPU=96 %, 13619 MiB
+[2026-10-22 15:18:17] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:18:17] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:18:17]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:18:17]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:19:19] Molab3 Status: Alive=True, Done=False, GPU=43 %, 13619 MiB
+[2026-10-22 15:19:19] Molab3 Status: Alive=True, Done=False, GPU=43 %, 13619 MiB
+[2026-10-22 15:19:19] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:19:19] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:19:19]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:19:19]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:20:20] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:20:20] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:20:20] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:20:20] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:20:20]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:20:20]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:21:22] Molab3 Status: Alive=True, Done=False, GPU=16 %, 13619 MiB
+[2026-10-22 15:21:22] Molab3 Status: Alive=True, Done=False, GPU=16 %, 13619 MiB
+[2026-10-22 15:21:22] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:21:22] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:21:22]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:21:22]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:22:24] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:22:24] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:22:24] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:22:24] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:22:24]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:22:24]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:23:25] Molab3 Status: Alive=True, Done=False, GPU=88 %, 13619 MiB
+[2026-10-22 15:23:25] Molab3 Status: Alive=True, Done=False, GPU=88 %, 13619 MiB
+[2026-10-22 15:23:25] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:23:25] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:23:25]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:23:25]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s
+[2026-10-22 15:24:27] Molab3 Status: Alive=True, Done=False, GPU=12 %, 13619 MiB
+[2026-10-22 15:24:27] Molab3 Status: Alive=True, Done=False, GPU=12 %, 13619 MiB
+[2026-10-22 15:24:27] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:24:27] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:24:27]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:24:27]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:25:29] Molab3 Status: Alive=True, Done=False, GPU=51 %, 13619 MiB
+[2026-10-22 15:25:29] Molab3 Status: Alive=True, Done=False, GPU=51 %, 13619 MiB
+[2026-10-22 15:25:29] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:25:29] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:25:29]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:25:29]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:26:31] Molab3 Status: Alive=True, Done=False, GPU=37 %, 13619 MiB
+[2026-10-22 15:26:31] Molab3 Status: Alive=True, Done=False, GPU=37 %, 13619 MiB
+[2026-10-22 15:26:31] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:26:31] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:26:31]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:26:31]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:27:32] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 15:27:32] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 15:27:32] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:27:32] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:27:32]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:27:32]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:28:34] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 15:28:34] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 15:28:34] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:28:34] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:28:34]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:28:34]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:29:36] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 15:29:36] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 15:29:36] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:29:36] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:29:36]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:29:36]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:30:38] Molab3 Status: Alive=True, Done=False, GPU=50 %, 13619 MiB
+[2026-10-22 15:30:38] Molab3 Status: Alive=True, Done=False, GPU=50 %, 13619 MiB
+[2026-10-22 15:30:38] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:30:38] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:30:38]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:30:38]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:31:40] Molab3 Status: Alive=True, Done=False, GPU=96 %, 13619 MiB
+[2026-10-22 15:31:40] Molab3 Status: Alive=True, Done=False, GPU=96 %, 13619 MiB
+[2026-10-22 15:31:40] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:31:40] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:31:40]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:31:40]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:32:41] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:32:41] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:32:41] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:32:41] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:32:41]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:32:41]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:33:43] Molab3 Status: Alive=True, Done=False, GPU=90 %, 13619 MiB
+[2026-10-22 15:33:43] Molab3 Status: Alive=True, Done=False, GPU=90 %, 13619 MiB
+[2026-10-22 15:33:43] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:33:43] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:33:43]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:33:43]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:34:45] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:34:45] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:34:45] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:34:45] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:34:45]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:34:45]   Fold 0: ep0 loss 0.982 | GOLD macro-AUC 0.7869 (best 0.7869) | topk by OOF-subset: [0] | 662s | ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s
+[2026-10-22 15:35:47] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:35:47] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:35:47] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:35:47] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:35:47]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:35:47]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:36:48] Molab3 Status: Alive=True, Done=False, GPU=65 %, 13619 MiB
+[2026-10-22 15:36:48] Molab3 Status: Alive=True, Done=False, GPU=65 %, 13619 MiB
+[2026-10-22 15:36:48] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:36:48] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:36:48]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:36:48]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:37:50] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:37:50] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:37:50] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:37:50] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:37:50]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:37:50]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:38:52] Molab3 Status: Alive=True, Done=False, GPU=61 %, 13619 MiB
+[2026-10-22 15:38:52] Molab3 Status: Alive=True, Done=False, GPU=61 %, 13619 MiB
+[2026-10-22 15:38:52] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:38:52] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:38:52]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:38:52]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:39:54] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:39:54] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:39:54] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:39:54] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:39:54]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:39:54]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:40:55] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:40:55] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:40:55] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:40:55] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:40:55]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:40:55]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:41:57] Molab3 Status: Alive=True, Done=False, GPU=42 %, 13619 MiB
+[2026-10-22 15:41:57] Molab3 Status: Alive=True, Done=False, GPU=42 %, 13619 MiB
+[2026-10-22 15:41:57] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:41:57] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:41:57]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:41:57]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:42:59] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:42:59] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:42:59] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:42:59] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:42:59]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:42:59]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:44:00] Molab3 Status: Alive=True, Done=False, GPU=100 %, 13619 MiB
+[2026-10-22 15:44:00] Molab3 Status: Alive=True, Done=False, GPU=100 %, 13619 MiB
+[2026-10-22 15:44:00] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:44:00] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:44:00]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:44:00]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:45:02] Molab3 Status: Alive=True, Done=False, GPU=100 %, 13619 MiB
+[2026-10-22 15:45:02] Molab3 Status: Alive=True, Done=False, GPU=100 %, 13619 MiB
+[2026-10-22 15:45:02] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:45:02] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:45:02]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:45:02]   Fold 0: ep1 loss 0.933 | GOLD macro-AUC 0.8767 (best 0.8767) | topk by OOF-subset: [1, 0] | 1299s | ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s
+[2026-10-22 15:46:04] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:46:04] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:46:04] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:46:04] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:46:04]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:46:04]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:47:05] Molab3 Status: Alive=True, Done=False, GPU=20 %, 13619 MiB
+[2026-10-22 15:47:05] Molab3 Status: Alive=True, Done=False, GPU=20 %, 13619 MiB
+[2026-10-22 15:47:05] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:47:05] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:47:05]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:47:05]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:48:07] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:48:07] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:48:07] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:48:07] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:48:07]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:48:07]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:49:09] Molab3 Status: Alive=True, Done=False, GPU=51 %, 13619 MiB
+[2026-10-22 15:49:09] Molab3 Status: Alive=True, Done=False, GPU=51 %, 13619 MiB
+[2026-10-22 15:49:09] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:49:09] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:49:09]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:49:09]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:50:10] Molab3 Status: Alive=True, Done=False, GPU=83 %, 13619 MiB
+[2026-10-22 15:50:10] Molab3 Status: Alive=True, Done=False, GPU=83 %, 13619 MiB
+[2026-10-22 15:50:10] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:50:10] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:50:10]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:50:10]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:51:12] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:51:12] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:51:12] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:51:12] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:51:12]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:51:12]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:52:14] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:52:14] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:52:14] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:52:14] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:52:14]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:52:14]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:53:16] Molab3 Status: Alive=True, Done=False, GPU=50 %, 13619 MiB
+[2026-10-22 15:53:16] Molab3 Status: Alive=True, Done=False, GPU=50 %, 13619 MiB
+[2026-10-22 15:53:16] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:53:16] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:53:16]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:53:16]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:54:18] Molab3 Status: Alive=True, Done=False, GPU=68 %, 13619 MiB
+[2026-10-22 15:54:18] Molab3 Status: Alive=True, Done=False, GPU=68 %, 13619 MiB
+[2026-10-22 15:54:18] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:54:18] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:54:18]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:54:18]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:55:20] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:55:20] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:55:20] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:55:20] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:55:20]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:55:20]   Fold 0: ep2 loss 0.893 | GOLD macro-AUC 0.8977 (best 0.8977) | topk by OOF-subset: [2, 1, 0] | 1952s | ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s
+[2026-10-22 15:56:21] Molab3 Status: Alive=True, Done=False, GPU=98 %, 13619 MiB
+[2026-10-22 15:56:21] Molab3 Status: Alive=True, Done=False, GPU=98 %, 13619 MiB
+[2026-10-22 15:56:21] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:56:21] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:56:21]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 15:56:21]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 15:57:23] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:57:23] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:57:23] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:57:23] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:57:23]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 15:57:23]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 15:58:25] Molab3 Status: Alive=True, Done=False, GPU=8 %, 13619 MiB
+[2026-10-22 15:58:25] Molab3 Status: Alive=True, Done=False, GPU=8 %, 13619 MiB
+[2026-10-22 15:58:25] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:58:25] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:58:25]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 15:58:25]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 15:59:26] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:59:26] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 15:59:26] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:59:26] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 15:59:26]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 15:59:26]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:00:28] Molab3 Status: Alive=True, Done=False, GPU=66 %, 13619 MiB
+[2026-10-22 16:00:28] Molab3 Status: Alive=True, Done=False, GPU=66 %, 13619 MiB
+[2026-10-22 16:00:28] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:00:28] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:00:28]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:00:28]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:01:30] Molab3 Status: Alive=True, Done=False, GPU=52 %, 13619 MiB
+[2026-10-22 16:01:30] Molab3 Status: Alive=True, Done=False, GPU=52 %, 13619 MiB
+[2026-10-22 16:01:30] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:01:30] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:01:30]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:01:30]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:02:31] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:02:31] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:02:31] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:02:31] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:02:31]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:02:31]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:03:33] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:03:33] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:03:33] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:03:33] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:03:33]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:03:33]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:04:34] Molab3 Status: Alive=True, Done=False, GPU=100 %, 13619 MiB
+[2026-10-22 16:04:34] Molab3 Status: Alive=True, Done=False, GPU=100 %, 13619 MiB
+[2026-10-22 16:04:34] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:04:34] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:04:34]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:04:34]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:05:36] Molab3 Status: Alive=True, Done=False, GPU=11 %, 13619 MiB
+[2026-10-22 16:05:36] Molab3 Status: Alive=True, Done=False, GPU=11 %, 13619 MiB
+[2026-10-22 16:05:36] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:05:36] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:05:36]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:05:36]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:06:38] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:06:38] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:06:38] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:06:38] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:06:38]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:06:38]   Fold 0: ep3 loss 0.866 | GOLD macro-AUC 0.9110 (best 0.9110) | topk by OOF-subset: [3, 2, 1] | 2596s | ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s
+[2026-10-22 16:07:39] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:07:39] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:07:39] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:07:39] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:07:39]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:07:39]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:08:41] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:08:41] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:08:41] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:08:41] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:08:41]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:08:41]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:09:43] Molab3 Status: Alive=True, Done=False, GPU=52 %, 13619 MiB
+[2026-10-22 16:09:43] Molab3 Status: Alive=True, Done=False, GPU=52 %, 13619 MiB
+[2026-10-22 16:09:43] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:09:43] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:09:43]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:09:43]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:10:44] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:10:44] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:10:44] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:10:44] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:10:44]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:10:44]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:11:46] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:11:46] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:11:46] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:11:46] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:11:46]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:11:46]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:12:47] Molab3 Status: Alive=True, Done=False, GPU=32 %, 13619 MiB
+[2026-10-22 16:12:47] Molab3 Status: Alive=True, Done=False, GPU=32 %, 13619 MiB
+[2026-10-22 16:12:47] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:12:47] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:12:47]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:12:47]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:13:49] Molab3 Status: Alive=True, Done=False, GPU=46 %, 13619 MiB
+[2026-10-22 16:13:49] Molab3 Status: Alive=True, Done=False, GPU=46 %, 13619 MiB
+[2026-10-22 16:13:49] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:13:49] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:13:49]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:13:49]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:14:51] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:14:51] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:14:51] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:14:51] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:14:51]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:14:51]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:15:52] Molab3 Status: Alive=True, Done=False, GPU=10 %, 13619 MiB
+[2026-10-22 16:15:52] Molab3 Status: Alive=True, Done=False, GPU=10 %, 13619 MiB
+[2026-10-22 16:15:52] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:15:52] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:15:52]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:15:52]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:16:54] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:16:54] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:16:54] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:16:54] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:16:54]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:16:54]   Fold 0: ep4 loss 0.856 | GOLD macro-AUC 0.9236 (best 0.9236) | topk by OOF-subset: [4, 3, 2] | 3224s | ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s
+[2026-10-22 16:17:55] Molab3 Status: Alive=True, Done=False, GPU=8 %, 13619 MiB
+[2026-10-22 16:17:55] Molab3 Status: Alive=True, Done=False, GPU=8 %, 13619 MiB
+[2026-10-22 16:17:55] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:17:55] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:17:55]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:17:55]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:18:57] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:18:57] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:18:57] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:18:57] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:18:57]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:18:57]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:19:59] Molab3 Status: Alive=True, Done=False, GPU=74 %, 13619 MiB
+[2026-10-22 16:19:59] Molab3 Status: Alive=True, Done=False, GPU=74 %, 13619 MiB
+[2026-10-22 16:19:59] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:19:59] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:19:59]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:19:59]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:21:00] Molab3 Status: Alive=True, Done=False, GPU=75 %, 13619 MiB
+[2026-10-22 16:21:00] Molab3 Status: Alive=True, Done=False, GPU=75 %, 13619 MiB
+[2026-10-22 16:21:00] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:21:00] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:21:00]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:21:00]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:22:02] Molab3 Status: Alive=True, Done=False, GPU=23 %, 13619 MiB
+[2026-10-22 16:22:02] Molab3 Status: Alive=True, Done=False, GPU=23 %, 13619 MiB
+[2026-10-22 16:22:02] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:22:02] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:22:02]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:22:02]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:23:03] Molab3 Status: Alive=True, Done=False, GPU=74 %, 13619 MiB
+[2026-10-22 16:23:03] Molab3 Status: Alive=True, Done=False, GPU=74 %, 13619 MiB
+[2026-10-22 16:23:03] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:23:03] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:23:03]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:23:03]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:24:05] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 16:24:05] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 16:24:05] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:24:05] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:24:05]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:24:05]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:25:07] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:25:07] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:25:07] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:25:07] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:25:07]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:25:07]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:26:08] Molab3 Status: Alive=True, Done=False, GPU=83 %, 13619 MiB
+[2026-10-22 16:26:08] Molab3 Status: Alive=True, Done=False, GPU=83 %, 13619 MiB
+[2026-10-22 16:26:08] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:26:08] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:26:08]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:26:08]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:27:10] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:27:10] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:27:10] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:27:10] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:27:10]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:27:10]   Fold 0: ep5 loss 0.847 | GOLD macro-AUC 0.9318 (best 0.9318) | topk by OOF-subset: [5, 4, 3] | 3854s | ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s
+[2026-10-22 16:28:12] Molab3 Status: Alive=True, Done=False, GPU=9 %, 13619 MiB
+[2026-10-22 16:28:12] Molab3 Status: Alive=True, Done=False, GPU=9 %, 13619 MiB
+[2026-10-22 16:28:12] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:28:12] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:28:12]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:28:12]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:29:14] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:29:14] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:29:14] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:29:14] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:29:14]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:29:14]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:30:15] Molab3 Status: Alive=True, Done=False, GPU=38 %, 13619 MiB
+[2026-10-22 16:30:15] Molab3 Status: Alive=True, Done=False, GPU=38 %, 13619 MiB
+[2026-10-22 16:30:15] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:30:15] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:30:15]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:30:15]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:31:17] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:31:17] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:31:17] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:31:17] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:31:17]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:31:17]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:32:19] Molab3 Status: Alive=True, Done=False, GPU=29 %, 13619 MiB
+[2026-10-22 16:32:19] Molab3 Status: Alive=True, Done=False, GPU=29 %, 13619 MiB
+[2026-10-22 16:32:19] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:32:19] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:32:19]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:32:19]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:33:20] Molab3 Status: Alive=True, Done=False, GPU=96 %, 13619 MiB
+[2026-10-22 16:33:20] Molab3 Status: Alive=True, Done=False, GPU=96 %, 13619 MiB
+[2026-10-22 16:33:20] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:33:20] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:33:20]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:33:20]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:34:22] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:34:22] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:34:22] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:34:22] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:34:22]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:34:22]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:35:23] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:35:23] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:35:23] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:35:23] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:35:23]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:35:23]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:36:25] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:36:25] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:36:25] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:36:25] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:36:25]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:36:25]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:37:27] Molab3 Status: Alive=True, Done=False, GPU=94 %, 13619 MiB
+[2026-10-22 16:37:27] Molab3 Status: Alive=True, Done=False, GPU=94 %, 13619 MiB
+[2026-10-22 16:37:27] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:37:27] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:37:27]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:37:27]   Fold 0: ep6 loss 0.842 | GOLD macro-AUC 0.9256 (best 0.9318) | topk by OOF-subset: [6, 5, 4] | 4482s | ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s
+[2026-10-22 16:38:28] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:38:28] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:38:28] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:38:28] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:38:28]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:38:28]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:39:30] Molab3 Status: Alive=True, Done=False, GPU=96 %, 13619 MiB
+[2026-10-22 16:39:30] Molab3 Status: Alive=True, Done=False, GPU=96 %, 13619 MiB
+[2026-10-22 16:39:30] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:39:30] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:39:30]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:39:30]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:40:31] Molab3 Status: Alive=True, Done=False, GPU=98 %, 13619 MiB
+[2026-10-22 16:40:31] Molab3 Status: Alive=True, Done=False, GPU=98 %, 13619 MiB
+[2026-10-22 16:40:31] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:40:31] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:40:31]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:40:31]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:41:33] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:41:33] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:41:33] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:41:33] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:41:33]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:41:33]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:42:35] Molab3 Status: Alive=True, Done=False, GPU=51 %, 13619 MiB
+[2026-10-22 16:42:35] Molab3 Status: Alive=True, Done=False, GPU=51 %, 13619 MiB
+[2026-10-22 16:42:35] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:42:35] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:42:35]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:42:35]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:43:36] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:43:36] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:43:36] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:43:36] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:43:36]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:43:36]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:44:38] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:44:38] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:44:38] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:44:38] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:44:38]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:44:38]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:45:40] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:45:40] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:45:40] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:45:40] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:45:40]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:45:40]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:46:41] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:46:41] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:46:41] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:46:41] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:46:41]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:46:41]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:47:43] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:47:43] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:47:43] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:47:43] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:47:43]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:47:43]   Fold 0: ep7 loss 0.837 | GOLD macro-AUC 0.9287 (best 0.9318) | topk by OOF-subset: [6, 7, 5] | 5107s | ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s
+[2026-10-22 16:48:45] Molab3 Status: Alive=True, Done=False, GPU=2 %, 13619 MiB
+[2026-10-22 16:48:45] Molab3 Status: Alive=True, Done=False, GPU=2 %, 13619 MiB
+[2026-10-22 16:48:45] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:48:45] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:48:45]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:48:45]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:49:47] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:49:47] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:49:47] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:49:47] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:49:47]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:49:47]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:50:48] Molab3 Status: Alive=True, Done=False, GPU=83 %, 13619 MiB
+[2026-10-22 16:50:48] Molab3 Status: Alive=True, Done=False, GPU=83 %, 13619 MiB
+[2026-10-22 16:50:48] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:50:48] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:50:48]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:50:48]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:51:50] Molab3 Status: Alive=True, Done=False, GPU=85 %, 13619 MiB
+[2026-10-22 16:51:50] Molab3 Status: Alive=True, Done=False, GPU=85 %, 13619 MiB
+[2026-10-22 16:51:50] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:51:50] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:51:50]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:51:50]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:52:52] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:52:52] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:52:52] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:52:52] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:52:52]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:52:52]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:53:53] Molab3 Status: Alive=True, Done=False, GPU=15 %, 13619 MiB
+[2026-10-22 16:53:53] Molab3 Status: Alive=True, Done=False, GPU=15 %, 13619 MiB
+[2026-10-22 16:53:53] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:53:53] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:53:53]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:53:53]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:54:55] Molab3 Status: Alive=True, Done=False, GPU=20 %, 13619 MiB
+[2026-10-22 16:54:55] Molab3 Status: Alive=True, Done=False, GPU=20 %, 13619 MiB
+[2026-10-22 16:54:55] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:54:55] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:54:55]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:54:55]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:55:56] Molab3 Status: Alive=True, Done=False, GPU=84 %, 13619 MiB
+[2026-10-22 16:55:56] Molab3 Status: Alive=True, Done=False, GPU=84 %, 13619 MiB
+[2026-10-22 16:55:56] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:55:56] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:55:56]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:55:56]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:56:58] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:56:58] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:56:58] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:56:58] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:56:58]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:56:58]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:58:00] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:58:00] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 16:58:00] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:58:00] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:58:00]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:58:00]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:59:02] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 16:59:02] Molab3 Status: Alive=True, Done=False, GPU=97 %, 13619 MiB
+[2026-10-22 16:59:02] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:59:02] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 16:59:02]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 16:59:02]   Fold 0: ep8 loss 0.833 | GOLD macro-AUC 0.9264 (best 0.9318) | topk by OOF-subset: [8, 6, 7] | 5736s | ep9 loss 0.828 | GOLD macro-AUC 0.9267 (best 0.9318) | topk by OOF-subset: [8, 9, 6] | 6364s
+[2026-10-22 17:00:04] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:00:04] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:00:04] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:00:04] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:00:04]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:00:04]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:01:05] Molab3 Status: Alive=True, Done=False, GPU=36 %, 13619 MiB
+[2026-10-22 17:01:05] Molab3 Status: Alive=True, Done=False, GPU=36 %, 13619 MiB
+[2026-10-22 17:01:05] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:01:05] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:01:05]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:01:05]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:02:07] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:02:07] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:02:07] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:02:07] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:02:07]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:02:07]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:03:08] Molab3 Status: Alive=True, Done=False, GPU=12 %, 13619 MiB
+[2026-10-22 17:03:08] Molab3 Status: Alive=True, Done=False, GPU=12 %, 13619 MiB
+[2026-10-22 17:03:08] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:03:08] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:03:08]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:03:08]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:04:10] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:04:10] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:04:10] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:04:10] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:04:10]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:04:10]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:05:12] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:05:12] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:05:12] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:05:12] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:05:12]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:05:12]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:06:14] Molab3 Status: Alive=True, Done=False, GPU=73 %, 13619 MiB
+[2026-10-22 17:06:14] Molab3 Status: Alive=True, Done=False, GPU=73 %, 13619 MiB
+[2026-10-22 17:06:14] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:06:14] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:06:14]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:06:14]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:07:15] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:07:15] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:07:15] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:07:15] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:07:15]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:07:15]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:08:17] Molab3 Status: Alive=True, Done=False, GPU=100 %, 13619 MiB
+[2026-10-22 17:08:17] Molab3 Status: Alive=True, Done=False, GPU=100 %, 13619 MiB
+[2026-10-22 17:08:17] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:08:17] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:08:17]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:08:17]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:09:19] Molab3 Status: Alive=True, Done=False, GPU=60 %, 13619 MiB
+[2026-10-22 17:09:19] Molab3 Status: Alive=True, Done=False, GPU=60 %, 13619 MiB
+[2026-10-22 17:09:19] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:09:19] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:09:19]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:09:19]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:10:20] Molab3 Status: Alive=True, Done=False, GPU=84 %, 13619 MiB
+[2026-10-22 17:10:20] Molab3 Status: Alive=True, Done=False, GPU=84 %, 13619 MiB
+[2026-10-22 17:10:20] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:10:20] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:10:20]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:10:20]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:11:22] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:11:22] Molab3 Status: Alive=True, Done=False, GPU=0 %, 13619 MiB
+[2026-10-22 17:11:22] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:11:22] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:11:22]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:11:22]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:12:24] Molab3 Status: Alive=True, Done=False, GPU=11 %, 13619 MiB
+[2026-10-22 17:12:24] Molab3 Status: Alive=True, Done=False, GPU=11 %, 13619 MiB
+[2026-10-22 17:12:24] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:12:24] Master Log: 09:20:10 started fold 0 (log_cnxt_r3_s310_f0.txt) | 09:47:26 epoch state backed up to Kaggle
+[2026-10-22 17:12:24]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318
+[2026-10-22 17:12:24]   Fold 0: ep10 loss 0.825 | GOLD macro-AUC 0.9286 (best 0.9318) | topk by OOF-subset: [8, 9, 10] | 6991s | DONE timm-pretrained | BEST GOLD macro-AUC 0.9318

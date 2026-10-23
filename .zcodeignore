@@ -1,0 +1,64 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+_coat_env/
+venv/
+env/
+
+# Editor & AI tool configs
+.claude/
+.gemini/
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Process IDs and temporary runtime logs
+*.log
+*.pid
+
+# Heavy binary dataset volumes (>100MB, exceeds GitHub limits)
+ds/corpus1/all_vols.npy
+ds/corpus2/extra_vols.npy
+
+# PyTorch checkpoints and weights (>100MB, stored on Kaggle datasets)
+*.pt
+kaggle_dataset_upload/*.pt
+
+# ===== ↑ 以上同步自 .gitignore（「从 .gitignore 同步」只重写以上部分）=====
+.git/
+.hg/
+.svn/
+node_modules/
+bower_components/
+jspm_packages/
+site-packages/
+coverage/
+htmlcov/
+lcov-report/
+cmakefiles/
+cmake-build-*/
+bazel-*/
+pods/
+deriveddata/
+storybook-static/
+playwright-report/
+test-results/
+allure-results/
+allure-report/
+cdk.out/
+*.egg-info/
+*.dist-info/
+eggs/
+pip-wheel-metadata/
+wheels/
+# ----- ↑ 以上为 ZCode 默认排除规则（自定义规则请写在本行下方，不会被同步/恢复改动）-----
+# 自定义规则写在下方（本行提示可删除）
