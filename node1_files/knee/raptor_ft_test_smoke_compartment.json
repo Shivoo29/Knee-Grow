@@ -1,0 +1,41 @@
+{
+ "tag": "test_smoke_compartment",
+ "src": "timm-pretrained",
+ "best_gold_auc": 0.5476536516517113,
+ "aucs": {
+  "ACL": 0.6409313725490196,
+  "MCL": 0.5170068027210883,
+  "Medial Meniscus": 0.5913461538461539,
+  "Lateral Meniscus": 0.5229813664596273,
+  "Medial OA": 0.5503875968992249,
+  "Lateral OA": 0.6750483558994197,
+  "PF OA": 0.49935649935649934,
+  "Effusion": 0.45962732919254656,
+  "Synovitis": 0.5507765830346476,
+  "Baker's": 0.45471014492753625,
+  "Contusion": 0.6207827260458839,
+  "Fracture": 0.48888888888888893
+ },
+ "hist": [
+  {
+   "ep": 0,
+   "loss": 1.1356629610061646,
+   "gold_auc": 0.5476536516517113
+  },
+  {
+   "ep": 1,
+   "loss": 1.0252982378005981,
+   "gold_auc": 0.5261934612218105
+  }
+ ],
+ "res": 384,
+ "epochs": 2,
+ "bb_lr": 3.5e-05,
+ "head_lr": 0.0015,
+ "n_train": 40,
+ "n_gold": 58,
+ "roi": true,
+ "roi_mode": "compartment",
+ "partial": false,
+ "epochs_done": 2
+}

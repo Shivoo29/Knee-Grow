@@ -1,0 +1,70 @@
+meta: 4407 studies, 46 sites, contrast studies 0, female 0.00
+
+MACRO (12 findings): idea, oof, gold, d_oof, d_gold
+                         oof    gold   d_oof  d_gold
+idea                                                
+0 baseline            0.9266  0.9299  0.0000  0.0000
+1 hospital prior k20  0.9264  0.9279 -0.0001 -0.0019
+1 hospital prior k5   0.9257  0.9274 -0.0009 -0.0025
+1 hospital prior k80  0.9266  0.9272  0.0001 -0.0027
+2 debias b0.5         0.9235  0.9303 -0.0031  0.0004
+2 debias b1.0         0.9151  0.9274 -0.0114 -0.0025
+3 protocol GBM        0.9264  0.9237 -0.0002 -0.0062
+3 protocol LR         0.9268  0.9277  0.0002 -0.0022
+4 +contrast           0.9259  0.9299 -0.0007  0.0000
+5 coverage trust      0.9256  0.9284 -0.0009 -0.0015
+6 r2+coat96 w0.25     0.9235  0.9286 -0.0030 -0.0012
+6 r2+coat96 w0.5      0.9178  0.9265 -0.0088 -0.0034
+6 r2+sev w0.25        0.9264  0.9280 -0.0002 -0.0019
+6 r2+sev w0.5         0.9251  0.9283 -0.0015 -0.0016
+6f0 r2 fold0 only     0.9311  0.9289  0.0000  0.0000
+6f0 r2+pos w0.5       0.9316  0.9282  0.0005 -0.0007
+6f0 r2+r2l w0.5       0.9322  0.9296  0.0010  0.0007
+6f0 r2+radimg w0.5    0.9245  0.9256 -0.0067 -0.0033
+6f0 r2+seed2 w0.5     0.9320  0.9286  0.0009 -0.0004
+7 side-aware mix      0.9140  0.9087 -0.0001 -0.0055
+
+WEAK FOUR, per finding (d_oof / d_gold):
+finding              Lateral Meniscus       Lateral OA            PF OA        Synovitis
+idea                                                                                    
+0 baseline                  0.0 / 0.0        0.0 / 0.0        0.0 / 0.0        0.0 / 0.0
+1 hospital prior k20   -0.003 / 0.015    0.007 / 0.062   0.002 / -0.014   0.005 / -0.042
+1 hospital prior k5    -0.004 / 0.012    0.007 / 0.062   0.003 / -0.018   0.006 / -0.036
+1 hospital prior k80   -0.003 / 0.016    0.006 / 0.046    0.001 / -0.01   0.005 / -0.048
+2 debias b0.5         -0.001 / -0.011  -0.001 / -0.015   -0.006 / 0.009   -0.011 / 0.011
+2 debias b1.0          -0.003 / -0.03   -0.01 / -0.017   -0.019 / 0.012   -0.038 / 0.008
+3 protocol GBM        -0.006 / -0.015    0.011 / 0.072   0.001 / -0.011    -0.0 / -0.031
+3 protocol LR          -0.002 / -0.01    0.004 / 0.044   0.003 / -0.008   -0.003 / -0.01
+4 +contrast              -0.001 / 0.0     -0.001 / 0.0       -0.0 / 0.0     -0.001 / 0.0
+5 coverage trust      -0.001 / -0.005        0.0 / 0.0       -0.0 / 0.0   -0.001 / 0.004
+6 r2+coat96 w0.25      -0.006 / -0.01   0.004 / -0.004   -0.011 / -0.01   -0.003 / 0.014
+6 r2+coat96 w0.5      -0.015 / -0.019      0.005 / 0.0  -0.028 / -0.025   -0.009 / 0.025
+6 r2+sev w0.25         0.001 / -0.007  -0.004 / -0.008    0.003 / 0.001  -0.001 / -0.007
+6 r2+sev w0.5            0.0 / -0.014  -0.009 / -0.003    0.005 / 0.002  -0.003 / -0.011
+6f0 r2 fold0 only           0.0 / 0.0        0.0 / 0.0        0.0 / 0.0        0.0 / 0.0
+6f0 r2+pos w0.5          0.0 / -0.002  -0.001 / -0.007   0.004 / -0.007   0.001 / -0.011
+6f0 r2+r2l w0.5           0.0 / 0.001   0.002 / -0.001   0.001 / -0.006   0.002 / -0.008
+6f0 r2+radimg w0.5      -0.02 / 0.016    0.003 / 0.032    -0.01 / -0.03   -0.01 / -0.011
+6f0 r2+seed2 w0.5      0.002 / -0.002   0.002 / -0.004   0.001 / -0.004      0.002 / 0.0
+7 side-aware mix        -0.0 / -0.001     0.0 / -0.019              NaN              NaN
+
+WINS (both scorecards up, d_oof>=+0.003 and d_gold>=+0.010):
+                idea    finding    oof   gold  d_oof  d_gold
+ 1 hospital prior k5 Lateral OA 0.8484 0.8685 0.0070  0.0619
+1 hospital prior k20 Lateral OA 0.8484 0.8685 0.0070  0.0619
+1 hospital prior k80 Lateral OA 0.8476 0.8530 0.0062  0.0464
+      3 protocol GBM Lateral OA 0.8522 0.8781 0.0107  0.0716
+       3 protocol LR Lateral OA 0.8455 0.8511 0.0041  0.0445
+
+LEFT vs RIGHT, OOF AUC vs reports, side-specific findings:
+  MCL                left 0.970  right 0.958
+  Medial Meniscus    left 0.943  right 0.951
+  Lateral Meniscus   left 0.923  right 0.945
+  Medial OA          left 0.933  right 0.932
+  Lateral OA         left 0.825  right 0.854
+  side source Laterality         n=2151  side-specific mean 0.923
+  side source SeriesDescription  n= 165  side-specific mean 0.893
+  side source conflict           n=  23  side-specific mean 0.948
+  side source none               n=2010  side-specific mean 0.934
+
+CONTRAST: studies 0 | Synovitis report rate with/without nan 0.119

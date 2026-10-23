@@ -1,0 +1,19 @@
+13:19:39 fold 2 -> train_cnxt_r3_s210_f2.log 
+17:48:33 fold 3 -> train_cnxt_r3_s210_f3.log 
+22:32:14 fold 4 -> train_cnxt_r3_s210_f4.log 
+03:00:25 ALL_DONE
+03:00:25 fold 3 -> train_coat_r3_s210_f3.log 
+skip coat_r3_s210_f2 (in SKIP)
+16:06:03 ALL_DONE
+skip cnxt_r3_s310_f0 (in SKIP)
+skip cnxt_r3_s310_f1 (in SKIP)
+skip cnxt_r3_s310_f2 (in SKIP)
+skip cnxt_r3_s310_f3 (in SKIP)
+skip cnxt_r3_s310_f4 (in SKIP)
+16:06:03 ALL_DONE
+skip coat_r3_s310_f0 (in SKIP)
+skip coat_r3_s310_f1 (in SKIP)
+skip coat_r3_s310_f2 (in SKIP)
+skip coat_r3_s310_f3 (in SKIP)
+skip coat_r3_s310_f4 (in SKIP)
+16:06:03 ALL_DONE

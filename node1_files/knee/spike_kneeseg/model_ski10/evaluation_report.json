@@ -1,0 +1,140 @@
+{
+    "Femoral Cartilage": {
+        "mean": 0.8025927221963578,
+        "std": 0.05043732362271391
+    },
+    "Femur": {
+        "mean": 0.9688908547122974,
+        "std": 0.01608149198005387
+    },
+    "Tibia": {
+        "mean": 0.974188040736198,
+        "std": 0.00803631363620085
+    },
+    "Tibial Cartilage": {
+        "mean": 0.8000503228409969,
+        "std": 0.04039040633306297
+    },
+    "per_case": {
+        "image-004.mhd": {
+            "Femur": 0.9577277744931998,
+            "Femoral Cartilage": 0.8063966711211187,
+            "Tibia": 0.9749144935953304,
+            "Tibial Cartilage": 0.8111237013500373
+        },
+        "image-005.mhd": {
+            "Femur": 0.9241468963276326,
+            "Femoral Cartilage": 0.8405901403391203,
+            "Tibia": 0.9787139706470686,
+            "Tibial Cartilage": 0.8083003405436433
+        },
+        "image-012.mhd": {
+            "Femur": 0.9678809663955369,
+            "Femoral Cartilage": 0.8246743703777757,
+            "Tibia": 0.9736885568726296,
+            "Tibial Cartilage": 0.8087070787886795
+        },
+        "image-014.mhd": {
+            "Femur": 0.9854130678410145,
+            "Femoral Cartilage": 0.856003468490683,
+            "Tibia": 0.9829712844290058,
+            "Tibial Cartilage": 0.8506723000385391
+        },
+        "image-015.mhd": {
+            "Femur": 0.9814365833684947,
+            "Femoral Cartilage": 0.8423087878031589,
+            "Tibia": 0.9753378108489116,
+            "Tibial Cartilage": 0.7917938227322194
+        },
+        "image-018.mhd": {
+            "Femur": 0.9681475770950005,
+            "Femoral Cartilage": 0.7108216580587159,
+            "Tibia": 0.9773586009975147,
+            "Tibial Cartilage": 0.8099446652667767
+        },
+        "image-028.mhd": {
+            "Femur": 0.9694484165876854,
+            "Femoral Cartilage": 0.8181309241143119,
+            "Tibia": 0.9736298938260795,
+            "Tibial Cartilage": 0.747713189734462
+        },
+        "image-029.mhd": {
+            "Femur": 0.9824303068839803,
+            "Femoral Cartilage": 0.8340462068048536,
+            "Tibia": 0.9790458917259167,
+            "Tibial Cartilage": 0.7965247851852796
+        },
+        "image-030.mhd": {
+            "Femur": 0.9660354644887446,
+            "Femoral Cartilage": 0.7313412377506127,
+            "Tibia": 0.9834128586831679,
+            "Tibial Cartilage": 0.7727447557653667
+        },
+        "image-032.mhd": {
+            "Femur": 0.975518673884785,
+            "Femoral Cartilage": 0.7190079545324202,
+            "Tibia": 0.9625357662742993,
+            "Tibial Cartilage": 0.7198391518938413
+        },
+        "image-036.mhd": {
+            "Femur": 0.9689029843974987,
+            "Femoral Cartilage": 0.8012966706844803,
+            "Tibia": 0.9806318654678358,
+            "Tibial Cartilage": 0.8528926703016319
+        },
+        "image-055.mhd": {
+            "Femur": 0.9664504949262533,
+            "Femoral Cartilage": 0.7999685978971808,
+            "Tibia": 0.9752456885934473,
+            "Tibial Cartilage": 0.8351524832159738
+        },
+        "image-065.mhd": {
+            "Femur": 0.9805971632615487,
+            "Femoral Cartilage": 0.8616799493889594,
+            "Tibia": 0.954947901959248,
+            "Tibial Cartilage": 0.836019335417848
+        },
+        "image-070.mhd": {
+            "Femur": 0.9820644943235984,
+            "Femoral Cartilage": 0.8458960786734421,
+            "Tibia": 0.9818505417310823,
+            "Tibial Cartilage": 0.8238736588724773
+        },
+        "image-076.mhd": {
+            "Femur": 0.9826869401847713,
+            "Femoral Cartilage": 0.8192370443262847,
+            "Tibia": 0.9709749482602967,
+            "Tibial Cartilage": 0.8389909395581638
+        },
+        "image-082.mhd": {
+            "Femur": 0.9677955597392984,
+            "Femoral Cartilage": 0.8107826619702534,
+            "Tibia": 0.9851035787104405,
+            "Tibial Cartilage": 0.7928987441241104
+        },
+        "image-087.mhd": {
+            "Femur": 0.9789697118376413,
+            "Femoral Cartilage": 0.8254153236570397,
+            "Tibia": 0.9783831024350342,
+            "Tibial Cartilage": 0.8213036758181752
+        },
+        "image-089.mhd": {
+            "Femur": 0.9274900126230451,
+            "Femoral Cartilage": 0.6774482229631704,
+            "Tibia": 0.9584046718602969,
+            "Tibial Cartilage": 0.6985385423679668
+        },
+        "image-095.mhd": {
+            "Femur": 0.9684282360728681,
+            "Femoral Cartilage": 0.7953528864347884,
+            "Tibia": 0.9680491867548886,
+            "Tibial Cartilage": 0.7658838483843601
+        },
+        "image-098.mhd": {
+            "Femur": 0.9762457695133507,
+            "Femoral Cartilage": 0.831455588538786,
+            "Tibia": 0.9685602010514668,
+            "Tibial Cartilage": 0.8180887674603827
+        }
+    }
+}

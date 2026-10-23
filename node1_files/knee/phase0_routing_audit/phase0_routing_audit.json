@@ -1,0 +1,104 @@
+{
+  "audit_phase": 0,
+  "timestamp": "2026-10-16T12:03:01.767650",
+  "ssh_alias": "knee",
+  "remote_host": "node1.intelunnati",
+  "script_located": "/home/s05814802723/projects/knee/routing_check.py",
+  "script_status": "present_and_inspected",
+  "candidate_teachers": [
+    {
+      "name": "coat224_v1",
+      "model": "coatnet_rmlp_1_rw_224",
+      "res": 224,
+      "slices": 44,
+      "seed": 0,
+      "training_recipe": "labels_avg.parquet (mean of 5 public LLM tables)",
+      "n_train": 4349,
+      "n_gold": 58,
+      "oof_available": false,
+      "gold_npz": "/home/s05814802723/projects/knee/pc_ckpts/raptor_gold_coat224_v1.npz"
+    },
+    {
+      "name": "r50_v1",
+      "model": "resnet50",
+      "res": 384,
+      "slices": 44,
+      "seed": 0,
+      "training_recipe": "labels_avg.parquet (mean of 5 public LLM tables)",
+      "n_train": 4349,
+      "n_gold": 58,
+      "oof_available": false,
+      "gold_npz": "/home/s05814802723/projects/knee/pc_ckpts/raptor_gold_r50_v1.npz"
+    },
+    {
+      "name": "convnext_s1",
+      "model": "convnext_small.fb_in22k_ft_in1k_384",
+      "res": 384,
+      "slices": 44,
+      "seed": 1,
+      "training_recipe": "labels_avg.parquet (mean of 5 public LLM tables)",
+      "n_train": 4349,
+      "n_gold": 58,
+      "oof_available": false,
+      "gold_npz": "/home/s05814802723/projects/knee/pc_ckpts/raptor_gold_convnext_s1.npz"
+    },
+    {
+      "name": "convnext_s2",
+      "model": "convnext_small.fb_in22k_ft_in1k_384",
+      "res": 384,
+      "slices": 44,
+      "seed": 2,
+      "training_recipe": "labels_avg.parquet (mean of 5 public LLM tables)",
+      "n_train": 4349,
+      "n_gold": 58,
+      "oof_available": false,
+      "gold_npz": "/home/s05814802723/projects/knee/pc_ckpts/raptor_gold_convnext_s2.npz"
+    },
+    {
+      "name": "effnetv2_s1",
+      "model": "tf_efficientnetv2_s.in21k_ft_in1k",
+      "res": 384,
+      "slices": 44,
+      "seed": 1,
+      "training_recipe": "labels_avg.parquet (mean of 5 public LLM tables)",
+      "n_train": 4349,
+      "n_gold": 58,
+      "oof_available": false,
+      "gold_npz": "/home/s05814802723/projects/knee/pc_ckpts/raptor_gold_effnetv2_s1.npz"
+    },
+    {
+      "name": "dinov2_s11",
+      "model": "vit_small_patch14_dinov2",
+      "res": 384,
+      "slices": 44,
+      "seed": 11,
+      "training_recipe": "labels_avg.parquet (mean of 5 public LLM tables)",
+      "n_train": 4349,
+      "n_gold": 58,
+      "oof_available": false,
+      "gold_npz": "/home/s05814802723/projects/knee/pc_ckpts/raptor_gold_dinov2_s11.npz"
+    },
+    {
+      "name": "v6_s4",
+      "model": "coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k",
+      "res": 384,
+      "slices": 96,
+      "seed": 4,
+      "training_recipe": "labels_avg.parquet (mean of 5 public LLM tables)",
+      "n_train": 4349,
+      "n_gold": 58,
+      "oof_available": false,
+      "gold_npz": "/home/s05814802723/projects/knee/raptor_gold_v6_s4.npz"
+    }
+  ],
+  "oof_files_found": [
+    "/home/s05814802723/projects/knee/raptor_oof_coat_roi_5fold_f0_fold0.npz (Fold 0 only, N=873)",
+    "/home/s05814802723/projects/knee/raptor_oof_test_smoke_compartment_fold0.npz (Fold 0 only, N=873)",
+    "/home/s05814802723/projects/knee/pc_code/raptor_oof_oof4_f2_fold2.npz (Fold 2 only, N=1087)",
+    "/home/s05814802723/projects/knee/pc_code/raptor_oof_oof4_f3_fold3.npz (Fold 3 only, N=1087)"
+  ],
+  "rule5_trigger": true,
+  "decision": "INCONCLUSIVE_HALT",
+  "recommendation": "Use uniform ensemble-mean targets; do not use per-label teacher routing.",
+  "reason": "Genuine site-grouped OOF predictions do not exist for the seven candidate teachers across the cohort (all candidate teachers were trained on all 4,349 studies and only evaluated on the 58 gold studies). Per audit rule 5, the 58 gold studies cannot be substituted for OOF predictions."
+}

@@ -1,0 +1,511 @@
+{
+  "a5_folds": 5,
+  "bt_input_sha256": "eb9c51cf04ddbd4e923f1a5c278e7b019036db9e67ecc20bea6661bd536bb303",
+  "coat_family_members": 4,
+  "coat_readers_parallel_pairs": false,
+  "coats": {
+    "d4_adapter_swa_epochs": [
+      11,
+      9,
+      5
+    ],
+    "d4_parent_swa_epochs": [
+      15,
+      16
+    ],
+    "global96_epochs": [
+      16,
+      23,
+      18
+    ],
+    "repairv1_epochs": [
+      12,
+      7,
+      11
+    ],
+    "resgated_epochs": [
+      4,
+      6,
+      8
+    ]
+  },
+  "cohort": 358,
+  "contract": "btkd_speedy_v558_input_uniform",
+  "dino_members": 20,
+  "elapsed_seconds": 8730.59759235382,
+  "environment": {
+    "cuda": "12.8",
+    "gpu_names": [
+      "Tesla T4",
+      "Tesla T4"
+    ],
+    "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+    "torch": "2.10.0+cu128"
+  },
+  "events": [
+    {
+      "extra": 4049,
+      "kind": "coverage_mismatch",
+      "missing": [],
+      "tag": "test g1"
+    },
+    {
+      "bytes": 2910007296,
+      "directory": "/kaggle/temp/rsna_pixels_v559",
+      "free_bytes": 1148818329600,
+      "kind": "scratch_allocation",
+      "tag": "test g1"
+    },
+    {
+      "bytes": 2910007296,
+      "filled": 1651,
+      "kind": "cache_complete",
+      "order_cache_hits": 0,
+      "slot_jobs": 1651,
+      "studies": 358,
+      "tag": "test g1"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "e5427d6c21"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "ea3fbf6edf"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "013dc75703"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "8baecb9d1b"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "44128e3ff3"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "ed427aa10a"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "3d1f4c48fc"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "8476b29285"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "7f8321affc"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "b7c37cc80e"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "d47313baef"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "5f8ba4c5ea"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "2f7e785e82"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "44bc3c6f14"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "84079fe8cb"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "2dce50ebd9"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "91f171fe6f"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "72081758ce"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "1e553ba481"
+    },
+    {
+      "kind": "dino_shared_path_parity",
+      "max_abs": 0.0,
+      "member": "f335c812fe"
+    },
+    {
+      "extra": 4049,
+      "kind": "coverage_mismatch",
+      "missing": [],
+      "tag": "rad_e10"
+    },
+    {
+      "bytes": 431112192,
+      "filled": 1034,
+      "kind": "cache_complete",
+      "order_cache_hits": 0,
+      "slot_jobs": 1034,
+      "studies": 358,
+      "tag": "rad_e10"
+    },
+    {
+      "extra": 4049,
+      "kind": "coverage_mismatch",
+      "missing": [],
+      "tag": "rad_e13"
+    },
+    {
+      "bytes": 574816256,
+      "filled": 1376,
+      "kind": "cache_complete",
+      "order_cache_hits": 1034,
+      "slot_jobs": 1376,
+      "studies": 358,
+      "tag": "rad_e13"
+    },
+    {
+      "extra": 4049,
+      "kind": "coverage_mismatch",
+      "missing": [],
+      "tag": "rad_legacy_second"
+    },
+    {
+      "bytes": 574816256,
+      "filled": 1044,
+      "kind": "cache_complete",
+      "order_cache_hits": 680,
+      "slot_jobs": 1044,
+      "studies": 358,
+      "tag": "rad_legacy_second"
+    },
+    {
+      "arch": "coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k",
+      "file": "/kaggle/input/raptor-knee-maxspan/raptor_ft_coatnet_v5_full_swa.pt",
+      "kind": "raptor_checkpoint",
+      "res": 384,
+      "sha256": "20d45e0732a0e9120025d0172a4d2dd0170900bc250b06742dfb7ae08a63786a"
+    },
+    {
+      "arch": "coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k",
+      "file": "/kaggle/input/raptor-knee-native384dense/raptor_ft_coatnet_v10_full.pt",
+      "kind": "raptor_checkpoint",
+      "res": 384,
+      "sha256": "5add8816a47e040efca89bb44480e1cbd01f92db1253831ff7ceb6c65ee02b1d"
+    },
+    {
+      "arch": "coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k",
+      "file": "/kaggle/input/raptor-knee-native384/raptor_ft_coatnet_v8_full_swa.pt",
+      "kind": "raptor_checkpoint",
+      "res": 384,
+      "sha256": "3db77388662d516bb0ce790dafd24e36f4991f6089af26daf546817fe1c21862"
+    }
+  ],
+  "family_mix": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "family_reduction": "rank_of_member_probability_mean",
+  "inner_public_coat_mix": [
+    0.6,
+    0.4
+  ],
+  "inner_rerank": false,
+  "outer_weights": {
+    "ACL": 0.75,
+    "Baker's": 0.6,
+    "Contusion": 0.6,
+    "Effusion": 0.6,
+    "Fracture": 0.75,
+    "Lateral Meniscus": 1.0,
+    "Lateral OA": 0.75,
+    "MCL": 0.6,
+    "Medial Meniscus": 0.8,
+    "Medial OA": 0.6,
+    "PF OA": 0.6,
+    "Synovitis": 0.6
+  },
+  "phases": {
+    "a5_rank_mean": {
+      "path": "/kaggle/working/diagnostics/a5_rank_mean.npz",
+      "sha256": "637ba0a5e3fd3cff815115c80c493ab7469aa513e780518def3e868162bdcdf6",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "btkd_parent_after_rad": {
+      "path": "/kaggle/working/diagnostics/btkd_parent_after_rad.npz",
+      "sha256": "ce055d53bf30d5f3277b1784224481c321f438f999d3df5a39f6db6896d5aa4f",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "coat_d4_rank": {
+      "path": "/kaggle/working/diagnostics/coat_d4_rank.npz",
+      "sha256": "ddcd44403b72746c16864bf469226b4664367e7d2e5384a2d430055164215b4c",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "coat_global96_rank": {
+      "path": "/kaggle/working/diagnostics/coat_global96_rank.npz",
+      "sha256": "dd50cbf9b47264525b54578c3f6fd45578f0a5f50ea6e5e66d2b7854608872ff",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "coat_repairv1_rank": {
+      "path": "/kaggle/working/diagnostics/coat_repairv1_rank.npz",
+      "sha256": "a089a693403b92237d666dc7fdffc4478191cb512d14d299a46ee36ab9264864",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "coat_resgated_rank": {
+      "path": "/kaggle/working/diagnostics/coat_resgated_rank.npz",
+      "sha256": "6d4b1461cf81afae85c7efaa9acdb26759d8778770f7b5768cc8c5a2a4fb178e",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_013dc75703": {
+      "path": "/kaggle/working/diagnostics/dino_013dc75703.npz",
+      "sha256": "a7eefac502b7a33bdfb4b6cd6cd5cf24a6f05f85753a9952800197526cfdd6c6",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_1e553ba481": {
+      "path": "/kaggle/working/diagnostics/dino_1e553ba481.npz",
+      "sha256": "f06f12cc1e3e6222c25f4863386b13510a83e108fe85c9393c6f9d15579fa4c9",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_2dce50ebd9": {
+      "path": "/kaggle/working/diagnostics/dino_2dce50ebd9.npz",
+      "sha256": "d82d9cf3030fd036d94245efed70d180b5dcb7cfd672654e3c3998ba6e42666f",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_2f7e785e82": {
+      "path": "/kaggle/working/diagnostics/dino_2f7e785e82.npz",
+      "sha256": "08d0fe57d8f36e25ff8d6b99001534366b3274620180a160c9b148bc335a8a02",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_3d1f4c48fc": {
+      "path": "/kaggle/working/diagnostics/dino_3d1f4c48fc.npz",
+      "sha256": "bec4307cf1903e7aad878fd89883f1f3356b05d02c2ef05757aecf9e0e1eda2b",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_44128e3ff3": {
+      "path": "/kaggle/working/diagnostics/dino_44128e3ff3.npz",
+      "sha256": "d2340080c71c82d311e3a16134fdf3a27a7b94aaaddca46981e8d61b42034906",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_44bc3c6f14": {
+      "path": "/kaggle/working/diagnostics/dino_44bc3c6f14.npz",
+      "sha256": "29b57f8c444b55dcba5511b601d0ce97d0aee917a60809569e75f971123b46fe",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_5f8ba4c5ea": {
+      "path": "/kaggle/working/diagnostics/dino_5f8ba4c5ea.npz",
+      "sha256": "4c5026e07241430845ebeaf1f622847f15092d25a6f5dd7226736035b59024b3",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_72081758ce": {
+      "path": "/kaggle/working/diagnostics/dino_72081758ce.npz",
+      "sha256": "8d8a95d630bc7138e4717420cb1d7e46112241442f908afb49de66844746274a",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_7f8321affc": {
+      "path": "/kaggle/working/diagnostics/dino_7f8321affc.npz",
+      "sha256": "e60858abba53567f0ebb53f21cf9f28b86dcf597de56d5b8c34c3451a5428771",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_84079fe8cb": {
+      "path": "/kaggle/working/diagnostics/dino_84079fe8cb.npz",
+      "sha256": "bc72e6af1033e27216a836304e7b9a92abbbe87106d79f3e3219aa00977bfadb",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_8476b29285": {
+      "path": "/kaggle/working/diagnostics/dino_8476b29285.npz",
+      "sha256": "78e165323d87f5ce1bb6542464f0d44cafa87157821b5be06ef2526d8d0ee0fb",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_8baecb9d1b": {
+      "path": "/kaggle/working/diagnostics/dino_8baecb9d1b.npz",
+      "sha256": "10b30ba335c5c24a631ca63060f9e496bc340ea07d6b548c0be81c316f7c28f6",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_91f171fe6f": {
+      "path": "/kaggle/working/diagnostics/dino_91f171fe6f.npz",
+      "sha256": "2651777839cdbe28b6ea29847a451c47a1ae39c499fddeb04f72026ad1085f3c",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_b7c37cc80e": {
+      "path": "/kaggle/working/diagnostics/dino_b7c37cc80e.npz",
+      "sha256": "92af20454de43b15239f01c42962f90a6830977d2018e693854dd30a499baa62",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_d47313baef": {
+      "path": "/kaggle/working/diagnostics/dino_d47313baef.npz",
+      "sha256": "2a6991e329df914b772744f260af70a9e24b641aca62ef4be5b5c29f1a89e614",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_e5427d6c21": {
+      "path": "/kaggle/working/diagnostics/dino_e5427d6c21.npz",
+      "sha256": "abd2359029bf1bfdfecaf4734c4fede174a3b0ba59fa54edaf55befdfdbe7656",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_ea3fbf6edf": {
+      "path": "/kaggle/working/diagnostics/dino_ea3fbf6edf.npz",
+      "sha256": "a0ff3755ea65637c594ed7bca9e6d0699a03992038ceaed6e8571ba640c1db12",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_ed427aa10a": {
+      "path": "/kaggle/working/diagnostics/dino_ed427aa10a.npz",
+      "sha256": "284955c9a145dcd973514846e65ddc2724c130a9a4ee5e5cfc5549e5089ef2bc",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "dino_f335c812fe": {
+      "path": "/kaggle/working/diagnostics/dino_f335c812fe.npz",
+      "sha256": "16aa3d26ac1e1b6a0b4359d4164e32ff51600de9e0f17f1183ffa1e25434db14",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "final": {
+      "path": "/kaggle/working/diagnostics/final.npz",
+      "sha256": "4eb95c854d88207fc34cef0ebcf490c471886f677fd184288b972a66b5573e78",
+      "shape": [
+        358,
+        12
+      ]
+    },
+    "rad_e10_raw": {
+      "path": "/kaggle/working/diagnostics/rad_e10_raw.npz",
+      "sha256": "d30cf8c78d5fb45f43b458b2c5d2a31ae8f9af77285113380ffd6937da735be3",
+      "shape": [
+        5,
+        358,
+        12
+      ]
+    },
+    "rad_e13_raw": {
+      "path": "/kaggle/working/diagnostics/rad_e13_raw.npz",
+      "sha256": "3bc1ec371f527607ba86e675ddfc3aa20d2e6eab0657d4d867ae076248f0844b",
+      "shape": [
+        5,
+        358,
+        12
+      ]
+    },
+    "rad_legacy_second_raw": {
+      "path": "/kaggle/working/diagnostics/rad_legacy_second_raw.npz",
+      "sha256": "33f783629160d4325b7e77821182d45610e28489af5bc3128d903b8eda254ade",
+      "shape": [
+        5,
+        358,
+        12
+      ]
+    }
+  },
+  "raptor_views": 4,
+  "score_recovery_claimed": false,
+  "status": "COMPLETE",
+  "submission_sha256": "ec17a154751956b3c54145d7b2960745d7f8ff9cb98ebc41a62692a00e2e0643",
+  "v555_input_sha256": "22d71a1311ef8282e26a0ca498bed57100da5152352deae7cbdaeca4ab8539c9"
+}

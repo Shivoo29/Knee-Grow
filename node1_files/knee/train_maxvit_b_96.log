@@ -1,0 +1,17 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/94 | bs 2 | tag maxvit_b_96 | roi=False(compartment)
+train 4349 | gold-val 58
+[raptor] timm-pretrained backbone: maxvit_base_tf_384.in1k
+[raptor] gradient checkpointing ON
+  [timing] 2174 steps in 4297.5s (1.977 s/step) | peak 3.28 GB (reserved 3.55 GB)
+  [ckpt] best-so-far saved at ep0 (0.6822)
+ep0 loss 0.939 | GOLD macro-AUC 0.6822 (best 0.6822) | topk by gold: [0] | 4390s
+  [timing] 2174 steps in 4294.7s (1.975 s/step) | peak 3.28 GB (reserved 3.55 GB)
+  [ckpt] best-so-far saved at ep1 (0.7470)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 0.900 | GOLD macro-AUC 0.7470 (best 0.7470) | topk by gold: [1, 0] | 8853s
+
+[signal] Received SIGTERM! Gracefully saving checkpoint and stopping...
+[signal] Interrupt triggered at step 937/2174
+  [timing] 937 steps in 1865.1s (1.991 s/step) | peak 3.28 GB (reserved 3.55 GB)
+[signal] Interrupted during epoch 2. Saving resume state before exiting...

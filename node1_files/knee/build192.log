@@ -1,0 +1,115 @@
+[slots] layout [40, 40, 36, 36, 40] -> 192 slices per study
+[data] loading metadata...
+[zip] opening archive raw/rsna-knee-abnormality-detection.zip for TOC indexation...
+[zip] indexed 819640 entries in 3.9s
+[zip] found 24386 unique DICOM series in 4.2s
+[corpus] allocating memmap storage for 4407 studies x 192 slices x 384x384...
+[corpus] expected array size: 116.20 GB at ds/corpus192/all_vols.npy
+[stream] launching 40 workers...
+[50/4407] 1.1% | 0.03 studies/s | ETA: 2658.3m
+[100/4407] 2.3% | 0.05 studies/s | ETA: 1342.8m
+[150/4407] 3.4% | 0.08 studies/s | ETA: 907.6m
+[200/4407] 4.5% | 0.10 studies/s | ETA: 686.8m
+[250/4407] 5.7% | 0.13 studies/s | ETA: 553.0m
+[300/4407] 6.8% | 0.15 studies/s | ETA: 466.0m
+[350/4407] 7.9% | 0.17 studies/s | ETA: 402.4m
+[400/4407] 9.1% | 0.19 studies/s | ETA: 353.6m
+[450/4407] 10.2% | 0.21 studies/s | ETA: 317.1m
+[500/4407] 11.3% | 0.23 studies/s | ETA: 287.0m
+[550/4407] 12.5% | 0.25 studies/s | ETA: 261.7m
+[600/4407] 13.6% | 0.26 studies/s | ETA: 240.7m
+[650/4407] 14.7% | 0.28 studies/s | ETA: 222.6m
+[700/4407] 15.9% | 0.30 studies/s | ETA: 208.2m
+[750/4407] 17.0% | 0.31 studies/s | ETA: 194.6m
+[800/4407] 18.2% | 0.33 studies/s | ETA: 182.7m
+[850/4407] 19.3% | 0.34 studies/s | ETA: 172.2m
+[900/4407] 20.4% | 0.36 studies/s | ETA: 163.3m
+[950/4407] 21.6% | 0.37 studies/s | ETA: 154.7m
+[1000/4407] 22.7% | 0.38 studies/s | ETA: 148.3m
+[1050/4407] 23.8% | 0.40 studies/s | ETA: 141.2m
+[1100/4407] 25.0% | 0.41 studies/s | ETA: 135.2m
+[1150/4407] 26.1% | 0.42 studies/s | ETA: 129.3m
+[1200/4407] 27.2% | 0.43 studies/s | ETA: 123.5m
+[1250/4407] 28.4% | 0.45 studies/s | ETA: 118.2m
+[1300/4407] 29.5% | 0.46 studies/s | ETA: 113.7m
+[1350/4407] 30.6% | 0.47 studies/s | ETA: 109.1m
+[1400/4407] 31.8% | 0.48 studies/s | ETA: 104.8m
+[1450/4407] 32.9% | 0.49 studies/s | ETA: 100.7m
+[1500/4407] 34.0% | 0.50 studies/s | ETA: 97.3m
+[1550/4407] 35.2% | 0.51 studies/s | ETA: 93.6m
+[1600/4407] 36.3% | 0.52 studies/s | ETA: 90.2m
+[1650/4407] 37.4% | 0.53 studies/s | ETA: 87.0m
+[1700/4407] 38.6% | 0.54 studies/s | ETA: 84.1m
+[1750/4407] 39.7% | 0.55 studies/s | ETA: 81.2m
+[1800/4407] 40.8% | 0.55 studies/s | ETA: 78.3m
+[1850/4407] 42.0% | 0.56 studies/s | ETA: 75.8m
+[1900/4407] 43.1% | 0.57 studies/s | ETA: 73.1m
+[1950/4407] 44.2% | 0.58 studies/s | ETA: 70.7m
+[2000/4407] 45.4% | 0.59 studies/s | ETA: 68.3m
+[2050/4407] 46.5% | 0.59 studies/s | ETA: 66.1m
+[2100/4407] 47.7% | 0.60 studies/s | ETA: 63.8m
+[2150/4407] 48.8% | 0.61 studies/s | ETA: 61.6m
+[2200/4407] 49.9% | 0.62 studies/s | ETA: 59.4m
+[2250/4407] 51.1% | 0.63 studies/s | ETA: 57.4m
+[2300/4407] 52.2% | 0.63 studies/s | ETA: 55.5m
+[2350/4407] 53.3% | 0.64 studies/s | ETA: 53.6m
+[2400/4407] 54.5% | 0.65 studies/s | ETA: 51.7m
+[2450/4407] 55.6% | 0.65 studies/s | ETA: 49.8m
+[2500/4407] 56.7% | 0.66 studies/s | ETA: 48.2m
+[2550/4407] 57.9% | 0.67 studies/s | ETA: 46.4m
+[2600/4407] 59.0% | 0.67 studies/s | ETA: 44.8m
+[2650/4407] 60.1% | 0.68 studies/s | ETA: 43.1m
+[2700/4407] 61.3% | 0.69 studies/s | ETA: 41.4m
+[2750/4407] 62.4% | 0.69 studies/s | ETA: 39.9m
+[2800/4407] 63.5% | 0.70 studies/s | ETA: 38.4m
+[2850/4407] 64.7% | 0.70 studies/s | ETA: 36.9m
+[2900/4407] 65.8% | 0.71 studies/s | ETA: 35.4m
+[2950/4407] 66.9% | 0.72 studies/s | ETA: 33.9m
+[3000/4407] 68.1% | 0.72 studies/s | ETA: 32.5m
+[3050/4407] 69.2% | 0.73 studies/s | ETA: 31.1m
+[3100/4407] 70.3% | 0.73 studies/s | ETA: 29.7m
+[3150/4407] 71.5% | 0.74 studies/s | ETA: 28.4m
+[3200/4407] 72.6% | 0.74 studies/s | ETA: 27.0m
+[3250/4407] 73.7% | 0.75 studies/s | ETA: 25.7m
+[3300/4407] 74.9% | 0.75 studies/s | ETA: 24.5m
+[3350/4407] 76.0% | 0.76 studies/s | ETA: 23.2m
+[3400/4407] 77.1% | 0.76 studies/s | ETA: 22.0m
+[3450/4407] 78.3% | 0.77 studies/s | ETA: 20.8m
+[3500/4407] 79.4% | 0.77 studies/s | ETA: 19.6m
+[3550/4407] 80.6% | 0.78 studies/s | ETA: 18.3m
+[3600/4407] 81.7% | 0.78 studies/s | ETA: 17.2m
+[3650/4407] 82.8% | 0.79 studies/s | ETA: 16.0m
+[3700/4407] 84.0% | 0.79 studies/s | ETA: 14.8m
+[3750/4407] 85.1% | 0.80 studies/s | ETA: 13.7m
+[3800/4407] 86.2% | 0.80 studies/s | ETA: 12.6m
+[3850/4407] 87.4% | 0.81 studies/s | ETA: 11.5m
+[3900/4407] 88.5% | 0.81 studies/s | ETA: 10.4m
+[3950/4407] 89.6% | 0.82 studies/s | ETA: 9.3m
+[4000/4407] 90.8% | 0.82 studies/s | ETA: 8.2m
+[4050/4407] 91.9% | 0.83 studies/s | ETA: 7.2m
+[4100/4407] 93.0% | 0.83 studies/s | ETA: 6.1m
+[4150/4407] 94.2% | 0.83 studies/s | ETA: 5.1m
+[4200/4407] 95.3% | 0.84 studies/s | ETA: 4.1m
+[4250/4407] 96.4% | 0.84 studies/s | ETA: 3.1m
+[4300/4407] 97.6% | 0.85 studies/s | ETA: 2.1m
+[4350/4407] 98.7% | 0.85 studies/s | ETA: 1.1m
+[4400/4407] 99.8% | 0.85 studies/s | ETA: 0.1m
+[4407/4407] 100.0% | 0.85 studies/s | ETA: 0.0m
+[audit] saved slot coverage record to ds/corpus192/slots.csv (22035 rows)
+
+============================================================
+CORPUS 96-SLICE BUILD COMPLETE in 86.2m (1.17 s/study)
+============================================================
+Output files:
+  Volumes:  ds/corpus192/all_vols.npy (116.20 GB)
+  Masks:    ds/corpus192/all_masks.npy (0.81 MB)
+  IDs:      ds/corpus192/all_ids.npy (4407 entries)
+  Audit:    ds/corpus192/slots.csv
+
+Slot Fill Rates by Anatomical Plane:
+            total_slots  filled_slots fill_rate
+slot_plane                                     
+Axial              4407          4407    100.0%
+Coronal            8814          7690     87.2%
+Sagittal           8814          8695     98.6%
+============================================================

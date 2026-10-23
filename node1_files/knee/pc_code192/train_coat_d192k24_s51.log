@@ -1,0 +1,5 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 24/190 | bs 2 | tag d192k24_s51 | roi=False(compartment)
+train 4349 | gold-val 58
+[slots] layout=[40, 40, 36, 36, 40] depth=192 bounds=[(0, 40), (40, 80), (80, 116), (116, 152), (152, 192)]
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k

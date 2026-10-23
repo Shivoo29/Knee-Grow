@@ -1714,3 +1714,18 @@ Runs:
 - **Recommendation:**
   - **Stay with plain $r_2$ (simpler pipeline)**. The $+0.0015$ OOF macro gain does not cross the $+0.0030$ decision threshold to justify the extra complexity of language-id classification and cell-dependent weighting across all 4 folds.
 
+
+## 83. Oct 22 ~17:30 IST (Claude) — round-3 results; final blends pushed
+- LB: ConvNeXt r3 5-fold alone 0.949 (r2 4-fold 0.948). Gold-58: ConvNeXt r3 folds 0.927-0.934; CoAtNet r3 f0 0.918,
+  f1 0.921, f2 0.914, f3 0.9217 (node1; molab f3 0.9131 not used), f4 0.916. knee-coat-r3-folds has all 5 (f3 = final 15:47 SWA).
+- Public check (Kaggle score sort + web): nothing above 0.958 (heliosli "0.9586" = blendmine + goodpjw2008 reader at 2.5-3.5%).
+- Kaggle runtimes (2xT4): ConvNeXt 5 folds ~9.7 s/study, CoAtNet 5 folds k64 ~12.4 s/study -> ~8.1 h on ~1,300 hidden
+  studies; with blendmine (~2-3 h) only ConvNeXt fits. Commit-run probe (gold-58 check) costs ~1.5 h/group: build_nb --skip_probe.
+- Pushed: rsna-knee-blend-r3 (blendmine + ConvNeXt r3 5-fold, W 0.1), rsna-knee-blend-r3-w20 (same, W 0.2).
+  rsna-knee-own-ens-r3 v3 (no-base notebook now keeps finished groups if CoAtNet runs late) queued for a free GPU slot.
+- Final pick advice: blendmine 0.958 + the better r3 blend. Seed-310 ConvNeXt (molab) cannot fit a blend in time.
+
+## 84. Oct 23 (Claude) — FINAL: private LB rank 348 (+528), bronze, 0.943
+- Best private = blendmine R6 flip TTA + Raptor 384/224 (pub 0.958 / priv 0.943). Our blends: blend-r2 0.942, blendmine + cnxt W0.3 0.942.
+- Own standalone private: ConvNeXt r3 0.937, ens r3 (ConvNeXt + CoAtNet) 0.933, CoAtNet r3 0.925. Public-private gap ~0.012-0.015 for all.
+- blend-r3 (W 0.1 / 0.2) were not submitted. Next: end-of-competition cleanup (node1 data, key/token rotation).

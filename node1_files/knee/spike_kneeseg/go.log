@@ -1,0 +1,4 @@
+resampled
+ remove 'vols1': Directory not empty
+resampled
+mv: cannot stat 'vols1': No such file or directory

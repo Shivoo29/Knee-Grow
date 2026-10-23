@@ -1,0 +1,44 @@
+two workload-balanced T4 workers (start,stop,in-band-slices): [(0, 183, 27884), (183, 358, 27953)]
+[gpu0] rc=0
+[0:183] studies 10/183 | elapsed 64.6s
+[0:183] studies 20/183 | elapsed 120.2s
+[0:183] studies 30/183 | elapsed 161.9s
+[0:183] studies 40/183 | elapsed 208.2s
+[0:183] studies 50/183 | elapsed 264.0s
+[0:183] studies 60/183 | elapsed 312.7s
+[0:183] studies 70/183 | elapsed 371.2s
+[0:183] studies 80/183 | elapsed 421.6s
+[0:183] studies 90/183 | elapsed 482.5s
+[0:183] studies 100/183 | elapsed 529.0s
+[0:183] studies 110/183 | elapsed 575.3s
+[0:183] studies 120/183 | elapsed 616.7s
+[0:183] studies 130/183 | elapsed 660.1s
+[0:183] studies 140/183 | elapsed 700.0s
+[0:183] studies 150/183 | elapsed 747.2s
+[0:183] studies 160/183 | elapsed 797.2s
+[0:183] studies 170/183 | elapsed 849.0s
+[0:183] studies 180/183 | elapsed 913.8s
+[0:183] studies 183/183 | elapsed 926.4s
+{"artifact_contract": "rsna_coatnet_repairv1_e18_top3_probability_rank_package_v1", "backbone_micro_images": 8, "cudnn_benchmark": false, "device": "cuda", "dicom_preparations_per_study": 1, "elapsed_seconds": 926.6036735849993, "failures": [], "gpu": "Tesla T4", "gpu_batch_studies": 2, "model_load_seconds": 10.197990656000911, "model_passes_per_study": 3, "models_resident": 3, "peak_reserved_bytes": 2535456768, "prep_chunk": 16, "prep_workers": 2, "prepared_studies": 183, "runtime_contract": "rsna_coatnet_repairv1_e18_top3_probability_rank_t4x2_v1", "start": 0, "status": "VALID_COATNET_REPAIRV1_TOP3_RAW_SHARD", "stop": 183, "studies": 183}
+[gpu1] rc=0
+[183:358] studies 10/175 | elapsed 61.6s
+[183:358] studies 20/175 | elapsed 118.3s
+[183:358] studies 30/175 | elapsed 183.3s
+[183:358] studies 40/175 | elapsed 246.2s
+[183:358] studies 50/175 | elapsed 294.5s
+[183:358] studies 60/175 | elapsed 369.0s
+[183:358] studies 70/175 | elapsed 416.3s
+[183:358] studies 80/175 | elapsed 488.6s
+[183:358] studies 90/175 | elapsed 533.8s
+[183:358] studies 100/175 | elapsed 615.8s
+[183:358] studies 110/175 | elapsed 674.7s
+[183:358] studies 120/175 | elapsed 734.9s
+[183:358] studies 130/175 | elapsed 787.4s
+[183:358] studies 140/175 | elapsed 840.6s
+[183:358] studies 150/175 | elapsed 886.0s
+[183:358] studies 160/175 | elapsed 937.3s
+[183:358] studies 170/175 | elapsed 971.9s
+[183:358] studies 175/175 | elapsed 990.9s
+{"artifact_contract": "rsna_coatnet_repairv1_e18_top3_probability_rank_package_v1", "backbone_micro_images": 8, "cudnn_benchmark": false, "device": "cuda", "dicom_preparations_per_study": 1, "elapsed_seconds": 990.886255110001, "failures": [], "gpu": "Tesla T4", "gpu_batch_studies": 2, "model_load_seconds": 10.498591793999367, "model_passes_per_study": 3, "models_resident": 3, "peak_reserved_bytes": 2495610880, "prep_chunk": 16, "prep_workers": 2, "prepared_studies": 175, "runtime_contract": "rsna_coatnet_repairv1_e18_top3_probability_rank_t4x2_v1", "start": 183, "status": "VALID_COATNET_REPAIRV1_TOP3_RAW_SHARD", "stop": 358, "studies": 175}
+{"artifact_contract": "rsna_coatnet_repairv1_e18_top3_probability_rank_package_v1", "backbone_micro_images": 8, "canonical_sagittal": true, "checkpoint_selection": "terminal top three official Gold58 macro-AUC", "checkpoints": [{"epoch": 12, "gold_auc": 0.9042195775738434, "name": "coatnet_repairv1_gold_e12.pt", "rank": 1, "sha256": "45f34ec036a6b2dfb75239343f1dc33bc815bacd8c2d996235035d2602b5b2e7"}, {"epoch": 7, "gold_auc": 0.9016175724807871, "name": "coatnet_repairv1_gold_e07.pt", "rank": 2, "sha256": "4f36e9aff09986fcf4f130203e3fbf391b95e0a466ed9c6f656dafd01c349cdf"}, {"epoch": 11, "gold_auc": 0.8982895646060981, "name": "coatnet_repairv1_gold_e11.pt", "rank": 3, "sha256": "2ec451b03e4c1da5048aee91d4358fa2efa2900619d9dfd5b75dadce659e2f21"}], "cudnn_benchmark": false, "diagnostic_checkpoint_rank_output": "/kaggle/working/submission_checkpoint_rank_mean.csv", "diagnostic_checkpoint_rank_output_sha256": "d66a96fe95a82e07b6dba27db9c0148c73fa8bc62775f1e0e67297329db58fb4", "dicom_preparations_per_study": 1, "elapsed_seconds": 1030.7100099020008, "ensemble": "equal probability mean then per-finding average-percentile rank", "eval_grid": "saved_training_gold_unique_center_slot_budgets", "eval_slot_budgets": [20, 12, 12, 8, 16, 8], "failures": [], "fallback_studies": 0, "gold58_checkpoint_rank_mean_auc": 0.9084529682919512, "gold58_probability_mean_auc": 0.9103562853180026, "gpu_batch_studies": 2, "gpu_names": ["Tesla T4", "Tesla T4"], "model_passes_per_study": 3, "models": 3, "opencv": "4.12.0", "output": "/kaggle/working/_coat_repairv1.csv", "output_sha256": "eaddd79bfe5fd8858552af5b5f6ae54326e1c8fc68f30728aa7279f72255b62a", "parallel_bounds": [[0, 183], [183, 358]], "parallel_workers": 2, "parallel_workload": [27884, 27953], "predictions": "/kaggle/working/coatnet_repairv1_top3_predictions.npz", "predictions_sha256": "250d49378894614b1cc4f2021fd755d9ecdb03002cf603675dcc30f1b8ebc95b", "processes": [{"gpu": 0, "path": "/kaggle/working/coat_repairv1_top3_part0.npz", "returncode": 0, "start": 0, "stop": 183}, {"gpu": 1, "path": "/kaggle/working/coat_repairv1_top3_part1.npz", "returncode": 0, "start": 183, "stop": 358}], "rank_after_probability_average": true, "raw_checkpoint_probability_weights": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333], "resolution": 384, "runtime_contract": "rsna_coatnet_repairv1_e18_top3_probability_rank_t4x2_v1", "series": 1999, "serving_precision": "float16", "shards": [{"backbone_micro_images": 8, "cudnn_benchmark": false, "device": "cuda", "dicom_preparations_per_study": 1, "elapsed_seconds": 926.6036735849993, "gpu": "Tesla T4", "gpu_batch_studies": 2, "model_load_seconds": 10.197990656000911, "model_passes_per_study": 3, "models_resident": 3, "peak_reserved_bytes": 2535456768, "prep_chunk": 16, "prep_workers": 2, "prepared_studies": 183, "start": 0, "stop": 183}, {"backbone_micro_images": 8, "cudnn_benchmark": false, "device": "cuda", "dicom_preparations_per_study": 1, "elapsed_seconds": 990.886255110001, "gpu": "Tesla T4", "gpu_batch_studies": 2, "model_load_seconds": 10.498591793999367, "model_passes_per_study": 3, "models_resident": 3, "peak_reserved_bytes": 2495610880, "prep_chunk": 16, "prep_workers": 2, "prepared_studies": 175, "start": 183, "stop": 358}], "status": "VALID_COATNET_REPAIRV1_TOP3_PROBABILITY_RANK_SUBMISSION", "studies": 358, "t4_full_gold58_portability": "VALID_REPAIRV1_FULL_GOLD58_T4_NUMERICAL_PORTABILITY_WITH_NONIDENTICAL_X86_RENDER", "terminal_completed_epoch": 18, "terminal_status": "early_stopped", "triplet_fov_mm": 130.0}
+[coat-child] repairv1 fallback_studies 0

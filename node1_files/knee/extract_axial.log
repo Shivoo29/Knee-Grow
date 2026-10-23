@@ -1,0 +1,24 @@
+[axial_extract] loading metadata...
+[zip] opening archive /home/s05814802723/projects/knee/raw/rsna-knee-abnormality-detection.zip for TOC indexation...
+[zip] indexed 819640 entries in 4.5s
+[zip] found 24386 unique DICOM series in 4.7s
+[axial_extract] Target array: 4407 studies x 18 slices x 224x224 (3.71 GB)
+[axial_extract] Processed 256/4407 (5.8%) in 118.2s (2.2 studies/s)
+[axial_extract] Processed 512/4407 (11.6%) in 216.4s (2.4 studies/s)
+[axial_extract] Processed 768/4407 (17.4%) in 317.0s (2.4 studies/s)
+[axial_extract] Processed 1024/4407 (23.2%) in 412.2s (2.5 studies/s)
+[axial_extract] Processed 1280/4407 (29.0%) in 457.1s (2.8 studies/s)
+[axial_extract] Processed 1536/4407 (34.9%) in 467.4s (3.3 studies/s)
+[axial_extract] Processed 1792/4407 (40.7%) in 471.9s (3.8 studies/s)
+[axial_extract] Processed 2048/4407 (46.5%) in 476.5s (4.3 studies/s)
+[axial_extract] Processed 2304/4407 (52.3%) in 481.0s (4.8 studies/s)
+[axial_extract] Processed 2560/4407 (58.1%) in 485.5s (5.3 studies/s)
+[axial_extract] Processed 2816/4407 (63.9%) in 489.9s (5.7 studies/s)
+[axial_extract] Processed 3072/4407 (69.7%) in 494.3s (6.2 studies/s)
+[axial_extract] Processed 3328/4407 (75.5%) in 498.8s (6.7 studies/s)
+[axial_extract] Processed 3584/4407 (81.3%) in 503.3s (7.1 studies/s)
+[axial_extract] Processed 3840/4407 (87.1%) in 507.8s (7.6 studies/s)
+[axial_extract] Processed 4096/4407 (92.9%) in 511.8s (8.0 studies/s)
+[axial_extract] Processed 4352/4407 (98.8%) in 516.3s (8.4 studies/s)
+[axial_extract] Processed 4407/4407 (100.0%) in 517.4s (8.5 studies/s)
+[axial_extract] [SUCCESS] Extracted 4407 studies in 8.6 min! Saved to /home/s05814802723/projects/knee/ds/axial_pfoa

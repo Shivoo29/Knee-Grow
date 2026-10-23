@@ -1,0 +1,9 @@
+14:45:48 base
+[studies] filtered to 510/510 studies found in corpus
+[done] raptor_ft_cnxt_r2_f0_swa.pt: 510 studies in 4.6 min
+[out] stta_base.parquet: 510 studies x 1 checkpoints | mean prob ACL 0.47 MCL 0.43 Medial 0.49 Latera 0.48 Medial 0.47 Latera 0.48 PF OA 0.46 Effusi 0.51 Synovi 0.51 Baker' 0.44 Contus 0.53 Fractu 0.49
+14:50:36 alt
+[studies] filtered to 510/510 studies found in corpus
+[done] raptor_ft_cnxt_r2_f0_swa.pt: 510 studies in 4.6 min
+[out] stta_alt.parquet: 510 studies x 1 checkpoints | mean prob ACL 0.47 MCL 0.43 Medial 0.49 Latera 0.47 Medial 0.47 Latera 0.48 PF OA 0.46 Effusi 0.52 Synovi 0.52 Baker' 0.44 Contus 0.53 Fractu 0.49
+14:55:18 DONE stta

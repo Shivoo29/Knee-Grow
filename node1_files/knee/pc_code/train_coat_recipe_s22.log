@@ -1,0 +1,70 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/94 | bs 1 | tag recipe_s22 | roi=False(compartment)
+train 4349 | gold-val 58
+[label_weights] label_weights_v1.parquet rows=4349 zero_frac=0.005
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+  [timing] 4349 steps in 6247.7s (1.437 s/step) | peak 2.95 GB (reserved 3.55 GB)
+  [ckpt] best-so-far saved at ep0 (0.7070)
+ep0 loss 1.214 | GOLD macro-AUC 0.7070 (best 0.7070) | topk by gold: [0] | 6362s
+  [timing] 4349 steps in 6115.5s (1.406 s/step) | peak 2.95 GB (reserved 3.86 GB)
+  [ckpt] best-so-far saved at ep1 (0.8137)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 1.168 | GOLD macro-AUC 0.8137 (best 0.8137) | topk by gold: [1, 0] | 12620s
+  [timing] 4349 steps in 6108.3s (1.405 s/step) | peak 2.95 GB (reserved 3.86 GB)
+  [ckpt] best-so-far saved at ep2 (0.8247)
+  [swa] running SWA updated over epochs [2, 1, 0]
+ep2 loss 1.122 | GOLD macro-AUC 0.8247 (best 0.8247) | topk by gold: [2, 1, 0] | 18880s
+  [timing] 4349 steps in 6162.6s (1.417 s/step) | peak 2.95 GB (reserved 3.86 GB)
+  [ckpt] best-so-far saved at ep3 (0.8700)
+  [swa] running SWA updated over epochs [3, 2, 1]
+ep3 loss 1.087 | GOLD macro-AUC 0.8700 (best 0.8700) | topk by gold: [3, 2, 1] | 25197s
+  [timing] 4349 steps in 6112.0s (1.405 s/step) | peak 2.95 GB (reserved 3.86 GB)
+  [ckpt] best-so-far saved at ep4 (0.8850)
+  [swa] running SWA updated over epochs [4, 3, 2]
+ep4 loss 1.059 | GOLD macro-AUC 0.8850 (best 0.8850) | topk by gold: [4, 3, 2] | 31463s
+
+[signal] Received SIGTERM! Gracefully saving checkpoint and stopping...
+Traceback (most recent call last):
+  File "/home/s05814802723/projects/knee/pc_code/train_knee.py", line 1080, in <module>
+    main()
+  File "/home/s05814802723/projects/knee/pc_code/train_knee.py", line 802, in main
+    logits, aux = model.forward_with_aux(x, slots=slots)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/projects/knee/pc_code/train_knee.py", line 511, in forward_with_aux
+    return self.head(feats, slots=slots), self.aux_head(feats, slots=slots)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/projects/knee/pc_code/train_knee.py", line 486, in head
+    feats = feats + self.gru(feats)[0]
+                    ^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/nn/modules/rnn.py", line 1449, in forward
+    result = _VF.gru(
+             ^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/utils/data/_utils/signal_handling.py", line 73, in handler
+    _error_if_any_worker_fails()
+RuntimeError: DataLoader worker (pid 4150524) is killed by signal: Terminated. 
+Exception ignored in atexit callback: <function _MultiProcessingDataLoaderIter._clean_up_worker at 0x7fcfd70539c0>
+Traceback (most recent call last):
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1703, in _clean_up_worker
+    w.join(timeout=_utils.MP_STATUS_CHECK_INTERVAL)
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/multiprocessing/process.py", line 149, in join
+    res = self._popen.wait(timeout)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/multiprocessing/popen_fork.py", line 40, in wait
+    if not wait([self.sentinel], timeout):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/multiprocessing/connection.py", line 948, in wait
+    ready = selector.select(timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/s05814802723/miniconda3/envs/knee/lib/python3.11/site-packages/torch/utils/data/_utils/signal_handling.py", line 73, in handler
+    _error_if_any_worker_fails()
+RuntimeError: DataLoader worker (pid 3856662) is killed by signal: Terminated. 

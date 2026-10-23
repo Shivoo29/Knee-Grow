@@ -1,0 +1,30 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 384 | k 12/48 | bs 4 | tag coat_roi_5fold_f1 | roi=True(compartment)
+[cv] fold 1/5: train 3478 | OOF held-out 871 | fold_file folds_site.json
+train 3478 | gold-val 58 | oof 871
+[roi] ENABLED mode=compartment pad=0.06 overlap=0.12 boxes=roi_boxes.npz sbox=(4407, 96, 4)
+[raptor] timm-pretrained backbone: coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k
+[raptor] gradient checkpointing ON
+  [timing] 869 steps in 1883.7s (2.168 s/step) | peak 10.86 GB (reserved 12.08 GB)
+  [ckpt] best-so-far saved at ep0 (0.7038)
+ep0 loss 0.952 | GOLD macro-AUC 0.7038 (best 0.7038) | topk by gold: [0] | 1918s
+  [timing] 869 steps in 1881.9s (2.166 s/step) | peak 10.86 GB (reserved 12.08 GB)
+  [ckpt] best-so-far saved at ep1 (0.7440)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 0.935 | GOLD macro-AUC 0.7440 (best 0.7440) | topk by gold: [1, 0] | 3861s
+  [timing] 869 steps in 1882.3s (2.166 s/step) | peak 10.86 GB (reserved 12.08 GB)
+  [ckpt] best-so-far saved at ep2 (0.8116)
+  [swa] running SWA updated over epochs [2, 1, 0]
+ep2 loss 0.900 | GOLD macro-AUC 0.8116 (best 0.8116) | topk by gold: [2, 1, 0] | 5800s
+  [timing] 869 steps in 1882.3s (2.166 s/step) | peak 10.86 GB (reserved 12.08 GB)
+  [ckpt] best-so-far saved at ep3 (0.8270)
+  [swa] running SWA updated over epochs [3, 2, 1]
+ep3 loss 0.870 | GOLD macro-AUC 0.8270 (best 0.8270) | topk by gold: [3, 2, 1] | 7743s
+  [timing] 869 steps in 1883.0s (2.167 s/step) | peak 10.86 GB (reserved 12.08 GB)
+  [ckpt] best-so-far saved at ep4 (0.8333)
+  [swa] running SWA updated over epochs [4, 3, 2]
+ep4 loss 0.862 | GOLD macro-AUC 0.8333 (best 0.8333) | topk by gold: [4, 3, 2] | 9685s
+  [timing] 869 steps in 1883.6s (2.168 s/step) | peak 10.86 GB (reserved 12.08 GB)
+  [ckpt] best-so-far saved at ep5 (0.8580)
+  [swa] running SWA updated over epochs [5, 4, 3]
+ep5 loss 0.842 | GOLD macro-AUC 0.8580 (best 0.8580) | topk by gold: [5, 4, 3] | 11630s

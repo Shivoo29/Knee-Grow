@@ -1,0 +1,44 @@
+two workload-balanced T4 workers (start,stop,in-band-slices): [(0, 183, 27884), (183, 358, 27953)]
+[gpu0] rc=0
+[0:183] studies 10/183 | elapsed 75.4s
+[0:183] studies 20/183 | elapsed 128.8s
+[0:183] studies 30/183 | elapsed 180.5s
+[0:183] studies 40/183 | elapsed 234.5s
+[0:183] studies 50/183 | elapsed 286.7s
+[0:183] studies 60/183 | elapsed 337.2s
+[0:183] studies 70/183 | elapsed 390.5s
+[0:183] studies 80/183 | elapsed 446.8s
+[0:183] studies 90/183 | elapsed 503.1s
+[0:183] studies 100/183 | elapsed 556.5s
+[0:183] studies 110/183 | elapsed 609.9s
+[0:183] studies 120/183 | elapsed 662.0s
+[0:183] studies 130/183 | elapsed 716.0s
+[0:183] studies 140/183 | elapsed 767.2s
+[0:183] studies 150/183 | elapsed 818.9s
+[0:183] studies 160/183 | elapsed 871.7s
+[0:183] studies 170/183 | elapsed 922.2s
+[0:183] studies 180/183 | elapsed 980.2s
+[0:183] studies 183/183 | elapsed 996.2s
+{"artifact_contract": "rsna_coat_resgated_ep10_top3_gold_rank_package_v2", "backbone_micro_images": 8, "cudnn_benchmark": false, "device": "cuda", "dicom_preparations_per_study": 1, "elapsed_seconds": 996.4397221270001, "failures": [], "gpu": "Tesla T4", "gpu_batch_studies": 2, "input_max_windows": 94, "model_load_seconds": 11.132165679000536, "model_passes_per_study": 3, "models_resident": 3, "peak_reserved_bytes": 2304770048, "prep_chunk": 16, "prep_workers": 2, "prepared_studies": 183, "runtime_contract": "resgated_ep10_input_nativecenters_v1", "start": 0, "status": "VALID_COAT_RESGATED_EP10_TOP3_RAW_SHARD", "stop": 183, "studies": 183}
+[gpu1] rc=0
+[183:358] studies 10/175 | elapsed 75.2s
+[183:358] studies 20/175 | elapsed 127.9s
+[183:358] studies 30/175 | elapsed 194.3s
+[183:358] studies 40/175 | elapsed 268.2s
+[183:358] studies 50/175 | elapsed 321.5s
+[183:358] studies 60/175 | elapsed 397.2s
+[183:358] studies 70/175 | elapsed 458.3s
+[183:358] studies 80/175 | elapsed 533.9s
+[183:358] studies 90/175 | elapsed 585.8s
+[183:358] studies 100/175 | elapsed 668.0s
+[183:358] studies 110/175 | elapsed 731.8s
+[183:358] studies 120/175 | elapsed 792.5s
+[183:358] studies 130/175 | elapsed 849.0s
+[183:358] studies 140/175 | elapsed 907.5s
+[183:358] studies 150/175 | elapsed 963.9s
+[183:358] studies 160/175 | elapsed 1019.8s
+[183:358] studies 170/175 | elapsed 1071.0s
+[183:358] studies 175/175 | elapsed 1096.7s
+{"artifact_contract": "rsna_coat_resgated_ep10_top3_gold_rank_package_v2", "backbone_micro_images": 8, "cudnn_benchmark": false, "device": "cuda", "dicom_preparations_per_study": 1, "elapsed_seconds": 1096.7644226029997, "failures": [], "gpu": "Tesla T4", "gpu_batch_studies": 2, "input_max_windows": 94, "model_load_seconds": 10.734787339999457, "model_passes_per_study": 3, "models_resident": 3, "peak_reserved_bytes": 2304770048, "prep_chunk": 16, "prep_workers": 2, "prepared_studies": 175, "runtime_contract": "resgated_ep10_input_nativecenters_v1", "start": 183, "status": "VALID_COAT_RESGATED_EP10_TOP3_RAW_SHARD", "stop": 358, "studies": 175}
+{"artifact_contract": "rsna_coat_resgated_ep10_top3_gold_rank_package_v2", "backbone_micro_images": 8, "canonical_sagittal": true, "checkpoint_rank_weights": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333], "checkpoint_selection": "top three official Gold58 macro-AUC by epoch 10", "checkpoints": [{"epoch": 4, "gold_auc": 0.9004583452460247, "name": "coat_resgated_gold_e04.pt", "rank": 1, "sha256": "cefaf007415b5e45ce2a720d5e211a183a4e90f160710ba1f72b1ce7c46239a2"}, {"epoch": 6, "gold_auc": 0.8975532362766714, "name": "coat_resgated_gold_e06.pt", "rank": 2, "sha256": "56eca1f61651362ecfae8aecdd9327125713b95653344b8ad62ef8cff17d08f4"}, {"epoch": 8, "gold_auc": 0.8968762056250612, "name": "coat_resgated_gold_e08.pt", "rank": 3, "sha256": "8d3159102046c127dc0d084fb69c9304ffcbd4b98d1333f9811d4d613fea1b12"}], "cudnn_benchmark": false, "dicom_preparations_per_study": 1, "elapsed_seconds": 1142.9003535820002, "ensemble": "equal mean of three per-finding average-percentile ranks", "eval_grid": "input_unique_native_centers_six_slot_v1", "eval_slot_budgets": [20, 12, 12, 8, 16, 8], "failures": [], "fallback_studies": 0, "gpu_batch_studies": 2, "gpu_names": ["Tesla T4", "Tesla T4"], "historical_parent_gold58_rank_ensemble_auc": 0.9094696373252056, "historical_parent_t4_gold58_rank_ensemble_auc": 0.9093268412428666, "input_max_windows": 94, "model_passes_per_study": 3, "models": 3, "opencv": "4.12.0", "output": "/kaggle/working/_coat_arm.csv", "output_sha256": "ea54be4d056efd574b208e841a14228c7e85903ae4dca423c9fb957e2f3b9117", "parallel_bounds": [[0, 183], [183, 358]], "parallel_workers": 2, "parallel_workload": [27884, 27953], "predictions": "/kaggle/working/coat_resgated_ep10_top3_predictions.npz", "predictions_sha256": "1c9992704d9d2bde683edf0fcf3d122c19c2f9e4cffb624e91f5f8ec9506c6bc", "processes": [{"gpu": 0, "path": "/kaggle/working/coat_top3_part0.npz", "returncode": 0, "start": 0, "stop": 183}, {"gpu": 1, "path": "/kaggle/working/coat_top3_part1.npz", "returncode": 0, "start": 183, "stop": 358}], "rank_after_probability_average": false, "resolution": 384, "runtime_contract": "resgated_ep10_input_nativecenters_v1", "series": 1999, "serving_precision": "float16", "shards": [{"backbone_micro_images": 8, "cudnn_benchmark": false, "device": "cuda", "dicom_preparations_per_study": 1, "elapsed_seconds": 996.4397221270001, "gpu": "Tesla T4", "gpu_batch_studies": 2, "model_load_seconds": 11.132165679000536, "model_passes_per_study": 3, "models_resident": 3, "peak_reserved_bytes": 2304770048, "prep_chunk": 16, "prep_workers": 2, "prepared_studies": 183, "start": 0, "stop": 183}, {"backbone_micro_images": 8, "cudnn_benchmark": false, "device": "cuda", "dicom_preparations_per_study": 1, "elapsed_seconds": 1096.7644226029997, "gpu": "Tesla T4", "gpu_batch_studies": 2, "model_load_seconds": 10.734787339999457, "model_passes_per_study": 3, "models_resident": 3, "peak_reserved_bytes": 2304770048, "prep_chunk": 16, "prep_workers": 2, "prepared_studies": 175, "start": 183, "stop": 358}], "snapshot_completed_epoch": 10, "status": "VALID_COAT_RESGATED_EP10_TOP3_RANK_SUBMISSION", "studies": 358, "triplet_fov_mm": 130.0}
+[coat-child] fallback_studies 0

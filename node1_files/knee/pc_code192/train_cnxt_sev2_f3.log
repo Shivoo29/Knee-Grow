@@ -1,0 +1,5 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 256 | k 48/380 | bs 2 | tag cnxt_sev2_f3 | roi=False(compartment)
+[cv] fold 3/4: train 3262 | OOF held-out 1087 | fold_file folds_rand4.json
+train 3262 | gold-val 58 | oof 1087
+[zoom] two-scale tiles: 140 mm field + centred 100 mm close-up (274 px); --k/--k_eval count tiles

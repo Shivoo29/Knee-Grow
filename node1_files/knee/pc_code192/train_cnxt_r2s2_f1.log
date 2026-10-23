@@ -1,0 +1,107 @@
+[amp] dtype torch.bfloat16 | autocast True | grad scaler False
+device cuda | res 256 | k 48/380 | bs 2 | tag cnxt_r2s2_f1 | roi=False(compartment)
+[cv] fold 1/4: train 3262 | OOF held-out 1087 | fold_file folds_rand4.json
+train 3262 | gold-val 58 | oof 1087
+[zoom] two-scale tiles: 140 mm field + centred 100 mm close-up (274 px); --k/--k_eval count tiles
+[slots] layout=[40, 40, 36, 36, 40] depth=192 bounds=[(0, 40), (40, 80), (80, 116), (116, 152), (152, 192)]
+[label_weights] label_weights_sev_v1.parquet rows=4349 zero_frac=0.013
+[oof-sub] 300 held-out studies scored every epoch (mask: none)
+[raptor] timm-pretrained backbone: convnext_tiny.in12k_ft_in1k
+[raptor] gradient checkpointing ON
+[stkim] training-only top-3 window masking, p=0.7
+  [timing] 1631 steps in 719.3s (0.441 s/step) | peak 2.45 GB (reserved 2.85 GB)
+ep0 OOF300 masked macro-AUC 0.8265
+  [ckpt] best-so-far saved at ep0 (0.7426)
+ep0 loss 1.028 | GOLD macro-AUC 0.7426 (best 0.7426) | topk by OOF-subset: [0] | 971s
+  [timing] 1631 steps in 703.6s (0.431 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep1 OOF300 masked macro-AUC 0.9397
+  [ckpt] best-so-far saved at ep1 (0.8702)
+  [swa] running SWA updated over epochs [1, 0]
+ep1 loss 0.980 | GOLD macro-AUC 0.8702 (best 0.8702) | topk by OOF-subset: [1, 0] | 1891s
+  [timing] 1631 steps in 703.5s (0.431 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep2 OOF300 masked macro-AUC 0.9551
+  [ckpt] best-so-far saved at ep2 (0.8990)
+  [swa] running SWA updated over epochs [2, 1, 0]
+ep2 loss 0.946 | GOLD macro-AUC 0.8990 (best 0.8990) | topk by OOF-subset: [2, 1, 0] | 2808s
+  [timing] 1631 steps in 703.8s (0.432 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep3 OOF300 masked macro-AUC 0.9628
+  [ckpt] best-so-far saved at ep3 (0.9171)
+  [swa] running SWA updated over epochs [3, 2, 1]
+ep3 loss 0.924 | GOLD macro-AUC 0.9171 (best 0.9171) | topk by OOF-subset: [3, 2, 1] | 3732s
+  [timing] 1631 steps in 703.8s (0.432 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep4 OOF300 masked macro-AUC 0.9704
+  [patience] no improvement for 1/5 epoch(s) (best 0.9171 at ep3)
+  [swa] running SWA updated over epochs [4, 3, 2]
+ep4 loss 0.914 | GOLD macro-AUC 0.9132 (best 0.9171) | topk by OOF-subset: [4, 3, 2] | 4658s
+  [timing] 1631 steps in 703.6s (0.431 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep5 OOF300 masked macro-AUC 0.9714
+  [ckpt] best-so-far saved at ep5 (0.9194)
+  [swa] running SWA updated over epochs [5, 4, 3]
+ep5 loss 0.907 | GOLD macro-AUC 0.9194 (best 0.9194) | topk by OOF-subset: [5, 4, 3] | 5582s
+  [timing] 1631 steps in 704.0s (0.432 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep6 OOF300 masked macro-AUC 0.9716
+  [patience] no improvement for 1/5 epoch(s) (best 0.9194 at ep5)
+  [swa] running SWA updated over epochs [6, 5, 4]
+ep6 loss 0.903 | GOLD macro-AUC 0.9188 (best 0.9194) | topk by OOF-subset: [6, 5, 4] | 6507s
+  [timing] 1631 steps in 704.2s (0.432 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep7 OOF300 masked macro-AUC 0.9708
+  [ckpt] best-so-far saved at ep7 (0.9242)
+  [swa] running SWA updated over epochs [6, 5, 7]
+ep7 loss 0.898 | GOLD macro-AUC 0.9242 (best 0.9242) | topk by OOF-subset: [6, 5, 7] | 7432s
+  [timing] 1631 steps in 703.8s (0.432 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep8 OOF300 masked macro-AUC 0.9752
+  [ckpt] best-so-far saved at ep8 (0.9256)
+  [swa] running SWA updated over epochs [8, 6, 5]
+ep8 loss 0.893 | GOLD macro-AUC 0.9256 (best 0.9256) | topk by OOF-subset: [8, 6, 5] | 8350s
+  [timing] 1631 steps in 714.9s (0.438 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep9 OOF300 masked macro-AUC 0.9770
+  [ckpt] best-so-far saved at ep9 (0.9260)
+  [swa] running SWA updated over epochs [9, 8, 6]
+ep9 loss 0.891 | GOLD macro-AUC 0.9260 (best 0.9260) | topk by OOF-subset: [9, 8, 6] | 9309s
+  [timing] 1631 steps in 709.1s (0.435 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep10 OOF300 masked macro-AUC 0.9780
+  [ckpt] best-so-far saved at ep10 (0.9264)
+  [swa] running SWA updated over epochs [10, 9, 8]
+ep10 loss 0.888 | GOLD macro-AUC 0.9264 (best 0.9264) | topk by OOF-subset: [10, 9, 8] | 10252s
+  [timing] 1631 steps in 703.3s (0.431 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep11 OOF300 masked macro-AUC 0.9789
+  [patience] no improvement for 1/5 epoch(s) (best 0.9264 at ep10)
+  [swa] running SWA updated over epochs [11, 10, 9]
+ep11 loss 0.886 | GOLD macro-AUC 0.9249 (best 0.9264) | topk by OOF-subset: [11, 10, 9] | 11191s
+  [timing] 1631 steps in 703.9s (0.432 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep12 OOF300 masked macro-AUC 0.9783
+  [patience] no improvement for 2/5 epoch(s) (best 0.9264 at ep10)
+  [swa] running SWA updated over epochs [11, 12, 10]
+ep12 loss 0.884 | GOLD macro-AUC 0.9263 (best 0.9264) | topk by OOF-subset: [11, 12, 10] | 12142s
+  [timing] 1631 steps in 704.1s (0.432 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep13 OOF300 masked macro-AUC 0.9781
+  [ckpt] best-so-far saved at ep13 (0.9265)
+  [swa] running SWA updated over epochs [11, 12, 13]
+ep13 loss 0.883 | GOLD macro-AUC 0.9265 (best 0.9265) | topk by OOF-subset: [11, 12, 13] | 13082s
+  [timing] 1631 steps in 705.6s (0.433 s/step) | peak 8.86 GB (reserved 12.59 GB)
+ep14 OOF300 masked macro-AUC 0.9781
+  [ckpt] best-so-far saved at ep14 (0.9266)
+  [swa] running SWA updated over epochs [11, 12, 14]
+ep14 loss 0.883 | GOLD macro-AUC 0.9266 (best 0.9266) | topk by OOF-subset: [11, 12, 14] | 14023s
+
+DONE timm-pretrained | BEST GOLD macro-AUC 0.9266
+   ACL                0.985
+   MCL                0.982
+   Medial Meniscus    0.987
+   Lateral Meniscus   0.880
+   Medial OA          0.986
+   Lateral OA         0.776
+   PF OA              0.869
+   Effusion           0.991
+   Synovitis          0.789
+   Baker's            0.986
+   Contusion          0.942
+   Fracture           0.949
+saved raptor_ft_cnxt_r2s2_f1.pt / raptor_gold_cnxt_r2s2_f1.npz / raptor_ft_cnxt_r2s2_f1.json
+[cv] wrote raptor_oof_cnxt_r2s2_f1_fold1.npz (1087 studies; truth = soft labels)
+[cv] wrote top-K epoch OOF ep11
+[cv] wrote top-K epoch OOF ep12
+[cv] wrote epoch-ensemble OOF over epochs [11, 12, 14]
+SWA over epochs [11, 12, 14] | gold 0.9260 (best-epoch 0.9266) no gain
+[cv] wrote SWA OOF
+TOPK epochs [11, 12, 14] | best 0.9266 | epoch-ensemble 0.9263 (no gain)

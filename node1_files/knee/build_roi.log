@@ -1,0 +1,13 @@
+[build_roi_boxes] Corpus: 4407 studies, 96 slices, 384x384 resolution
+[build_roi_boxes] Spawning 24 workers, chunk_size=64
+[build_roi_boxes] Processed 512/4407 studies (11.6%) in 145.7s (3.5 studies/s)
+[build_roi_boxes] Processed 1024/4407 studies (23.2%) in 201.9s (5.1 studies/s)
+[build_roi_boxes] Processed 1536/4407 studies (34.9%) in 201.9s (7.6 studies/s)
+[build_roi_boxes] Processed 2048/4407 studies (46.5%) in 266.4s (7.7 studies/s)
+[build_roi_boxes] Processed 2560/4407 studies (58.1%) in 271.2s (9.4 studies/s)
+[build_roi_boxes] Processed 3072/4407 studies (69.7%) in 302.5s (10.2 studies/s)
+[build_roi_boxes] Processed 3584/4407 studies (81.3%) in 337.6s (10.6 studies/s)
+[build_roi_boxes] Processed 4096/4407 studies (92.9%) in 341.9s (12.0 studies/s)
+[build_roi_boxes] Processed 4407/4407 studies (100.0%) in 343.2s (12.8 studies/s)
+[build_roi_boxes] Extraction finished in 343.2s. Saving to /home/s05814802723/projects/knee/roi_boxes.npz...
+[build_roi_boxes] [SUCCESS] Saved /home/s05814802723/projects/knee/roi_boxes.npz (1.91 MB)

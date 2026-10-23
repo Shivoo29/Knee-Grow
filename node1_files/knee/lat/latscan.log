@@ -1,0 +1,4 @@
+Total studies: 4407
+Side counts: {'U': 2063, 'L': 1176, 'R': 1168}
+Source counts: {'Laterality': 2178, 'none': 2040, 'SeriesDescription': 166, 'conflict': 23}
+Flag sums: f0=3231, f1=3156, f2=1176, f3=877, f4=1176

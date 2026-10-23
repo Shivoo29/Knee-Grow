@@ -1,0 +1,100 @@
+[info] Using device: cuda:0
+[1/5] Loading corpus indexes...
+      Total studies: 4407
+[2/5] Loading labels...
+      Soft labels: 4349 | Gold labels: 58
+      Saved masks.npy, uids.npy, gold_labels.npy, soft_labels.npy
+[3/5] Loading CoAtNet v6 backbone...
+      Backbone coatnet_rmlp_2_rw_384.sw_in12k_ft_in1k loaded on GPU.
+[4/5] Initializing embeddings storage...
+[5/5] Extracting embeddings from study 0 to 4407...
+[50/4407] 1.08 studies/s | ETA: 67.0m | GPU alloc: 535MB, res: 2128MB
+[100/4407] 1.09 studies/s | ETA: 65.9m | GPU alloc: 535MB, res: 2128MB
+[150/4407] 1.08 studies/s | ETA: 65.4m | GPU alloc: 535MB, res: 2128MB
+[200/4407] 1.08 studies/s | ETA: 64.7m | GPU alloc: 535MB, res: 2128MB
+[250/4407] 1.08 studies/s | ETA: 64.2m | GPU alloc: 535MB, res: 2128MB
+[300/4407] 1.09 studies/s | ETA: 63.0m | GPU alloc: 535MB, res: 2128MB
+[350/4407] 1.09 studies/s | ETA: 61.8m | GPU alloc: 535MB, res: 2128MB
+[400/4407] 1.15 studies/s | ETA: 58.0m | GPU alloc: 535MB, res: 2128MB
+[450/4407] 1.22 studies/s | ETA: 54.0m | GPU alloc: 535MB, res: 2128MB
+[500/4407] 1.23 studies/s | ETA: 52.8m | GPU alloc: 535MB, res: 2128MB
+[550/4407] 1.22 studies/s | ETA: 52.7m | GPU alloc: 535MB, res: 2128MB
+[600/4407] 1.21 studies/s | ETA: 52.5m | GPU alloc: 535MB, res: 2128MB
+[650/4407] 1.20 studies/s | ETA: 52.2m | GPU alloc: 535MB, res: 2128MB
+[700/4407] 1.19 studies/s | ETA: 51.9m | GPU alloc: 535MB, res: 2128MB
+[750/4407] 1.18 studies/s | ETA: 51.5m | GPU alloc: 535MB, res: 2128MB
+[800/4407] 1.18 studies/s | ETA: 51.0m | GPU alloc: 535MB, res: 2128MB
+[850/4407] 1.17 studies/s | ETA: 50.5m | GPU alloc: 535MB, res: 2128MB
+[900/4407] 1.17 studies/s | ETA: 50.0m | GPU alloc: 535MB, res: 2128MB
+[950/4407] 1.16 studies/s | ETA: 49.5m | GPU alloc: 535MB, res: 2128MB
+[1000/4407] 1.16 studies/s | ETA: 48.9m | GPU alloc: 535MB, res: 2128MB
+[1050/4407] 1.16 studies/s | ETA: 48.3m | GPU alloc: 535MB, res: 2128MB
+[1100/4407] 1.16 studies/s | ETA: 47.7m | GPU alloc: 535MB, res: 2128MB
+[1150/4407] 1.15 studies/s | ETA: 47.1m | GPU alloc: 535MB, res: 2128MB
+[1200/4407] 1.15 studies/s | ETA: 46.5m | GPU alloc: 535MB, res: 2128MB
+[1250/4407] 1.15 studies/s | ETA: 45.8m | GPU alloc: 535MB, res: 2128MB
+[1300/4407] 1.15 studies/s | ETA: 45.2m | GPU alloc: 535MB, res: 2128MB
+[1350/4407] 1.14 studies/s | ETA: 44.5m | GPU alloc: 535MB, res: 2128MB
+[1400/4407] 1.14 studies/s | ETA: 43.9m | GPU alloc: 535MB, res: 2128MB
+[1450/4407] 1.14 studies/s | ETA: 43.2m | GPU alloc: 535MB, res: 2128MB
+[1500/4407] 1.14 studies/s | ETA: 42.5m | GPU alloc: 535MB, res: 2128MB
+[1550/4407] 1.14 studies/s | ETA: 41.9m | GPU alloc: 535MB, res: 2128MB
+[1600/4407] 1.14 studies/s | ETA: 41.2m | GPU alloc: 535MB, res: 2128MB
+[1650/4407] 1.13 studies/s | ETA: 40.5m | GPU alloc: 535MB, res: 2128MB
+[1700/4407] 1.13 studies/s | ETA: 39.8m | GPU alloc: 535MB, res: 2128MB
+[1750/4407] 1.13 studies/s | ETA: 39.1m | GPU alloc: 535MB, res: 2128MB
+[1800/4407] 1.13 studies/s | ETA: 38.4m | GPU alloc: 535MB, res: 2128MB
+[1850/4407] 1.13 studies/s | ETA: 37.7m | GPU alloc: 535MB, res: 2128MB
+[1900/4407] 1.13 studies/s | ETA: 37.0m | GPU alloc: 535MB, res: 2128MB
+[1950/4407] 1.13 studies/s | ETA: 36.3m | GPU alloc: 535MB, res: 2128MB
+[2000/4407] 1.13 studies/s | ETA: 35.6m | GPU alloc: 535MB, res: 2128MB
+[2050/4407] 1.13 studies/s | ETA: 34.9m | GPU alloc: 535MB, res: 2128MB
+[2100/4407] 1.13 studies/s | ETA: 34.1m | GPU alloc: 535MB, res: 2128MB
+[2150/4407] 1.13 studies/s | ETA: 33.4m | GPU alloc: 535MB, res: 2128MB
+[2200/4407] 1.13 studies/s | ETA: 32.7m | GPU alloc: 535MB, res: 2128MB
+[2250/4407] 1.12 studies/s | ETA: 32.0m | GPU alloc: 535MB, res: 2128MB
+[2300/4407] 1.12 studies/s | ETA: 31.2m | GPU alloc: 535MB, res: 2128MB
+[2350/4407] 1.12 studies/s | ETA: 30.5m | GPU alloc: 535MB, res: 2128MB
+[2400/4407] 1.12 studies/s | ETA: 29.8m | GPU alloc: 535MB, res: 2128MB
+[2450/4407] 1.12 studies/s | ETA: 29.1m | GPU alloc: 535MB, res: 2128MB
+[2500/4407] 1.12 studies/s | ETA: 28.3m | GPU alloc: 535MB, res: 2128MB
+[2550/4407] 1.12 studies/s | ETA: 27.6m | GPU alloc: 535MB, res: 2128MB
+[2600/4407] 1.12 studies/s | ETA: 26.9m | GPU alloc: 535MB, res: 2128MB
+[2650/4407] 1.12 studies/s | ETA: 26.1m | GPU alloc: 535MB, res: 2128MB
+[2700/4407] 1.12 studies/s | ETA: 25.4m | GPU alloc: 535MB, res: 2128MB
+[2750/4407] 1.12 studies/s | ETA: 24.7m | GPU alloc: 535MB, res: 2128MB
+[2800/4407] 1.12 studies/s | ETA: 23.9m | GPU alloc: 535MB, res: 2128MB
+[2850/4407] 1.12 studies/s | ETA: 23.2m | GPU alloc: 535MB, res: 2128MB
+[2900/4407] 1.11 studies/s | ETA: 22.6m | GPU alloc: 535MB, res: 2128MB
+[2950/4407] 1.11 studies/s | ETA: 21.8m | GPU alloc: 535MB, res: 2128MB
+[3000/4407] 1.11 studies/s | ETA: 21.1m | GPU alloc: 535MB, res: 2128MB
+[3050/4407] 1.11 studies/s | ETA: 20.3m | GPU alloc: 535MB, res: 2128MB
+[3100/4407] 1.11 studies/s | ETA: 19.6m | GPU alloc: 535MB, res: 2128MB
+[3150/4407] 1.12 studies/s | ETA: 18.8m | GPU alloc: 535MB, res: 2128MB
+[3200/4407] 1.12 studies/s | ETA: 18.0m | GPU alloc: 535MB, res: 2128MB
+[3250/4407] 1.11 studies/s | ETA: 17.3m | GPU alloc: 535MB, res: 2128MB
+[3300/4407] 1.10 studies/s | ETA: 16.7m | GPU alloc: 535MB, res: 2128MB
+[3350/4407] 1.10 studies/s | ETA: 16.1m | GPU alloc: 535MB, res: 2128MB
+[3400/4407] 1.09 studies/s | ETA: 15.4m | GPU alloc: 535MB, res: 2128MB
+[3450/4407] 1.08 studies/s | ETA: 14.8m | GPU alloc: 535MB, res: 2128MB
+[3500/4407] 1.07 studies/s | ETA: 14.1m | GPU alloc: 535MB, res: 2128MB
+[3550/4407] 1.07 studies/s | ETA: 13.4m | GPU alloc: 535MB, res: 2128MB
+[3600/4407] 1.06 studies/s | ETA: 12.7m | GPU alloc: 535MB, res: 2128MB
+[3650/4407] 1.05 studies/s | ETA: 12.0m | GPU alloc: 535MB, res: 2128MB
+[3700/4407] 1.05 studies/s | ETA: 11.2m | GPU alloc: 535MB, res: 2128MB
+[3750/4407] 1.04 studies/s | ETA: 10.5m | GPU alloc: 535MB, res: 2128MB
+[3800/4407] 1.04 studies/s | ETA: 9.8m | GPU alloc: 535MB, res: 2128MB
+[3850/4407] 1.03 studies/s | ETA: 9.0m | GPU alloc: 535MB, res: 2128MB
+[3900/4407] 1.03 studies/s | ETA: 8.2m | GPU alloc: 535MB, res: 2128MB
+[3950/4407] 1.02 studies/s | ETA: 7.5m | GPU alloc: 535MB, res: 2128MB
+[4000/4407] 1.02 studies/s | ETA: 6.7m | GPU alloc: 535MB, res: 2128MB
+[4050/4407] 1.01 studies/s | ETA: 5.9m | GPU alloc: 535MB, res: 2128MB
+[4100/4407] 1.01 studies/s | ETA: 5.1m | GPU alloc: 535MB, res: 2128MB
+[4150/4407] 1.00 studies/s | ETA: 4.3m | GPU alloc: 535MB, res: 2128MB
+[4200/4407] 1.00 studies/s | ETA: 3.5m | GPU alloc: 535MB, res: 2128MB
+[4250/4407] 0.99 studies/s | ETA: 2.6m | GPU alloc: 535MB, res: 2128MB
+[4300/4407] 0.99 studies/s | ETA: 1.8m | GPU alloc: 535MB, res: 2128MB
+[4350/4407] 0.99 studies/s | ETA: 1.0m | GPU alloc: 535MB, res: 2128MB
+[4400/4407] 0.98 studies/s | ETA: 0.1m | GPU alloc: 535MB, res: 2128MB
+[4407/4407] 0.98 studies/s | ETA: 0.0m | GPU alloc: 535MB, res: 2128MB
+[done] Extracted all 4407 studies in 74.8 minutes!

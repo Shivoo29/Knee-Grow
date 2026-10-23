@@ -1,0 +1,51 @@
+[site] Opening zip: /home/s05814802723/projects/knee/raw/rsna-knee-abnormality-detection.zip
+[site] Found 4407 studies in zip. Extracting metadata...
+  [500/4407] 21s elapsed, ETA 161s
+  [1000/4407] 32s elapsed, ETA 109s
+  [1500/4407] 43s elapsed, ETA 83s
+  [2000/4407] 54s elapsed, ETA 64s
+  [2500/4407] 57s elapsed, ETA 43s
+  [3000/4407] 59s elapsed, ETA 28s
+  [3500/4407] 62s elapsed, ETA 16s
+  [4000/4407] 64s elapsed, ETA 7s
+  [4407/4407] 66s elapsed, ETA 0s
+[site] Wrote /home/s05814802723/projects/knee/ds/site_metadata.csv (4407 rows)
+
+[site] Discovered 51 unique site clusters:
+  Site   7:   570 studies | Inst='' Mfr='Philips Medical Systems' Model='Ingenia'
+  Site   3:   400 studies | Inst='' Mfr='SIEMENS' Model='Aera'
+  Site   1:   353 studies | Inst='' Mfr='Siemens Healthineers' Model='MAGNETOM Vida'
+  Site  27:   262 studies | Inst='' Mfr='Siemens Healthineers' Model='MAGNETOM Avanto fit'
+  Site  16:   233 studies | Inst='' Mfr='Philips' Model='Achieva dStream'
+  Site  11:   214 studies | Inst='' Mfr='SIEMENS' Model='SonataVision'
+  Site   8:   213 studies | Inst='' Mfr='GE MEDICAL SYSTEMS' Model='SIGNA Explorer'
+  Site   5:   208 studies | Inst='' Mfr='GE MEDICAL SYSTEMS' Model='SIGNA Artist'
+  Site  20:   158 studies | Inst='' Mfr='GE MEDICAL SYSTEMS' Model='Optima MR450w'
+  Site  14:   136 studies | Inst='' Mfr='GE MEDICAL SYSTEMS' Model='SIGNA EXCITE'
+  Site   6:   129 studies | Inst='' Mfr='TOSHIBA' Model='Vantage'
+  Site   4:   122 studies | Inst='' Mfr='Siemens Healthineers' Model='MAGNETOM Aera'
+  Site  10:   110 studies | Inst='' Mfr='SIEMENS' Model='Skyra'
+  Site  13:   108 studies | Inst='' Mfr='Siemens Healthineers' Model='MAGNETOM Prisma'
+  Site   9:    94 studies | Inst='' Mfr='Siemens' Model='MAGNETOM Vida'
+  Site  15:    94 studies | Inst='' Mfr='Philips Medical Systems' Model='Achieva dStream'
+  Site   0:    89 studies | Inst='' Mfr='Philips Healthcare' Model='Ingenia'
+  Site  18:    88 studies | Inst='' Mfr='GE MEDICAL SYSTEMS' Model='SIGNA Architect'
+  Site  23:    84 studies | Inst='' Mfr='Philips' Model='Ingenia Ambition X'
+  Site  21:    82 studies | Inst='' Mfr='Philips' Model='Ingenia'
+  Site  22:    74 studies | Inst='' Mfr='Siemens Healthineers' Model='MAGNETOM Skyra'
+  Site  28:    64 studies | Inst='' Mfr='SIEMENS' Model='Espree'
+  Site  26:    63 studies | Inst='' Mfr='Philips' Model='MR 5300'
+  Site  17:    59 studies | Inst='' Mfr='Siemens Healthineers' Model='MAGNETOM Sempra'
+  Site  36:    51 studies | Inst='' Mfr='TOSHIBA' Model='Titan'
+  ... and 26 more sites
+
+[site] Fold distribution (5-fold GroupKFold by site):
+  Fold 0: 882 studies
+  Fold 1: 882 studies
+  Fold 2: 881 studies
+  Fold 3: 881 studies
+  Fold 4: 881 studies
+[site] Wrote /home/s05814802723/projects/knee/ds/site_groups.json
+[site] Wrote /home/s05814802723/projects/knee/ds/folds_site.json (train_knee.py --fold_file format)
+
+[site] Done in 66.2s
